@@ -44,13 +44,11 @@ class HistoriesFragment
 
     private lateinit var adapter: FastHistoryAdapter
 
-    override fun hasBinding(): Boolean = true
+    override val layoutRes: Int = R.layout.recycler_child_fragment
 
-    override fun layoutRes(): Int = R.layout.recycler_child_fragment
+    override val menuRes: Int = R.menu.menu_histories
 
-    override fun menuRes(): Int = R.menu.menu_histories
-
-    override fun searchMenuItemId(): Int = R.id.item_search
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()

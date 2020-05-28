@@ -56,6 +56,13 @@ fun View?.disable() {
     this?.isEnabled = false
 }
 
+const val FLAGS_FULLSCREEN = View.SYSTEM_UI_FLAG_LOW_PROFILE or
+        View.SYSTEM_UI_FLAG_FULLSCREEN or
+        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+
 fun Context.inflater(): LayoutInflater = LayoutInflater.from(this)
 
 fun ViewGroup.inflater(): LayoutInflater = context.inflater()
@@ -163,9 +170,9 @@ fun TextView.blink(@ColorRes startColorRes: Int, @ColorRes endColorRes: Int) {
 
 val ViewBinding.context: Context get() = root.context
 
-fun ViewBinding.color(@ColorRes resId: Int) : Int = context.color(resId)
+fun ViewBinding.color(@ColorRes resId: Int): Int = context.color(resId)
 
-fun ViewBinding.string(@StringRes resId: Int) : String = context.getString(resId)
+fun ViewBinding.string(@StringRes resId: Int): String = context.getString(resId)
 
 fun SwipeRefreshLayout?.init(
     listener: SwipeRefreshLayout.OnRefreshListener,

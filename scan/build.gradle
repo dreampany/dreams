@@ -88,18 +88,14 @@ android {
         }
     }
 
-    dataBinding {
-        enabled true
-    }
+    dataBinding { enabled true }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
+    kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -134,11 +130,6 @@ dependencies {
     implementation project(':framework')
     implementation project(':opencv-430')
 
-    /* cameraX*/
-    implementation 'androidx.camera:camera-camera2:1.0.0-beta03'
-    implementation 'androidx.camera:camera-lifecycle:1.0.0-beta03'
-    implementation 'androidx.camera:camera-view:1.0.0-alpha10'
-
     /* androidx lifecycle */
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
@@ -162,6 +153,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.firebase:firebase-ml-vision-barcode-model:16.1.1'
+
+    /* camera*/
+    implementation 'androidx.camera:camera-core:1.0.0-beta03'
+    implementation 'androidx.camera:camera-camera2:1.0.0-beta03'
+    implementation 'androidx.camera:camera-lifecycle:1.0.0-beta03'
+    implementation 'androidx.camera:camera-view:1.0.0-alpha10'
+    implementation 'androidx.camera:camera-extensions:1.0.0-alpha10'
 
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.1.0'

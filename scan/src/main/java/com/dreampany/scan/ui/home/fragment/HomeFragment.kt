@@ -13,6 +13,7 @@ import com.dreampany.scan.data.enums.home.State
 import com.dreampany.scan.data.enums.home.Subtype
 import com.dreampany.scan.data.enums.home.Type
 import com.dreampany.scan.databinding.RecyclerFragmentBinding
+import com.dreampany.scan.ui.camera.CameraActivity
 import javax.inject.Inject
 
 /**
@@ -25,14 +26,18 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
+    companion object {
+      private val REQUEST_CAMERA = 101
+    }
+
     private lateinit var bind: RecyclerFragmentBinding
     //private lateinit var vm: FeatureViewModel
 
     //private lateinit var adapter: FastFeatureAdapter
 
-    override fun hasBinding(): Boolean = true
+    override val hasBinding: Boolean = true
 
-    override fun layoutRes(): Int = R.layout.recycler_fragment
+    override val layoutRes: Int = R.layout.recycler_fragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -122,6 +127,6 @@ class HomeFragment
             Action.SCAN,
             null
         )
-        //open(NoteActivity::class, task, REQUEST_NOTE)
+        open(CameraActivity::class, task, REQUEST_CAMERA)
     }
 }

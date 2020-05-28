@@ -29,20 +29,17 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     private lateinit var bind: HomeActivityBinding
 
-    override fun doubleBackPressed(): Boolean = true
+    override val doubleBackPressed: Boolean = true
 
-    override fun hasBinding(): Boolean = true
+    override val layoutRes: Int = R.layout.home_activity
 
-    override fun layoutRes(): Int = R.layout.home_activity
-
-    override fun toolbarId(): Int = R.id.toolbar
+    override val toolbarId: Int = R.id.toolbar
 
     //override fun getNavigationViewId(): Int = R.id.navigation_view
 
-    override val navigationViewId: Int
-        get() = R.id.navigation_view
+    override val navigationViewId: Int = R.id.navigation_view
 
-    override fun selectedNavigationItemId(): Int = R.id.navigation_home
+    override val selectedNavigationItemId: Int = R.id.navigation_home
 
     override fun onNavigationItem(navigationItemId: Int) {
         when (navigationItemId) {

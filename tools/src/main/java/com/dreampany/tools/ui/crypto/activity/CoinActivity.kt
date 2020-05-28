@@ -27,13 +27,11 @@ class CoinActivity : InjectActivity() {
 
     private lateinit var input : Coin
 
-    override fun hasBinding(): Boolean = true
+    override val homeUp: Boolean = true
 
-    override fun homeUp(): Boolean = true
+    override val layoutRes: Int = R.layout.coin_activity
 
-    override fun layoutRes(): Int = R.layout.coin_activity
-
-    override fun toolbarId(): Int = R.id.toolbar
+    override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
         val task : UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>

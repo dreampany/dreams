@@ -26,7 +26,7 @@ abstract class InjectBottomNavigationActivity : InjectActivity(),
     protected abstract fun onNavigationItem(navigationItemId: Int)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        fireOnStartUi = false
+        createdByChild = false
         super.onCreate(savedInstanceState)
         val navigationView = findViewById<BottomNavigationView>(navigationViewId)
         navigationView?.setOnNavigationItemSelectedListener(this)

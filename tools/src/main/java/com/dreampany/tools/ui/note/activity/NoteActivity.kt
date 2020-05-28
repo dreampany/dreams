@@ -52,13 +52,10 @@ class NoteActivity : InjectActivity() {
     private var noteTitle: String = Constants.Default.STRING
     private var noteDescription: String = Constants.Default.STRING
 
-    override fun homeUp(): Boolean = true
-
-    override fun hasBinding(): Boolean = true
-
-    override fun layoutRes(): Int = R.layout.note_activity
-    override fun menuRes(): Int = R.menu.menu_note
-    override fun toolbarId(): Int = R.id.toolbar
+    override val homeUp: Boolean = true
+    override val layoutRes: Int = R.layout.note_activity
+    override val menuRes: Int = R.menu.menu_note
+    override val toolbarId: Int = R.id.toolbar
 
     private val isEdit: Boolean
         get() {

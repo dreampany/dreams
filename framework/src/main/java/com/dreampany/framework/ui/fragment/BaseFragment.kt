@@ -10,8 +10,6 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.*
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -38,8 +36,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     @Inject
     protected lateinit var ex: Executors
 
-    protected var fireOnStartUi: Boolean = true
-    private lateinit var binding: ViewDataBinding
     private lateinit var menu: Menu
 
     protected var currentView: View? = null
@@ -53,28 +49,25 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null
 
-    open fun backPressed(): Boolean = false
+    open val backPressed: Boolean = false
 
-    open fun hasBinding(): Boolean = false
+    @get:LayoutRes
+    open val layoutRes: Int = 0
 
-    @LayoutRes
-    open fun layoutRes(): Int = 0
-    //@get:LayoutRes abstract val layoutRes: Int
+    @get:XmlRes
+    open val prefLayoutRes: Int = 0
 
-    @XmlRes
-    open fun prefLayoutRes(): Int = 0
+    @get:MenuRes
+    open val menuRes: Int = 0
 
-    @MenuRes
-    open fun menuRes(): Int = 0
+    @get:StringRes
+    open val titleRes: Int = 0
 
-    @StringRes
-    open fun titleRes(): Int = 0
+    @get:IdRes
+    open val searchMenuItemId: Int = 0
 
-    @IdRes
-    open fun searchMenuItemId(): Int = 0
-
-    @StringRes
-    open fun subtitleRes(): Int = 0
+    @get:StringRes
+    open val subtitleRes: Int = 0
 
     open fun onMenuCreated(menu: Menu) {}
 
@@ -85,30 +78,24 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        setHasOptionsMenu(menuRes() != 0)
+        setHasOptionsMenu(menuRes != 0)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val prefLayoutId = prefLayoutRes()
-        if (prefLayoutId != 0) {
-            addPreferencesFromResource(prefLayoutId)
+        if (prefLayoutRes != 0) {
+            addPreferencesFromResource(prefLayoutRes)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        currentView?.run {
-            parent?.run {
-                (this as ViewGroup).removeView(currentView)
-            }
+        if (currentView != null) {
+            currentView?.parent?.let { (it as ViewGroup).removeView(currentView) }
             return currentView
         }
-        val layoutId = layoutRes()
-        if (layoutId != 0) {
-            currentView = initLayout(layoutId, inflater, container, savedInstanceState)
-        } else {
-            currentView = super.onCreateView(inflater, container, savedInstanceState)
+        if (layoutRes != 0) {
+            currentView = inflater.inflate(layoutRes, container, false)
         }
         //currentView!!.viewTreeObserver.addOnWindowFocusChangeListener(this)
         return currentView
@@ -125,27 +112,22 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
             if (it is Callback) fragmentCallback = it
         }
 
-        val titleResId = titleRes()
-        if (titleResId != 0) {
-            setTitle(titleResId)
+        if (titleRes != 0) {
+            setTitle(titleRes)
         }
-
-        if (fireOnStartUi) {
-            onStartUi(savedInstanceState)
-        }
+        onStartUi(savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         this.menu = menu
-        val menuRes = menuRes()
         if (menuRes != 0) { //this need clear
             menu.clear()
             inflater.inflate(menuRes, menu)
-            binding.root.post {
+            ex.postToUi(Runnable {
                 onMenuCreated(menu)
                 initSearch()
-            }
+            })
         }
     }
 
@@ -191,16 +173,11 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
 
-    protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId())
+    protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId)
 
     protected fun getSearchView(): SearchView? {
         val view = getSearchMenuItem()?.actionView ?: return null
         return view as SearchView
-    }
-
-
-    protected fun <T : ViewDataBinding> getBinding(): T {
-        return binding as T
     }
 
     protected fun setTitle(@StringRes resId: Int) {
@@ -303,20 +280,20 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         sheetDialog = null
     }
 
-    private fun initLayout(
-        @LayoutRes layoutId: Int,
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        if (hasBinding()) {
-            binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-            binding.setLifecycleOwner(this)
-            return binding.root
-        } else {
-            return inflater.inflate(layoutId, container, false)
-        }
-    }
+    /* private fun initLayout(
+         @LayoutRes layoutId: Int,
+         inflater: LayoutInflater,
+         container: ViewGroup?,
+         savedInstanceState: Bundle?
+     ): View? {
+         if (hasBinding) {
+             binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+             binding.setLifecycleOwner(this)
+             return binding.root
+         } else {
+             return inflater.inflate(layoutId, container, false)
+         }
+     }*/
 
     private fun initSearch() {
         val searchView = getSearchView()

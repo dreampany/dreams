@@ -42,9 +42,7 @@ class GraphFragment
     private lateinit var adapter: FastCoinAdapter
     private lateinit var input: Coin
 
-    override fun hasBinding(): Boolean = true
-
-    override fun layoutRes(): Int = R.layout.recycler_fragment
+    override val layoutRes: Int = R.layout.recycler_fragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()

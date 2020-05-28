@@ -56,9 +56,8 @@ class MarketFragment
     private val toSymbolItems = arrayListOf<PowerMenuItem>()
     private var toSymbolMenu: PowerMenu? = null
 
-    override fun hasBinding(): Boolean = true
 
-    override fun layoutRes(): Int = R.layout.coin_market_fragment
+    override val layoutRes: Int = R.layout.coin_market_fragment
 
     override fun onStartUi(state: Bundle?) {
         val task: UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> =

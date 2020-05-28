@@ -47,14 +47,12 @@ class NotesActivity : InjectActivity() {
     private lateinit var vm: NoteViewModel
     private lateinit var adapter: FastNoteAdapter
 
-    override fun homeUp(): Boolean = true
+    override val homeUp: Boolean = true
 
-    override fun hasBinding(): Boolean = true
-
-    override fun layoutRes(): Int = R.layout.recycler_activity
-    override fun menuRes(): Int = R.menu.menu_notes
-    override fun toolbarId(): Int = R.id.toolbar
-    override fun searchMenuItemId(): Int = R.id.item_search
+    override val layoutRes: Int = R.layout.recycler_activity
+    override val menuRes: Int = R.menu.menu_notes
+    override val toolbarId: Int = R.id.toolbar
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()

@@ -25,13 +25,11 @@ class StationsActivity : InjectActivity() {
     private lateinit var bind: StationsActivityBinding
     private lateinit var adapter: StationPagerAdapter
 
-    override fun hasBinding(): Boolean = true
+    override val homeUp: Boolean = true
 
-    override fun homeUp(): Boolean = true
+    override val layoutRes: Int = R.layout.stations_activity
 
-    override fun layoutRes(): Int = R.layout.stations_activity
-
-    override fun toolbarId(): Int = R.id.toolbar
+    override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
         initAd()

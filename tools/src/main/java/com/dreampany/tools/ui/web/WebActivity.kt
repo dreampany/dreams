@@ -27,11 +27,10 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     private lateinit var bind: WebActivityBinding
     private lateinit var url: String
 
-    override fun hasBinding(): Boolean = true
 
-    override fun homeUp(): Boolean = true
+    override val homeUp: Boolean = true
 
-    override fun layoutRes(): Int = R.layout.web_activity
+    override val layoutRes: Int = R.layout.web_activity
     //override fun toolbarId(): Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {

@@ -51,13 +51,11 @@ class WifisActivity : InjectActivity() {
     private lateinit var vm: WifiViewModel
     private lateinit var adapter: FastWifiAdapter
 
-    override fun homeUp(): Boolean = true
+    override val homeUp: Boolean = true
 
-    override fun hasBinding(): Boolean = true
-
-    override fun layoutRes(): Int = R.layout.recycler_activity
+    override val layoutRes: Int = R.layout.recycler_activity
     //override fun menuRes(): Int = R.menu.menu_coins
-    override fun toolbarId(): Int = R.id.toolbar
+    override val toolbarId: Int = R.id.toolbar
     //override fun searchMenuItemId(): Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {

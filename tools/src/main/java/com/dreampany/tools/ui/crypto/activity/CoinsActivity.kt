@@ -42,14 +42,11 @@ class CoinsActivity : InjectActivity() {
     private lateinit var vm: CoinViewModel
     private lateinit var adapter: FastCoinAdapter
 
-    override fun homeUp(): Boolean = true
-
-    override fun hasBinding(): Boolean = true
-
-    override fun layoutRes(): Int = R.layout.recycler_activity
-    override fun menuRes(): Int = R.menu.menu_coins
-    override fun toolbarId(): Int = R.id.toolbar
-    override fun searchMenuItemId(): Int = R.id.item_search
+    override val homeUp: Boolean = true
+    override val layoutRes: Int = R.layout.recycler_activity
+    override val menuRes: Int = R.menu.menu_coins
+    override val toolbarId: Int = R.id.toolbar
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initAd()

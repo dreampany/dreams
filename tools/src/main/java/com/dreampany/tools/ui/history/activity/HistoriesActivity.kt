@@ -24,13 +24,11 @@ class HistoriesActivity : InjectActivity() {
     private lateinit var bind: HistoriesActivityBinding
     private lateinit var adapter: HistoryPagerAdapter
 
-    override fun hasBinding(): Boolean = true
+    override val homeUp: Boolean = true
 
-    override fun homeUp(): Boolean = true
+    override val layoutRes: Int = R.layout.histories_activity
 
-    override fun layoutRes(): Int = R.layout.histories_activity
-
-    override fun toolbarId(): Int = R.id.toolbar
+    override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
         initUi()

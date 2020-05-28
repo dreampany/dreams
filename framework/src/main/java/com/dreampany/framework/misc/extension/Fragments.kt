@@ -41,6 +41,22 @@ fun <T : Any> Fragment?.open(
     }
 }
 
+fun <T : Any> Fragment?.open(
+    target: KClass<T>,
+    task: Task<*, *, *, *, *>,
+    requestCode: Int,
+    finishCurrent: Boolean = false
+) {
+    this?.run {
+        val intent = Intent(activity, target.java)
+        intent.putExtra(Constants.Keys.TASK, task as Parcelable)
+        startActivityForResult(intent, requestCode)
+        if (finishCurrent) {
+            activity?.finish()
+        }
+    }
+}
+
 fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*, *, *, *, *>): T {
     val instance = clazz.java.newInstance()
     if (instance.arguments == null) {

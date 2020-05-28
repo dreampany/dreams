@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
 import com.dreampany.framework.data.model.Task
@@ -45,10 +43,9 @@ abstract class BaseActivity : AppCompatActivity(),
     @Inject
     protected lateinit var ex: Executors
 
-    protected var fireOnStartUi: Boolean = true
+    protected var createdByChild: Boolean = false
     private var doubleBackPressedOnce: Boolean = false
 
-    private lateinit var binding: ViewDataBinding
     private lateinit var toolbar: Toolbar
     private var menu: Menu? = null
 
@@ -59,33 +56,31 @@ abstract class BaseActivity : AppCompatActivity(),
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null
 
-    open fun fullScreen(): Boolean = false
+    open val fullScreen: Boolean = false
 
-    open fun homeUp(): Boolean = false
+    open val homeUp: Boolean = false
 
-    open fun backPressed(): Boolean = false
+    open val backPressed: Boolean = false
 
-    open fun doubleBackPressed(): Boolean = false
+    open val doubleBackPressed: Boolean = false
 
-    open fun hasBinding(): Boolean = false
+    @get:LayoutRes
+    open val layoutRes: Int = 0
 
-    @LayoutRes
-    open fun layoutRes(): Int = 0
+    @get:MenuRes
+    open val menuRes: Int = 0
 
-    @MenuRes
-    open fun menuRes(): Int = 0
+    @get:IdRes
+    open val toolbarId: Int = 0
 
-    @IdRes
-    open fun toolbarId(): Int = 0
+    @get:IdRes
+    open val searchMenuItemId: Int = 0
 
-    @IdRes
-    open fun searchMenuItemId(): Int = 0
+    @get:StringRes
+    open val titleRes: Int = 0
 
-    @StringRes
-    open fun titleRes(): Int = 0
-
-    @StringRes
-    open fun subtitleRes(): Int = 0
+    @get:StringRes
+    open val subtitleRes: Int = 0
 
     open fun onMenuCreated(menu: Menu) {}
 
@@ -96,26 +91,27 @@ abstract class BaseActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        val layoutRes = layoutRes()
-        if (layoutRes != 0) {
-            initLayout(layoutRes)
-            initToolbar()
+        if (fullScreen) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
         }
-        if (fireOnStartUi) {
+        if (!createdByChild && layoutRes != 0) {
+            setContentView(layoutRes)
+        }
+        initToolbar()
+        if (!createdByChild) {
             onStartUi(savedInstanceState)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
-        val menuRes = menuRes()
         if (menuRes != 0) { //this need clear
             menu.clear()
             menuInflater.inflate(menuRes, menu)
-            binding.root.post {
+            ex.postToUi(Runnable {
                 onMenuCreated(menu)
                 initSearch()
-            }
+            })
             return true
         }
         return super.onCreateOptionsMenu(menu)
@@ -153,17 +149,17 @@ abstract class BaseActivity : AppCompatActivity(),
             return
         }
 
-        if (backPressed()) return
-        if (fragment?.backPressed() ?: false) return
+        if (backPressed) return
+        if (fragment?.backPressed ?: false) return
 
-        if (doubleBackPressed()) {
+        if (doubleBackPressed) {
             if (doubleBackPressedOnce) {
                 finish()
                 return
             }
             doubleBackPressedOnce = true
             NotifyUtil.shortToast(this, R.string.back_pressed)
-            ex.postToUi(Runnable{ doubleBackPressedOnce = false }, 2000)
+            ex.postToUi(Runnable { doubleBackPressedOnce = false }, 2000)
             return
         }
         finish()
@@ -185,15 +181,11 @@ abstract class BaseActivity : AppCompatActivity(),
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu?.findItem(menuItemId)
 
-    protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId())
+    protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId)
 
     protected fun getSearchView(): SearchView? {
         val view = getSearchMenuItem()?.actionView ?: return null
         return view as SearchView
-    }
-
-    protected fun <T : ViewDataBinding> getBinding(): T {
-        return binding as T
     }
 
     /*protected fun getBundle(): Bundle? {
@@ -312,23 +304,18 @@ abstract class BaseActivity : AppCompatActivity(),
     }
 
     private fun initLayout(@LayoutRes layoutRes: Int) {
-        if (fullScreen()) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-        }
-        if (hasBinding()) {
-            binding = DataBindingUtil.setContentView(this, layoutRes)
-            binding.setLifecycleOwner(this)
+        /*if (hasBinding) {
+
         } else {
-            setContentView(layoutRes)
-        }
+
+        }*/
     }
 
     private fun initToolbar() {
-        val toolbarId = toolbarId()
         if (toolbarId != 0) {
             toolbar = findViewById<Toolbar>(toolbarId)
             setSupportActionBar(toolbar)
-            if (homeUp()) {
+            if (homeUp) {
                 val actionBar = supportActionBar
                 actionBar?.apply {
                     setDisplayHomeAsUpEnabled(true)

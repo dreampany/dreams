@@ -16,10 +16,12 @@ import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import com.dreampany.framework.R
 import com.dreampany.framework.misc.constant.Constants
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
 import timber.log.Timber
+import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -66,6 +68,18 @@ val Context?.isNotNull: Boolean
     }
     return debug
 }*/
+
+val Context?.mediaDir: File?
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    get() {
+        val context: Context = appContext ?: return null
+        var mediaDir: File? = null
+        if (isMinLollipop) {
+            mediaDir = context.externalMediaDirs?.firstOrNull()
+                ?.let { File(it, context.getString(R.string.app_name)).apply { mkdirs() } }
+        }
+        return if (mediaDir != null && mediaDir.exists()) mediaDir else context.filesDir
+    }
 
 val Context?.isDebug: Boolean
     get() {
@@ -227,7 +241,7 @@ fun getCDMACountryIso(): String? {
     return null
 }
 
-val Context?.locationManager : LocationManager?
+val Context?.locationManager: LocationManager?
     get() = this?.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
 
 

@@ -1,4 +1,4 @@
-package com.dreampany.scan.data.enums.home
+package com.dreampany.scan.data.enums
 
 import com.dreampany.framework.data.enums.BaseSubtype
 import kotlinx.android.parcel.Parcelize

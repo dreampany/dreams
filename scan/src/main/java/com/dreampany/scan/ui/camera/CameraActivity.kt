@@ -10,12 +10,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.dreampany.framework.misc.extension.FLAGS_FULLSCREEN
-import com.dreampany.framework.misc.extension.createFile
-import com.dreampany.framework.misc.extension.mediaDir
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.afollestad.assent.Permission
+import com.afollestad.assent.askForPermissions
+import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.scan.R
+import com.dreampany.scan.data.enums.Type
 import com.dreampany.scan.databinding.CameraActivityBinding
 import com.dreampany.scan.databinding.CameraUiContainerBinding
 import com.dreampany.scan.misc.Constants
@@ -59,6 +59,8 @@ class CameraActivity : InjectActivity() {
     private var cameraProvider: ProcessCameraProvider? = null
     private var camera: Camera? = null
 
+    private var type: Type = Type.QR
+
     override val layoutRes: Int = R.layout.camera_activity
 
     private val hasBackCamera: Boolean
@@ -69,9 +71,17 @@ class CameraActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        askForPermissions(Permission.CAMERA) { result ->
+            if (result.isAllGranted()) {
+                startCamera()
+            } else {
+                onBackPressed()
+            }
+        }
     }
 
     override fun onStopUi() {
+        cameraExecutor.shutdown()
     }
 
     override fun onResume() {
@@ -86,7 +96,9 @@ class CameraActivity : InjectActivity() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
         outputDir = mediaDir ?: return
+    }
 
+    private fun startCamera() {
         bind.preview.post {
             displayId = bind.preview.display.displayId
             updateCameraUi()
@@ -100,6 +112,18 @@ class CameraActivity : InjectActivity() {
 
         val controls = CameraUiContainerBinding.inflate(layoutInflater, bind.layout, true)
         controls.cameraCaptureButton.setOnSafeClickListener { capture() }
+
+        when (type) {
+            Type.QR -> {
+                controls.cameraCaptureButton.disable()
+            }
+            Type.DOC -> {
+                controls.cameraCaptureButton.enable()
+            }
+            Type.FACE -> {
+                controls.cameraCaptureButton.disable()
+            }
+        }
     }
 
     private fun initCamera() {
@@ -181,13 +205,16 @@ class CameraActivity : InjectActivity() {
                 .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_ALL_FORMATS)
                 .build()
             val detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options)
-            val visionImage = FirebaseVisionImage.fromMediaImage(cameraImage, getRotationConstant(rotationDegrees))
+            val visionImage = FirebaseVisionImage.fromMediaImage(
+                cameraImage,
+                getRotationConstant(rotationDegrees)
+            )
 
             detector.detectInImage(visionImage)
-                .addOnSuccessListener {barcodes->
+                .addOnSuccessListener { barcodes ->
                     Timber.v(barcodes.toString())
                 }
-                .addOnFailureListener {error->
+                .addOnFailureListener { error ->
                     Timber.e(error)
                 }
         }

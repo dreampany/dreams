@@ -3,8 +3,8 @@ package com.dreampany.scan.data.model.more
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.scan.data.enums.home.Subtype
-import com.dreampany.scan.data.enums.home.Type
+import com.dreampany.scan.data.enums.Subtype
+import com.dreampany.scan.data.enums.Type
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 

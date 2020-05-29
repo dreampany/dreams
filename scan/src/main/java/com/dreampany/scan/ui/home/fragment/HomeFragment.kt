@@ -8,10 +8,10 @@ import com.dreampany.framework.misc.extension.visible
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.scan.R
-import com.dreampany.scan.data.enums.home.Action
-import com.dreampany.scan.data.enums.home.State
-import com.dreampany.scan.data.enums.home.Subtype
-import com.dreampany.scan.data.enums.home.Type
+import com.dreampany.scan.data.enums.Action
+import com.dreampany.scan.data.enums.State
+import com.dreampany.scan.data.enums.Subtype
+import com.dreampany.scan.data.enums.Type
 import com.dreampany.scan.databinding.RecyclerFragmentBinding
 import com.dreampany.scan.ui.camera.CameraActivity
 import javax.inject.Inject

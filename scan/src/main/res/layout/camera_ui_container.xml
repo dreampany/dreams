@@ -7,17 +7,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/qr"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_xsmall"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="QR"
+            android:textSize="@dimen/_14ssp"
+            auto:layout_constraintBottom_toBottomOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/face"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_xsmall"
+            android:layout_marginBottom="@dimen/margin_xsmall"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="FACE"
+            android:textSize="@dimen/_14ssp"
+            auto:layout_constraintBottom_toBottomOf="parent"
+            auto:layout_constraintEnd_toStartOf="@id/qr" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/doc"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xsmall"
+            android:layout_marginBottom="@dimen/margin_xsmall"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="DOC"
+            android:textSize="@dimen/_14ssp"
+            auto:layout_constraintBottom_toBottomOf="parent"
+            auto:layout_constraintStart_toEndOf="@id/qr" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/camera_capture_button"
             android:layout_width="@dimen/round_button_large"
             android:layout_height="@dimen/round_button_large"
-            android:layout_marginBottom="@dimen/shutter_button_margin"
+            android:layout_marginBottom="@dimen/margin_xxsmall"
             android:background="@drawable/ic_shutter"
             android:contentDescription="@string/capture_button_alt"
             android:scaleType="fitCenter"
-            auto:layout_constraintBottom_toBottomOf="parent"
-            auto:layout_constraintLeft_toLeftOf="parent"
-            auto:layout_constraintRight_toRightOf="parent" />
+            auto:layout_constraintBottom_toTopOf="@id/qr"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

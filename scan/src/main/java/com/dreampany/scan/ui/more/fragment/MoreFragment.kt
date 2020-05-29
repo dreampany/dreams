@@ -35,8 +35,6 @@ class MoreFragment
 
     private lateinit var adapter: FastMoreAdapter
 
-    override val hasBinding: Boolean = true
-
     override val layoutRes: Int = R.layout.recycler_fragment
 
     override fun onStartUi(state: Bundle?) {

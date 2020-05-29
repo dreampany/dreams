@@ -17,6 +17,7 @@ val Calendar.day: Int get() = this.get(Calendar.DAY_OF_MONTH)
 val Calendar.month: Int get() = this.get(Calendar.MONTH).inc()
 val Calendar.year: Int get() = this.get(Calendar.YEAR)
 
+val currentMillis : Long get() = System.currentTimeMillis()
 fun currentDay() : Int = Calendar.getInstance().day
 fun currentMonth() : Int = Calendar.getInstance().month
 fun currentYear() : Int = Calendar.getInstance().year

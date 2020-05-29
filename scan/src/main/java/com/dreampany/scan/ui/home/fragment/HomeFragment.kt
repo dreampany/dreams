@@ -35,8 +35,6 @@ class HomeFragment
 
     //private lateinit var adapter: FastFeatureAdapter
 
-    override val hasBinding: Boolean = true
-
     override val layoutRes: Int = R.layout.recycler_fragment
 
     override fun onStartUi(state: Bundle?) {

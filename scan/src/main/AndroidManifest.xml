@@ -32,6 +32,10 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
 
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="barcode" />
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"

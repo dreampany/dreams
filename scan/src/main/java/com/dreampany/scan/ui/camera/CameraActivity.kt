@@ -1,15 +1,15 @@
 package com.dreampany.scan.ui.camera
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.hardware.display.DisplayManager
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
-import android.view.View
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import com.dreampany.framework.misc.extension.FLAGS_FULLSCREEN
 import com.dreampany.framework.misc.extension.createFile
 import com.dreampany.framework.misc.extension.mediaDir
@@ -21,6 +21,11 @@ import com.dreampany.scan.databinding.CameraUiContainerBinding
 import com.dreampany.scan.misc.Constants
 import com.dreampany.scan.misc.Constants.Keys.RATIO_16_9_VALUE
 import com.dreampany.scan.misc.Constants.Keys.RATIO_4_3_VALUE
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import timber.log.Timber
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -131,16 +136,17 @@ class CameraActivity : InjectActivity() {
         imageAnalyzer = ImageAnalysis.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setTargetRotation(rotation)
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
             .also {
-                it.setAnalyzer(cameraExecutor, BarcodeAnalyzer())
+                it.setAnalyzer(cameraExecutor, QrCodeAnalyzer())
             }
 
         cameraProvider.unbindAll()
         try {
             camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
             preview?.setSurfaceProvider(bind.preview.createSurfaceProvider())
-        } catch (error : Throwable) {
+        } catch (error: Throwable) {
             Timber.e(error)
         }
     }
@@ -166,10 +172,33 @@ class CameraActivity : InjectActivity() {
         return AspectRatio.RATIO_16_9
     }
 
-    private class BarcodeAnalyzer : ImageAnalysis.Analyzer {
+    private class QrCodeAnalyzer : ImageAnalysis.Analyzer {
+        @SuppressLint("UnsafeExperimentalUsageError")
         override fun analyze(image: ImageProxy) {
-             Timber.v("image")
+            val cameraImage = image.image ?: return
+            val rotationDegrees = image.imageInfo.rotationDegrees
+            val options = FirebaseVisionBarcodeDetectorOptions.Builder()
+                .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_ALL_FORMATS)
+                .build()
+            val detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options)
+            val visionImage = FirebaseVisionImage.fromMediaImage(cameraImage, getRotationConstant(rotationDegrees))
+
+            detector.detectInImage(visionImage)
+                .addOnSuccessListener {barcodes->
+                    Timber.v(barcodes.toString())
+                }
+                .addOnFailureListener {error->
+                    Timber.e(error)
+                }
         }
 
+        private fun getRotationConstant(rotationDegrees: Int): Int {
+            return when (rotationDegrees) {
+                90 -> FirebaseVisionImageMetadata.ROTATION_90
+                180 -> FirebaseVisionImageMetadata.ROTATION_180
+                270 -> FirebaseVisionImageMetadata.ROTATION_270
+                else -> FirebaseVisionImageMetadata.ROTATION_0
+            }
+        }
     }
 }

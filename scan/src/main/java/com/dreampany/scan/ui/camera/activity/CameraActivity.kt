@@ -1,4 +1,4 @@
-package com.dreampany.scan.ui.camera
+package com.dreampany.scan.ui.camera.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,23 +9,24 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
+import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.scan.R
+import com.dreampany.scan.data.enums.Action
+import com.dreampany.scan.data.enums.State
+import com.dreampany.scan.data.enums.Subtype
 import com.dreampany.scan.data.enums.Type
+import com.dreampany.scan.data.model.scan.Scan
 import com.dreampany.scan.databinding.CameraActivityBinding
 import com.dreampany.scan.databinding.CameraUiContainerBinding
 import com.dreampany.scan.misc.Constants
 import com.dreampany.scan.misc.Constants.Keys.RATIO_16_9_VALUE
 import com.dreampany.scan.misc.Constants.Keys.RATIO_4_3_VALUE
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
+import com.dreampany.scan.ui.camera.vm.ScanViewModel
 import timber.log.Timber
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -44,7 +45,9 @@ class CameraActivity : InjectActivity() {
 
     private val IMMERSIVE_FLAG_TIMEOUT = 500L
 
+
     private lateinit var bind: CameraActivityBinding
+    private lateinit var vm: ScanViewModel
 
     private val displayManager by lazy { getSystemService(Context.DISPLAY_SERVICE) as DisplayManager }
 
@@ -93,6 +96,7 @@ class CameraActivity : InjectActivity() {
 
     private fun initUi() {
         bind = getBinding()
+        vm = createVm(ScanViewModel::class)
 
         cameraExecutor = Executors.newSingleThreadExecutor()
         outputDir = mediaDir ?: return
@@ -106,12 +110,21 @@ class CameraActivity : InjectActivity() {
         }
     }
 
+    private fun updateBindCamera(type: Type) {
+        if (type == this.type) return
+        this.type = type
+        bindCamera()
+    }
+
     private fun updateCameraUi() {
         bind.layout.findViewById<ConstraintLayout>(R.id.camera_ui_container)
             ?.let { bind.layout.removeView(it) }
 
         val controls = CameraUiContainerBinding.inflate(layoutInflater, bind.layout, true)
         controls.cameraCaptureButton.setOnSafeClickListener { capture() }
+        controls.qr.setOnSafeClickListener { updateBindCamera(Type.QR)  }
+        controls.doc.setOnSafeClickListener { updateBindCamera(Type.DOC) }
+        controls.face.setOnSafeClickListener { updateBindCamera(Type.FACE) }
 
         when (type) {
             Type.QR -> {
@@ -163,7 +176,7 @@ class CameraActivity : InjectActivity() {
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
             .also {
-                it.setAnalyzer(cameraExecutor, QrCodeAnalyzer())
+                it.setAnalyzer(cameraExecutor, QrCodeAnalyzer(vm))
             }
 
         cameraProvider.unbindAll()
@@ -196,36 +209,45 @@ class CameraActivity : InjectActivity() {
         return AspectRatio.RATIO_16_9
     }
 
-    private class QrCodeAnalyzer : ImageAnalysis.Analyzer {
+    private class QrCodeAnalyzer(val vm: ScanViewModel) : ImageAnalysis.Analyzer {
         @SuppressLint("UnsafeExperimentalUsageError")
-        override fun analyze(image: ImageProxy) {
-            val cameraImage = image.image ?: return
-            val rotationDegrees = image.imageInfo.rotationDegrees
-            val options = FirebaseVisionBarcodeDetectorOptions.Builder()
-                .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_ALL_FORMATS)
-                .build()
-            val detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options)
-            val visionImage = FirebaseVisionImage.fromMediaImage(
-                cameraImage,
-                getRotationConstant(rotationDegrees)
-            )
-
-            detector.detectInImage(visionImage)
-                .addOnSuccessListener { barcodes ->
-                    Timber.v(barcodes.toString())
-                }
-                .addOnFailureListener { error ->
-                    Timber.e(error)
-                }
+        override fun analyze(proxy: ImageProxy) {
+            val cameraImage = proxy.image ?: return
+            val rotationDegrees = proxy.imageInfo.rotationDegrees
+            vm.analyzeQr(cameraImage, rotationDegrees)
         }
 
-        private fun getRotationConstant(rotationDegrees: Int): Int {
-            return when (rotationDegrees) {
-                90 -> FirebaseVisionImageMetadata.ROTATION_90
-                180 -> FirebaseVisionImageMetadata.ROTATION_180
-                270 -> FirebaseVisionImageMetadata.ROTATION_270
-                else -> FirebaseVisionImageMetadata.ROTATION_0
+    }
+
+    private fun processResponse(response: Response<Type, Subtype, State, Action, Scan>) {
+        if (response is Response.Progress) {
+            //bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<Type, Subtype, State, Action, Scan>) {
+            Timber.v("Result [%s]", response.result)
+            processResult(response.result)
+        }
+    }
+
+    private fun processError(error: SmartError) {
+        /*val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
+        val message =
+            if (error.hostError) getString(R.string.message_no_internet) else error.message
+        showDialogue(
+            titleRes,
+            messageRes = R.string.message_unknown,
+            message = message,
+            onPositiveClick = {
+
+            },
+            onNegativeClick = {
+
             }
-        }
+        )*/
+    }
+
+    private fun processResult(result: Scan?) {
+
     }
 }

@@ -13,7 +13,7 @@ import com.dreampany.scan.data.enums.State
 import com.dreampany.scan.data.enums.Subtype
 import com.dreampany.scan.data.enums.Type
 import com.dreampany.scan.databinding.RecyclerFragmentBinding
-import com.dreampany.scan.ui.camera.CameraActivity
+import com.dreampany.scan.ui.camera.activity.CameraActivity
 import javax.inject.Inject
 
 /**

@@ -130,6 +130,7 @@ class CryptoConstants {
         const val COINS = 100L
         const val TRADES = 10L
         const val EXCHANGES = 10L
+        const val MAX_COINS = 5000L
     }
 
     object Times {

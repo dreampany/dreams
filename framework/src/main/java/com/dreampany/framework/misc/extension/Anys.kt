@@ -17,6 +17,7 @@ fun Boolean?.value(): Boolean = this ?: false
 fun Int?.value(): Int = this ?: 0
 
 fun Long?.value(): Long = this ?: 0L
+fun Double?.value(): Double = this ?: 0.toDouble()
 
 fun String?.value(): String = this ?: Constants.Default.STRING
 
@@ -38,4 +39,4 @@ fun <T> sub(list: List<T>?, index: Long, limit: Long): List<T>? {
 @ColorInt
 fun String.toColor(): Int = Color.parseColor(this)
 
-fun randomId() : String = UUID.randomUUID().toString()
+fun randomId(): String = UUID.randomUUID().toString()

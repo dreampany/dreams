@@ -53,7 +53,7 @@ private constructor(
         bind.icon.setColorFilter(bind.color(strength?.colorRes.value()))
         bind.textSsid.text = String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
         bind.textLevel.text = String.format(bind.string(R.string.format_wifi_level), input.signal?.level)
-        bind.textLevel.setTextColor(bind.color(input.signal?.strength?.colorRes.value()))
+        bind.textLevel.setTextColor(bind.color(strength?.colorRes.value()))
     }
 
     override fun unbindView(binding: WifiItemBinding) {

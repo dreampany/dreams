@@ -19,6 +19,6 @@
     <string name="channel_short_name">"CH"</string>
 
     <string name="format_ssid_bssid">%s (%s)</string>
-    <string name="format_dBm">%ddBm</string>
+    <string name="format_wifi_level">%ddBm</string>
 
 </resources>

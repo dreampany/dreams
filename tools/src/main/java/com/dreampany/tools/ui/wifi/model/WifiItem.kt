@@ -51,8 +51,9 @@ private constructor(
         val strength = input.signal?.strength
         bind.icon.setImageResource(strength?.imageRes.value())
         bind.icon.setColorFilter(bind.color(strength?.colorRes.value()))
-        bind.textSsid.text =
-            String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
+        bind.textSsid.text = String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
+        bind.textLevel.text = String.format(bind.string(R.string.format_wifi_level), input.signal?.level)
+        bind.textLevel.setTextColor(bind.color(input.signal?.strength?.colorRes.value()))
     }
 
     override fun unbindView(binding: WifiItemBinding) {

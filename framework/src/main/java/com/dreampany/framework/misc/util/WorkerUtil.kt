@@ -1,18 +1,18 @@
-package com.dreampany.framework.util
+package com.dreampany.framework.misc.util
 
 import androidx.work.*
-import com.dreampany.framework.api.worker.BaseWorker
+import com.dreampany.framework.worker.BaseWorker
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 /**
- * Created by Roman-372 on 5/21/2019
- * Copyright (c) 2019 bjit. All rights reserved.
+ * Created by roman on 31/5/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class WorkerUtil
-private constructor() {
+class WorkerUtil private constructor() {
+
     companion object {
         fun createConstraints() =
             Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED)
@@ -20,8 +20,8 @@ private constructor() {
                 .setRequiresStorageNotLow(true)
                 .build()
 
-        fun <W : BaseWorker> createPeriodicWorkRequest(
-            workerOfClass: KClass<W>,
+        fun <T : BaseWorker> createPeriodicWorkRequest(
+            workerOfClass: KClass<T>,
             data: Data,
             period: Long,
             timeUnit: TimeUnit

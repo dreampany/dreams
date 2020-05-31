@@ -6,9 +6,11 @@ import android.content.Context
 import android.os.Bundle
 import androidx.multidex.MultiDex
 import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.worker.WorkerManager
 import dagger.android.DaggerApplication
 import timber.log.Timber
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 
 /**
@@ -18,6 +20,9 @@ import java.lang.ref.WeakReference
  * Last modified $file.lastModified
  */
 abstract class InjectApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
+
+    @Inject
+    protected lateinit var worker: WorkerManager
 
     @Volatile
     private var refs: WeakReference<Activity>? = null

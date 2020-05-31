@@ -136,6 +136,7 @@ class CryptoConstants {
         object Crypto {
             val LISTING = TimeUnit.MINUTES.toMillis(30)
             val COIN = TimeUnit.MINUTES.toMillis(5)
+            val WORKER = TimeUnit.HOURS.toMillis(1)
         }
     }
 }

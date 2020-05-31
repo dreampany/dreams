@@ -94,6 +94,9 @@ dependencies {
     //api "androidx.lifecycle:lifecycle-service:$lifecycle_version"
     //api "androidx.lifecycle:lifecycle-process:$lifecycle_version"
 
+    /* androidx work */
+    api 'androidx.work:work-runtime-ktx:2.3.4'
+
     /* androidx room */
     kapt "androidx.room:room-compiler:$room_version"
     api "androidx.room:room-runtime:$room_version"

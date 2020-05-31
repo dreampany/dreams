@@ -8,6 +8,7 @@ import com.dreampany.tools.app.App
 import com.dreampany.tools.inject.data.DataModule
 import com.dreampany.tools.inject.service.ServiceModule
 import com.dreampany.tools.inject.ui.vm.ViewModelModule
+import com.dreampany.tools.inject.worker.WorkerModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -29,6 +30,7 @@ import javax.inject.Singleton
         ServiceModule::class,
         ActivityModule::class,
         ViewModelModule::class,
+        WorkerModule::class,
         DataModule::class
     ]
 )

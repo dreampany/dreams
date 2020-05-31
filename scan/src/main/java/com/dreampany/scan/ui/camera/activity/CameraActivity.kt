@@ -31,6 +31,7 @@ import timber.log.Timber
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -122,7 +123,7 @@ class CameraActivity : InjectActivity() {
 
         val controls = CameraUiContainerBinding.inflate(layoutInflater, bind.layout, true)
         controls.cameraCaptureButton.setOnSafeClickListener { capture() }
-        controls.qr.setOnSafeClickListener { updateBindCamera(Type.QR)  }
+        controls.qr.setOnSafeClickListener { updateBindCamera(Type.QR) }
         controls.doc.setOnSafeClickListener { updateBindCamera(Type.DOC) }
         controls.face.setOnSafeClickListener { updateBindCamera(Type.FACE) }
 
@@ -183,8 +184,31 @@ class CameraActivity : InjectActivity() {
         try {
             camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
             preview?.setSurfaceProvider(bind.preview.createSurfaceProvider())
+            enableAutoFocus()
         } catch (error: Throwable) {
             Timber.e(error)
+        }
+    }
+
+    private fun enableAutoFocus() {
+        bind.preview.afterMeasured {
+            val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
+                bind.preview.width.toFloat(), bind.preview.height.toFloat()
+            )
+            val centerWidth = bind.preview.width.toFloat() / 2
+            val centerHeight = bind.preview.height.toFloat() / 2
+            val autoFocusPoint = factory.createPoint(centerWidth, centerHeight)
+            try {
+                camera?.cameraControl?.startFocusAndMetering(
+                    FocusMeteringAction.Builder(
+                        autoFocusPoint,
+                        FocusMeteringAction.FLAG_AF
+                    ).apply { setAutoCancelDuration(1, TimeUnit.SECONDS) }
+                        .build()
+                )
+            } catch (error: CameraInfoUnavailableException) {
+                Timber.e(error)
+            }
         }
     }
 
@@ -212,9 +236,8 @@ class CameraActivity : InjectActivity() {
     private class QrCodeAnalyzer(val vm: ScanViewModel) : ImageAnalysis.Analyzer {
         @SuppressLint("UnsafeExperimentalUsageError")
         override fun analyze(proxy: ImageProxy) {
-            val cameraImage = proxy.image ?: return
-            val rotationDegrees = proxy.imageInfo.rotationDegrees
-            vm.analyzeQr(cameraImage, rotationDegrees)
+
+            vm.analyzeQr(proxy)
         }
 
     }

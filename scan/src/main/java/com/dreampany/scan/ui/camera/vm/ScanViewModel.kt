@@ -37,18 +37,20 @@ class ScanViewModel
 ) {
 
     @SuppressLint("UnsafeExperimentalUsageError")
-    fun analyzeQr(image: Image, degrees : Int) {
+    fun analyzeQr(proxy: ImageProxy) {
         uiScope.launch {
             Timber.v("New Image found")
+            val cameraImage = proxy.image ?: return@launch
+            val degrees = proxy.imageInfo.rotationDegrees
             val options = FirebaseVisionBarcodeDetectorOptions.Builder()
                 .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
                 .build()
             val detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options)
             val visionImage = FirebaseVisionImage.fromMediaImage(
-                image,
+                cameraImage,
                 getRotationConstant(degrees)
             )
-
+            proxy.close()
             detector.detectInImage(visionImage)
                 .addOnSuccessListener { barcodes ->
                     Timber.v(barcodes.toString())

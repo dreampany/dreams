@@ -56,4 +56,7 @@
     <string name="title_empty_favorite_coins" translatable="false">No Favorite Coins</string>
     <string name="message_empty_favorite_coins" translatable="false">It seems you have not made any favorite coin yet.</string>
 
+    <string name="notify_title_profit">Hot Crypto Currency</string>
+    <string name="notify_title_price_alert">Price Alert</string>
+    <string name="notify_title_news">Crypto News</string>
 </resources>

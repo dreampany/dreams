@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.work.WorkerParameters
 import com.dreampany.framework.worker.BaseWorker
 import com.dreampany.framework.worker.IWorkerFactory
+import com.dreampany.tools.ui.crypto.vm.CryptoViewModel
 import javax.inject.Inject
+import javax.inject.Provider
 
 /**
  * Created by roman on 31/5/20
@@ -14,10 +16,12 @@ import javax.inject.Inject
  */
 class CryptoWorker(
     context: Context,
-    params: WorkerParameters
+    params: WorkerParameters,
+    private val vm : CryptoViewModel
 ) : BaseWorker(context, params) {
-    override fun onStart(): Result {
 
+    override fun onStart(): Result {
+        vm.notifyProfitableCoin()
         return Result.retry()
     }
 
@@ -26,8 +30,8 @@ class CryptoWorker(
 
     class Factory
     @Inject constructor(
-
+        private val vm: Provider<CryptoViewModel>
     ) : IWorkerFactory<CryptoWorker> {
-        override fun create(context: Context, params: WorkerParameters): CryptoWorker = CryptoWorker(context, params)
+        override fun create(context: Context, params: WorkerParameters): CryptoWorker = CryptoWorker(context, params, vm.get())
     }
 }

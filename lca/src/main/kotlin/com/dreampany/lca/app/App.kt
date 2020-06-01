@@ -1,22 +1,19 @@
 package com.dreampany.lca.app
-
-import android.app.Activity
-import com.crashlytics.android.Crashlytics
-import com.dreampany.frame.app.BaseApp
-import com.dreampany.frame.misc.SmartAd
-import com.dreampany.frame.util.AndroidUtil
-import com.dreampany.lca.BuildConfig
+import android.annotation.SuppressLint
+import com.dreampany.framework.app.InjectApp
+import com.dreampany.framework.misc.extension.isDebug
 import com.dreampany.lca.R
-import com.dreampany.lca.data.enums.CoinSource
-import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.data.source.pref.Pref
-import com.dreampany.lca.injector.app.DaggerAppComponent
-import com.dreampany.lca.misc.Constants
-import com.dreampany.lca.service.NotifyService
-import com.dreampany.lca.worker.NotifyWorker
+ import com.dreampany.lca.manager.AdManager
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.google.android.gms.ads.MobileAds
+import com.google.firebase.FirebaseApp
+import com.google.firebase.appindexing.Action
+import com.google.firebase.appindexing.FirebaseAppIndex
+import com.google.firebase.appindexing.FirebaseUserActions
+import com.google.firebase.appindexing.Indexable
+import com.google.firebase.appindexing.builders.Indexables
 import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
-import io.fabric.sdk.android.Fabric
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -26,63 +23,91 @@ import javax.inject.Inject
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class App : BaseApp() {
+class App : InjectApp() {
 
     @Inject
-    lateinit var pref: Pref
+    internal lateinit var pref: Pref
 
-/*    @Inject
-    lateinit var notify: NotifyViewModel*/
+    @Inject
+    internal lateinit var ad: AdManager
 
-    override fun isDebug(): Boolean {
-        return BuildConfig.DEBUG
+    private var action: Action? = null
+    private var indexable: Indexable? = null
+
+    override fun applicationInjector(): AndroidInjector<out dagger.android.DaggerApplication> =
+        DaggerAppComponent.builder().application(this).build()
+
+    override fun onOpen() {
+        initIndexing()
+        initFirebase()
+        initAd()
+        initFresco()
+        startAppIndex()
+        configWork()
     }
 
-    override fun hasCrashlytics(): Boolean {
-        return true
+    override fun onClose() {
+        stopAppIndex()
     }
 
-    override fun hasStetho(): Boolean {
-        return false
+    private fun initIndexing() {
+        if (isDebug) return
+        val name = getString(R.string.app_name)
+        val description = getString(R.string.app_description)
+        val url = getString(R.string.app_url)
+        action = getAction(description, url);
+        indexable = Indexables.newSimple(name, url)
     }
 
-    override fun hasAppIndex(): Boolean {
-        return true
+    private fun initFirebase() {
+        FirebaseApp.initializeApp(this)
     }
 
-    override fun hasUpdate(): Boolean {
-        return false
+    @SuppressLint("MissingPermission")
+    private fun initAd() {
+        //if (isDebug) return
+        MobileAds.initialize(this, getString(R.string.admob_app_id))
+        //ad.initPoints(Util.AD_POINTS)
+        val config = AdManager.Config.Builder()
+            .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
+            .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(5))
+            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(10))
+            .enabled(!isDebug)
+        ad.setConfig(config.build())
     }
 
-    override fun hasRate(): Boolean {
-        return true
+    private fun initFresco() {
+        Fresco.initialize(
+            this/*, ImagePipelineConfig.newBuilder(this)
+                .setMemoryChunkType(MemoryChunkType.BUFFER_MEMORY)
+                .setImageTranscoderType(ImageTranscoderType.JAVA_TRANSCODER)
+                .experiment()
+                .setNativeCodeDisabled(true)
+                .build()*/
+        )
     }
 
-    override fun hasAd(): Boolean {
-        return true
+    private fun getAction(description: String, uri: String): Action {
+        return Action.Builder(Action.Builder.VIEW_ACTION).setObject(description, uri).build()
     }
 
-    override fun hasTheme(): Boolean {
-        return false
+    private fun startAppIndex() {
+        if (isDebug) return
+        FirebaseAppIndex.getInstance().update(indexable)
+        FirebaseUserActions.getInstance().start(action)
     }
 
-    override fun hasColor(): Boolean {
-        return true
+    private fun stopAppIndex() {
+        if (isDebug) return
+        FirebaseUserActions.getInstance().end(action)
     }
 
-    override fun applyColor(): Boolean {
-        return true
+    private fun configWork() {
+        //worker.createPeriodic(CryptoWorker::class, CryptoConstants.Times.Crypto.WORKER, TimeUnit.HOURS)
     }
 
-    override fun getAdmobAppId(): Int {
-        return R.string.admob_app_id
-    }
 
-    override fun getScreen(): String {
-        return Constants.app(applicationContext)
-    }
-
-    override fun onCreate() {
+    /*override fun onCreate() {
         super.onCreate()
         if (!isDebug() && hasCrashlytics()) {
             configFabric()
@@ -132,10 +157,10 @@ class App : BaseApp() {
     }
 
 
-    /**
+    *//**
     java.lang.IllegalArgumentException: could not find worker: androidx.work.impl.workers.ConstraintTrackingWorker
     at com.dreampany.frame.worker.factory.WorkerInjectorFactory.createWorker(WorkerInjectorFactory.kt:26)
-     */
+     *//*
     private fun configWork() {
         if (pref.hasNotification()) {
             worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.SECONDS)
@@ -225,5 +250,5 @@ class App : BaseApp() {
             return true
         }
         return false
-    }
+    }*/
 }

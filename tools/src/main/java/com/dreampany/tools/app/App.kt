@@ -1,5 +1,6 @@
 package com.dreampany.tools.app
 
+import android.annotation.SuppressLint
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.extension.isDebug
 import com.dreampany.tools.R
@@ -63,6 +64,7 @@ class App : InjectApp() {
         FirebaseApp.initializeApp(this)
     }
 
+    @SuppressLint("MissingPermission")
     private fun initAd() {
         //if (isDebug) return
         MobileAds.initialize(this, getString(R.string.admob_app_id))

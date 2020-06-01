@@ -33,7 +33,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup, android:label">
 
 
         <meta-data

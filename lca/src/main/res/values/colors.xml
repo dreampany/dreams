@@ -5,6 +5,14 @@
     <color name="colorPrimaryDark">@color/material_lightgreen900</color>
     <color name="colorAccent">@color/material_lightgreenA700</color>
 
+    <color name="windowBackground">@color/material_grey200</color>
+    <color name="contentBackground">@color/material_white</color>
+    <color name="contentText">@color/material_black</color>
+
+    <color name="error">@color/material_red500</color>
+    <color name="warning">@color/material_amber500</color>
+    <color name="success">@color/material_green500</color>
+
     <color name="materialLightGreen">#99FF99</color>
     <color name="darkGreen">#009900</color>
     <color name="materialLightBlue">#3399FF</color>

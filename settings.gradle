@@ -1,5 +1,6 @@
 rootProject.name='android'
 include ':framework'
+include ':demo'
 include ':opencv-430'
 //include ':firebase'
 //include ':answer'

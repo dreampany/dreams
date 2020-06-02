@@ -163,8 +163,8 @@ class FastWifiAdapter(
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is WifiItem && right is WifiItem) {
                return CompareToBuilder()
-                    .append(left.input.bssid, right.input.bssid)
-                    //.append(left.level, right.level)
+                    //.append(left.input.bssid, right.input.bssid)
+                    .append(right.input.signal?.level, left.input.signal?.level)
                     .toComparison()
             }
             return 0

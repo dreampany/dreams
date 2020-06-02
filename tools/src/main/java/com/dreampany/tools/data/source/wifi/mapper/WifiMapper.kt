@@ -4,6 +4,7 @@ import android.net.wifi.ScanResult
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.extension.sub
+import com.dreampany.framework.misc.extension.value
 import com.dreampany.tools.data.model.wifi.Signal
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
@@ -94,14 +95,15 @@ class WifiMapper
     ): List<Wifi> {
         val temp = ArrayList(inputs)
         val comparator = WifiComparator()
-        temp.sortWith(comparator)
+        //temp.sortWith(comparator)
         return temp
     }
 
     class WifiComparator : Comparator<Wifi> {
-        override fun compare(left: Wifi, right: Wifi): Int = CompareToBuilder()
-            //.append(left.bssid, right.bssid)
-            .append(left.signal?.level, right.signal?.level)
-            .toComparison()
+        override fun compare(left: Wifi, right: Wifi): Int {
+            val leftLevel = left.signal?.level.value()
+            val rightLevel = right.signal?.level.value()
+            return rightLevel - leftLevel
+        }
     }
 }

@@ -149,7 +149,7 @@ class WifisActivity : InjectActivity() {
             adapter = FastWifiAdapter(
                 { currentPage ->
                     Timber.v("CurrentPage: %d", currentPage)
-                    onRefresh()
+                    //onRefresh()
                 }, this::onItemPressed
             )
         }

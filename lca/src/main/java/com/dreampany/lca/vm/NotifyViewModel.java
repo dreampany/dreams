@@ -28,7 +28,7 @@ import com.dreampany.lca.data.source.repository.NewsRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
-import com.dreampany.lca.ui.activity.NavigationActivity;
+import com.dreampany.lca.ui.activity.HomeActivity;
 import com.dreampany.lca.ui.enums.UiSubtype;
 import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinAlertItem;
@@ -262,7 +262,7 @@ public class NotifyViewModel {
             double dayChange = coin.getQuote(currency).getDayChange();
             message = formatter.formatPrice(coin.getSymbol(), coin.getName(), price, dayChange, currency);
 
-            targetClass = NavigationActivity.class;
+            targetClass = HomeActivity.class;
             task = new UiTask<>(false,UiType.COIN, UiSubtype.VIEW, coin, null);
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
@@ -305,7 +305,7 @@ public class NotifyViewModel {
                         .append(alert.getPriceDown());
             }
 
-            targetClass = NavigationActivity.class;
+            targetClass = HomeActivity.class;
             task = new UiTask<>(false, UiType.COIN, UiSubtype.VIEW, coin, null);
         }
 
@@ -336,7 +336,7 @@ public class NotifyViewModel {
         StringBuilder message = new StringBuilder();
         message.append(news.getItem().getBody());
 
-        Class<?> targetClass = NavigationActivity.class;
+        Class<?> targetClass = HomeActivity.class;
         UiTask<News> task = new UiTask<>(true, UiType.NEWS, UiSubtype.VIEW, news.getItem(), news.getItem().getUrl());
 
         notify.showNotification(

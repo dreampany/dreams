@@ -1,8 +1,8 @@
 package com.dreampany.lca.injector.ui
 
 import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.lca.ui.activity.LaunchActivity
-import com.dreampany.lca.ui.activity.NavigationActivity
+import com.dreampany.lca.ui.activity.SplashActivity
+import com.dreampany.lca.ui.activity.HomeActivity
 import com.dreampany.lca.ui.activity.ToolsActivity
 import com.dreampany.frame.ui.activity.WebActivity
 import dagger.Module
@@ -18,11 +18,11 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector
-    abstract fun launchActivity(): LaunchActivity
+    abstract fun launchActivity(): SplashActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [MoreModule::class, CoinsModule::class, LibraryModule::class, IcoModule::class, NewsModule::class])
-    abstract fun navigationActivity(): NavigationActivity
+    abstract fun navigationActivity(): HomeActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [SettingsModule::class, LicenseModule::class, AboutModule::class, CoinModule::class, CoinAlertModule::class])

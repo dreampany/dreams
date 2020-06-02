@@ -41,19 +41,6 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     override val selectedNavigationItemId: Int = R.id.navigation_home
 
-    override fun onNavigationItem(navigationItemId: Int) {
-        when (navigationItemId) {
-            R.id.navigation_home -> {
-                setTitle(R.string.home)
-                commitFragment(HomeFragment::class, home, R.id.layout)
-            }
-            R.id.navigation_more -> {
-                setTitle(R.string.more)
-                commitFragment(MoreFragment::class, more, R.id.layout)
-            }
-        }
-    }
-
     override fun onStartUi(state: Bundle?) {
         initUi()
         initAd()
@@ -71,6 +58,19 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override fun onPause() {
         ad.pauseBanner(this.javaClass.simpleName)
         super.onPause()
+    }
+
+    override fun onNavigationItem(navigationItemId: Int) {
+        when (navigationItemId) {
+            R.id.navigation_home -> {
+                setTitle(R.string.home)
+                commitFragment(HomeFragment::class, home, R.id.layout)
+            }
+            R.id.navigation_more -> {
+                setTitle(R.string.more)
+                commitFragment(MoreFragment::class, more, R.id.layout)
+            }
+        }
     }
 
     private fun initUi() {

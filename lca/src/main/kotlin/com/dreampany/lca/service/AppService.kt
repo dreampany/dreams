@@ -6,7 +6,7 @@ import com.dreampany.frame.api.notify.NotifyManager
 import com.dreampany.frame.api.service.BaseService
 import com.dreampany.lca.R
 import com.dreampany.lca.misc.Constants
-import com.dreampany.lca.ui.activity.NavigationActivity
+import com.dreampany.lca.ui.activity.HomeActivity
 import javax.inject.Inject
 
 /**
@@ -23,7 +23,7 @@ class AppService : BaseService() {
     internal lateinit var notifyTitle: String
     internal lateinit var contentText: String
     internal val smallIcon = R.mipmap.ic_launcher
-    internal val targetClass = NavigationActivity::class.java
+    internal val targetClass = HomeActivity::class.java
 
     internal val channelId = Constants.Id.NotifyForegroundChannelId
     internal lateinit var channelName: String

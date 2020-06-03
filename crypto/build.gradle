@@ -12,7 +12,7 @@ android {
     buildToolsVersion '30.0.0 rc3'
 
     defaultConfig {
-        applicationId "com.dreampany.demo"
+        applicationId "com.dreampany.crypto"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

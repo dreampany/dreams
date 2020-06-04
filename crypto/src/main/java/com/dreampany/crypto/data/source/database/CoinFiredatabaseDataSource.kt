@@ -1,10 +1,11 @@
-package com.dreampany.crypto.data.source;
+package com.dreampany.crypto.data.source.database
 
 /**
- * Created by roman on 3/6/20
+ * Created by roman on 3/21/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-public class d {
+class CoinFiredatabaseDataSource
+{
 }

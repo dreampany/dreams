@@ -1,5 +1,7 @@
 package com.dreampany.crypto.misc
 
+import java.util.concurrent.TimeUnit
+
 /**
  * Created by roman on 29/5/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -8,6 +10,19 @@ package com.dreampany.crypto.misc
  */
 class AppConstants {
     object Keys {
+
+        object Pref {
+            const val PREF = "pref"
+            const val EXPIRE = "expire"
+            const val CURRENCY = "currency"
+            const val SORT = "sort"
+            const val ORDER = "order"
+        }
+
+        object Room {
+            const val TYPE_CRYPTO = "crypto"
+        }
+
         object Coin {
             const val CRYPTO = "crypto"
             const val COINS = "coins"
@@ -44,6 +59,21 @@ class AppConstants {
             const val VOLUME_24H = "volume_24h"
             const val CHANGE_24H = "change_24h"
             const val CHANGE_PCT_24H = "change_pct_24h"
+        }
+    }
+
+    object Limits {
+        const val COINS = 100L
+        const val TRADES = 10L
+        const val EXCHANGES = 10L
+        const val MAX_COINS = 5000L
+    }
+
+    object Times {
+        object Crypto {
+            val LISTING = TimeUnit.MINUTES.toMillis(30)
+            val COIN = TimeUnit.MINUTES.toMillis(5)
+            val WORKER = TimeUnit.HOURS.toMillis(1)
         }
     }
 }

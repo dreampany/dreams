@@ -1,9 +1,8 @@
 package com.dreampany.crypto.api.inject.data
 
-import com.dreampany.crypto.api.crypto.inject.annote.CoinMarketCapAnnote
 import com.dreampany.crypto.api.inject.CoinMarketCapAnnote
-import com.dreampany.crypto.misc.constant.CryptoConstants
-import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
+import com.dreampany.crypto.api.misc.ApiConstants
+import com.dreampany.crypto.api.remote.service.CoinMarketCapService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -27,7 +26,7 @@ class CoinMarketCapModule {
     fun provideCoinMarketCapRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(CryptoConstants.CoinMarketCap.BASE_URL)
+            .baseUrl(ApiConstants.CoinMarketCap.BASE_URL)
             .client(httpClient)
             .build()
     }

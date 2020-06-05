@@ -1,15 +1,30 @@
 package com.dreampany.crypto.ui.home.fragment
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import androidx.lifecycle.Observer
 import com.dreampany.crypto.R
+import com.dreampany.crypto.data.enums.Action
+import com.dreampany.crypto.data.enums.State
+import com.dreampany.crypto.data.enums.Subtype
+import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.databinding.RecyclerFragmentBinding
+import com.dreampany.crypto.ui.home.activity.CoinActivity
+import com.dreampany.crypto.ui.home.activity.FavoriteCoinsActivity
 import com.dreampany.crypto.ui.home.adapter.FastCoinAdapter
+import com.dreampany.crypto.ui.home.model.CoinItem
 import com.dreampany.crypto.ui.home.vm.CoinViewModel
+import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
-import com.dreampany.framework.misc.extension.visible
+import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.stateful.StatefulLayout
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -30,49 +45,113 @@ class HomeFragment
     private lateinit var adapter: FastCoinAdapter
 
     override val layoutRes: Int = R.layout.recycler_fragment
+    override val menuRes: Int = R.menu.menu_home
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-       /* if (adapter.isEmpty)
-            vm.loadFeatures()*/
+        onRefresh()
     }
 
     override fun onStopUi() {
+        adapter.destroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        var outState = outState
+        outState = adapter.saveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onMenuCreated(menu: Menu) {
+        getSearchMenuItem().toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_favorites -> {
+                openFavoritesUi()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.filter(newText)
+        return false
+    }
+
+    override fun onRefresh() {
+        loadCoins()
+    }
+
+    private fun onItemPressed(view: View, item: CoinItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+                openCoinUi(item)
+            }
+            R.id.button_favorite -> {
+                onFavoriteClicked(item)
+            }
+            else -> {
+
+            }
+        }
     }
 
     private fun initUi() {
         bind = getBinding()
-
-        bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
-        bind.fab.visible()
-        bind.fab.setOnSafeClickListener { openScanUi() }
-        /*if (!::vm.isInitialized) {
-            vm = createVm(FeatureViewModel::class)
-            vm.subscribes(this, Observer { this.processResponse(it) })
-        }*/
+        bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
+        vm = createVm(CoinViewModel::class)
+        vm.subscribe(this, Observer { this.processResponse(it) })
+        vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
-        /*if (!::adapter.isInitialized) {
-            adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
-                Timber.v("StationItem: %s", item.item.toString())
-                openUi(item.item)
-            })
-
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
+        if (!::adapter.isInitialized) {
+            adapter = FastCoinAdapter(
+                { currentPage ->
+                    Timber.v("CurrentPage: %d", currentPage)
+                    onRefresh()
+                }, this::onItemPressed
             )
-        }*/
+        }
+
+        adapter.initRecycler(
+            state,
+            bind.layoutRecycler.recycler,
+            cryptoPref.getCurrency(),
+            cryptoPref.getSort(),
+            cryptoPref.getOrder()
+        )
     }
 
-    /*private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {
+    private fun loadCoins() {
+        vm.loadCoins(adapter.itemCount.toLong())
+    }
+
+    private fun processResponse(response: Response<Type, Subtype, State, Action, CoinItem>) {
         if (response is Response.Progress) {
-            if (response.progress) showProgress() else hideProgress()
+            bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<FeatureItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, CoinItem>) {
+            Timber.v("Result [%s]", response.result)
+            processResult(response.result)
+        }
+    }
+
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CoinItem>>) {
+        if (response is Response.Progress) {
+            bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<CoinItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -95,30 +174,41 @@ class HomeFragment
         )
     }
 
-    private fun processResults(result: List<FeatureItem>?) {
+    private fun processResult(result: CoinItem?) {
         if (result != null) {
-            adapter.addItems(result)
+            adapter.updateItem(result)
         }
     }
 
-    private fun openUi(item: Feature) {
-        when (item.subtype) {
-            Subtype.WIFI -> activity.open(WifisActivity::class)
-            Subtype.CRYPTO -> activity.open(CoinsActivity::class)
-            Subtype.RADIO -> activity.open(StationsActivity::class)
-            Subtype.NOTE -> activity.open(NotesActivity::class)
-            Subtype.HISTORY -> activity.open(HistoriesActivity::class)
+    private fun processResults(result: List<CoinItem>?) {
+        if (result != null) {
+            adapter.addItems(result)
         }
-    }*/
 
-    private fun openScanUi() {
-       /* val task = UiTask(
-            Type.CAMERA,
+        if (adapter.isEmpty) {
+            bind.stateful.setState(StatefulLayout.State.EMPTY)
+        } else {
+            bind.stateful.setState(StatefulLayout.State.CONTENT)
+        }
+    }
+
+    private fun onFavoriteClicked(item: CoinItem) {
+        vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
+    }
+
+
+    private fun openCoinUi(item: CoinItem) {
+        val task = UiTask(
+            Type.COIN,
             Subtype.DEFAULT,
             State.DEFAULT,
-            Action.SCAN,
-            null
+            Action.VIEW,
+            item.item
         )
-        open(CameraActivity::class, task, REQUEST_CAMERA)*/
+        open(CoinActivity::class, task)
+    }
+
+    private fun openFavoritesUi() {
+        open(FavoriteCoinsActivity::class)
     }
 }

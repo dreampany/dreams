@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/material_grey300"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                auto:cardCornerRadius="@dimen/_4sdp"
+                auto:cardElevation="@dimen/_4sdp"
+                auto:cardPreventCornerOverlap="false">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/material_white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_8sdp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/trade_pairs"
+                        android:textColor="@color/material_black"
+                        android:textSize="@dimen/_14sdp"
+                        auto:fontFamily="@font/roboto_slab_bold"
+                        auto:layout_constraintBottom_toBottomOf="parent"
+                        auto:layout_constraintStart_toStartOf="parent"
+                        auto:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_from_symbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/btc"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/trade_pairs_sep"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_to_symbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/usd"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="false"
+                android:scrollbars="none"
+                tools:itemCount="10" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

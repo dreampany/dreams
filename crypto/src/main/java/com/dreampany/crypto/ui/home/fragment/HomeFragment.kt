@@ -1,18 +1,15 @@
 package com.dreampany.crypto.ui.home.fragment
 
 import android.os.Bundle
+import com.dreampany.crypto.R
+import com.dreampany.crypto.data.source.pref.AppPref
+import com.dreampany.crypto.databinding.RecyclerFragmentBinding
+import com.dreampany.crypto.ui.home.adapter.FastCoinAdapter
+import com.dreampany.crypto.ui.home.vm.CoinViewModel
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.open
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.misc.extension.visible
 import com.dreampany.framework.ui.fragment.InjectFragment
-import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.crypto.R
-import com.dreampany.crypto.data.enums.Action
-import com.dreampany.crypto.data.enums.State
-import com.dreampany.crypto.data.enums.Subtype
-import com.dreampany.crypto.data.enums.Type
-import com.dreampany.crypto.databinding.RecyclerFragmentBinding
 import javax.inject.Inject
 
 /**
@@ -25,14 +22,12 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
-    companion object {
-      private val REQUEST_CAMERA = 101
-    }
+    @Inject
+    internal lateinit var cryptoPref: AppPref
 
     private lateinit var bind: RecyclerFragmentBinding
-    //private lateinit var vm: FeatureViewModel
-
-    //private lateinit var adapter: FastFeatureAdapter
+    private lateinit var vm: CoinViewModel
+    private lateinit var adapter: FastCoinAdapter
 
     override val layoutRes: Int = R.layout.recycler_fragment
 

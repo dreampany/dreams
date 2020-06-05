@@ -8,7 +8,7 @@ import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.data.enums.Currency
-import com.dreampany.crypto.misc.AppConstants
+import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName

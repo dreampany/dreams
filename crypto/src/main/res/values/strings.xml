@@ -1,4 +1,63 @@
 <resources>
     <string name="app_name">cryptp</string>
     <string name="action_settings">Settings</string>
+
+    <string name="crypto_symbol_name">%s (%s)</string>
+    <string name="time">Time</string>
+    <string name="symbol">Symbol</string>
+    <string name="price">Price</string>
+    <string name="usd">USD</string>
+    <string name="btc">BTC</string>
+    <string name="volume_24h">Volume</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="volume_24h_min">Vol</string>
+    <string name="market_cap_min">Cap</string>
+    <string name="circulating_supply">Circulating Supply</string>
+    <string name="total_supply">Total Supply</string>
+    <string name="max_supply">Max Supply</string>
+    <string name="change">Change</string>
+    <string name="change_1h">1H</string>
+    <string name="change_24h">24H</string>
+    <string name="change_7d">7D</string>
+    <string name="coin_format">%s: (%s)</string>
+    <string name="change_percent">%s%%</string>
+
+    <string name="one_hour">1H</string>
+    <string name="one_day">1D</string>
+    <string name="three_day">3D</string>
+    <string name="week">7D</string>
+    <string name="month">1M</string>
+    <string name="three_month">3M</string>
+    <string name="six_month">6M</string>
+    <string name="year">1Y</string>
+    <string name="all">All</string>
+
+    <string name="with_price">Price(%s)</string>
+    <string name="with_change">Change(%s)</string>
+
+    <string name="positive_ratio_format">&#43;%2.2f%%</string>
+    <string name="negative_ratio_format">%2.2f%%</string>
+
+    <string name="title_empty_crypto" translatable="false">No Crypto Coins</string>
+    <string name="description_empty_crypto" translatable="false">It seems you have no crypto coins to see. Please refresh for crypto coins.</string>
+
+    <string name="market">Market</string>
+    <string name="graph">Graph</string>
+    <string name="trade_pairs">Trade Pairs</string>
+    <string name="trade_pairs_sep">-</string>
+
+    <string name="title_coin_info">Info</string>
+    <string name="title_coin_market">Market</string>
+    <string name="join_text">%s %s</string>
+    <string name="title_favorite_coins">Favorite Coins</string>
+
+    <string name="title_empty_coins" translatable="false">No Coins</string>
+    <string name="message_empty_coins" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
+
+    <string name="title_empty_favorite_coins" translatable="false">No Favorite Coins</string>
+    <string name="message_empty_favorite_coins" translatable="false">It seems you have not made any favorite coin yet.</string>
+
+    <string name="notify_title_profit">Hot Crypto Currency</string>
+    <string name="notify_title_price_alert">Price Alert</string>
+    <string name="notify_title_news">Crypto News</string>
 </resources>

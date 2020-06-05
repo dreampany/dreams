@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="adapter_more_item_id" type="id" />
+    <item name="adapter_coin_item_id" type="id" />
+    <item name="adapter_coin_info_item_id" type="id" />
+    <item name="adapter_coin_quote_item_id" type="id" />
+    <item name="adapter_exchange_item_id" type="id" />
 </resources>

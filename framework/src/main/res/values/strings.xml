@@ -75,6 +75,11 @@
 
     <string name="back_pressed">Please click BACK again to exit</string>
 
+    <string name="title_error">Error!</string>
+    <string name="title_no_internet">No Internet!</string>
+    <string name="message_no_internet">Please connect to internet.</string>
+    <string name="message_unknown">Unknown error.</string>
+
     <string name="save">Save</string>
     <string name="save_success">Saved successfully.</string>
 

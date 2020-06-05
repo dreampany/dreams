@@ -10,7 +10,7 @@ import com.dreampany.crypto.data.model.Quote
 import com.dreampany.crypto.data.source.room.converters.Converters
 import com.dreampany.crypto.data.source.room.dao.CoinDao
 import com.dreampany.crypto.data.source.room.dao.QuoteDao
-import com.dreampany.crypto.misc.AppConstants
+import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.misc.constant.Constants
 
 /**

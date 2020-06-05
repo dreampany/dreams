@@ -14,9 +14,4 @@
     <string name="format_quiz_point" formatted="false">Point: %d / %d</string>
     <string name="format_quiz_count" formatted="false">Quiz: %d / %d</string>
 
-    <string name="title_error">Error!</string>
-    <string name="title_no_internet">No Internet!</string>
-    <string name="message_no_internet">Please connect to internet.</string>
-    <string name="message_unknown">Unknown error.</string>
-
 </resources>

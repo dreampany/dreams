@@ -1,4 +1,4 @@
-package com.dreampany.crypto.misc
+package com.dreampany.crypto.misc.constants
 
 import java.util.concurrent.TimeUnit
 

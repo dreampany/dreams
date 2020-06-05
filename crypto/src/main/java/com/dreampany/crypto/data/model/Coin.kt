@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.extension.value
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.data.enums.Currency
-import com.dreampany.crypto.misc.AppConstants
+import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
 import com.google.common.collect.Maps
 import com.google.firebase.database.Exclude

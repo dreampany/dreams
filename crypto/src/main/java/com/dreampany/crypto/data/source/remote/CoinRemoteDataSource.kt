@@ -11,7 +11,6 @@ import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.data.source.api.CoinDataSource
 import com.dreampany.crypto.data.source.mapper.CoinMapper
-import com.dreampany.crypto.misc.AppConstants
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.misc.extension.isDebug
 import com.dreampany.framework.misc.func.Keys

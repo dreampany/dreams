@@ -9,7 +9,7 @@ import com.dreampany.crypto.data.model.Quote
 import com.dreampany.crypto.data.source.api.CoinDataSource
 import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.data.source.room.dao.QuoteDao
-import com.dreampany.crypto.misc.AppConstants
+import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo

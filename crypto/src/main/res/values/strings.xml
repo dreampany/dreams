@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">cryptp</string>
+    <string name="app_name">Crypto - Prices, Alerts, Markets &amp; News</string>
     <string name="action_settings">Settings</string>
 
     <string name="crypto_symbol_name">%s (%s)</string>

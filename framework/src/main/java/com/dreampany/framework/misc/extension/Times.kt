@@ -17,20 +17,21 @@ val Calendar.day: Int get() = this.get(Calendar.DAY_OF_MONTH)
 val Calendar.month: Int get() = this.get(Calendar.MONTH).inc()
 val Calendar.year: Int get() = this.get(Calendar.YEAR)
 
-val currentMillis : Long get() = System.currentTimeMillis()
-fun currentDay() : Int = Calendar.getInstance().day
-fun currentMonth() : Int = Calendar.getInstance().month
-fun currentYear() : Int = Calendar.getInstance().year
+val currentMillis: Long get() = System.currentTimeMillis()
+fun currentDay(): Int = Calendar.getInstance().day
+fun currentMonth(): Int = Calendar.getInstance().month
+fun currentYear(): Int = Calendar.getInstance().year
 
-fun String.utc(): Long {
-    val format = SimpleDateFormat(UTC_PATTERN, Locale.getDefault())
-    try {
-        return format.parse(this)?.time ?: 0L
-    } catch (error: ParseException) {
-        Timber.e(error)
-        return 0L
+val String.utc: Long
+    get() {
+        val format = SimpleDateFormat(UTC_PATTERN, Locale.getDefault())
+        try {
+            return format.parse(this)?.time ?: 0L
+        } catch (error: ParseException) {
+            Timber.e(error)
+            return 0L
+        }
     }
-}
 
 fun Long.format(pattern: String): String {
     val calendar = Calendar.getInstance()

@@ -5,10 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.dreampany.crypto.data.model.Article
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.data.model.Quote
 import com.dreampany.crypto.data.source.room.converters.Converters
 import com.dreampany.crypto.data.source.room.dao.CoinDao
+import com.dreampany.crypto.data.source.room.dao.ArticleDao
 import com.dreampany.crypto.data.source.room.dao.QuoteDao
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.misc.constant.Constants
@@ -19,7 +21,7 @@ import com.dreampany.framework.misc.constant.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Coin::class, Quote::class], version = 1, exportSchema = false)
+@Database(entities = [Coin::class, Quote::class, Article::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -58,4 +60,6 @@ abstract class DatabaseManager : RoomDatabase() {
     abstract fun coinDao(): CoinDao
 
     abstract fun quoteDao(): QuoteDao
+
+    abstract fun articleDao(): ArticleDao
 }

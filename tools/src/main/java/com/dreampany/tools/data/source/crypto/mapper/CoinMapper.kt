@@ -73,7 +73,7 @@ class CoinMapper
 
 
     @Synchronized
-    fun add(coin: Coin) = coins.put(coin.id, coin)
+    fun add(input: Coin) = coins.put(input.id, input)
 
     @Throws
     suspend fun isFavorite(coin: Coin): Boolean {

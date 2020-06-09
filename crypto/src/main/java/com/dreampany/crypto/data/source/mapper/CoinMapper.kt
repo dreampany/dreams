@@ -51,7 +51,7 @@ class CoinMapper
     @Synchronized
     fun isExpired(currency: Currency, sort: Sort, order: Order, offset: Long): Boolean {
         val time = pref.getExpireTime(currency, sort, order, offset)
-        return time.isExpired(AppConstants.Times.Crypto.LISTING)
+        return time.isExpired(AppConstants.Times.COINS)
     }
 
     @Synchronized
@@ -61,7 +61,7 @@ class CoinMapper
     @Synchronized
     fun isExpired(id: String, currency: Currency): Boolean {
         val time = pref.getExpireTime(id, currency)
-        return time.isExpired(AppConstants.Times.Crypto.COIN)
+        return time.isExpired(AppConstants.Times.COIN)
     }
 
     @Synchronized
@@ -70,7 +70,7 @@ class CoinMapper
 
 
     @Synchronized
-    fun add(coin: Coin) = coins.put(coin.id, coin)
+    fun add(input: Coin) = coins.put(input.id, input)
 
     @Throws
     suspend fun isFavorite(coin: Coin): Boolean {
@@ -202,8 +202,8 @@ class CoinMapper
         out.rank = input.rank
         out.quotes = getQuotes(id, input.quotes)
         out.tags = input.tags
-        out.setDateAdded(input.dateAdded.utc())
-        out.setLastUpdated(input.lastUpdated.utc())
+        out.setDateAdded(input.dateAdded.utc)
+        out.setLastUpdated(input.lastUpdated.utc)
         return out
     }
 
@@ -239,7 +239,7 @@ class CoinMapper
         out.setChange1h(input.change1h)
         out.setChange24h(input.change24h)
         out.setChange7d(input.change7d)
-        out.setLastUpdated(input.lastUpdated.utc())
+        out.setLastUpdated(input.lastUpdated.utc)
 
         return out
     }

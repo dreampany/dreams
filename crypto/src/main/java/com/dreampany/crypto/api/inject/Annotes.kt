@@ -17,3 +17,8 @@ annotation class CoinMarketCapAnnote
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class CryptoCompareAnnote
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class NewsApiAnnote

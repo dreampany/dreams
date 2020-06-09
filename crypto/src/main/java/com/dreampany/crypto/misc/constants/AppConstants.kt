@@ -13,6 +13,7 @@ class AppConstants {
 
         object Pref {
             const val PREF = "pref"
+            const val NEWS = "news"
             const val EXPIRE = "expire"
             const val CURRENCY = "currency"
             const val SORT = "sort"
@@ -60,6 +61,10 @@ class AppConstants {
             const val CHANGE_24H = "change_24h"
             const val CHANGE_PCT_24H = "change_pct_24h"
         }
+
+        object News {
+            const val SOURCE_ID = "source_id"
+        }
     }
 
     object Limits {
@@ -70,10 +75,9 @@ class AppConstants {
     }
 
     object Times {
-        object Crypto {
-            val LISTING = TimeUnit.MINUTES.toMillis(30)
-            val COIN = TimeUnit.MINUTES.toMillis(5)
-            val WORKER = TimeUnit.HOURS.toMillis(1)
-        }
+        val COINS = TimeUnit.MINUTES.toMillis(30)
+        val COIN = TimeUnit.MINUTES.toMillis(5)
+        val NEWS = TimeUnit.HOURS.toMillis(1)
+        val WORKER = TimeUnit.HOURS.toMillis(1)
     }
 }

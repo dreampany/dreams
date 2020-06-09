@@ -24,6 +24,7 @@ import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
+import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -51,11 +52,12 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-        onRefresh()
+        if (adapter.isEmpty)
+            onRefresh()
     }
 
     override fun onStopUi() {
-        adapter.destroy()
+        //adapter.destroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

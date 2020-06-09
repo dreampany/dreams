@@ -123,6 +123,7 @@ class FastCoinAdapter(
     }
 
     fun destroy() {
+        fastAdapter.clear()
     }
 
     fun saveInstanceState(outState: Bundle): Bundle {

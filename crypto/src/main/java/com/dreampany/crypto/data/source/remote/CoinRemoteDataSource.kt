@@ -127,6 +127,7 @@ constructor(
         throw SmartError()
     }
 
+    @Throws
     override suspend fun get(id: String, currency: Currency): Coin? {
         for (index in 0..keys.length) {
             try {

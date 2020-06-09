@@ -62,6 +62,18 @@ class ApiConstants {
         const val CHANGE_PCT_24H = "CHANGEPCT24HOUR"
     }
 
+    object News {
+        const val NAME = "name"
+        const val LANGUAGE = "lang"
+        const val IMAGE = "img"
+
+        const val PUBLISHED_ON = "published_on"
+        const val IMAGE_URL = "imageurl"
+        const val UP_VOTES = "upvotes"
+        const val DOWN_VOTES = "downvotes"
+        const val SOURCE_INFO = "source_info"
+    }
+
     object CoinMarketCap {
         const val ACCEPT = "Accept"
         const val ACCEPT_ENCODING = "Accept-Encoding"
@@ -93,17 +105,32 @@ class ApiConstants {
     }
 
     object CryptoCompare {
-        const val AUTHORIZATION = "authorization"
+        const val API_KEY_ROMAN_BJIT =
+            "99cb2ed664b75035fe73b7f93d2e1e949c57f17f23f092260debf93ce1315c2d" //roman.bjit@gmail.com
 
-        const val API_KEY_ROMAN_BJIT = "99cb2ed664b75035fe73b7f93d2e1e949c57f17f23f092260debf93ce1315c2d" //roman.bjit@gmail.com
+        const val AUTHORIZATION = "authorization"
 
         const val BASE_URL = "https://min-api.cryptocompare.com/data/"
         const val TRADES = "top/pairs"
         const val EXCHANGES = "top/exchanges/full"
+        const val NEWS = "news"
 
         const val EXTRA_PARAMS = "extraParams"
         const val FROM_SYMBOL = "fsym"
         const val TO_SYMBOL = "tsym"
+    }
 
+    object NewsApi {
+        const val API_KEY_ROMAN_BJIT = "27e17471f26047a893bc0824c323799d"
+
+        const val BASE_URL = "https://newsapi.org/v2/"
+
+        const val API_KEY = "X-Api-Key"
+        const val EVERYTHING = "everything"
+
+        const val QUERY_IN_TITLE = "qInTitle"
+        const val LANGUAGE = "language"
+        const val OFFSET = "page"
+        const val LIMIT = "pageSize"
     }
 }

@@ -205,8 +205,8 @@ class CoinMapper
         out.rank = input.rank
         out.quotes = getQuotes(id, input.quotes)
         out.tags = input.tags
-        out.setDateAdded(input.dateAdded.utc())
-        out.setLastUpdated(input.lastUpdated.utc())
+        out.setDateAdded(input.dateAdded.utc)
+        out.setLastUpdated(input.lastUpdated.utc)
         return out
     }
 
@@ -242,7 +242,7 @@ class CoinMapper
         out.setChange1h(input.change1h)
         out.setChange24h(input.change24h)
         out.setChange7d(input.change7d)
-        out.setLastUpdated(input.lastUpdated.utc())
+        out.setLastUpdated(input.lastUpdated.utc)
 
         return out
     }

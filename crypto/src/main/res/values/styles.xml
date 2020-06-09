@@ -11,6 +11,13 @@
     </style>
 
     <!-- activity -->
+    <style name="Theme.Splash" parent="NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:textColorPrimary">@color/material_black</item>
+        <item name="android:textColorSecondary">@color/material_grey500</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
     <style name="Theme.Fullscreen" parent="NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:textColorPrimary">@color/material_black</item>

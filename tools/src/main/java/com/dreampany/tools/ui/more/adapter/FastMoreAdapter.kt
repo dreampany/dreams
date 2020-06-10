@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.adapter.SpacingItemDecoration
+import com.dreampany.framework.misc.extension.dimension
+import com.dreampany.tools.R
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.more.model.MoreItem
 import com.mikepenz.fastadapter.FastAdapter
@@ -56,6 +59,13 @@ class FastMoreAdapter(
         recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
+            addItemDecoration(
+                SpacingItemDecoration(
+                    1,
+                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
+                    false
+                )
+            )
         }
         fastAdapter.withSavedInstanceState(state)
 

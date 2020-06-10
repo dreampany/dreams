@@ -17,6 +17,8 @@ import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.ui.more.adapter.FastMoreAdapter
 import com.dreampany.tools.ui.more.model.MoreItem
 import com.dreampany.tools.ui.more.vm.MoreViewModel
+import com.mikepenz.aboutlibraries.LibsBuilder
+import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -58,7 +60,7 @@ class MoreFragment
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
             adapter = FastMoreAdapter(clickListener = { item: MoreItem ->
-                Timber.v("StationItem: %s", item.item.toString())
+                Timber.v("MoreItem: %s", item.item.toString())
                 onPressed(item.item)
             })
 
@@ -82,7 +84,7 @@ class MoreFragment
 
     private fun processError(error: Throwable) {
         showDialogue(
-            R.string.title_dialog_features,
+            R.string.title_dialog_more,
             message = error.message,
             onPositiveClick = {
 
@@ -94,9 +96,7 @@ class MoreFragment
     }
 
     private fun processResults(result: List<MoreItem>?) {
-        if (result == null) {
-
-        } else {
+        if (result != null) {
             adapter.addItems(result)
         }
     }
@@ -117,7 +117,8 @@ class MoreFragment
                 activity.moreApps(getString(R.string.id_google_play))
             }
             Subtype.ABOUT -> {
-                activity.moreApps(getString(R.string.id_google_play))
+                //activity.moreApps(getString(R.string.id_google_play))
+                LibsBuilder().start(requireContext())
             }
         }
 

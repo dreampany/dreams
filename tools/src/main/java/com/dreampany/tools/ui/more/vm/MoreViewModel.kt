@@ -74,12 +74,12 @@ class MoreViewModel
                 colors.nextColor(Type.MORE.name)
             )
         )*/
-        /*result.add(
+        result.add(
             More(
                 Type.MORE, Subtype.ABOUT, R.drawable.ic_info_black_24dp, R.string.about,
                 colors.nextColor(Type.MORE.name)
             )
-        )*/
+        )
         result
     }
 

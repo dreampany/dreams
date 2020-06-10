@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="company">Dreampany</string>
+    <string name="title_dialog_more">Error</string>
+
+    <string name="company">Dreampany Team</string>
 
     <string name="email">dreampanymail@gmail.com</string>
     <string name="website">http://dreampany.com/</string>

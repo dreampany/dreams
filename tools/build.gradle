@@ -6,6 +6,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 
 android {
     compileSdkVersion 29
@@ -15,8 +16,8 @@ android {
         applicationId 'com.dreampany.tools'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 110
-        versionName '0.1.1.0'
+        versionCode 111
+        versionName '0.1.1.1'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -154,14 +155,10 @@ dependencies {
 
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.1.0'
-    /* {
-         exclude group: 'com.facebook.soloader', module: 'soloader'
-         exclude group: 'com.facebook.fresco', module: 'soloader'
-         exclude group: 'com.facebook.fresco', module: 'nativeimagefilters'
-         exclude group: 'com.facebook.fresco', module: 'nativeimagetranscoder'
-         exclude group: 'com.facebook.fresco', module: 'memory-type-native'
-         exclude group: 'com.facebook.fresco', module: 'imagepipeline-native'
-     }*/
+
+    /* about */
+    implementation "com.mikepenz:aboutlibraries-core:$about"
+    implementation "com.mikepenz:aboutlibraries:$about"
 
     /* misc */
     implementation 'me.relex:circleindicator:2.1.4'

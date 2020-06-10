@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="company">Dreampany</string>
+    <string name="company">Dreampany Team</string>
 
     <string name="email">dreampanymail@gmail.com</string>
     <string name="website">http://dreampany.com/</string>
@@ -13,5 +13,5 @@
     <string name="title_github">Fork us on Github</string>
     <string name="title_play_store">Rate us on the Play Store</string>
 
-    <string name="url_privacy">https://docs.google.com/document/d/e/2PACX-1vSfjpI0osWl33BPbL1FUt_5ZrMI8BEZSa3RgnK9EErlmeWm0mz7i4X2l6BF-92-Y0P_NgCaldDVERTK/pub</string>
+    <string name="url_privacy">https://docs.google.com/document/d/e/2PACX-1vTPGxm8on7UVrrtQpyXIme2zOnu_uFRsTt4M6mumK5V9rBgouFhzCCBCw30_gJrXO9ahwC1xwEUR-Yr/pub</string>
 </resources>

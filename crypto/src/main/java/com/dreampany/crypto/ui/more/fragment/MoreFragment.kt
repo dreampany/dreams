@@ -17,6 +17,8 @@ import com.dreampany.crypto.databinding.RecyclerFragmentBinding
 import com.dreampany.crypto.ui.more.adapter.FastMoreAdapter
 import com.dreampany.crypto.ui.more.model.MoreItem
 import com.dreampany.crypto.ui.more.vm.MoreViewModel
+import com.mikepenz.aboutlibraries.LibsBuilder
+import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -58,7 +60,7 @@ class MoreFragment
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
             adapter = FastMoreAdapter(clickListener = { item: MoreItem ->
-                Timber.v("StationItem: %s", item.item.toString())
+                Timber.v("MoreItem: %s", item.item.toString())
                 onPressed(item.item)
             })
 
@@ -117,7 +119,8 @@ class MoreFragment
                 activity.moreApps(getString(R.string.id_google_play))
             }
             Subtype.ABOUT -> {
-                activity.moreApps(getString(R.string.id_google_play))
+                //activity.moreApps(getString(R.string.id_google_play))
+                LibsBuilder().start(requireContext())
             }
         }
 

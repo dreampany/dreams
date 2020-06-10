@@ -174,12 +174,10 @@ private constructor(
         val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
         val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
-        bind.layoutPrice.textChange1h.text =
-            bind.context.formatString(change1hFormat, change1h)
+       // bind.layoutPrice.textChange1h.text = bind.context.formatString(change1hFormat, change1h)
         bind.layoutPrice.textChange24h.text =
             bind.context.formatString(change24hFormat, change24h)
-        bind.layoutPrice.textChange7d.text =
-            bind.context.formatString(change7dFormat, change7d)
+       // bind.layoutPrice.textChange7d.text = bind.context.formatString(change7dFormat, change7d)
 
         val startColor = R.color.material_grey400
         val endColor =
@@ -189,7 +187,7 @@ private constructor(
 
         val hourChangeColor =
             if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))
+        //bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))
 
         val dayChangeColor =
             if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
@@ -197,14 +195,14 @@ private constructor(
 
         val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
+       // bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
         ) as String
-        bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+        //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
 
         //bind.layoutOptions.buttonFavorite.isLiked = favorite
     }
@@ -274,7 +272,7 @@ private constructor(
             DateUtils.MINUTE_IN_MILLIS
         ) as String
 
-        bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+        //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
         bind.buttonFavorite.isLiked = favorite
     }
 
@@ -299,6 +297,6 @@ private constructor(
             DateUtils.MINUTE_IN_MILLIS
         ) as String
 
-        bind.textLastUpdated.text = lastUpdatedTime
+        //bind.textLastUpdated.text = lastUpdatedTime
     }
 }

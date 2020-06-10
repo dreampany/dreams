@@ -124,9 +124,9 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
             val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
             val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
-            bind.layoutPrice.textChange1h.text = context.formatString(change1hFormat, change1h)
+           // bind.layoutPrice.textChange1h.text = context.formatString(change1hFormat, change1h)
             bind.layoutPrice.textChange24h.text = context.formatString(change24hFormat, change24h)
-            bind.layoutPrice.textChange7d.text = context.formatString(change7dFormat, change7d)
+            //bind.layoutPrice.textChange7d.text = context.formatString(change7dFormat, change7d)
 
             val startColor = R.color.material_grey400
             val endColor =
@@ -136,7 +136,7 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
 
             val hourChangeColor =
                 if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-            bind.layoutPrice.textChange1h.setTextColor(context.color(hourChangeColor))
+            //bind.layoutPrice.textChange1h.setTextColor(context.color(hourChangeColor))
 
             val dayChangeColor =
                 if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
@@ -144,14 +144,14 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
 
             val weekChangeColor =
                 if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-            bind.layoutPrice.textChange7d.setTextColor(context.color(weekChangeColor))
+           // bind.layoutPrice.textChange7d.setTextColor(context.color(weekChangeColor))
 
             val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
                 item.getLastUpdated(),
                 Util.currentMillis(),
                 DateUtils.MINUTE_IN_MILLIS
             ) as String
-            bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+            //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
 
         }
 

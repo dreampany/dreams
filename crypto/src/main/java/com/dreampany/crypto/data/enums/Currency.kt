@@ -17,8 +17,12 @@ enum class Currency(
     val value: String = Constants.Default.STRING
 ) : Parcelable {
 
+    AED(),
+    ARS(),
     AUD(),
     BDT(),
+    BHD(),
+    BMD(),
     BRL(),
     CAD(),
     CHF(),
@@ -50,11 +54,14 @@ enum class Currency(
     TWD(),
     USD(),
     ZAR(),
+    BNB(Type.CRYPTO),
+    EOS(Type.CRYPTO),
     BTC(Type.CRYPTO),
+    BCH(Type.CRYPTO),
     ETH(Type.CRYPTO),
-    XRP(Type.CRYPTO),
     LTC(Type.CRYPTO),
-    BCH(Type.CRYPTO);
+    XLM(Type.CRYPTO),
+    XRP(Type.CRYPTO);
 
     @Parcelize
     enum class Type : Parcelable {
@@ -65,13 +72,9 @@ enum class Currency(
 
     }
 
-    fun isFiat(): Boolean {
-        return type == Type.FIAT
-    }
+    val isFiat: Boolean get() = type == Type.FIAT
 
-    fun isCrypto(): Boolean {
-        return type == Type.CRYPTO
-    }
+    val isCrypto: Boolean get() = type == Type.CRYPTO
 
     companion object {
         private var fiats: Array<Currency>? = null
@@ -79,14 +82,14 @@ enum class Currency(
 
         fun getFiats(): Array<Currency> {
             if (fiats == null) {
-                fiats = values().filter { it.isFiat() }.toTypedArray()
+                fiats = values().filter { it.isFiat }.toTypedArray()
             }
             return fiats!!
         }
 
         fun getCryptos(): Array<Currency> {
             if (cryptos == null) {
-                cryptos = values().filter { it.isCrypto() }.toTypedArray()
+                cryptos = values().filter { it.isCrypto }.toTypedArray()
             }
             return cryptos!!
         }

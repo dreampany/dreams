@@ -73,7 +73,6 @@ private constructor(
             order: Order,
             favorite: Boolean = false
         ): CoinItem = CoinItem(ItemType.QUOTE, item, formatter, currency, sort, order, favorite)
-
     }
 
     @StringRes
@@ -135,6 +134,7 @@ private constructor(
     }
 
     private fun bindItem(bind: CoinItemBinding) {
+        bind.rank.text = item.rank.toString()
         bind.layoutSimple.icon.setUrl(
             String.format(
                 Locale.ENGLISH,
@@ -173,16 +173,16 @@ private constructor(
         bind.layoutPrice.textMarketCap.text = formatter.roundPrice(marketCap, currency)
         bind.layoutPrice.textVolume24h.text = formatter.roundPrice(volume24h, currency)
 
-        val change1hFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
+        //val change1hFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
         val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
-        val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
+        //val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
-        bind.layoutPrice.textChange1h.text =
-            bind.context.formatString(change1hFormat, change1h)
+        /*bind.layoutPrice.textChange1h.text =
+            bind.context.formatString(change1hFormat, change1h)*/
         bind.layoutPrice.textChange24h.text =
             bind.context.formatString(change24hFormat, change24h)
-        bind.layoutPrice.textChange7d.text =
-            bind.context.formatString(change7dFormat, change7d)
+        /*bind.layoutPrice.textChange7d.text =
+            bind.context.formatString(change7dFormat, change7d)*/
 
         val startColor = R.color.material_grey400
         val endColor =
@@ -190,24 +190,24 @@ private constructor(
 
         bind.layoutSimple.textPrice.blink(startColor, endColor)
 
-        val hourChangeColor =
+        /*val hourChangeColor =
             if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))
+        bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))*/
 
         val dayChangeColor =
             if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
         bind.layoutPrice.textChange24h.setTextColor(bind.color(dayChangeColor))
 
-        val weekChangeColor =
+        /*val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
+        bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))*/
 
-        val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+        /*val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
-        ) as String
-        bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+        ) as String*/
+        //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
 
         //bind.layoutOptions.buttonFavorite.isLiked = favorite
     }
@@ -277,7 +277,7 @@ private constructor(
             DateUtils.MINUTE_IN_MILLIS
         ) as String
 
-        bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+        //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
         bind.buttonFavorite.isLiked = favorite
     }
 

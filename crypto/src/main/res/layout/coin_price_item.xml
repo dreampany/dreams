@@ -10,7 +10,7 @@
         android:gravity="end"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <!--<androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -33,7 +33,7 @@
                 android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>-->
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <!--<androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -83,7 +83,7 @@
                 android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>-->
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"

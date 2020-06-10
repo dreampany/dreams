@@ -19,6 +19,16 @@
             android:orientation="horizontal"
             android:padding="@dimen/_8sdp">
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:text="1"
+                android:textColor="@color/material_grey800"
+                android:textSize="@dimen/_14ssp" />
+
             <include
                 android:id="@+id/layout_simple"
                 layout="@layout/coin_simple_item"

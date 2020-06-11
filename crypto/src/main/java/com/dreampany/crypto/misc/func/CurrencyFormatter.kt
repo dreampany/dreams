@@ -110,7 +110,7 @@ class CurrencyFormatter
     fun getSymbol(currency: Currency): String? {
         if (!symbols.containsKey(currency)) {
             var symbol: String? = null
-            if (currency.isCrypto()) {
+            if (currency.isCrypto) {
                 when (currency) {
                     Currency.BTC -> symbol = context.getString(R.string.btc_symbol)
                     Currency.ETH -> symbol = context.getString(R.string.eth_symbol)

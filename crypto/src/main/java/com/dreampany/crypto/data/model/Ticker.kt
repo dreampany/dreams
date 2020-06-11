@@ -22,6 +22,7 @@ data class Ticker(
     var market: Market = Market.DEFAULT,
     var last: Double = Constants.Default.DOUBLE,
     var volume: Double = Constants.Default.DOUBLE,
+    var convertedLast: ConvertedLast = ConvertedLast.DEFAULT,
     var convertedVolume: ConvertedVolume = ConvertedVolume.DEFAULT,
     var timestamp: Long = Constants.Default.LONG,
     var lastTradedAt: Long = Constants.Default.LONG,
@@ -46,5 +47,5 @@ data class Ticker(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String = "Coin ($id) == $id"
+    override fun toString(): String = "Ticker ($id) == $id"
 }

@@ -17,7 +17,7 @@ data class GeckoTicker(
     @SerializedName("converted_last")
     val convertedLast: GeckoConvertedLast,
     @SerializedName("converted_volume")
-    val convertedVolume: GeckoConvertedLast,
+    val convertedVolume: GeckoConvertedVolume,
     val timestamp: String,
     @SerializedName("last_traded_at")
     val lastTradedAt: String,

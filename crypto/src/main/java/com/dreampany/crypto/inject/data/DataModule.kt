@@ -4,16 +4,21 @@ import android.app.Application
 import android.content.Context
 import com.dreampany.crypto.api.inject.data.CoinMarketCapModule
 import com.dreampany.crypto.api.inject.data.CryptoCompareModule
+import com.dreampany.crypto.api.inject.data.GeckoModule
 import com.dreampany.crypto.api.remote.service.CoinMarketCapService
 import com.dreampany.crypto.api.remote.service.CryptoCompareService
+import com.dreampany.crypto.api.remote.service.GeckoService
 import com.dreampany.crypto.data.source.api.CoinDataSource
 import com.dreampany.crypto.data.source.api.ExchangeDataSource
+import com.dreampany.crypto.data.source.api.TickerDataSource
 import com.dreampany.crypto.data.source.api.TradeDataSource
 import com.dreampany.crypto.data.source.mapper.CoinMapper
 import com.dreampany.crypto.data.source.mapper.ExchangeMapper
+import com.dreampany.crypto.data.source.mapper.TickerMapper
 import com.dreampany.crypto.data.source.mapper.TradeMapper
 import com.dreampany.crypto.data.source.remote.CoinRemoteDataSource
 import com.dreampany.crypto.data.source.remote.ExchangeRemoteDataSource
+import com.dreampany.crypto.data.source.remote.TickerRemoteDataSource
 import com.dreampany.crypto.data.source.remote.TradeRemoteDataSource
 import com.dreampany.crypto.data.source.room.CoinRoomDataSource
 import com.dreampany.crypto.data.source.room.dao.CoinDao
@@ -39,7 +44,8 @@ import javax.inject.Singleton
     includes = [
         StoreModule::class,
         CoinMarketCapModule::class,
-        CryptoCompareModule::class
+        CryptoCompareModule::class,
+        GeckoModule::class
     ]
 )
 class DataModule {
@@ -100,4 +106,16 @@ class DataModule {
         mapper: ExchangeMapper,
         service: CryptoCompareService
     ): ExchangeDataSource = ExchangeRemoteDataSource(context, network, parser, keys, mapper, service)
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideTickerRemoteDataSource(
+        context: Context,
+        network: NetworkManager,
+        parser: Parser,
+        keys: Keys,
+        mapper: TickerMapper,
+        service: GeckoService
+    ): TickerDataSource = TickerRemoteDataSource(context, network, parser, keys, mapper, service)
 }

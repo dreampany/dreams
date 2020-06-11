@@ -1,6 +1,5 @@
 package com.dreampany.crypto.api.model.gecko
 
-import com.dreampany.framework.misc.constant.Constants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -19,9 +18,9 @@ data class GeckoTicker(
     val convertedLast: GeckoConvertedLast,
     @SerializedName("converted_volume")
     val convertedVolume: GeckoConvertedLast,
-    val timestamp: Long,
+    val timestamp: String,
     @SerializedName("last_traded_at")
-    val lastTradedAt: Long,
+    val lastTradedAt: String,
     @SerializedName("last_fetch_at")
-    val lastFetchAt: Long
+    val lastFetchAt: String
 )

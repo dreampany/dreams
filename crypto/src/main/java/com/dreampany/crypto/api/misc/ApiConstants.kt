@@ -120,6 +120,13 @@ class ApiConstants {
         const val TO_SYMBOL = "tsym"
     }
 
+    object Gecko {
+        const val BASE_URL = "https://api.coingecko.com/api/v3/"
+
+        const val TICKERS  = "coins/{id}/tickers"
+        const val ID  = "id"
+    }
+
     object NewsApi {
         const val API_KEY_ROMAN_BJIT = "27e17471f26047a893bc0824c323799d"
 

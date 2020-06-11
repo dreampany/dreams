@@ -1,8 +1,10 @@
 package com.dreampany.crypto.api.inject.data
 
 import com.dreampany.crypto.api.inject.CoinMarketCapAnnote
+import com.dreampany.crypto.api.inject.GeckoAnnote
 import com.dreampany.crypto.api.misc.ApiConstants
 import com.dreampany.crypto.api.remote.service.CoinMarketCapService
+import com.dreampany.crypto.api.remote.service.GeckoService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -12,26 +14,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 /**
- * Created by roman on 2019-11-12
- * Copyright (c) 2019 bjit. All rights reserved.
+ * Created by roman on 11/6/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @Module
-class CoinMarketCapModule {
-
+class GeckoModule {
     @Singleton
     @Provides
-    @CoinMarketCapAnnote
-    fun provideCoinMarketCapRetrofit(gson: Gson, httpClient: OkHttpClient) =
+    @GeckoAnnote
+    fun provideGeckoRetrofit(gson: Gson, httpClient: OkHttpClient) =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(ApiConstants.CoinMarketCap.BASE_URL)
+            .baseUrl(ApiConstants.Gecko.BASE_URL)
             .client(httpClient)
             .build()
 
     @Singleton
     @Provides
-    fun provideCoinMarketCapService(@CoinMarketCapAnnote retrofit: Retrofit) =
-        retrofit.create(CoinMarketCapService::class.java)
+    fun provideGeckoService(@GeckoAnnote retrofit: Retrofit) =
+        retrofit.create(GeckoService::class.java)
 }

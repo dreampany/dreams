@@ -21,4 +21,9 @@ annotation class CryptoCompareAnnote
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
+annotation class GeckoAnnote
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
 annotation class NewsApiAnnote

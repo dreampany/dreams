@@ -22,17 +22,15 @@ class NewsApiModule {
     @Singleton
     @Provides
     @NewsApiAnnote
-    fun provideNewsApiRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provideNewsApiRetrofit(gson: Gson, httpClient: OkHttpClient) =
+        Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(ApiConstants.NewsApi.BASE_URL)
             .client(httpClient)
             .build()
-    }
 
     @Singleton
     @Provides
-    fun provideNewsApiService(@NewsApiAnnote retrofit: Retrofit): NewsApiService {
-        return retrofit.create(NewsApiService::class.java);
-    }
+    fun provideNewsApiService(@NewsApiAnnote retrofit: Retrofit) =
+        retrofit.create(NewsApiService::class.java)
 }

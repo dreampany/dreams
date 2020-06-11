@@ -74,7 +74,7 @@ class TickersFragment
 
     private fun loadTickers() {
         if (::input.isInitialized) {
-            vm.loadTickers(input.symbol)
+            vm.loadTickers(input.slug)
         }
     }
 

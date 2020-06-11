@@ -1,5 +1,6 @@
 package com.dreampany.crypto.api.model.gecko
 
+import com.dreampany.framework.misc.constant.Constants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -11,5 +12,7 @@ import com.google.gson.annotations.SerializedName
 data class GeckoMarket(
     @SerializedName("identifier")
     val id: String,
-    val name: String
+    val name: String,
+    @SerializedName("logo")
+    val image: String? = Constants.Default.NULL
 )

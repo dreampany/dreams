@@ -132,6 +132,7 @@ class ApiConstants {
 
         const val TICKERS  = "coins/{id}/tickers"
         const val ID  = "id"
+        const val INCLUDE_IMAGE  = "include_exchange_logo"
     }
 
     object NewsApi {

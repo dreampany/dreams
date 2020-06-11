@@ -31,7 +31,7 @@ class TickerRemoteDataSource(
     @Throws
     override suspend fun getTickers(id: String): List<Ticker>? {
         try {
-            val response = service.tickers(header, id).execute()
+            val response = service.tickers(header, id, true).execute()
             if (response.isSuccessful) {
                 val data = response.body()?.tickers ?: return null
                 return mapper.getItems(data)

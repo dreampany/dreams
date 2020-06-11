@@ -13,9 +13,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Market(
     val id: String,
-    val name: String
+    val name: String,
+    val image: String?
 ) : BaseParcel() {
     companion object {
-        val DEFAULT = Market(Constants.Default.STRING, Constants.Default.STRING)
+        val DEFAULT = Market(Constants.Default.STRING, Constants.Default.STRING, Constants.Default.NULL)
     }
 }

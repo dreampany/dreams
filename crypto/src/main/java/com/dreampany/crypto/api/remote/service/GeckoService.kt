@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Created by roman on 11/6/20
@@ -17,6 +18,7 @@ interface GeckoService {
     @GET(ApiConstants.Gecko.TICKERS)
     fun tickers(
         @HeaderMap headers: Map<String, String>,
-        @Path(ApiConstants.Gecko.ID) id: String
+        @Path(ApiConstants.Gecko.ID) id: String,
+        @Query(ApiConstants.Gecko.INCLUDE_IMAGE) includeImage: Boolean
     ): Call<GeckoTickersResponse>
 }

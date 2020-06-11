@@ -2,6 +2,7 @@ package com.dreampany.crypto.inject.ui.home
 
 import com.dreampany.crypto.ui.home.fragment.InfoFragment
 import com.dreampany.crypto.ui.home.fragment.MarketFragment
+import com.dreampany.crypto.ui.home.fragment.TickersFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -18,4 +19,7 @@ abstract class CoinModule {
 
     @ContributesAndroidInjector
     abstract fun market(): MarketFragment
+
+    @ContributesAndroidInjector
+    abstract fun tickers(): TickersFragment
 }

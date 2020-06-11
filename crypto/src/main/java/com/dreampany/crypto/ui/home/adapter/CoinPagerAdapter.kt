@@ -9,7 +9,7 @@ import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.ui.home.fragment.InfoFragment
-import com.dreampany.crypto.ui.home.fragment.MarketFragment
+import com.dreampany.crypto.ui.home.fragment.TickersFragment
 import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
 
@@ -46,10 +46,10 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
         )
         addItem(
             com.dreampany.framework.misc.extension.createFragment(
-                MarketFragment::class,
+                TickersFragment::class,
                 market
             ),
-            R.string.title_coin_market,
+            R.string.title_coin_markets,
             true
         )
     }

@@ -75,7 +75,7 @@ class TickerMapper
         get() {
             var out: Market? = markets.get(id)
             if (out == null) {
-                out = Market(id, name)
+                out = Market(id, name, image)
                 markets.put(id, out)
             }
             return out

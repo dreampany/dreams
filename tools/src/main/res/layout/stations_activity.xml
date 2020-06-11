@@ -55,8 +55,8 @@
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
                     android:layout_gravity="bottom"
+                    android:background="@android:color/transparent"
                     auto:tabGravity="fill"
                     auto:tabIndicatorColor="@android:color/white"
                     auto:tabMode="scrollable"
@@ -68,17 +68,11 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
-            auto:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/layout_pager"
             layout="@layout/content_pager_ad"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-       <!-- <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            auto:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

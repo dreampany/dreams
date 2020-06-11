@@ -5,4 +5,5 @@
     <item name="adapter_coin_info_item_id" type="id" />
     <item name="adapter_coin_quote_item_id" type="id" />
     <item name="adapter_exchange_item_id" type="id" />
+    <item name="adapter_ticker_item_id" type="id" />
 </resources>

@@ -36,6 +36,15 @@ class CurrencyFormatter
     private val MAP: NavigableMap<BigInteger, String>
     private val symbols: MutableMap<Currency, String>
 
+    @StringRes
+    private val btcFormat: Int
+
+    @StringRes
+    private val positiveRatio: Int
+
+    @StringRes
+    private val negativeRatio: Int
+
     init {
         formats = Maps.newConcurrentMap()
         cryptos = Sets.newHashSet(*Currency.getCryptos())
@@ -46,6 +55,10 @@ class CurrencyFormatter
             MAP[THOUSAND.pow(i + 1)] = NAMES[i]
         }
         loadFormats()
+
+        btcFormat = R.string.btc_format
+        positiveRatio = R.string.positive_ratio_format
+        negativeRatio = R.string.negative_ratio_format
     }
 
     private fun loadFormats() {
@@ -110,7 +123,7 @@ class CurrencyFormatter
     fun getSymbol(currency: Currency): String? {
         if (!symbols.containsKey(currency)) {
             var symbol: String? = null
-            if (currency.isCrypto()) {
+            if (currency.isCrypto) {
                 when (currency) {
                     Currency.BTC -> symbol = context.getString(R.string.btc_symbol)
                     Currency.ETH -> symbol = context.getString(R.string.eth_symbol)

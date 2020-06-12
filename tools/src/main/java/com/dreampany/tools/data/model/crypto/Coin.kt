@@ -36,9 +36,9 @@ import java.util.*
 data class Coin(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var name: String? = Constants.Default.NULL,
-    var symbol: String? = Constants.Default.NULL,
-    var slug: String? = Constants.Default.NULL,
+    var name: String = Constants.Default.STRING,
+    var symbol: String = Constants.Default.STRING,
+    var slug: String = Constants.Default.STRING,
     @ColumnInfo(name = AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constants.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Coin.MAX_SUPPLY)

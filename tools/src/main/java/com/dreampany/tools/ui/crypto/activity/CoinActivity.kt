@@ -11,8 +11,10 @@ import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinActivityBinding
+import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.adapter.CoinPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import javax.inject.Inject
 
 /**
  * Created by roman on 26/4/20
@@ -21,6 +23,9 @@ import com.google.android.material.tabs.TabLayoutMediator
  * Last modified $file.lastModified
  */
 class CoinActivity : InjectActivity() {
+
+    @Inject
+    internal lateinit var ad: AdManager
 
     private lateinit var bind: CoinActivityBinding
     private lateinit var adapter: CoinPagerAdapter
@@ -38,11 +43,23 @@ class CoinActivity : InjectActivity() {
         input = task.input ?: return
         initUi()
         initPager()
+        initAd()
         setTitle(input.name)
         loadUi()
+        ad.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ad.resumeBanner(this.javaClass.simpleName)
+    }
+
+    override fun onPause() {
+        ad.pauseBanner(this.javaClass.simpleName)
+        super.onPause()
     }
 
     private fun initUi() {
@@ -54,13 +71,23 @@ class CoinActivity : InjectActivity() {
 
     private fun initPager() {
         adapter = CoinPagerAdapter(this)
-        bind.pager.adapter = adapter
+        bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
             bind.tabs,
-            bind.pager,
+            bind.layoutPager.pager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
+    }
+
+    private fun initAd() {
+        ad.initAd(
+            this,
+            this.javaClass.simpleName,
+            findViewById(R.id.adview),
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
+        )
     }
 
     private fun loadUi() {

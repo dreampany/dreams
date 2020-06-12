@@ -9,6 +9,7 @@ import com.dreampany.framework.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.inject.data.CoinMarketCapModule
 import com.dreampany.tools.api.crypto.inject.data.CryptoCompareModule
+import com.dreampany.tools.api.crypto.inject.data.GeckoModule
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
@@ -37,7 +38,8 @@ import javax.inject.Singleton
 @Module(
     includes = [
         CoinMarketCapModule::class,
-        CryptoCompareModule::class
+        CryptoCompareModule::class,
+        GeckoModule::class
     ]
 )
 class CryptoModule {
@@ -98,7 +100,8 @@ class CryptoModule {
         keys: Keys,
         mapper: ExchangeMapper,
         service: CryptoCompareService
-    ): ExchangeDataSource = ExchangeRemoteDataSource(context, network, parser, keys, mapper, service)
+    ): ExchangeDataSource =
+        ExchangeRemoteDataSource(context, network, parser, keys, mapper, service)
 /*
 
     @Singleton

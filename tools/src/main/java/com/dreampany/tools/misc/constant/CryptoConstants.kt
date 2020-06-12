@@ -55,6 +55,21 @@ class CryptoConstants {
 
     }
 
+    object Gecko {
+        const val ACCEPT = "Accept"
+        const val ACCEPT_ENCODING = "Accept-Encoding"
+
+        const val ACCEPT_JSON = "application/json"
+        const val ACCEPT_ZIP = "deflate, gzip"
+
+        const val BASE_URL = "https://api.coingecko.com/api/v3/"
+
+
+        const val TICKERS  = "coins/{id}/tickers"
+        const val ID  = "id"
+        const val INCLUDE_IMAGE  = "include_exchange_logo"
+    }
+
     object Keys {
         object PrefKeys {
             const val CRYPTO = "crypto"

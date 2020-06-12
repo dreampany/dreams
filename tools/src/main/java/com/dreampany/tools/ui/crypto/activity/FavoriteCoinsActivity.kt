@@ -5,10 +5,10 @@ import android.view.Menu
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.extension.init
-import com.dreampany.framework.misc.extension.open
-import com.dreampany.framework.misc.extension.refresh
-import com.dreampany.framework.misc.extension.toTint
+import com.dreampany.framework.misc.exts.init
+import com.dreampany.framework.misc.exts.open
+import com.dreampany.framework.misc.exts.refresh
+import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask

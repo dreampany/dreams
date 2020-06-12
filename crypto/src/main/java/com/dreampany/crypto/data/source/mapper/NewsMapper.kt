@@ -10,10 +10,10 @@ import com.dreampany.crypto.data.source.pref.NewsPref
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.extension.isExpired
-import com.dreampany.framework.misc.extension.sub
-import com.dreampany.framework.misc.extension.utc
-import com.dreampany.framework.misc.extension.value
+import com.dreampany.framework.misc.exts.isExpired
+import com.dreampany.framework.misc.exts.sub
+import com.dreampany.framework.misc.exts.utc
+import com.dreampany.framework.misc.exts.value
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject

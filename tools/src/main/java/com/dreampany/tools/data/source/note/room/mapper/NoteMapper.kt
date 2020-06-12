@@ -1,20 +1,13 @@
 package com.dreampany.tools.data.source.note.room.mapper
 
-import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.extension.randomId
-import com.dreampany.framework.misc.extension.sub
-import com.dreampany.framework.misc.extension.value
-import com.dreampany.tools.data.enums.crypto.CoinSort
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.framework.misc.exts.randomId
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.data.enums.note.NoteState
 import com.dreampany.tools.data.enums.note.NoteSubtype
 import com.dreampany.tools.data.enums.note.NoteType
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.note.Note
-import com.dreampany.tools.data.source.crypto.api.CoinDataSource
-import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.data.source.note.api.NoteDataSource
 import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.data.source.note.room.dao.NoteDao

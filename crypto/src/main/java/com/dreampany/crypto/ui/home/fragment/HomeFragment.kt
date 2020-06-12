@@ -19,7 +19,7 @@ import com.dreampany.crypto.ui.home.model.CoinItem
 import com.dreampany.crypto.ui.home.vm.CoinViewModel
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -195,7 +195,7 @@ class HomeFragment
     }
 
     private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
+        vm.toggleFavorite(item.input, CoinItem.ItemType.ITEM)
     }
 
 
@@ -205,7 +205,7 @@ class HomeFragment
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.VIEW,
-            item.item
+            item.input
         )
         open(CoinActivity::class, task)
     }

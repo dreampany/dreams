@@ -2,7 +2,7 @@ package com.dreampany.framework.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.isExpired
+import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.util.Util
 import javax.inject.Inject
 import javax.inject.Singleton

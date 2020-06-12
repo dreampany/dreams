@@ -78,7 +78,7 @@ class CoinViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItems(favorite))
+                postResult(result?.toItem(CoinItem.ItemType.ITEM, favorite))
             }
         }
     }
@@ -121,7 +121,7 @@ class CoinViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem( itemType, favorite), state = State.FAVORITE)
+                postResult(result?.toItem(itemType, favorite), state = State.FAVORITE)
             }
         }
     }
@@ -158,15 +158,29 @@ class CoinViewModel
             val currency = pref.getCurrency()
             val sort = pref.getSort()
             val order = pref.getOrder()
-            when(itemType) {
-                CoinItem.ItemType.ITEM-> {
+            when (itemType) {
+                CoinItem.ItemType.ITEM -> {
                     CoinItem.getItem(input, formatter, currency, sort, order, favorite = favorite)
                 }
-                CoinItem.ItemType.INFO-> {
-                    CoinItem.getInfoItem(input, formatter, currency, sort, order, favorite = favorite)
+                CoinItem.ItemType.INFO -> {
+                    CoinItem.getInfoItem(
+                        input,
+                        formatter,
+                        currency,
+                        sort,
+                        order,
+                        favorite = favorite
+                    )
                 }
-                CoinItem.ItemType.QUOTE-> {
-                    CoinItem.getQuoteItem(input, formatter, currency, sort, order, favorite = favorite)
+                CoinItem.ItemType.QUOTE -> {
+                    CoinItem.getQuoteItem(
+                        input,
+                        formatter,
+                        currency,
+                        sort,
+                        order,
+                        favorite = favorite
+                    )
                 }
             }
         }

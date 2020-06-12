@@ -37,7 +37,7 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
             input
         )
         addItem(
-            com.dreampany.framework.misc.extension.createFragment(
+            com.dreampany.framework.misc.exts.createFragment(
                 InfoFragment::class,
                 info
             ),
@@ -45,7 +45,7 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
             true
         )
         addItem(
-            com.dreampany.framework.misc.extension.createFragment(
+            com.dreampany.framework.misc.exts.createFragment(
                 TickersFragment::class,
                 market
             ),

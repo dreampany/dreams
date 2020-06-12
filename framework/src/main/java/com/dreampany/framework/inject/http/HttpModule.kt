@@ -2,7 +2,7 @@ package com.dreampany.framework.inject.http
 
 import android.content.Context
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import dagger.Module
 import dagger.Provides
 import okhttp3.ConnectionPool

@@ -1,13 +1,12 @@
 package com.dreampany.framework.ui.vm
 
 import android.app.Application
-import android.os.Parcelable
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.extension.reObserve
+import com.dreampany.framework.misc.exts.reObserve
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask

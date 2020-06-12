@@ -7,7 +7,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.func.TextChangeListener
 import com.dreampany.framework.misc.util.NotifyUtil

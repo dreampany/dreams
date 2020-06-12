@@ -1,10 +1,13 @@
 package com.dreampany.crypto.misc.func
 
 import android.content.Context
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.exts.color
 import com.google.common.collect.Maps
 import com.google.common.collect.Sets
 import java.math.BigDecimal
@@ -60,6 +63,14 @@ class CurrencyFormatter
         positiveRatio = R.string.positive_ratio_format
         negativeRatio = R.string.negative_ratio_format
     }
+
+    @StringRes
+    fun getRatio(value: Double): Int =
+        if (value >= 0.0f) positiveRatio else negativeRatio
+
+    @ColorInt
+    fun getColor(value: Double): Int =
+        context.color(if (value >= 0.0f) R.color.material_green700 else R.color.material_red700)
 
     private fun loadFormats() {
         formats[Currency.BTC.name] = context.getString(R.string.btc_format)
@@ -143,6 +154,13 @@ class CurrencyFormatter
         val symbol = getSymbol(currency)
         val amount = roundPrice(price)
         return symbol + Constants.Sep.SPACE + amount
+    }
+
+    fun roundPrice(@StringRes formatRes : Int, price: Double, currency: Currency): String {
+        val symbol = getSymbol(currency)
+        val amount = roundPrice(price)
+        //return symbol + Constants.Sep.SPACE + amount
+        return context.getString(formatRes, symbol, amount)
     }
 
     fun formatPrice(price: Double, currency: Currency): String? {

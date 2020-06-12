@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.moreApps
-import com.dreampany.framework.misc.extension.rateUs
+import com.dreampany.framework.misc.exts.moreApps
+import com.dreampany.framework.misc.exts.rateUs
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.enums.Action

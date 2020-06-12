@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.exts
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager

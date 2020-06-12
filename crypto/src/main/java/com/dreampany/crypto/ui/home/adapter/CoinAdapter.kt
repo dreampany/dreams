@@ -9,10 +9,9 @@ import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.databinding.CoinItemBinding
-import com.dreampany.crypto.misc.exts.setUrl
 import com.dreampany.crypto.misc.func.CurrencyFormatter
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.framework.ui.adapter.BaseAdapter
 import com.dreampany.framework.ui.adapter.SearchAdapter

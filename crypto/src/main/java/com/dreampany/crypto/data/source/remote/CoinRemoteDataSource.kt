@@ -12,7 +12,7 @@ import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.data.source.api.CoinDataSource
 import com.dreampany.crypto.data.source.mapper.CoinMapper
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError

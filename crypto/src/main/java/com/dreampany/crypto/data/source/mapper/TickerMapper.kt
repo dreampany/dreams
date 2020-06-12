@@ -10,7 +10,7 @@ import com.dreampany.crypto.data.model.Market
 import com.dreampany.crypto.data.model.Ticker
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.extension.utc
+import com.dreampany.framework.misc.exts.utc
 import com.google.common.collect.Maps
 import javax.inject.Inject
 import javax.inject.Singleton

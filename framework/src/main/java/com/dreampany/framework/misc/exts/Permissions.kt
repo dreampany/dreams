@@ -1,11 +1,10 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.exts
 
 import android.Manifest.permission.*
 import android.app.AppOpsManager
 import android.app.AppOpsManager.MODE_ALLOWED
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Build
 import android.os.Process
 import android.provider.Settings

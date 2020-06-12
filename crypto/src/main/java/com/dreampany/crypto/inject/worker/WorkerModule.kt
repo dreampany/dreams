@@ -2,6 +2,7 @@ package com.dreampany.crypto.inject.worker
 
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
+import com.dreampany.crypto.worker.CryptoWorker
 import com.dreampany.framework.inject.annote.WorkerKey
 import com.dreampany.framework.worker.IWorkerFactory
 import com.dreampany.framework.worker.WorkerInjectFactory
@@ -25,6 +26,6 @@ abstract class WorkerModule {
 
     @Binds
     @IntoMap
-    @WorkerKey(DemoWorker::class)
-    abstract fun bindDemoWorker(worker: DemoWorker.Factory): IWorkerFactory<out ListenableWorker>
+    @WorkerKey(CryptoWorker::class)
+    abstract fun bindCryptoWorker(worker: CryptoWorker.Factory): IWorkerFactory<out ListenableWorker>
 }

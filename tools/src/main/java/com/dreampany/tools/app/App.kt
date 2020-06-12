@@ -2,7 +2,7 @@ package com.dreampany.tools.app
 
 import android.annotation.SuppressLint
 import com.dreampany.framework.app.InjectApp
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.tools.R
 import com.dreampany.tools.inject.app.DaggerAppComponent
 import com.dreampany.tools.manager.AdManager

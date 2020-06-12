@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.exts
 
 import java.io.File
 import java.text.SimpleDateFormat

@@ -5,9 +5,7 @@ import android.content.Context
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
-import com.dreampany.adapter.value
-import com.dreampany.framework.misc.extension.isMinQ
-import com.dreampany.framework.misc.util.Util
+import com.dreampany.framework.misc.exts.isMinQ
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*

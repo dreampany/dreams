@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.crypto.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.extension.utc
+import com.dreampany.framework.misc.exts.utc
 import com.dreampany.tools.api.crypto.model.gecko.GeckoConvertedLast
 import com.dreampany.tools.api.crypto.model.gecko.GeckoConvertedVolume
 import com.dreampany.tools.api.crypto.model.gecko.GeckoMarket

@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.more.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.extension.context
+import com.dreampany.framework.misc.exts.context
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.more.More
 import com.dreampany.tools.databinding.MoreItemBinding

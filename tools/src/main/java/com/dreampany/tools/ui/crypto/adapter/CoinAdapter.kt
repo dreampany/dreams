@@ -4,7 +4,7 @@ import android.text.format.DateUtils
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.framework.ui.adapter.BaseAdapter
 import com.dreampany.framework.ui.adapter.SearchAdapter
@@ -15,7 +15,7 @@ import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.misc.func.CurrencyFormatter
-import com.dreampany.tools.misc.extension.setUrl
+import com.dreampany.tools.misc.exts.setUrl
 import java.util.*
 
 /**

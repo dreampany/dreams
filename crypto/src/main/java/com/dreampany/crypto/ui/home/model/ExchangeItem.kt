@@ -7,8 +7,8 @@ import com.dreampany.crypto.R
 import com.dreampany.crypto.data.model.Exchange
 import com.dreampany.crypto.databinding.ExchangeItemBinding
 import com.dreampany.crypto.misc.func.CurrencyFormatter
-import com.dreampany.framework.misc.extension.color
-import com.dreampany.framework.misc.extension.context
+import com.dreampany.framework.misc.exts.color
+import com.dreampany.framework.misc.exts.context
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 

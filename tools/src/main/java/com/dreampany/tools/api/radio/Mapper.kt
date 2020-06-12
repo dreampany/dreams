@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.radio
 
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.parseInt
+import com.dreampany.framework.misc.exts.parseInt
 import com.dreampany.tools.misc.constant.RadioConstants
 import okhttp3.Response
 

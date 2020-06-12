@@ -15,9 +15,9 @@ import com.dreampany.crypto.ui.home.model.TickerItem
 import com.dreampany.crypto.ui.home.vm.TickerViewModel
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.init
-import com.dreampany.framework.misc.extension.refresh
-import com.dreampany.framework.misc.extension.task
+import com.dreampany.framework.misc.exts.init
+import com.dreampany.framework.misc.exts.refresh
+import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask

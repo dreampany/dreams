@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.moreApps
-import com.dreampany.framework.misc.extension.rateUs
+import com.dreampany.framework.misc.exts.moreApps
+import com.dreampany.framework.misc.exts.rateUs
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
@@ -18,7 +18,6 @@ import com.dreampany.tools.ui.more.adapter.FastMoreAdapter
 import com.dreampany.tools.ui.more.model.MoreItem
 import com.dreampany.tools.ui.more.vm.MoreViewModel
 import com.mikepenz.aboutlibraries.LibsBuilder
-import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 

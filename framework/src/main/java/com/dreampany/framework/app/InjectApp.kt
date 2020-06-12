@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import androidx.multidex.MultiDex
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.worker.WorkerManager
 import dagger.android.DaggerApplication
 import timber.log.Timber

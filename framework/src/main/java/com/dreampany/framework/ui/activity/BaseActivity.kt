@@ -17,8 +17,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.fragment
-import com.dreampany.framework.misc.extension.open
+import com.dreampany.framework.misc.exts.fragment
+import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.func.Executors
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.ui.callback.Callback

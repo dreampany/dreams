@@ -1,4 +1,4 @@
-3e3<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,31 +24,12 @@
                     android:layout_height="match_parent">
 
                     <include
-                        android:id="@+id/layout_recycler"
-                        layout="@layout/content_recycler_ad"
+                        android:id="@+id/layout_info"
+                        layout="@layout/coin_info"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </FrameLayout>
             </com.dreampany.stateful.StatefulLayout>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/fab_margin"
-                android:backgroundTint="?attr/colorAccent"
-                android:tint="@color/material_white"
-                android:visibility="gone"
-                auto:backgroundTint="?attr/colorAccent"
-                auto:elevation="6dp"
-                auto:rippleColor="@color/material_white"
-                auto:srcCompat="@drawable/ic_add_black_24dp"
-                auto:tint="@color/material_white" />
-
         </RelativeLayout>
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

@@ -3,14 +3,13 @@ package com.dreampany.tools.data.source.wifi.mapper
 import android.net.wifi.ScanResult
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.extension.sub
-import com.dreampany.framework.misc.extension.value
+import com.dreampany.framework.misc.exts.sub
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.data.model.wifi.Signal
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.google.common.collect.Maps
-import org.apache.commons.lang3.builder.CompareToBuilder
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject

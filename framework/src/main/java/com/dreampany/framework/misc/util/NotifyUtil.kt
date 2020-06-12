@@ -15,7 +15,7 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.extension.isMinO
+import com.dreampany.framework.misc.exts.isMinO
 
 /**
  * Created by roman on 15/4/20

@@ -4,7 +4,7 @@ import android.content.Context
 import com.dreampany.framework.data.model.Property
 import com.dreampany.framework.inject.http.HttpModule
 import com.dreampany.framework.inject.json.JsonModule
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.exts
 
 /**
  * Created by roman on 10/5/20

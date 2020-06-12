@@ -7,8 +7,8 @@ import com.dreampany.adapter.FlexibleAdapter
 import com.dreampany.adapter.holder.FlexibleViewHolder
 import com.dreampany.adapter.item.FlexibleItem
 import com.dreampany.adapter.item.IFlexible
-import com.dreampany.framework.misc.extension.dpToPx
-import com.dreampany.framework.misc.extension.screenWidth
+import com.dreampany.framework.misc.exts.dpToPx
+import com.dreampany.framework.misc.exts.screenWidth
 import com.google.common.base.Objects
 
 /**

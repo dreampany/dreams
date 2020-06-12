@@ -2,7 +2,7 @@ package com.dreampany.crypto.ui.more.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.extension.context
+import com.dreampany.framework.misc.exts.context
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.model.more.More
 import com.dreampany.crypto.databinding.MoreItemBinding

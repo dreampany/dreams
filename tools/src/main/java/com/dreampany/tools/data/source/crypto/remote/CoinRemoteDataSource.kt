@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.crypto.remote
 import android.content.Context
 import androidx.annotation.IntRange
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError

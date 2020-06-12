@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.note.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.extension.format
+import com.dreampany.framework.misc.exts.format
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.databinding.NoteItemBinding

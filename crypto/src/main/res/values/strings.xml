@@ -65,5 +65,10 @@
     <string name="notify_title_news">Crypto News</string>
 
     <string name="format_currency_pair">%s/%s</string>
-    <string name="format_volume_price">Vol %s</string>
+    <string name="format_volume_price">%s (Vol)</string>
+    <string name="format_1h_change_price">%s (1H)</string>
+    <string name="format_24h_change_price">%s (24H)</string>
+    <string name="format_7h_change_price">%s (7D)</string>
+    <string name="format_symbol_price">%s %s</string>
+    <string name="format_supply_price">Supply: %s %s</string>
 </resources>

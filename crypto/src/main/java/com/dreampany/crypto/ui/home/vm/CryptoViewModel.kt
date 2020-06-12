@@ -13,7 +13,7 @@ import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.crypto.misc.func.CurrencyFormatter
 import com.dreampany.crypto.ui.home.activity.HomeActivity
 import com.dreampany.framework.api.notify.NotifyManager
-import com.dreampany.framework.misc.extension.value
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask

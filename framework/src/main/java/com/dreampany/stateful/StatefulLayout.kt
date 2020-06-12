@@ -5,12 +5,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.*
-import com.dreampany.framework.misc.extension.inflate
-import com.dreampany.framework.misc.extension.inflater
+import com.dreampany.framework.misc.exts.inflate
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.HashSet

@@ -6,7 +6,7 @@ import com.dreampany.crypto.api.remote.service.CryptoCompareService
 import com.dreampany.crypto.data.model.Exchange
 import com.dreampany.crypto.data.source.api.ExchangeDataSource
 import com.dreampany.crypto.data.source.mapper.ExchangeMapper
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError

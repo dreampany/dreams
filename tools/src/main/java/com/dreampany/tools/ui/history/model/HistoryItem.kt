@@ -2,8 +2,8 @@ package com.dreampany.tools.ui.history.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.extension.context
-import com.dreampany.framework.misc.extension.html
+import com.dreampany.framework.misc.exts.context
+import com.dreampany.framework.misc.exts.html
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.databinding.HistoryItemBinding

@@ -3,8 +3,10 @@ package com.dreampany.crypto.app
 import com.dreampany.crypto.R
 import com.dreampany.crypto.inject.app.DaggerAppComponent
 import com.dreampany.crypto.manager.AdManager
+import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.worker.CryptoWorker
 import com.dreampany.framework.app.InjectApp
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
@@ -41,6 +43,7 @@ class App : InjectApp() {
         initAd()
         initFresco()
         startAppIndex()
+        configWork()
     }
 
     override fun onClose() {
@@ -96,5 +99,9 @@ class App : InjectApp() {
     private fun stopAppIndex() {
         if (isDebug) return
         FirebaseUserActions.getInstance().end(action)
+    }
+
+    private fun configWork() {
+        worker.createPeriodic(CryptoWorker::class, AppConstants.Times.WORKER, TimeUnit.HOURS)
     }
 }

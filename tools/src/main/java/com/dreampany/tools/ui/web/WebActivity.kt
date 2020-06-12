@@ -3,9 +3,9 @@ package com.dreampany.tools.ui.web
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
-import com.dreampany.framework.misc.extension.task
-import com.dreampany.framework.misc.extension.toTint
+import com.dreampany.framework.misc.exts.setOnSafeClickListener
+import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.WebActivityBinding

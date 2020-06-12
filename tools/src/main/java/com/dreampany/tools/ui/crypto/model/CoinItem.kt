@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.viewbinding.ViewBinding
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.R
 import com.dreampany.tools.misc.constant.CryptoConstants
@@ -17,7 +17,7 @@ import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.databinding.CoinQuoteItemBinding
 import com.dreampany.tools.misc.func.CurrencyFormatter
-import com.dreampany.tools.misc.extension.setUrl
+import com.dreampany.tools.misc.exts.setUrl
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 import java.util.*

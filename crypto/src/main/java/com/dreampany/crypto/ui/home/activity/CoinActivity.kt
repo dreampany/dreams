@@ -4,16 +4,19 @@ import android.os.Bundle
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.databinding.CoinActivityBinding
 import com.dreampany.crypto.ui.home.adapter.CoinPagerAdapter
-import com.dreampany.framework.misc.extension.task
+import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.google.android.material.tabs.TabLayoutMediator
 import com.dreampany.crypto.R
+import com.dreampany.crypto.api.misc.ApiConstants
 import com.dreampany.crypto.data.enums.Action
 import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.manager.AdManager
+import com.dreampany.crypto.misc.exts.setUrl
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -44,7 +47,7 @@ class CoinActivity : InjectActivity() {
         initUi()
         initPager()
         initAd()
-        setTitle(input.name)
+        //setTitle(input.name)
         loadUi()
         ad.loadBanner(this.javaClass.simpleName)
     }
@@ -64,9 +67,15 @@ class CoinActivity : InjectActivity() {
 
     private fun initUi() {
         bind = getBinding()
-        //vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
-
-        //vm.subscribes(this, Observer { this.processResponse(it) })
+        bind.icon.setUrl(
+            String.format(
+                Locale.ENGLISH,
+                ApiConstants.CoinMarketCap.IMAGE_URL,
+                input.id
+            )
+        )
+        bind.textName.text = input.name
+        bind.textSymbol.text = input.symbol
     }
 
     private fun initPager() {

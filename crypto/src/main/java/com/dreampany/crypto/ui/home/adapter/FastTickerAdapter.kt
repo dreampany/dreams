@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.crypto.R
 import com.dreampany.crypto.ui.home.model.TickerItem
-import com.dreampany.framework.misc.extension.dimension
+import com.dreampany.framework.misc.exts.dimension
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter

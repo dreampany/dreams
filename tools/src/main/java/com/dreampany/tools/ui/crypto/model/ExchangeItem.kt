@@ -3,8 +3,8 @@ package com.dreampany.tools.ui.crypto.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import com.dreampany.framework.misc.extension.color
-import com.dreampany.framework.misc.extension.context
+import com.dreampany.framework.misc.exts.color
+import com.dreampany.framework.misc.exts.context
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.databinding.ExchangeItemBinding

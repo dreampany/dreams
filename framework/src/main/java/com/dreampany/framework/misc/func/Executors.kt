@@ -3,7 +3,7 @@ package com.dreampany.framework.misc.func
 import android.os.Handler
 import android.os.Looper
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.isOnUiThread
+import com.dreampany.framework.misc.exts.isOnUiThread
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject

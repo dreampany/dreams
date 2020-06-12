@@ -4,7 +4,7 @@ import com.dreampany.framework.data.model.Link
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.tools.api.history.WikiHistory
 import com.dreampany.tools.api.history.WikiHistoryData
 import com.dreampany.tools.api.history.WikiLink

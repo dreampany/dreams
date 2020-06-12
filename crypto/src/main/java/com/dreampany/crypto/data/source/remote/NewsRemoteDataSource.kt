@@ -7,8 +7,8 @@ import com.dreampany.crypto.api.remote.service.NewsApiService
 import com.dreampany.crypto.data.model.Article
 import com.dreampany.crypto.data.source.api.NewsDataSource
 import com.dreampany.crypto.data.source.mapper.NewsMapper
-import com.dreampany.framework.misc.extension.isDebug
-import com.dreampany.framework.misc.extension.value
+import com.dreampany.framework.misc.exts.isDebug
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError

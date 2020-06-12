@@ -4,22 +4,22 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import com.dreampany.framework.misc.exts.*
 import androidx.viewbinding.ViewBinding
 import com.dreampany.crypto.R
 import com.dreampany.crypto.api.misc.ApiConstants
 import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.data.model.Coin
+import com.dreampany.crypto.data.model.Quote
 import com.dreampany.crypto.databinding.CoinInfoItemBinding
 import com.dreampany.crypto.databinding.CoinItemBinding
 import com.dreampany.crypto.databinding.CoinQuoteItemBinding
-import com.dreampany.crypto.misc.exts.setUrl
 import com.dreampany.crypto.misc.func.CurrencyFormatter
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.extension.blink
-import com.dreampany.framework.misc.extension.color
-import com.dreampany.framework.misc.extension.context
-import com.dreampany.framework.misc.extension.formatString
+import com.dreampany.framework.misc.exts.color
+import com.dreampany.framework.misc.exts.context
+import com.dreampany.framework.misc.exts.formatString
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
@@ -34,13 +34,13 @@ import java.util.*
 class CoinItem
 private constructor(
     val itemType: ItemType,
-    val item: Coin,
+    val input: Coin,
     val formatter: CurrencyFormatter,
     val currency: Currency,
     val sort: Sort,
     val order: Order,
     var favorite: Boolean
-) : ModelAbstractBindingItem<Coin, ViewBinding>(item) {
+) : ModelAbstractBindingItem<Coin, ViewBinding>(input) {
 
     enum class ItemType {
         ITEM, INFO, QUOTE
@@ -90,13 +90,13 @@ private constructor(
         negativeRatio = R.string.negative_ratio_format
     }
 
-    override fun hashCode(): Int = Objects.hashCode(itemType, item.id)
+    override fun hashCode(): Int = Objects.hashCode(itemType, input.id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as CoinItem
-        return item.itemType == itemType && Objects.equal(this.item.id, item.item.id)
+        return item.itemType == itemType && Objects.equal(this.input.id, item.input.id)
     }
 
     override var identifier: Long = hashCode().toLong()
@@ -133,13 +133,15 @@ private constructor(
 
     }
 
+    val quote : Quote? get() = input.getQuote(currency)
+
     private fun bindItem(bind: CoinItemBinding) {
-        bind.rank.text = item.rank.toString()
+        bind.rank.text = input.rank.toString()
         bind.layoutSimple.icon.setUrl(
             String.format(
                 Locale.ENGLISH,
                 ApiConstants.CoinMarketCap.IMAGE_URL,
-                item.id
+                input.id
             )
         )
 
@@ -147,12 +149,12 @@ private constructor(
             String.format(
                 Locale.ENGLISH,
                 bind.root.context.getString(R.string.crypto_symbol_name),
-                item.symbol,
-                item.name
+                input.symbol,
+                input.name
             )
         bind.layoutSimple.textName.text = nameText
 
-        val quote = item.getQuote(currency)
+        val quote = input.getQuote(currency)
 
         var price = 0.0
         var change1h = 0.0
@@ -217,19 +219,19 @@ private constructor(
             String.format(
                 Locale.ENGLISH,
                 ApiConstants.CoinMarketCap.IMAGE_URL,
-                item.id
+                input.id
             )
         )
         val name =
             String.format(
                 Locale.ENGLISH,
                 bind.root.context.getString(R.string.crypto_symbol_name),
-                item.symbol,
-                item.name
+                input.symbol,
+                input.name
             )
         bind.layoutSimple.textName.text = name
 
-        val quote = item.getQuote(currency)
+        val quote = input.getQuote(currency)
 
         var price = 0.0
         var change1h = 0.0
@@ -272,7 +274,7 @@ private constructor(
         bind.textChange7d.setTextColor(bind.color(weekChangeColor))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
-            item.getLastUpdated(),
+            input.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
         ) as String
@@ -282,11 +284,11 @@ private constructor(
     }
 
     private fun bindItem(bind: CoinQuoteItemBinding) {
-        val symbol = item.symbol
-        val circulating = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getCirculatingSupply()), symbol)
+        val symbol = input.symbol
+        val circulating = bind.context.getString(R.string.join_text, formatter.roundPrice(input.getCirculatingSupply()), symbol)
 
-        val total = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getTotalSupply()), symbol)
-        val max = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getMaxSupply()), symbol)
+        val total = bind.context.getString(R.string.join_text, formatter.roundPrice(input.getTotalSupply()), symbol)
+        val max = bind.context.getString(R.string.join_text, formatter.roundPrice(input.getMaxSupply()), symbol)
 
         bind.layoutCirculating.title.setText(R.string.circulating_supply)
         bind.layoutTotal.title.setText(R.string.total_supply)
@@ -297,7 +299,7 @@ private constructor(
         bind.layoutMax.textValue.text = max
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
-            item.getLastUpdated(),
+            input.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
         ) as String

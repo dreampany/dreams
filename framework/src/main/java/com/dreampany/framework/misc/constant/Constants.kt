@@ -1,8 +1,8 @@
 package com.dreampany.framework.misc.constant
 
 import android.content.Context
-import com.dreampany.framework.misc.extension.lastApplicationId
-import com.dreampany.framework.misc.extension.lastPart
+import com.dreampany.framework.misc.exts.lastApplicationId
+import com.dreampany.framework.misc.exts.lastPart
 import java.util.*
 
 /**

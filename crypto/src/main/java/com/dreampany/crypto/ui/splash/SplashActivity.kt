@@ -1,7 +1,7 @@
 package com.dreampany.crypto.ui.splash
 
 import android.os.Bundle
-import com.dreampany.framework.misc.extension.open
+import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.crypto.R
 import com.dreampany.crypto.ui.home.activity.HomeActivity

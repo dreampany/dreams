@@ -3,8 +3,8 @@ package com.dreampany.tools.ui.wifi.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.adapter.value
-import com.dreampany.framework.misc.extension.color
-import com.dreampany.framework.misc.extension.string
+import com.dreampany.framework.misc.exts.color
+import com.dreampany.framework.misc.exts.string
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.databinding.WifiItemBinding

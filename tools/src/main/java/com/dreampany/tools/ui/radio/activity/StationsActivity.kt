@@ -5,7 +5,7 @@ import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.StationsActivityBinding
 import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.misc.extension.setUrl
+import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.ui.radio.adapter.StationPagerAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.google.android.material.tabs.TabLayoutMediator

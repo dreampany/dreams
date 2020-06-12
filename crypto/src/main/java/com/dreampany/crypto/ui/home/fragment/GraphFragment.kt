@@ -14,15 +14,15 @@ import com.dreampany.crypto.ui.home.model.CoinItem
 import com.dreampany.crypto.ui.home.vm.CoinViewModel
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.refresh
-import com.dreampany.framework.misc.extension.task
+import com.dreampany.framework.misc.exts.refresh
+import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import timber.log.Timber
 import javax.inject.Inject
 import com.dreampany.crypto.R
-import com.dreampany.framework.misc.extension.init
+import com.dreampany.framework.misc.exts.init
 
 /**
  * Created by roman on 27/4/20

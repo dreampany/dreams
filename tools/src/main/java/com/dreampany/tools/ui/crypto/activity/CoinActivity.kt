@@ -1,7 +1,7 @@
 package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
-import com.dreampany.framework.misc.extension.task
+import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R

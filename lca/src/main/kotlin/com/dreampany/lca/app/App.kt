@@ -1,7 +1,7 @@
 package com.dreampany.lca.app
 import android.annotation.SuppressLint
 import com.dreampany.framework.app.InjectApp
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.lca.R
 import com.dreampany.lca.data.source.pref.Pref
  import com.dreampany.lca.manager.AdManager

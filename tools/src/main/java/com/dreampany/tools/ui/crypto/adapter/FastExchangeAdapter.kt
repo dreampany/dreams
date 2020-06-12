@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
-import com.dreampany.framework.misc.extension.dimension
+import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.crypto.model.ExchangeItem
 import com.mikepenz.fastadapter.GenericItem

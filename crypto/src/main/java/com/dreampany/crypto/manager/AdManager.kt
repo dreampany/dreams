@@ -5,8 +5,8 @@ import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
 import com.dreampany.framework.data.source.pref.AdPref
-import com.dreampany.framework.misc.extension.gone
-import com.dreampany.framework.misc.extension.visible
+import com.dreampany.framework.misc.exts.gone
+import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.structure.MutablePair
 import com.dreampany.framework.misc.util.Util
 import com.google.android.gms.ads.AdListener

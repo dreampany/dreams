@@ -2,17 +2,12 @@ package com.dreampany.crypto.ui.home.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.enums.Currency
-import com.dreampany.crypto.data.model.Exchange
 import com.dreampany.crypto.data.model.Ticker
-import com.dreampany.crypto.databinding.ExchangeItemBinding
 import com.dreampany.crypto.databinding.TickerItemBinding
-import com.dreampany.crypto.misc.exts.setUrl
 import com.dreampany.crypto.misc.func.CurrencyFormatter
-import com.dreampany.framework.misc.extension.color
-import com.dreampany.framework.misc.extension.context
+import com.dreampany.framework.misc.exts.context
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 

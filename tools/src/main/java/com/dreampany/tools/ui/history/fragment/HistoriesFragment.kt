@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -21,7 +21,6 @@ import com.dreampany.tools.data.enums.home.Subtype
 import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
-import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.history.adapter.FastHistoryAdapter
 import com.dreampany.tools.ui.history.model.HistoryItem
 import com.dreampany.tools.ui.history.vm.HistoryViewModel

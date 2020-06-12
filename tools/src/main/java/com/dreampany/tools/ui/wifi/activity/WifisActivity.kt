@@ -9,9 +9,8 @@ import androidx.lifecycle.Observer
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
-import com.dreampany.framework.misc.util.Util
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout

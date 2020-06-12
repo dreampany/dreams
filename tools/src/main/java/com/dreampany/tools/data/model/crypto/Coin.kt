@@ -6,7 +6,7 @@ import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.value
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.misc.constant.AppConstants

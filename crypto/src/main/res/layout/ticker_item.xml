@@ -22,15 +22,16 @@
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="1"
                 android:textColor="@color/material_grey800"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/layout_simple"
                 layout="@layout/ticker_simple_item"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:layout_marginEnd="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_weight="1" />
 
             <include

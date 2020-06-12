@@ -10,8 +10,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/icon"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
             android:adjustViewBounds="true"
             android:cropToPadding="true"
             auto:actualImageScaleType="centerCrop"
@@ -20,7 +20,7 @@
             auto:layout_constraintBottom_toBottomOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent"
-            auto:placeholderImage="@drawable/ic_coin"
+            auto:placeholderImage="@color/material_grey400"
             auto:placeholderImageScaleType="centerCrop"
             auto:roundAsCircle="true" />
 

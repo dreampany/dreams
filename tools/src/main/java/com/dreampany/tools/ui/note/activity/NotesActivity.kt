@@ -24,6 +24,7 @@ import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
 import com.dreampany.tools.ui.note.model.NoteItem
 import com.dreampany.tools.ui.note.vm.NoteViewModel
+import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 

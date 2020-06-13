@@ -60,22 +60,23 @@ const val FLAGS_FULLSCREEN = View.SYSTEM_UI_FLAG_LOW_PROFILE or
         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 
-fun Context.inflater(): LayoutInflater = LayoutInflater.from(this)
+val Context.inflater: LayoutInflater  get() = LayoutInflater.from(this)
 
-fun ViewGroup.inflater(): LayoutInflater = context.inflater()
+val ViewGroup.inflater: LayoutInflater get() = context.inflater
 
-fun Context.inflate(@LayoutRes layoutRes: Int): View = inflater().inflate(layoutRes, null)
+fun Context.inflate(@LayoutRes layoutRes: Int): View = inflater.inflate(layoutRes, null)
+fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View = inflater.inflate(layoutRes, null)
 //fun ViewGroup.bindInflater()
 
 fun Int.bindInflater(parent: ViewGroup, attachToRoot: Boolean = false): ViewDataBinding {
-    return DataBindingUtil.inflate(parent.inflater(), this, parent, attachToRoot)
+    return DataBindingUtil.inflate(parent.inflater, this, parent, attachToRoot)
 }
 
 fun <T : ViewDataBinding> Context.bindInflater(
     @LayoutRes layoutRes: Int,
     parent: ViewGroup? = null
 ): T {
-    return DataBindingUtil.inflate(inflater(), layoutRes, parent, parent != null)
+    return DataBindingUtil.inflate(inflater, layoutRes, parent, parent != null)
 }
 
 fun View?.setOnSafeClickListener(

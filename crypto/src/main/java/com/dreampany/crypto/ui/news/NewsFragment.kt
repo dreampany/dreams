@@ -1,5 +1,6 @@
-package com.dreampany.crypto.ui.home.fragment
+package com.dreampany.crypto.ui.news
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,20 +11,18 @@ import com.dreampany.crypto.data.enums.Action
 import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
-import com.dreampany.crypto.data.source.pref.AppPref
-import com.dreampany.crypto.databinding.RecyclerFragmentBinding
-import com.dreampany.crypto.ui.home.activity.CoinActivity
-import com.dreampany.crypto.ui.home.activity.FavoriteCoinsActivity
-import com.dreampany.crypto.ui.home.adapter.FastCoinAdapter
-import com.dreampany.crypto.ui.home.model.CoinItem
-import com.dreampany.crypto.ui.home.vm.CoinViewModel
+import com.dreampany.crypto.databinding.NewsFragmentBinding
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.*
+import com.dreampany.framework.misc.exts.init
+import com.dreampany.framework.misc.exts.refresh
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
+import com.smarteist.autoimageslider.SliderAnimations
+import com.smarteist.autoimageslider.SliderViewAdapter
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,24 +34,23 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class HomeFragment
+class NewsFragment
 @Inject constructor() : InjectFragment() {
 
-    @Inject
-    internal lateinit var cryptoPref: AppPref
+    private lateinit var bind: NewsFragmentBinding
+    private lateinit var vm: ArticleViewModel
+    private lateinit var galleryAdapter: SliderAdapter
+    private lateinit var adapter: FastArticleAdapter
 
-    private lateinit var bind: RecyclerFragmentBinding
-    private lateinit var vm: CoinViewModel
-    private lateinit var adapter: FastCoinAdapter
-
-    override val layoutRes: Int = R.layout.recycler_fragment
-    override val menuRes: Int = R.menu.menu_home
-    override val searchMenuItemId: Int = R.id.item_search
+    override val layoutRes: Int = R.layout.news_fragment
+    //override val menuRes: Int = R.menu.menu_home
+    //override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        initSlider()
         initRecycler(state)
-        if (adapter.isEmpty)
+        if (galleryAdapter.isEmpty)
             onRefresh()
     }
 
@@ -60,15 +58,15 @@ class HomeFragment
         //adapter.destroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
+    /*override fun onSaveInstanceState(outState: Bundle) {
         var outState = outState
         outState = adapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
-    }
+    }*/
 
     override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(context, R.color.material_white)
-        findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
+        //getSearchMenuItem().toTint(context, R.color.material_white)
+        //findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,19 +80,19 @@ class HomeFragment
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        adapter.filter(newText)
+        //adapter.filter(newText)
         return false
     }
 
     override fun onRefresh() {
-        loadCoins()
+        loadArticles()
     }
 
-    private fun onItemPressed(view: View, item: CoinItem) {
+    private fun onItemPressed(view: View, item: ArticleItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openCoinUi(item)
+                openArticleUi(item)
             }
             R.id.button_favorite -> {
                 onFavoriteClicked(item)
@@ -109,51 +107,59 @@ class HomeFragment
         bind = getBinding()
         bind.swipe.init(this)
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
-        vm = createVm(CoinViewModel::class)
+        vm = createVm(ArticleViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
+    private fun initSlider() {
+        if (!::galleryAdapter.isInitialized) {
+            galleryAdapter = SliderAdapter(requireContext())
+        }
+        bind.slider.apply {
+            setSliderAdapter(galleryAdapter)
+            setIndicatorAnimation(IndicatorAnimationType.WORM)
+            setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+        }
+    }
+
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter(
+            adapter = FastArticleAdapter(
                 { currentPage ->
                     Timber.v("CurrentPage: %d", currentPage)
-                   // onRefresh()
+                    onRefresh()
                 }, this::onItemPressed
             )
         }
 
         adapter.initRecycler(
             state,
-            bind.layoutRecycler.recycler,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
+            bind.layoutRecycler.recycler
         )
     }
 
-    private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount.toLong())
+    private fun loadArticles() {
+        vm.loadArticles()
     }
 
-    private fun processResponse(response: Response<Type, Subtype, State, Action, CoinItem>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, ArticleItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, CoinItem>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, ArticleItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
     }
 
-    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CoinItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<ArticleItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<CoinItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<ArticleItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -176,41 +182,43 @@ class HomeFragment
         )
     }
 
-    private fun processResult(result: CoinItem?) {
+    private fun processResult(result: ArticleItem?) {
         if (result != null) {
-            adapter.updateItem(result)
+            //adapter.updateItem(result)
         }
     }
 
-    private fun processResults(result: List<CoinItem>?) {
+    private fun processResults(result: List<ArticleItem>?) {
         if (result != null) {
+            val heads = result.subList(0, 5)
+            galleryAdapter.addItems(heads)
             adapter.addItems(result)
         }
 
-        if (adapter.isEmpty) {
+        if (galleryAdapter.isEmpty) {
             bind.stateful.setState(StatefulLayout.State.EMPTY)
         } else {
             bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 
-    private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.input, CoinItem.ItemType.ITEM)
+    private fun onFavoriteClicked(item: ArticleItem) {
+        //vm.toggleFavorite(item.input, CoinItem.ItemType.ITEM)
     }
 
 
-    private fun openCoinUi(item: CoinItem) {
+    private fun openArticleUi(item: ArticleItem) {
         val task = UiTask(
-            Type.COIN,
+            Type.ARTICLE,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.VIEW,
             item.input
         )
-        open(CoinActivity::class, task)
+        //open(CoinActivity::class, task)
     }
 
     private fun openFavoritesUi() {
-        open(FavoriteCoinsActivity::class)
+        //open(FavoriteCoinsActivity::class)
     }
 }

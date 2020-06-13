@@ -1,7 +1,7 @@
 package com.dreampany.crypto.data.source.room
 
 import com.dreampany.crypto.data.model.Article
-import com.dreampany.crypto.data.source.api.NewsDataSource
+import com.dreampany.crypto.data.source.api.ArticleDataSource
 import com.dreampany.crypto.data.source.mapper.NewsMapper
 import com.dreampany.crypto.data.source.room.dao.ArticleDao
 
@@ -11,10 +11,10 @@ import com.dreampany.crypto.data.source.room.dao.ArticleDao
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NewsRoomDataSource(
+class ArticleRoomDataSource(
     private val mapper: NewsMapper,
     private val dao: ArticleDao
-): NewsDataSource {
+): ArticleDataSource {
     override suspend fun isFavorite(input: Article): Boolean {
         TODO("Not yet implemented")
     }

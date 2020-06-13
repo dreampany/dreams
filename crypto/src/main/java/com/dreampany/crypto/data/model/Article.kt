@@ -31,10 +31,10 @@ data class Article(
     var source: Source? = Constants.Default.NULL,
     var author: String? = Constants.Default.NULL,
     var title: String = Constants.Default.STRING,
-    var description: String = Constants.Default.STRING,
-    var content: String = Constants.Default.STRING,
+    var description: String? = Constants.Default.NULL,
+    var content: String? = Constants.Default.NULL,
     var url: String = Constants.Default.STRING,
-    var imageUrl: String = Constants.Default.STRING,
+    var imageUrl: String? = Constants.Default.NULL,
     var publishedAt: Long = Constants.Default.LONG
 ) : Base() {
 

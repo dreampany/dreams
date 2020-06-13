@@ -102,6 +102,6 @@ class App : InjectApp() {
     }
 
     private fun configWork() {
-        worker.createPeriodic(CryptoWorker::class, AppConstants.Times.WORKER, TimeUnit.HOURS)
+        //worker.createPeriodic(CryptoWorker::class, AppConstants.Times.WORKER, TimeUnit.HOURS)
     }
 }

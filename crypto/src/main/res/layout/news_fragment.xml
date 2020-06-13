@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    auto:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.dreampany.stateful.StatefulLayout
+                android:id="@+id/stateful"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        auto:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_4sdp"
+                            auto:cardCornerRadius="@dimen/_4sdp">
+
+                            <com.smarteist.autoimageslider.SliderView
+                                android:id="@+id/slider"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                auto:sliderAnimationDuration="600"
+                                auto:sliderAutoCycleDirection="right"
+                                auto:sliderAutoCycleEnabled="true"
+                                auto:sliderIndicatorAnimationDuration="600"
+                                auto:sliderIndicatorGravity="center_horizontal|bottom"
+                                auto:sliderIndicatorMargin="15dp"
+                                auto:sliderIndicatorOrientation="horizontal"
+                                auto:sliderIndicatorPadding="3dp"
+                                auto:sliderIndicatorRadius="2dp"
+                                auto:sliderIndicatorSelectedColor="#5A5A5A"
+                                auto:sliderIndicatorUnselectedColor="#FFF"
+                                auto:sliderScrollTimeInSec="1"
+                                auto:sliderStartAutoCycle="true" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <include
+                            auto:layout_behavior="@string/appbar_scrolling_view_behavior"
+                            android:id="@+id/layout_recycler"
+                            layout="@layout/content_recycler_ad"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.core.widget.NestedScrollView>
+            </com.dreampany.stateful.StatefulLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:backgroundTint="?attr/colorAccent"
+                android:tint="@color/material_white"
+                android:visibility="gone"
+                auto:backgroundTint="?attr/colorAccent"
+                auto:elevation="6dp"
+                auto:rippleColor="@color/material_white"
+                auto:srcCompat="@drawable/ic_add_black_24dp"
+                auto:tint="@color/material_white" />
+
+        </RelativeLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

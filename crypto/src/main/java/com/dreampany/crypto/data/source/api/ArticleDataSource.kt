@@ -8,7 +8,7 @@ import com.dreampany.crypto.data.model.Article
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface NewsDataSource {
+interface ArticleDataSource {
 
     @Throws
     suspend fun isFavorite(input: Article): Boolean

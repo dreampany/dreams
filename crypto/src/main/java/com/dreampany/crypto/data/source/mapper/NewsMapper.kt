@@ -5,15 +5,12 @@ import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.model.Article
-import com.dreampany.crypto.data.source.api.NewsDataSource
+import com.dreampany.crypto.data.source.api.ArticleDataSource
 import com.dreampany.crypto.data.source.pref.NewsPref
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.exts.isExpired
-import com.dreampany.framework.misc.exts.sub
-import com.dreampany.framework.misc.exts.utc
-import com.dreampany.framework.misc.exts.value
+import com.dreampany.framework.misc.exts.*
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject
@@ -100,7 +97,7 @@ class NewsMapper
         language: String,
         offset: Long,
         limit: Long,
-        source: NewsDataSource
+        source: ArticleDataSource
     ): List<Article>? {
         updateCache(source)
         val cache = sortedArticles(articles.values.toList())
@@ -127,7 +124,7 @@ class NewsMapper
     @Throws
     @Synchronized
     suspend fun getFavoriteItems(
-        source: NewsDataSource
+        source: ArticleDataSource
     ): List<Article>? {
         updateCache(source)
         val stores = storeRepo.getStores(
@@ -171,7 +168,7 @@ class NewsMapper
         out.content = input.content
         out.url = input.url
         out.imageUrl = input.imageUrl
-        out.publishedAt = input.publishedAt.utc
+        out.publishedAt = input.publishedAt.simpleUtc
         return out
     }
 
@@ -182,7 +179,7 @@ class NewsMapper
 
     @Throws
     @Synchronized
-    private suspend fun updateCache(source: NewsDataSource) {
+    private suspend fun updateCache(source: ArticleDataSource) {
         if (articles.isEmpty()) {
             source.gets()?.let {
                 if (it.isNotEmpty())

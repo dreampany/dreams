@@ -5,7 +5,7 @@ import com.dreampany.crypto.api.misc.ApiConstants
 import com.dreampany.crypto.api.remote.response.NewsResponse
 import com.dreampany.crypto.api.remote.service.NewsApiService
 import com.dreampany.crypto.data.model.Article
-import com.dreampany.crypto.data.source.api.NewsDataSource
+import com.dreampany.crypto.data.source.api.ArticleDataSource
 import com.dreampany.crypto.data.source.mapper.NewsMapper
 import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.exts.value
@@ -23,7 +23,7 @@ import java.net.UnknownHostException
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NewsRemoteDataSource
+class ArticleRemoteDataSource
 constructor(
     private val context: Context,
     private val network: NetworkManager,
@@ -31,15 +31,13 @@ constructor(
     private val keys: Keys,
     private val mapper: NewsMapper,
     private val service: NewsApiService
-) : NewsDataSource {
+) : ArticleDataSource {
 
     init {
         if (context.isDebug) {
-            keys.setKeys(ApiConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT)
+            keys.setKeys(ApiConstants.NewsApi.API_KEY_ROMAN_BJIT)
         } else {
-            keys.setKeys(
-                ApiConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT
-            )
+            keys.setKeys(ApiConstants.NewsApi.API_KEY_ROMAN_BJIT)
         }
     }
 

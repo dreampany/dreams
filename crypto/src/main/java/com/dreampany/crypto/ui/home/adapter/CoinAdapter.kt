@@ -80,13 +80,13 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
         }
 
         override fun bindView(item: Coin, position: Int) {
-            bind.layoutSimple.icon.setUrl(
+            /*bind.layoutSimple.icon.setUrl(
                 String.format(
                     Locale.ENGLISH,
                     ApiConstants.CoinMarketCap.IMAGE_URL,
                     item.id
                 )
-            )
+            )*/
 
 
             val nameText =

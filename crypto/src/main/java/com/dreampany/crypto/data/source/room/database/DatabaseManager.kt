@@ -21,7 +21,7 @@ import com.dreampany.framework.misc.constant.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Coin::class, Quote::class, Article::class], version = 3, exportSchema = false)
+@Database(entities = [Coin::class, Quote::class, Article::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 

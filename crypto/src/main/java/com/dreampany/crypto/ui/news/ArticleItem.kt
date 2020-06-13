@@ -1,10 +1,11 @@
-package com.dreampany.crypto.ui.home.model
+package com.dreampany.crypto.ui.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.crypto.R
 import com.dreampany.crypto.misc.exts.setUrl
 import com.dreampany.crypto.data.enums.Currency
+import com.dreampany.crypto.data.model.Article
 import com.dreampany.crypto.data.model.Ticker
 import com.dreampany.crypto.databinding.TickerItemBinding
 import com.dreampany.crypto.misc.func.CurrencyFormatter
@@ -18,27 +19,23 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class TickerItem
+class ArticleItem
 private constructor(
-    val input: Ticker,
-    val formatter: CurrencyFormatter
-) : ModelAbstractBindingItem<Ticker, TickerItemBinding>(input) {
+    val input: Article
+) : ModelAbstractBindingItem<Article, TickerItemBinding>(input) {
 
     companion object {
         fun getItem(
-            input: Ticker,
-            formatter: CurrencyFormatter
-        ): TickerItem = TickerItem(input, formatter)
+            input: Article
+        ): ArticleItem = ArticleItem(input)
     }
-
-    var rank: Int = 0
 
     override fun hashCode(): Int = Objects.hashCode(input.id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as TickerItem
+        val item = other as ArticleItem
         return Objects.equal(this.input.id, item.input.id)
     }
 
@@ -51,7 +48,7 @@ private constructor(
 
 
     override fun bindView(bind: TickerItemBinding, payloads: List<Any>) {
-        bind.rank.text = rank.toString()
+        /*bind.rank.text = rank.toString()
 
         bind.layoutSimple.icon.setUrl(input.market.image)
         bind.layoutSimple.textPair.text =
@@ -61,7 +58,7 @@ private constructor(
         bind.layoutPrice.textVolume.text = bind.context.getString(
             R.string.format_volume_price,
             formatter.format(Currency.USD, input.convertedVolume.usd)
-        )
+        )*/
     }
 
     override fun unbindView(binding: TickerItemBinding) {

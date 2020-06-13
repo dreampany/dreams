@@ -24,6 +24,7 @@
                     android:layout_height="match_parent">
 
                     <include
+                        auto:layout_behavior="@string/appbar_scrolling_view_behavior"
                         android:id="@+id/layout_info"
                         layout="@layout/coin_info"
                         android:layout_width="match_parent"

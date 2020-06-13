@@ -58,6 +58,15 @@ class FeatureViewModel
         features.add(
             Feature(
                 Type.FEATURE,
+                Subtype.CALL_RECORD,
+                R.drawable.ic_baseline_record_voice_over_24,
+                R.string.title_feature_call_record,
+                colors.nextColor(Type.FEATURE.name)
+            )
+        )
+        features.add(
+            Feature(
+                Type.FEATURE,
                 Subtype.CRYPTO,
                 R.drawable.ic_crypto,
                 R.string.title_feature_crypto,

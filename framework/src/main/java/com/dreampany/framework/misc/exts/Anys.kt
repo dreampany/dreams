@@ -55,3 +55,9 @@ fun <T> sub(list: List<T>?, index: Long, limit: Long): List<T>? {
 fun String.toColor(): Int = Color.parseColor(this)
 
 fun randomId(): String = UUID.randomUUID().toString()
+
+fun append(vararg values : Any) : String {
+    val builder = StringBuilder()
+    values.forEach { builder.append(it) }
+    return builder.toString()
+}

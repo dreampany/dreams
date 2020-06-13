@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dreampany.framework">
 
-    <application>
+    <!--<application>
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
@@ -10,6 +10,6 @@
             android:exported="false"
             tools:node="remove" />
 
-    </application>
+    </application>-->
 
 </manifest>

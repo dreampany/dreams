@@ -9,6 +9,7 @@ import com.dreampany.crypto.ui.home.vm.TradeViewModel
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.crypto.ui.more.vm.MoreViewModel
+import com.dreampany.crypto.ui.news.ArticleViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -51,4 +52,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TickerViewModel::class)
     abstract fun bindTicker(vm: TickerViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ArticleViewModel::class)
+    abstract fun bindArticle(vm: ArticleViewModel): ViewModel
 }

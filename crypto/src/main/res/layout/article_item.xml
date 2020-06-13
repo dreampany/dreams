@@ -14,7 +14,7 @@
             android:orientation="horizontal"
             android:padding="@dimen/_8sdp">
 
-            <com.google.android.material.textview.MaterialTextView
+            <!--<com.google.android.material.textview.MaterialTextView
                 android:id="@+id/rank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -23,24 +23,57 @@
                 android:text="1"
                 android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_14ssp"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
 
-            <include
-                android:id="@+id/layout_simple"
-                layout="@layout/ticker_simple_item"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|start"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/layout_price"
-                layout="@layout/ticker_price_item"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:textColor="@color/material_grey800"
+                    android:textSize="@dimen/_14ssp"
+                    auto:fontFamily="@font/roboto_slab_regular"
+                    tools:text="@string/title" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:textColor="@color/material_grey800"
+                    android:textSize="@dimen/_10ssp"
+                    auto:fontFamily="@font/roboto_slab_regular"
+                    tools:text="@string/title" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginEnd="@dimen/_8sdp" />
+                android:minWidth="@dimen/_80sdp"
+                android:orientation="vertical">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/icon"
+                    android:layout_width="@dimen/_56sdp"
+                    android:layout_height="@dimen/_56sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    auto:actualImageScaleType="fitXY"
+                    auto:failureImage="@color/material_red500"
+                    auto:placeholderImage="@color/material_grey400"
+                    auto:placeholderImageScaleType="fitXY" auto:roundedCornerRadius="@dimen/_4sdp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>

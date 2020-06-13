@@ -138,8 +138,7 @@ class FastArticleAdapter(
     }
 
     fun updateItem(item: ArticleItem) {
-        var position = fastAdapter.getAdapterPosition(item)
-        position = fastAdapter.getGlobalPosition(position)
+        val position = fastAdapter.getGlobalPosition(fastAdapter.getAdapterPosition(item))
         if (position >= 0) {
             fastAdapter.set(position, item)
             //fastAdapter.notifyAdapterItemChanged(position)

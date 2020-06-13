@@ -3,13 +3,9 @@ package com.dreampany.crypto.ui.news
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.crypto.R
-import com.dreampany.crypto.misc.exts.setUrl
-import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.data.model.Article
-import com.dreampany.crypto.data.model.Ticker
-import com.dreampany.crypto.databinding.TickerItemBinding
-import com.dreampany.crypto.misc.func.CurrencyFormatter
-import com.dreampany.framework.misc.exts.context
+import com.dreampany.crypto.databinding.ArticleItemBinding
+import com.dreampany.crypto.misc.exts.setUrl
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 
@@ -22,7 +18,7 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 class ArticleItem
 private constructor(
     val input: Article
-) : ModelAbstractBindingItem<Article, TickerItemBinding>(input) {
+) : ModelAbstractBindingItem<Article, ArticleItemBinding>(input) {
 
     companion object {
         fun getItem(
@@ -44,24 +40,16 @@ private constructor(
     override val type: Int = R.id.adapter_ticker_item_id
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?) =
-        TickerItemBinding.inflate(inflater, parent, false)
+        ArticleItemBinding.inflate(inflater, parent, false)
 
 
-    override fun bindView(bind: TickerItemBinding, payloads: List<Any>) {
-        /*bind.rank.text = rank.toString()
-
-        bind.layoutSimple.icon.setUrl(input.market.image)
-        bind.layoutSimple.textPair.text =
-            bind.context.getString(R.string.format_currency_pair, input.base, input.target)
-        bind.layoutSimple.textMarket.text = input.market.name
-        bind.layoutPrice.textPrice.text = formatter.format(Currency.USD, input.convertedLast.usd)
-        bind.layoutPrice.textVolume.text = bind.context.getString(
-            R.string.format_volume_price,
-            formatter.format(Currency.USD, input.convertedVolume.usd)
-        )*/
+    override fun bindView(bind: ArticleItemBinding, payloads: List<Any>) {
+         bind.icon.setUrl(input.imageUrl)
+        bind.title.text = input.title
+        bind.source.text = input.source?.name
     }
 
-    override fun unbindView(binding: TickerItemBinding) {
+    override fun unbindView(binding: ArticleItemBinding) {
 
     }
 }

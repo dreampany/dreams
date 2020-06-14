@@ -9,6 +9,7 @@ import com.dreampany.crypto.ui.home.activity.CoinActivity
 import com.dreampany.crypto.ui.home.activity.FavoriteCoinsActivity
 import com.dreampany.crypto.ui.home.activity.HomeActivity
 import com.dreampany.crypto.ui.splash.SplashActivity
+import com.dreampany.crypto.ui.web.WebActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -33,4 +34,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun favorites(): FavoriteCoinsActivity
+
+    @ContributesAndroidInjector
+    abstract fun web(): WebActivity
 }

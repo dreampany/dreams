@@ -62,7 +62,7 @@ class FastMoreAdapter(
                 SpacingItemDecoration(
                     1,
                     context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
-                    false
+                    true
                 )
             )
         }

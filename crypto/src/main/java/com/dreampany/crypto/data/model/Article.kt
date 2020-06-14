@@ -7,7 +7,6 @@ import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
-import com.google.firebase.database.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
 /**

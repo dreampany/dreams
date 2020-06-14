@@ -12,10 +12,13 @@ import com.dreampany.crypto.data.enums.Action
 import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
+import com.dreampany.crypto.data.model.Article
 import com.dreampany.crypto.databinding.NewsFragmentBinding
+import com.dreampany.crypto.ui.web.WebActivity
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.init
+import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.refresh
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
@@ -93,7 +96,8 @@ class NewsFragment
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openArticleUi(item)
+                //openArticleUi(item)
+                openWeb(item.input.url)
             }
             R.id.button_favorite -> {
                 onFavoriteClicked(item)
@@ -223,5 +227,21 @@ class NewsFragment
 
     private fun openFavoritesUi() {
         //open(FavoriteCoinsActivity::class)
+    }
+
+    fun openWeb(url: String?) {
+        if (url.isNullOrEmpty()) {
+            //TODO
+            return
+        }
+        val task = UiTask(
+            Type.SITE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            null as Article?,
+            url = url
+        )
+        open(WebActivity::class, task)
     }
 }

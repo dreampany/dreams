@@ -8,6 +8,7 @@ import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.data.enums.Sort
+import com.dreampany.crypto.databinding.ArticleItemBinding
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.misc.exts.dimension
 import com.mikepenz.fastadapter.GenericItem
@@ -15,6 +16,7 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.binding.listeners.addClickListener
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 
@@ -111,6 +113,16 @@ class FastArticleAdapter(
                     listener(view, item)
                 }
             }*/
+
+            fastAdapter.addClickListener<ArticleItemBinding, GenericItem>(
+                { bind -> bind.root },
+                { bind -> arrayListOf(bind.root) }
+            )
+            { view, position, adapter, item ->
+                if (item is ArticleItem) {
+                    listener(view, item)
+                }
+            }
         }
     }
 

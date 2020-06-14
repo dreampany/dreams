@@ -1,3 +1,4 @@
+/*
 package com.dreampany.crypto.ui.home.fragment
 
 import android.graphics.Color
@@ -30,12 +31,14 @@ import com.skydoves.powermenu.PowerMenuItem
 import timber.log.Timber
 import javax.inject.Inject
 
+*/
 /**
  * Created by roman on 27/4/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @ActivityScope
 class MarketFragment
 @Inject constructor() : InjectFragment(), OnMenuItemClickListener<PowerMenuItem> {
@@ -232,4 +235,4 @@ class MarketFragment
             loadExchanges()
         }
     }
-}
+}*/

@@ -5,6 +5,7 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -71,7 +72,8 @@
                     auto:actualImageScaleType="fitXY"
                     auto:failureImage="@color/material_red500"
                     auto:placeholderImage="@color/material_grey400"
-                    auto:placeholderImageScaleType="fitXY" auto:roundedCornerRadius="@dimen/_4sdp" />
+                    auto:placeholderImageScaleType="fitXY"
+                    auto:roundedCornerRadius="@dimen/_4sdp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

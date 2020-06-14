@@ -9,8 +9,6 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
-import com.google.firebase.database.IgnoreExtraProperties
-import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -20,7 +18,7 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-@IgnoreExtraProperties
+//@IgnoreExtraProperties
 @Entity(
     indices = [Index(
         value = [Constants.Keys.ID],
@@ -65,52 +63,52 @@ data class Exchange(
 
     override fun toString(): String = "Exchange ($id) == $id"
 
-    @PropertyName(AppConstants.Keys.Exchange.FROM_SYMBOL)
+    //@PropertyName(AppConstants.Keys.Exchange.FROM_SYMBOL)
     fun setFromSymbol(fromSymbol: String) {
         this.fromSymbol = fromSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.FROM_SYMBOL)
+    //@PropertyName(AppConstants.Keys.Exchange.FROM_SYMBOL)
     fun getFromSymbol(): String {
         return fromSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.TO_SYMBOL)
+    //@PropertyName(AppConstants.Keys.Exchange.TO_SYMBOL)
     fun setToSymbol(toSymbol: String) {
         this.toSymbol = toSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.TO_SYMBOL)
+    //@PropertyName(AppConstants.Keys.Exchange.TO_SYMBOL)
     fun getToSymbol(): String {
         return toSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.VOLUME_24H)
+    //@PropertyName(AppConstants.Keys.Exchange.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {
         this.volume24h = volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.VOLUME_24H)
+    //@PropertyName(AppConstants.Keys.Exchange.VOLUME_24H)
     fun getVolume24h(): Double {
         return volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.CHANGE_24H)
+    //@PropertyName(AppConstants.Keys.Exchange.CHANGE_24H)
     fun setChange24h(change24h: Double) {
         this.change24h = change24h
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.CHANGE_24H)
+    //@PropertyName(AppConstants.Keys.Exchange.CHANGE_24H)
     fun getChange24h(): Double {
         return change24h
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.CHANGE_PCT_24H)
+    //@PropertyName(AppConstants.Keys.Exchange.CHANGE_PCT_24H)
     fun setChangePct24h(changePct24h: Double) {
         this.changePct24h = changePct24h
     }
 
-    @PropertyName(AppConstants.Keys.Exchange.CHANGE_PCT_24H)
+    //@PropertyName(AppConstants.Keys.Exchange.CHANGE_PCT_24H)
     fun getChangePct24h(): Double {
         return changePct24h
     }

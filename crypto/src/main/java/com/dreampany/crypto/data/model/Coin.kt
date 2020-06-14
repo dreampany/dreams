@@ -12,9 +12,6 @@ import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
 import com.google.common.collect.Maps
-import com.google.firebase.database.Exclude
-import com.google.firebase.database.IgnoreExtraProperties
-import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -25,7 +22,7 @@ import java.util.*
  * Last modified $file.lastModified
  */
 @Parcelize
-@IgnoreExtraProperties
+//@IgnoreExtraProperties
 @Entity(
     indices = [Index(
         value = [Constants.Keys.ID],
@@ -49,7 +46,7 @@ data class Coin(
     private var marketPairs: Int = Constants.Default.INT,
     var rank: Int = Constants.Default.INT,
     @Ignore
-    @Exclude
+    //@Exclude
     var quotes: HashMap<Currency, Quote> = Maps.newHashMap(),
     var tags: List<String>? = Constants.Default.NULL,
     @ColumnInfo(name = AppConstants.Keys.Coin.DATE_ADDED)
@@ -78,73 +75,73 @@ data class Coin(
 
     override fun toString(): String = "Coin ($id) == $id"
 
-    @PropertyName(AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
+    //@PropertyName(AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
     fun setCirculatingSupply(circulatingSupply: Double) {
         this.circulatingSupply = circulatingSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
+    //@PropertyName(AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
     fun getCirculatingSupply(): Double {
         return circulatingSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.TOTAL_SUPPLY)
+    //@PropertyName(AppConstants.Keys.Coin.TOTAL_SUPPLY)
     fun setTotalSupply(totalSupply: Double) {
         this.totalSupply = totalSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.TOTAL_SUPPLY)
+    //@PropertyName(AppConstants.Keys.Coin.TOTAL_SUPPLY)
     fun getTotalSupply(): Double {
         return totalSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MAX_SUPPLY)
+    //@PropertyName(AppConstants.Keys.Coin.MAX_SUPPLY)
     fun setMaxSupply(maxSupply: Double) {
         this.maxSupply = maxSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MAX_SUPPLY)
+    //@PropertyName(AppConstants.Keys.Coin.MAX_SUPPLY)
     fun getMaxSupply(): Double {
         return maxSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MARKET_PAIRS)
+    //@PropertyName(AppConstants.Keys.Coin.MARKET_PAIRS)
     fun setMarketPairs(marketPairs: Int) {
         this.marketPairs = marketPairs
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MARKET_PAIRS)
+    //@PropertyName(AppConstants.Keys.Coin.MARKET_PAIRS)
     fun getMarketPairs(): Int {
         return marketPairs
     }
 
-    @PropertyName(AppConstants.Keys.Coin.LAST_UPDATED)
+    //@PropertyName(AppConstants.Keys.Coin.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
         this.lastUpdated = lastUpdated
     }
 
-    @PropertyName(AppConstants.Keys.Coin.LAST_UPDATED)
+    //@PropertyName(AppConstants.Keys.Coin.LAST_UPDATED)
     fun getLastUpdated(): Long {
         return lastUpdated
     }
 
-    @PropertyName(AppConstants.Keys.Coin.DATE_ADDED)
+   // @PropertyName(AppConstants.Keys.Coin.DATE_ADDED)
     fun setDateAdded(dateAdded: Long) {
         this.dateAdded = dateAdded
     }
 
-    @PropertyName(AppConstants.Keys.Coin.DATE_ADDED)
+   // @PropertyName(AppConstants.Keys.Coin.DATE_ADDED)
     fun getDateAdded(): Long = dateAdded
 
-    @Exclude
+    //@Exclude
     fun getLastUpdatedDate(): Date = Date(getLastUpdated())
 
     fun addQuote(quote: Quote) = quotes.put(quote.currency, quote)
 
-    @Exclude
+   // @Exclude
     fun getQuotes(): Map<Currency, Quote> = quotes
 
-    @Exclude
+    //@Exclude
     fun getQuotesAsList(): List<Quote> = quotes.values.toList()
 
     fun clearQuote() = quotes.clear()
@@ -178,7 +175,7 @@ data class Coin(
         return quotes.get(currency)
     }
 
-    @Exclude
+    //@Exclude
     fun getLatestQuote(): Quote? {
         var latest: Quote? = null
         quotes.forEach { entry ->

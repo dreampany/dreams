@@ -9,8 +9,6 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
-import com.google.firebase.database.IgnoreExtraProperties
-import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -20,7 +18,6 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-@IgnoreExtraProperties
 @Entity(
     indices = [Index(
         value = [Constants.Keys.ID],
@@ -66,42 +63,42 @@ data class Trade(
         return "Trade ($id) == $id"
     }
 
-    @PropertyName(AppConstants.Keys.Trade.FROM_SYMBOL)
+    //@PropertyName(AppConstants.Keys.Trade.FROM_SYMBOL)
     fun setFromSymbol(fromSymbol: String) {
         this.fromSymbol = fromSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.FROM_SYMBOL)
+   // @PropertyName(AppConstants.Keys.Trade.FROM_SYMBOL)
     fun getFromSymbol(): String {
         return fromSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.TO_SYMBOL)
+    //@PropertyName(AppConstants.Keys.Trade.TO_SYMBOL)
     fun setToSymbol(toSymbol: String) {
         this.toSymbol = toSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.TO_SYMBOL)
+    //@PropertyName(AppConstants.Keys.Trade.TO_SYMBOL)
     fun getToSymbol(): String {
         return toSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H)
+    //@PropertyName(AppConstants.Keys.Trade.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {
         this.volume24h = volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H)
+    //@PropertyName(AppConstants.Keys.Trade.VOLUME_24H)
     fun getVolume24h(): Double {
         return volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H_TO)
+    //@PropertyName(AppConstants.Keys.Trade.VOLUME_24H_TO)
     fun setVolume24hTo(volume24hTo: Double) {
         this.volume24hTo = volume24hTo
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H_TO)
+    //@PropertyName(AppConstants.Keys.Trade.VOLUME_24H_TO)
     fun getVolume24hTo(): Double {
         return volume24hTo
     }

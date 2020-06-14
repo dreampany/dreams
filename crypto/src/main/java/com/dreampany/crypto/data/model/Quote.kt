@@ -10,8 +10,6 @@ import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
-import com.google.firebase.database.IgnoreExtraProperties
-import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -21,7 +19,7 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-@IgnoreExtraProperties
+//@IgnoreExtraProperties
 @Entity(
     indices = [Index(
         value = [Constants.Keys.ID, AppConstants.Keys.Quote.CURRENCY],
@@ -68,62 +66,62 @@ data class Quote(
         return Objects.equal(item.id, id) && Objects.equal(item.currency, currency)
     }
 
-    @PropertyName(AppConstants.Keys.Quote.VOLUME_24H)
+    //@PropertyName(AppConstants.Keys.Quote.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {
         this.volume24h = volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.VOLUME_24H)
+    //@PropertyName(AppConstants.Keys.Quote.VOLUME_24H)
     fun getVolume24h(): Double {
         return volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.MARKET_CAP)
+   // @PropertyName(AppConstants.Keys.Quote.MARKET_CAP)
     fun setMarketCap(marketCap: Double) {
         this.marketCap = marketCap
     }
 
-    @PropertyName(AppConstants.Keys.Quote.MARKET_CAP)
+    //@PropertyName(AppConstants.Keys.Quote.MARKET_CAP)
     fun getMarketCap(): Double {
         return marketCap
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_1H)
+   // @PropertyName(AppConstants.Keys.Quote.CHANGE_1H)
     fun setChange1h(change1h: Double) {
         this.change1h = change1h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_1H)
+    //@PropertyName(AppConstants.Keys.Quote.CHANGE_1H)
     fun getChange1h(): Double {
         return change1h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_24H)
+    //@PropertyName(AppConstants.Keys.Quote.CHANGE_24H)
     fun setChange24h(change24h: Double) {
         this.change24h = change24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_24H)
+    //@PropertyName(AppConstants.Keys.Quote.CHANGE_24H)
     fun getChange24h(): Double {
         return change24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_7D)
+    //@PropertyName(AppConstants.Keys.Quote.CHANGE_7D)
     fun setChange7d(change7d: Double) {
         this.change7d = change7d
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_7D)
+    //@PropertyName(AppConstants.Keys.Quote.CHANGE_7D)
     fun getChange7d(): Double {
         return change7d
     }
 
-    @PropertyName(AppConstants.Keys.Quote.LAST_UPDATED)
+   // @PropertyName(AppConstants.Keys.Quote.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
         this.lastUpdated = lastUpdated
     }
 
-    @PropertyName(AppConstants.Keys.Quote.LAST_UPDATED)
+   // @PropertyName(AppConstants.Keys.Quote.LAST_UPDATED)
     fun getLastUpdated(): Long {
         return lastUpdated
     }

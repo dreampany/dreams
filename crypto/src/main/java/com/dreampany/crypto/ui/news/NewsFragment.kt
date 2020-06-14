@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.enums.Action
@@ -137,6 +138,8 @@ class NewsFragment
             state,
             bind.layoutRecycler.recycler
         )
+
+        //ViewCompat.setNestedScrollingEnabled(bind.layoutRecycler.recycler, false)
     }
 
     private fun loadArticles() {

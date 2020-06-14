@@ -37,7 +37,7 @@ private constructor(
 
     override var identifier: Long = hashCode().toLong()
 
-    override val type: Int = R.id.adapter_ticker_item_id
+    override val type: Int = R.id.adapter_article_item_id
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?) =
         ArticleItemBinding.inflate(inflater, parent, false)

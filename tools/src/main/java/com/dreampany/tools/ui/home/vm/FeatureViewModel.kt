@@ -55,7 +55,7 @@ class FeatureViewModel
                 colors.nextColor(Type.FEATURE.name)
             )
         )
-        features.add(
+        /*features.add(
             Feature(
                 Type.FEATURE,
                 Subtype.CALL_RECORD,
@@ -63,13 +63,22 @@ class FeatureViewModel
                 R.string.title_feature_call_record,
                 colors.nextColor(Type.FEATURE.name)
             )
-        )
+        )*/
         features.add(
             Feature(
                 Type.FEATURE,
                 Subtype.CRYPTO,
                 R.drawable.ic_crypto,
                 R.string.title_feature_crypto,
+                colors.nextColor(Type.FEATURE.name)
+            )
+        )
+        features.add(
+            Feature(
+                Type.FEATURE,
+                Subtype.NEWS,
+                R.drawable.ic_baseline_record_voice_over_24,
+                R.string.title_feature_call_record,
                 colors.nextColor(Type.FEATURE.name)
             )
         )

@@ -10,7 +10,6 @@
     <string name="title_empty_favorite_stations" translatable="false">No Favorite Stations</string>
     <string name="message_empty_favorite_stations" translatable="false">It seems you have not made any favorite station yet.</string>
 
-
     <string name="error_grant_audiofocus">Request for audio focus was not granted by the system</string>
     <string name="error_play_stream">Unable to play stream</string>
     <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout</string>

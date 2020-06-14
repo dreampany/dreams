@@ -38,7 +38,7 @@
 
                         <include
                             android:id="@+id/layout_recycler"
-                            layout="@layout/content_recycler"
+                            layout="@layout/content_recycler_ad"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </FrameLayout>

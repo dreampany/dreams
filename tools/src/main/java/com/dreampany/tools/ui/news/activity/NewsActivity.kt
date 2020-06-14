@@ -1,51 +1,39 @@
-package com.dreampany.tools.ui.crypto.activity
+package com.dreampany.tools.ui.news.activity
 
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.ui.activity.InjectActivity
-import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
-import com.dreampany.tools.data.model.crypto.Coin
-import com.dreampany.tools.databinding.CoinActivityBinding
+import com.dreampany.tools.databinding.NewsActivityBinding
 import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.ui.crypto.adapter.CoinPagerAdapter
+import com.dreampany.tools.ui.news.adapter.ArticlePagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import javax.inject.Inject
 
 /**
- * Created by roman on 26/4/20
+ * Created by roman on 14/6/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinActivity : InjectActivity() {
+class NewsActivity : InjectActivity() {
 
     @Inject
     internal lateinit var ad: AdManager
 
-    private lateinit var bind: CoinActivityBinding
-    private lateinit var adapter: CoinPagerAdapter
-
-    private lateinit var input : Coin
+    private lateinit var bind: NewsActivityBinding
+    private lateinit var adapter: ArticlePagerAdapter
 
     override val homeUp: Boolean = true
 
-    override val layoutRes: Int = R.layout.coin_activity
+    override val layoutRes: Int = R.layout.news_activity
 
     override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
-        val task : UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
-        input = task.input ?: return
         initAd()
         initUi()
         initPager()
-        setTitle(input.name)
         loadUi()
         ad.loadBanner(this.javaClass.simpleName)
     }
@@ -63,21 +51,6 @@ class CoinActivity : InjectActivity() {
         super.onPause()
     }
 
-    private fun initUi() {
-        bind = getBinding()
-    }
-
-    private fun initPager() {
-        adapter = CoinPagerAdapter(this)
-        bind.layoutPager.pager.adapter = adapter
-        TabLayoutMediator(
-            bind.tabs,
-            bind.layoutPager.pager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.text = adapter.getTitle(position)
-            }).attach()
-    }
-
     private fun initAd() {
         ad.initAd(
             this,
@@ -88,7 +61,22 @@ class CoinActivity : InjectActivity() {
         )
     }
 
+    private fun initUi() {
+        bind = getBinding()
+    }
+
+    private fun initPager() {
+        adapter = ArticlePagerAdapter(this)
+        bind.layoutPager.pager.adapter = adapter
+        TabLayoutMediator(
+            bind.tabs,
+            bind.layoutPager.pager,
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                tab.text = adapter.getTitle(position)
+            }).attach()
+    }
+
     private fun loadUi() {
-        adapter.addItems(input)
+        adapter.addItems()
     }
 }

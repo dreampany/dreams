@@ -1,3 +1,4 @@
+/*
 package com.dreampany.tools.ui.crypto.adapter
 
 import android.text.format.DateUtils
@@ -18,12 +19,14 @@ import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.misc.exts.setUrl
 import java.util.*
 
+*/
 /**
  * Created by roman on 21/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewHolder>(listener) {
 
     private lateinit var formatter: CurrencyFormatter
@@ -156,4 +159,4 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
         }
 
     }
-}
+}*/

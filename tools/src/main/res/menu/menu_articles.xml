@@ -12,7 +12,7 @@
         auto:showAsAction="collapseActionView|always" />
 
     <item
-        android:id="@+id/item_favorites"
+        android:id="@+id/item_favorite"
         android:icon="@drawable/ic_favorite_border_black_24dp"
         android:iconTint="@color/material_white"
         android:title="@string/title_favorite_notes"

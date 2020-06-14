@@ -5,6 +5,7 @@ import com.dreampany.tools.inject.ui.crypto.CryptoModule
 import com.dreampany.tools.inject.ui.history.HistoryModule
 import com.dreampany.tools.inject.ui.home.HomeModule
 import com.dreampany.tools.inject.ui.more.MoreModule
+import com.dreampany.tools.inject.ui.news.NewsModule
 import com.dreampany.tools.inject.ui.note.NoteModule
 import com.dreampany.tools.inject.ui.radio.RadioModule
 import com.dreampany.tools.inject.ui.wifi.WifiModule
@@ -26,7 +27,8 @@ import dagger.android.ContributesAndroidInjector
         RadioModule::class,
         NoteModule::class,
         HistoryModule::class,
-        WifiModule::class
+        WifiModule::class,
+        NewsModule::class
     ]
 )
 abstract class ActivityModule {

@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.crypto.activity
+package com.dreampany.tools.ui.news.fragment
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,77 +6,67 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.init
-import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.refresh
 import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.misc.func.SmartError
-import com.dreampany.framework.ui.activity.InjectActivity
-import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.stateful.StatefulLayout
+import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
+import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
+import com.dreampany.tools.ui.news.vm.ArticleViewModel
+import javax.inject.Inject
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
-import com.dreampany.tools.databinding.RecyclerActivityAdBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.data.enums.news.NewsAction
+import com.dreampany.tools.data.enums.news.NewsState
+import com.dreampany.tools.data.enums.news.NewsSubtype
+import com.dreampany.tools.data.enums.news.NewsType
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
+import com.dreampany.tools.ui.news.model.ArticleItem
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
- * Created by roman on 21/3/20
+ * Created by roman on 14/6/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinsActivity : InjectActivity() {
-    @Inject
-    internal lateinit var ad: AdManager
+@ActivityScope
+class ArticlesFragment
+@Inject constructor() : InjectFragment() {
 
-    @Inject
-    internal lateinit var pref: CryptoPref
+    private lateinit var bind: RecyclerChildFragmentBinding
+    private lateinit var vm: ArticleViewModel
 
-    private lateinit var bind: RecyclerActivityAdBinding
-    private lateinit var vm: CoinViewModel
-    private lateinit var adapter: FastCoinAdapter
+    private lateinit var adapter: FastArticleAdapter
 
-    override val homeUp: Boolean = true
-    override val layoutRes: Int = R.layout.recycler_activity_ad
-    override val menuRes: Int = R.menu.menu_coins
-    override val toolbarId: Int = R.id.toolbar
+    override val layoutRes: Int = R.layout.recycler_child_fragment
+
+    override val menuRes: Int = R.menu.menu_articles
+
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
-        initAd()
         initUi()
         initRecycler(state)
         onRefresh()
-        ad.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
-        adapter.destroy()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
-    }
-
-    override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
-        super.onPause()
     }
 
     override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(this, R.color.material_white)
-        findMenuItemById(R.id.item_favorites).toTint(this, R.color.material_white)
+        getSearchMenuItem().toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -88,7 +78,7 @@ class CoinsActivity : InjectActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_favorites -> {
-                openFavoritesUi()
+                //openFavoritesUi()
                 return true
             }
         }
@@ -101,17 +91,17 @@ class CoinsActivity : InjectActivity() {
     }
 
     override fun onRefresh() {
-        loadCoins()
+        loadArticles()
     }
 
-    private fun onItemPressed(view: View, item: CoinItem) {
+    private fun onItemPressed(view: View, item: ArticleItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openCoinUi(item)
+                //openCoinUi(item)
             }
             R.id.button_favorite -> {
-                onFavoriteClicked(item)
+                //onFavoriteClicked(item)
             }
             else -> {
 
@@ -119,28 +109,18 @@ class CoinsActivity : InjectActivity() {
         }
     }
 
-    private fun initAd() {
-        ad.initAd(
-            this,
-            this.javaClass.simpleName,
-            findViewById(R.id.adview),
-            R.string.interstitial_ad_unit_id,
-            R.string.rewarded_ad_unit_id
-        )
-    }
-
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
-        vm = createVm(CoinViewModel::class)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_articles)
+        vm = createVm(ArticleViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter(
+            adapter = FastArticleAdapter(
                 { currentPage ->
                     Timber.v("CurrentPage: %d", currentPage)
                     onRefresh()
@@ -150,34 +130,27 @@ class CoinsActivity : InjectActivity() {
 
         adapter.initRecycler(
             state,
-            bind.layoutRecycler.recycler,
-            pref.getCurrency(),
-            pref.getSort(),
-            pref.getOrder()
+            bind.layoutRecycler.recycler
         )
     }
 
-    private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount.toLong())
-    }
-
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+    private fun processResponse(response: Response<NewsType, NewsSubtype, NewsState, NewsAction, ArticleItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+        } else if (response is Response.Result<NewsType, NewsSubtype, NewsState, NewsAction, ArticleItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
     }
 
-    private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponses(response: Response<NewsType, NewsSubtype, NewsState, NewsAction, List<ArticleItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+        } else if (response is Response.Result<NewsType, NewsSubtype, NewsState, NewsAction, List<ArticleItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -200,13 +173,13 @@ class CoinsActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: CoinItem?) {
+    private fun processResult(result: ArticleItem?) {
         if (result != null) {
             adapter.updateItem(result)
         }
     }
 
-    private fun processResults(result: List<CoinItem>?) {
+    private fun processResults(result: List<ArticleItem>?) {
         if (result != null) {
             adapter.addItems(result)
         }
@@ -218,23 +191,22 @@ class CoinsActivity : InjectActivity() {
         }
     }
 
-    private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
-    }
-
-
-    private fun openCoinUi(item: CoinItem) {
-        val task = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.VIEW,
-            item.item
-        )
-        open(CoinActivity::class, task)
-    }
-
-    private fun openFavoritesUi() {
-        open(FavoriteCoinsActivity::class)
+    private fun loadArticles() {
+        /*val task = task ?: return
+        if (task.state is RadioState) {
+            when (task.state) {
+                RadioState.LOCAL -> {
+                    vm.loadStations(
+                        task.state as RadioState,
+                        context.countryCode,
+                        adapter.itemCount.toLong()
+                    )
+                }
+                RadioState.TRENDS,
+                RadioState.POPULAR -> {
+                    vm.loadStations(task.state as RadioState, adapter.itemCount.toLong())
+                }
+            }
+        }*/
     }
 }

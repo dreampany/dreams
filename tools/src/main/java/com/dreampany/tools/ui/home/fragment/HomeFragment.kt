@@ -19,6 +19,7 @@ import com.dreampany.tools.ui.history.activity.HistoriesActivity
 import com.dreampany.tools.ui.home.adapter.FastFeatureAdapter
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
+import com.dreampany.tools.ui.news.activity.NewsActivity
 import com.dreampany.tools.ui.note.activity.NotesActivity
 import com.dreampany.tools.ui.radio.activity.StationsActivity
 import com.dreampany.tools.ui.wifi.activity.WifisActivity
@@ -115,6 +116,7 @@ class HomeFragment
             Subtype.RADIO -> activity.open(StationsActivity::class)
             Subtype.NOTE -> activity.open(NotesActivity::class)
             Subtype.HISTORY -> activity.open(HistoriesActivity::class)
+            Subtype.NEWS -> activity.open(NewsActivity::class)
         }
     }
 }

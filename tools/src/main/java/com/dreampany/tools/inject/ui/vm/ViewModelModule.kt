@@ -6,6 +6,7 @@ import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.inject.ui.vm.crypto.CryptoViewModelModule
 import com.dreampany.tools.inject.ui.vm.history.HistoryViewModelModule
+import com.dreampany.tools.inject.ui.vm.news.NewsViewModelModule
 import com.dreampany.tools.inject.ui.vm.note.NoteViewModelModule
 import com.dreampany.tools.inject.ui.vm.radio.RadioViewModelModule
 import com.dreampany.tools.inject.ui.vm.wifi.WifiViewModelModule
@@ -28,7 +29,8 @@ import javax.inject.Singleton
         RadioViewModelModule::class,
         NoteViewModelModule::class,
         HistoryViewModelModule::class,
-        WifiViewModelModule::class
+        WifiViewModelModule::class,
+        NewsViewModelModule::class
     ]
 )
 abstract class ViewModelModule {

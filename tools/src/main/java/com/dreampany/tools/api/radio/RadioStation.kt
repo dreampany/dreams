@@ -4,7 +4,7 @@ import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.tools.misc.constant.RadioConstants
+import com.dreampany.tools.misc.constants.RadioConstants
 import com.google.common.base.Objects
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize

@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.api.radio.Mapper
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
-import com.dreampany.tools.misc.constant.AppConstants
+import com.dreampany.tools.misc.constants.AppConstants
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener

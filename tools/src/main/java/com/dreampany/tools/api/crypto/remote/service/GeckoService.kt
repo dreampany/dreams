@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.crypto.remote.service
 
 import com.dreampany.tools.api.crypto.remote.response.gecko.GeckoTickersResponse
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap

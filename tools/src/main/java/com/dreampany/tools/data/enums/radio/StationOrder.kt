@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.enums.radio
 
 import android.os.Parcelable
-import com.dreampany.tools.misc.constant.RadioConstants
+import com.dreampany.tools.misc.constants.RadioConstants
 import kotlinx.android.parcel.Parcelize
 
 /**

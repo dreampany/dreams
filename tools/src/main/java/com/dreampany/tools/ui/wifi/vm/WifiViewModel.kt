@@ -12,7 +12,7 @@ import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.dreampany.tools.data.source.wifi.repo.WifiRepo
-import com.dreampany.tools.misc.constant.WifiConstants
+import com.dreampany.tools.misc.constants.WifiConstants
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

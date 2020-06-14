@@ -17,7 +17,7 @@ import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import java.util.*

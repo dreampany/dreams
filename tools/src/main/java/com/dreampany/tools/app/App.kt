@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.tools.R
 import com.dreampany.tools.inject.app.DaggerAppComponent
 import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.worker.CryptoWorker
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds

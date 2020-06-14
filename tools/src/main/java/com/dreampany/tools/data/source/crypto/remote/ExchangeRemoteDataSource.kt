@@ -10,7 +10,7 @@ import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
 import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.data.source.crypto.api.ExchangeDataSource
 import com.dreampany.tools.data.source.crypto.mapper.ExchangeMapper
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.common.collect.Maps
 import java.net.UnknownHostException
 

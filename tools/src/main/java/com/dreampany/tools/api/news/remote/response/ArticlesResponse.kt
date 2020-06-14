@@ -1,6 +1,6 @@
-package com.dreampany.crypto.api.remote.response
+package com.dreampany.tools.api.news.remote.response
 
-import com.dreampany.crypto.api.model.NewsArticle
+import com.dreampany.tools.api.news.model.NewsArticle
 
 /**
  * Created by roman on 2019-11-12
@@ -8,7 +8,7 @@ import com.dreampany.crypto.api.model.NewsArticle
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NewsResponse(
+class ArticlesResponse(
     val status: String,
     val code: String? = null,
     val message: String? = null,

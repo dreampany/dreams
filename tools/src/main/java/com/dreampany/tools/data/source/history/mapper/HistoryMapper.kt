@@ -15,7 +15,7 @@ import com.dreampany.tools.data.enums.history.HistoryType
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.api.HistoryDataSource
 import com.dreampany.tools.data.source.history.pref.HistoryPref
-import com.dreampany.tools.misc.constant.HistoryConstants
+import com.dreampany.tools.misc.constants.HistoryConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject

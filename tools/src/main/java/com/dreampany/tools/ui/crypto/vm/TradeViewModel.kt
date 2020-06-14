@@ -11,7 +11,7 @@ import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Trade
 import com.dreampany.tools.data.source.crypto.repo.TradeRepo
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject

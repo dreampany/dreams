@@ -1,4 +1,4 @@
-package com.dreampany.tools.misc.constant
+package com.dreampany.tools.misc.constants
 
 import android.content.Intent
 import com.dreampany.framework.misc.constant.Constants

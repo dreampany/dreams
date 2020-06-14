@@ -9,7 +9,7 @@ import com.dreampany.tools.api.crypto.remote.service.GeckoService
 import com.dreampany.tools.data.model.crypto.Ticker
 import com.dreampany.tools.data.source.crypto.api.TickerDataSource
 import com.dreampany.tools.data.source.crypto.mapper.TickerMapper
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.common.collect.Maps
 import java.net.UnknownHostException
 

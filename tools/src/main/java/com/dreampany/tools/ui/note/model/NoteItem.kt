@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.exts.format
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.databinding.NoteItemBinding
-import com.dreampany.tools.misc.constant.NoteConstants
+import com.dreampany.tools.misc.constants.NoteConstants
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 

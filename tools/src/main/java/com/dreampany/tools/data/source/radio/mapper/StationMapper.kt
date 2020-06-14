@@ -8,7 +8,7 @@ import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.api.StationDataSource
 import com.dreampany.tools.data.source.radio.pref.RadioPref
-import com.dreampany.tools.misc.constant.AppConstants
+import com.dreampany.tools.misc.constants.AppConstants
 import com.google.common.collect.Maps
 import java.util.*
 import javax.inject.Inject

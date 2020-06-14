@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.wifi.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.tools.misc.constant.WifiConstants
+import com.dreampany.tools.misc.constants.WifiConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 

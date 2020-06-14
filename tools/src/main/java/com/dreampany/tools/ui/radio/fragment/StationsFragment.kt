@@ -19,7 +19,7 @@ import com.dreampany.tools.data.enums.radio.RadioSubtype
 import com.dreampany.tools.data.enums.radio.RadioType
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.manager.RadioPlayerManager
-import com.dreampany.tools.misc.constant.AppConstants
+import com.dreampany.tools.misc.constants.AppConstants
 import com.dreampany.tools.ui.radio.adapter.FastStationAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.dreampany.tools.ui.radio.vm.StationViewModel

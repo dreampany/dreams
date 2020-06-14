@@ -2,7 +2,7 @@ package com.dreampany.crypto.data.source.remote
 
 import android.content.Context
 import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.remote.response.NewsResponse
+import com.dreampany.crypto.api.remote.response.ArticlesResponse
 import com.dreampany.crypto.api.remote.service.NewsApiService
 import com.dreampany.crypto.data.model.Article
 import com.dreampany.crypto.data.source.api.ArticleDataSource
@@ -89,7 +89,7 @@ constructor(
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val response: Response<NewsResponse> = service.getEverything(
+                val response: Response<ArticlesResponse> = service.getEverything(
                     getHeader(key),
                     query,
                     language,

@@ -33,8 +33,8 @@ import com.dreampany.tools.api.radio.RadioPlayer
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
 import com.dreampany.tools.data.model.radio.Station
-import com.dreampany.tools.misc.constant.AppConstants
-import com.dreampany.tools.misc.constant.RadioConstants
+import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.RadioConstants
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import timber.log.Timber
 import javax.inject.Inject

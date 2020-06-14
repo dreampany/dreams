@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.exts.join
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.history.HistorySource
 import com.dreampany.tools.data.enums.history.HistoryState
-import com.dreampany.tools.misc.constant.HistoryConstants
+import com.dreampany.tools.misc.constants.HistoryConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 

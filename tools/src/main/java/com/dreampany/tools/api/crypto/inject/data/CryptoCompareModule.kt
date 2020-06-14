@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.crypto.inject.data
 
 import com.dreampany.tools.api.crypto.inject.CryptoCompareAnnote
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
 import com.google.gson.Gson
 import dagger.Module

@@ -9,7 +9,8 @@ import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.R
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.exts.setUrl
+import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
@@ -17,7 +18,6 @@ import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.databinding.CoinQuoteItemBinding
 import com.dreampany.tools.misc.func.CurrencyFormatter
-import com.dreampany.tools.misc.exts.setUrl
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 import java.util.*
@@ -174,10 +174,10 @@ private constructor(
         val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
         val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
-       // bind.layoutPrice.textChange1h.text = bind.context.formatString(change1hFormat, change1h)
+        // bind.layoutPrice.textChange1h.text = bind.context.formatString(change1hFormat, change1h)
         bind.layoutPrice.textChange24h.text =
             bind.context.formatString(change24hFormat, change24h)
-       // bind.layoutPrice.textChange7d.text = bind.context.formatString(change7dFormat, change7d)
+        // bind.layoutPrice.textChange7d.text = bind.context.formatString(change7dFormat, change7d)
 
         val startColor = R.color.material_grey400
         val endColor =
@@ -195,7 +195,7 @@ private constructor(
 
         val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-       // bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
+        // bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),
@@ -278,10 +278,22 @@ private constructor(
 
     private fun bindItem(bind: CoinQuoteItemBinding) {
         val symbol = item.symbol
-        val circulating = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getCirculatingSupply()), symbol)
+        val circulating = bind.context.getString(
+            R.string.join_text,
+            formatter.roundPrice(item.getCirculatingSupply()),
+            symbol
+        )
 
-        val total = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getTotalSupply()), symbol)
-        val max = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getMaxSupply()), symbol)
+        val total = bind.context.getString(
+            R.string.join_text,
+            formatter.roundPrice(item.getTotalSupply()),
+            symbol
+        )
+        val max = bind.context.getString(
+            R.string.join_text,
+            formatter.roundPrice(item.getMaxSupply()),
+            symbol
+        )
 
         bind.layoutCirculating.title.setText(R.string.circulating_supply)
         bind.layoutTotal.title.setText(R.string.total_supply)

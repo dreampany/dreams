@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.room.converters.Converters
 import com.dreampany.tools.data.source.wifi.room.dao.WifiDao
-import com.dreampany.tools.misc.constant.WifiConstants
+import com.dreampany.tools.misc.constants.WifiConstants
 
 /**
  * Created by roman on 24/5/20

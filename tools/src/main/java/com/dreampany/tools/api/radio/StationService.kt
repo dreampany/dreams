@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.radio
 
-import com.dreampany.tools.misc.constant.RadioConstants
+import com.dreampany.tools.misc.constants.RadioConstants
 import retrofit2.Call
 import retrofit2.http.*
 

@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.note.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.tools.misc.constant.NoteConstants
+import com.dreampany.tools.misc.constants.NoteConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 

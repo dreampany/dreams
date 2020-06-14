@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.room.converters.Converters
 import com.dreampany.tools.data.source.history.room.dao.HistoryDao
-import com.dreampany.tools.misc.constant.HistoryConstants
+import com.dreampany.tools.misc.constants.HistoryConstants
 
 /**
  * Created by roman on 14/3/20

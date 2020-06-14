@@ -8,12 +8,10 @@ import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
-import com.dreampany.tools.data.model.crypto.Ticker
 import com.dreampany.tools.data.source.crypto.room.converters.Converters
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
-import com.dreampany.tools.misc.constant.AppConstants
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 
 /**
  * Created by roman on 14/3/20

@@ -1,4 +1,4 @@
-package com.dreampany.tools.misc.constant
+package com.dreampany.tools.misc.constants
 
 /**
  * Created by roman on 2019-11-11

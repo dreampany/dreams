@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.room.converters.Converters
 import com.dreampany.tools.data.source.note.room.dao.NoteDao
-import com.dreampany.tools.misc.constant.NoteConstants
+import com.dreampany.tools.misc.constants.NoteConstants
 
 /**
  * Created by roman on 14/3/20

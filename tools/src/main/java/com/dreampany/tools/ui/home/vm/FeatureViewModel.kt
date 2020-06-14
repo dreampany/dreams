@@ -77,8 +77,8 @@ class FeatureViewModel
             Feature(
                 Type.FEATURE,
                 Subtype.NEWS,
-                R.drawable.ic_baseline_record_voice_over_24,
-                R.string.title_feature_call_record,
+                R.drawable.ic_baseline_receipt_24,
+                R.string.title_feature_news,
                 colors.nextColor(Type.FEATURE.name)
             )
         )

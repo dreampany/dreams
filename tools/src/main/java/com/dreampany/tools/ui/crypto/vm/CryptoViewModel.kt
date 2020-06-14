@@ -14,7 +14,7 @@ import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
-import com.dreampany.tools.misc.constant.CryptoConstants
+import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import kotlinx.coroutines.*

@@ -7,7 +7,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.R
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
-import com.dreampany.tools.misc.constant.AppConstants
+import com.dreampany.tools.misc.constants.AppConstants
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.audio.AudioAttributes

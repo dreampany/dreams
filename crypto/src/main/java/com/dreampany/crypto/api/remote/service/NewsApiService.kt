@@ -1,8 +1,7 @@
 package com.dreampany.crypto.api.remote.service
 
 import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.remote.response.NewsResponse
-import com.dreampany.crypto.api.remote.response.TradesResponse
+import com.dreampany.crypto.api.remote.response.ArticlesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -22,5 +21,5 @@ interface NewsApiService {
         @Query(ApiConstants.NewsApi.LANGUAGE) language: String,
         @Query(ApiConstants.NewsApi.OFFSET) offset: Long,
         @Query(ApiConstants.NewsApi.LIMIT) limit: Long
-    ): Call<NewsResponse>
+    ): Call<ArticlesResponse>
 }

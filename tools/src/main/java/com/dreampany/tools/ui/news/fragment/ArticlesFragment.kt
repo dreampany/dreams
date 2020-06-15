@@ -18,17 +18,10 @@ import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
 import com.dreampany.tools.ui.news.vm.ArticleViewModel
 import javax.inject.Inject
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.news.NewsAction
 import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
 import com.dreampany.tools.data.enums.news.NewsType
-import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
-import com.dreampany.tools.ui.crypto.model.CoinItem
-import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import com.dreampany.tools.ui.news.model.ArticleItem
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
@@ -50,10 +43,6 @@ class ArticlesFragment
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
 
-    override val menuRes: Int = R.menu.menu_articles
-
-    override val searchMenuItemId: Int = R.id.item_search
-
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
@@ -64,30 +53,10 @@ class ArticlesFragment
 
     }
 
-    override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(context, R.color.material_white)
-        findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         var outState = outState
         outState = adapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_favorites -> {
-                //openFavoritesUi()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        adapter.filter(newText)
-        return false
     }
 
     override fun onRefresh() {

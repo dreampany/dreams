@@ -57,6 +57,8 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
                 auto:tabGravity="fill"
+                auto:tabIndicatorFullWidth="false"
+                auto:tabIndicator="@drawable/tab_indicator"
                 auto:tabIndicatorColor="@android:color/white"
                 auto:tabMode="scrollable"
                 auto:tabSelectedTextColor="@android:color/white"

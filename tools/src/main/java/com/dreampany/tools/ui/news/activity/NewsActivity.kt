@@ -1,6 +1,9 @@
 package com.dreampany.tools.ui.news.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.NewsActivityBinding
@@ -27,8 +30,10 @@ class NewsActivity : InjectActivity() {
     override val homeUp: Boolean = true
 
     override val layoutRes: Int = R.layout.news_activity
+    override val menuRes: Int = R.menu.menu_news
 
     override val toolbarId: Int = R.id.toolbar
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initAd()
@@ -49,6 +54,26 @@ class NewsActivity : InjectActivity() {
     override fun onPause() {
         ad.pauseBanner(this.javaClass.simpleName)
         super.onPause()
+    }
+
+    override fun onMenuCreated(menu: Menu) {
+        getSearchMenuItem().toTint(this, R.color.material_white)
+        findMenuItemById(R.id.item_favorites).toTint(this, R.color.material_white)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_favorites -> {
+                //openFavoritesUi()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        //adapter.filter(newText)
+        return false
     }
 
     private fun initAd() {

@@ -12,6 +12,10 @@ import java.util.concurrent.TimeUnit
  */
 class AppConstants {
 
+    companion object {
+        const val APPS_URL = "https://firebasestorage.googleapis.com/v0/b/dream-pany.appspot.com/o/apps.json?alt=media&token=f3cdc910-9504-4c89-9d96-bcc651f837a4"
+    }
+
     object Keys {
 
         object PrefKeys {

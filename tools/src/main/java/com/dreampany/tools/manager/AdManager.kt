@@ -343,6 +343,10 @@ class AdManager
         val rewarded: RewardedAd? = rewardeds[screenId]?.first
     }
 
+    fun showInHouseAds() {
+
+    }
+
     class Config
     private constructor(
         val bannerExpireDelay: Long,

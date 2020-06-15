@@ -56,4 +56,16 @@ class ArticleRoomDataSource(
         offset: Long,
         limit: Long
     ): List<Article>? = mapper.getItems(query, language, offset, limit, this)
+
+    override suspend fun getsByCountry(country: String, offset: Long, limit: Long): List<Article>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getsByCategory(
+        category: String,
+        offset: Long,
+        limit: Long
+    ): List<Article>? {
+        TODO("Not yet implemented")
+    }
 }

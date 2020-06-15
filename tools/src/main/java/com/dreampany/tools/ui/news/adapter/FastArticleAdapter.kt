@@ -93,6 +93,15 @@ class FastArticleAdapter(
                     }
                 false
             }*/
+
+            fastAdapter.addClickListener<ArticleItemBinding, GenericItem>(
+                { bind -> bind.root }, { bind -> arrayListOf(bind.root) }
+            )
+            { view, position, adapter, item ->
+                if (item is ArticleItem) {
+                    listener(view, item)
+                }
+            }
             /*fastAdapter.addClickListener<CoinItemBinding, GenericItem>(
                 { bind -> bind.root }, { bind -> arrayListOf(bind.layoutOptions.buttonFavorite) }
             )

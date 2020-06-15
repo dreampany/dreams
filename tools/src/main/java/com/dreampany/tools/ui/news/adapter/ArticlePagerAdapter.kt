@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.news.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.dreampany.framework.misc.exts.country
 import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
@@ -21,16 +22,23 @@ import com.dreampany.tools.ui.news.fragment.ArticlesFragment
 class ArticlePagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
     fun addItems() {
-        val latest = UiTask(
+        val country = UiTask(
             NewsType.DEFAULT,
-            NewsSubtype.LATEST,
+            NewsSubtype.COUNTRY,
             NewsState.DEFAULT,
             NewsAction.DEFAULT,
             null as Article?
         )
-        val world = UiTask(
+        val general = UiTask(
             NewsType.DEFAULT,
-            NewsSubtype.WORLD,
+            NewsSubtype.GENERAL,
+            NewsState.DEFAULT,
+            NewsAction.DEFAULT,
+            null as Article?
+        )
+        val health = UiTask(
+            NewsType.DEFAULT,
+            NewsSubtype.HEALTH,
             NewsState.DEFAULT,
             NewsAction.DEFAULT,
             null as Article?
@@ -56,19 +64,40 @@ class ArticlePagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
             NewsAction.DEFAULT,
             null as Article?
         )
-        addItem(
-            com.dreampany.framework.misc.exts.createFragment(
-                ArticlesFragment::class,
-                latest
-            ),
-            R.string.title_article_latest
+        val science = UiTask(
+            NewsType.DEFAULT,
+            NewsSubtype.SCIENCE,
+            NewsState.DEFAULT,
+            NewsAction.DEFAULT,
+            null as Article?
+        )
+        val technology = UiTask(
+            NewsType.DEFAULT,
+            NewsSubtype.TECHNOLOGY,
+            NewsState.DEFAULT,
+            NewsAction.DEFAULT,
+            null as Article?
         )
         addItem(
             com.dreampany.framework.misc.exts.createFragment(
                 ArticlesFragment::class,
-                world
+                country
             ),
-            R.string.title_article_world
+            activity.country
+        )
+        addItem(
+            com.dreampany.framework.misc.exts.createFragment(
+                ArticlesFragment::class,
+                general
+            ),
+            R.string.title_article_general
+        )
+        addItem(
+            com.dreampany.framework.misc.exts.createFragment(
+                ArticlesFragment::class,
+                health
+            ),
+            R.string.title_article_health
         )
         addItem(
             com.dreampany.framework.misc.exts.createFragment(
@@ -90,6 +119,20 @@ class ArticlePagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
                 sports
             ),
             R.string.title_article_sports
+        )
+        addItem(
+            com.dreampany.framework.misc.exts.createFragment(
+                ArticlesFragment::class,
+                science
+            ),
+            R.string.title_article_science
+        )
+        addItem(
+            com.dreampany.framework.misc.exts.createFragment(
+                ArticlesFragment::class,
+                technology
+            ),
+            R.string.title_article_technology
         )
         notifyDataSetChanged()
     }

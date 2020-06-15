@@ -46,8 +46,7 @@ class InfoFragment
     override val layoutRes: Int = R.layout.coin_info_fragment
 
     override fun onStartUi(state: Bundle?) {
-        val task: UiTask<Type, Subtype, State, Action, Coin> =
-            (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
         input = task.input ?: return
         initUi()
         onRefresh()

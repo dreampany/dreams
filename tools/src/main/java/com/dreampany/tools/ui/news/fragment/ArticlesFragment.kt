@@ -7,22 +7,27 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.init
-import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.toTint
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
 import com.dreampany.tools.ui.news.vm.ArticleViewModel
 import javax.inject.Inject
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.home.Action
+import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.enums.home.Subtype
+import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.enums.news.NewsAction
 import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
 import com.dreampany.tools.data.enums.news.NewsType
+import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.ui.news.model.ArticleItem
+import com.dreampany.tools.ui.web.WebActivity
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 
@@ -38,12 +43,15 @@ class ArticlesFragment
 
     private lateinit var bind: RecyclerChildFragmentBinding
     private lateinit var vm: ArticleViewModel
-
     private lateinit var adapter: FastArticleAdapter
+
+    private lateinit var subtype: NewsSubtype
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
 
     override fun onStartUi(state: Bundle?) {
+        val task = (task ?: return) as UiTask<NewsType, NewsSubtype, NewsState, NewsAction, Article>
+        subtype = task.subtype ?: return
         initUi()
         initRecycler(state)
         onRefresh()
@@ -67,7 +75,7 @@ class ArticlesFragment
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                //openCoinUi(item)
+                openWeb(item.input.url)
             }
             R.id.button_favorite -> {
                 //onFavoriteClicked(item)
@@ -161,21 +169,22 @@ class ArticlesFragment
     }
 
     private fun loadArticles() {
-        /*val task = task ?: return
-        if (task.state is RadioState) {
-            when (task.state) {
-                RadioState.LOCAL -> {
-                    vm.loadStations(
-                        task.state as RadioState,
-                        context.countryCode,
-                        adapter.itemCount.toLong()
-                    )
-                }
-                RadioState.TRENDS,
-                RadioState.POPULAR -> {
-                    vm.loadStations(task.state as RadioState, adapter.itemCount.toLong())
-                }
-            }
-        }*/
+        vm.loadArticles(subtype)
+    }
+
+    fun openWeb(url: String?) {
+        if (url.isNullOrEmpty()) {
+            //TODO
+            return
+        }
+        val task = UiTask(
+            Type.SITE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            null as Article?,
+            url = url
+        )
+        open(WebActivity::class, task)
     }
 }

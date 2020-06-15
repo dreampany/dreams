@@ -22,4 +22,20 @@ interface NewsApiService {
         @Query(NewsConstants.NewsApi.OFFSET) offset: Long,
         @Query(NewsConstants.NewsApi.LIMIT) limit: Long
     ): Call<ArticlesResponse>
+
+    @GET(NewsConstants.NewsApi.HEADLINES)
+    fun getHeadlinesByCountry(
+        @HeaderMap headers: Map<String, String>,
+        @Query(NewsConstants.NewsApi.COUNTRY) country: String,
+        @Query(NewsConstants.NewsApi.OFFSET) offset: Long,
+        @Query(NewsConstants.NewsApi.LIMIT) limit: Long
+    ): Call<ArticlesResponse>
+
+    @GET(NewsConstants.NewsApi.HEADLINES)
+    fun getHeadlinesByCategory(
+        @HeaderMap headers: Map<String, String>,
+        @Query(NewsConstants.NewsApi.CATEGORY) category: String,
+        @Query(NewsConstants.NewsApi.OFFSET) offset: Long,
+        @Query(NewsConstants.NewsApi.LIMIT) limit: Long
+    ): Call<ArticlesResponse>
 }

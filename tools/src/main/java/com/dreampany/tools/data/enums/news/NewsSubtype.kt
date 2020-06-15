@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class NewsSubtype : BaseSubtype {
-    DEFAULT, LATEST, COUNTRY, WORLD, BUSINESS, ENTERTAINMENT, SPORTS;
+    DEFAULT, COUNTRY, GENERAL, HEALTH, BUSINESS, ENTERTAINMENT, SPORTS, SCIENCE, TECHNOLOGY;
 
     override val value: String get() = name
 }

@@ -121,4 +121,82 @@ constructor(
         }
         throw SmartError()
     }
+
+    @Throws
+    override suspend fun getsByCountry(country: String, offset: Long, limit: Long): List<Article>? {
+        for (index in 0..keys.length) {
+            try {
+                val key = keys.nextKey ?: continue
+                val response: Response<ArticlesResponse> = service.getHeadlinesByCountry(
+                    getHeader(key),
+                    country,
+                    offset, //Coin Market Cap start from 1 - IntRange
+                    limit
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.articles ?: return null
+                    return mapper.getItems(data)
+                } else {
+                    throw SmartError(
+                        message = response.body()?.message,
+                        code = response.body()?.code.value().toInt()
+                    )
+                    /*val error = parser.parseError(response, NewsResponse::class)
+                    throw SmartError(
+                        message = error?.status?.errorMessage,
+                        code = error?.status?.errorCode
+                    )*/
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
+
+    @Throws
+    override suspend fun getsByCategory(
+        category: String,
+        offset: Long,
+        limit: Long
+    ): List<Article>? {
+        for (index in 0..keys.length) {
+            try {
+                val key = keys.nextKey ?: continue
+                val response: Response<ArticlesResponse> = service.getHeadlinesByCategory(
+                    getHeader(key),
+                    category,
+                    offset, //Coin Market Cap start from 1 - IntRange
+                    limit
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.articles ?: return null
+                    return mapper.getItems(data)
+                } else {
+                    throw SmartError(
+                        message = response.body()?.message,
+                        code = response.body()?.code.value().toInt()
+                    )
+                    /*val error = parser.parseError(response, NewsResponse::class)
+                    throw SmartError(
+                        message = error?.status?.errorMessage,
+                        code = error?.status?.errorCode
+                    )*/
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
 }

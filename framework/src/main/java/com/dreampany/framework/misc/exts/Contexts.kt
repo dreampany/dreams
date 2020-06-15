@@ -203,6 +203,13 @@ val Context?.countryCode: String
         return Locale.ENGLISH.country
     }
 
+val Context?.country : String
+    get() {
+        val code = countryCode
+        val locale = Locale("", code)
+        return locale.displayCountry
+    }
+
 @SuppressLint("PrivateApi")
 fun getCDMACountryIso(): String? {
     try {

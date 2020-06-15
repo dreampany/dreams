@@ -32,7 +32,7 @@ class ArticleRepo
     @Remote private val remote: ArticleDataSource
 ) : ArticleDataSource {
 
-    private val articles : MutableMap<String, List<Article>>
+    private val articles: MutableMap<String, List<Article>>
 
     init {
         articles = Maps.newConcurrentMap()
@@ -86,6 +86,32 @@ class ArticleRepo
         }
         articles.get(append(query, language, offset))
         //room.gets(query, language, offset, limit)
+    }
+
+    @Throws
+    override suspend fun getsByCountry(country: String, offset: Long, limit: Long) =
+        withContext(Dispatchers.IO) {
+            /*val id = append(query, language, offset)
+            if (!articles.containsKey(id)) {
+                val result = remote.gets(query, language, offset, limit)
+                if (!result.isNullOrEmpty()) {
+                    //mapper.commitExpire(query, language, offset)
+                    //room.put(result)
+                    articles.put(append(query, language, offset), result)
+                }
+            }
+            articles.get(append(query, language, offset))*/
+            //room.gets(query, language, offset, limit)
+            remote.getsByCountry(country, offset, limit)
+        }
+
+    @Throws
+    override suspend fun getsByCategory(
+        category: String,
+        offset: Long,
+        limit: Long
+    )= withContext(Dispatchers.IO) {
+        remote.getsByCategory(category, offset, limit)
     }
 
 }

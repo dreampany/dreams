@@ -33,4 +33,10 @@ interface ArticleDataSource {
 
     @Throws
     suspend fun gets(query: String, language: String, offset: Long, limit: Long): List<Article>?
+
+    @Throws
+    suspend fun getsByCountry(country: String, offset: Long, limit: Long): List<Article>?
+
+    @Throws
+    suspend fun getsByCategory(category: String, offset: Long, limit: Long): List<Article>?
 }

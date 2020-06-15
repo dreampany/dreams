@@ -1,14 +1,13 @@
 package com.dreampany.tools.ui.news.vm
 
 import android.app.Application
+import com.dreampany.framework.misc.exts.countryCode
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.tools.data.enums.news.NewsAction
-import com.dreampany.tools.data.enums.news.NewsState
-import com.dreampany.tools.data.enums.news.NewsSubtype
-import com.dreampany.tools.data.enums.news.NewsType
+import com.dreampany.tools.app.App
+import com.dreampany.tools.data.enums.news.*
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.data.source.news.repo.ArticleRepo
 import com.dreampany.tools.ui.news.model.ArticleItem
@@ -53,6 +52,47 @@ class ArticleViewModel
             }
         }
     }
+
+    fun loadArticles(subtype: NewsSubtype) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Article>? = null
+            var errors: SmartError? = null
+            try {
+                when (subtype) {
+                    NewsSubtype.COUNTRY -> {
+                        result = repo.getsByCountry(getApplication<App>().countryCode, 1, 100)
+                    }
+                    else -> {
+                        result = repo.getsByCategory(subtype.toCategory.value, 1, 100)
+                    }
+                }
+
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    private val NewsSubtype.toCategory : NewsCategory
+        get() {
+            when(this) {
+                NewsSubtype.GENERAL-> return NewsCategory.GENERAL
+                NewsSubtype.HEALTH-> return NewsCategory.HEALTH
+                NewsSubtype.BUSINESS-> return NewsCategory.BUSINESS
+                NewsSubtype.ENTERTAINMENT-> return NewsCategory.ENTERTAINMENT
+                NewsSubtype.SPORTS-> return NewsCategory.SPORTS
+                NewsSubtype.SCIENCE-> return NewsCategory.SCIENCE
+                NewsSubtype.TECHNOLOGY-> return NewsCategory.TECHNOLOGY
+                else -> return NewsCategory.GENERAL
+            }
+        }
 
     private suspend fun List<Article>.toItems(): List<ArticleItem> {
         val input = this

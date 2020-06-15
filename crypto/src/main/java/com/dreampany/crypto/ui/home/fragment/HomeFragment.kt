@@ -39,7 +39,7 @@ class HomeFragment
 @Inject constructor() : InjectFragment() {
 
     @Inject
-    internal lateinit var cryptoPref: AppPref
+    internal lateinit var pref: AppPref
 
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var vm: CoinViewModel
@@ -106,12 +106,14 @@ class HomeFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
-        bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
-        vm = createVm(CoinViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        if (!::bind.isInitialized) {
+            bind = getBinding()
+            bind.swipe.init(this)
+            bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
+            vm = createVm(CoinViewModel::class)
+            vm.subscribe(this, Observer { this.processResponse(it) })
+            vm.subscribes(this, Observer { this.processResponses(it) })
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -119,18 +121,18 @@ class HomeFragment
             adapter = FastCoinAdapter(
                 { currentPage ->
                     Timber.v("CurrentPage: %d", currentPage)
-                   // onRefresh()
+                    onRefresh()
                 }, this::onItemPressed
             )
-        }
 
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
-        )
+            adapter.initRecycler(
+                state,
+                bind.layoutRecycler.recycler,
+                pref.getCurrency(),
+                pref.getSort(),
+                pref.getOrder()
+            )
+        }
     }
 
     private fun loadCoins() {

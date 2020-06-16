@@ -24,6 +24,7 @@ import com.dreampany.tools.data.enums.wifi.WifiState
 import com.dreampany.tools.data.enums.wifi.WifiSubtype
 import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
+import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.model.CoinItem
@@ -46,23 +47,24 @@ class WifisActivity : InjectActivity() {
     @Inject
     internal lateinit var wifiPref: WifiPref
 
-    private lateinit var bind: RecyclerActivityBinding
+    private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var vm: WifiViewModel
     private lateinit var adapter: FastWifiAdapter
 
     override val homeUp: Boolean = true
 
-    override val layoutRes: Int = R.layout.recycler_activity
+    override val layoutRes: Int = R.layout.recycler_activity_ad
     //override fun menuRes(): Int = R.menu.menu_coins
     override val toolbarId: Int = R.id.toolbar
     //override fun searchMenuItemId(): Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
-        initAd()
         initUi()
         initRecycler(state)
+        initAd()
         onRefresh()
         ad.loadBanner(this.javaClass.simpleName)
+        ad.showInHouseAds(this)
     }
 
     override fun onStopUi() {

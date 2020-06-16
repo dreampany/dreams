@@ -61,6 +61,7 @@ class NotesActivity : InjectActivity() {
         initAd()
         onRefresh()
         ad.loadBanner(this.javaClass.simpleName)
+        ad.showInHouseAds(this)
     }
 
     override fun onStopUi() {

@@ -8,6 +8,7 @@ import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.history.adapter.HistoryPagerAdapter
 import com.dreampany.tools.ui.history.model.HistoryItem
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import javax.inject.Inject
 
 /**
@@ -33,15 +34,37 @@ class HistoriesActivity : InjectActivity() {
     override fun onStartUi(state: Bundle?) {
         initUi()
         initPager()
+        ad.loadBanner(this.javaClass.simpleName)
+        ad.showInHouseAds(this)
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ad.resumeBanner(this.javaClass.simpleName)
+    }
+
+    override fun onPause() {
+        ad.pauseBanner(this.javaClass.simpleName)
+        super.onPause()
     }
 
     override fun <T> onItem(item: T) {
          if (item is HistoryItem) {
              //bind.icon.setUrl(item.item.favicon)
          }
+    }
+
+    private fun initAd() {
+        ad.initAd(
+            this,
+            this.javaClass.simpleName,
+            findViewById(R.id.adview),
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
+        )
     }
 
     private fun initUi() {

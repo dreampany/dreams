@@ -69,3 +69,13 @@ fun join(vararg values: String) : String {
     values.forEach { builder.append(it) }
     return builder.toString()
 }
+
+val String.hasHttpSign: Boolean
+    get() {
+        return this.startsWith("http")
+    }
+
+val String.hasDrawableSign: Boolean
+    get() {
+        return this.startsWith("@drawable/")
+    }

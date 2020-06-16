@@ -36,6 +36,7 @@ class StationsActivity : InjectActivity() {
         initUi()
         initPager()
         ad.loadBanner(this.javaClass.simpleName)
+        ad.showInHouseAds(this)
     }
 
     override fun onStopUi() {

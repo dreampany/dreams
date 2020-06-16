@@ -41,6 +41,7 @@ class NewsActivity : InjectActivity() {
         initPager()
         loadUi()
         ad.loadBanner(this.javaClass.simpleName)
+        ad.showInHouseAds(this)
     }
 
     override fun onStopUi() {

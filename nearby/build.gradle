@@ -12,8 +12,8 @@ android {
     buildToolsVersion '30.0.0 rc3'
 
     defaultConfig {
-        applicationId "com.dreampany.demo"
-        minSdkVersion 21
+        applicationId "com.dreampany.nearby"
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName '0.0.0.1'
@@ -146,18 +146,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:19.0.7'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
     implementation 'com.google.firebase:firebase-ads:19.1.0'
-    implementation 'com.google.firebase:firebase-database:19.3.0'
-    implementation 'com.google.firebase:firebase-firestore:21.4.3'
-    implementation 'com.google.firebase:firebase-messaging:20.2.0'
-    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
-    implementation 'com.google.firebase:firebase-ml-vision-barcode-model:16.1.1'
-
-    /* camera */
-    implementation 'androidx.camera:camera-core:1.0.0-beta05'
-    implementation 'androidx.camera:camera-camera2:1.0.0-beta05'
-    implementation 'androidx.camera:camera-lifecycle:1.0.0-beta05'
-    implementation 'androidx.camera:camera-view:1.0.0-alpha12'
-    implementation 'androidx.camera:camera-extensions:1.0.0-alpha12'
+    implementation 'com.google.android.gms:play-services-nearby:17.0.0'
 
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.1.0'

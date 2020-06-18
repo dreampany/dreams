@@ -39,7 +39,9 @@ abstract class BasePagerAdapter<T : Fragment>(val activity: AppCompatActivity) :
     open fun addItem(item: T, notify: Boolean = false) = addItem(item, 0, notify)
 
     open fun addItem(item: T, @StringRes titleRes: Int, notify: Boolean = false) {
-        titles.put(item, activity.getString(titleRes))
+        if (titleRes != 0) {
+            titles.put(item, activity.getString(titleRes))
+        }
         val position = getPosition(item)
         if (position == -1) {
             items.add(item)

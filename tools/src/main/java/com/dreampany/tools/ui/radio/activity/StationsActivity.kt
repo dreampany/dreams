@@ -9,6 +9,7 @@ import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.ui.radio.adapter.StationPagerAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import javax.inject.Inject
 
 /**
@@ -70,9 +71,6 @@ class StationsActivity : InjectActivity() {
 
     private fun initUi() {
         bind = getBinding()
-        //vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
-
-        //vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
     private fun initPager() {

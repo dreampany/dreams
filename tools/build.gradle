@@ -16,8 +16,8 @@ android {
         applicationId 'com.dreampany.tools'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 116
-        versionName '0.1.1.6'
+        versionCode 117
+        versionName '0.1.1.7'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true

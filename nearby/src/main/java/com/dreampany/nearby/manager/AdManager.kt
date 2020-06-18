@@ -10,7 +10,7 @@ import com.dreampany.framework.misc.exts.gone
 import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.structure.MutablePair
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.tools.R
+import com.dreampany.nearby.R
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView

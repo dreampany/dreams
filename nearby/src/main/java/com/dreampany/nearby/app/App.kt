@@ -5,7 +5,6 @@ import com.dreampany.nearby.inject.app.DaggerAppComponent
 import com.dreampany.nearby.manager.AdManager
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.exts.isDebug
-import com.dreampany.tools.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp

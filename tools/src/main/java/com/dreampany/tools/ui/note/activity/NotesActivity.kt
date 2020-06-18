@@ -19,7 +19,7 @@ import com.dreampany.tools.data.enums.note.NoteSubtype
 import com.dreampany.tools.data.enums.note.NoteType
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.pref.NotePref
-import com.dreampany.tools.databinding.RecyclerActivityBinding
+import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
 import com.dreampany.tools.ui.note.model.NoteItem
@@ -44,13 +44,13 @@ class NotesActivity : InjectActivity() {
     @Inject
     internal lateinit var notePref: NotePref
 
-    private lateinit var bind: RecyclerActivityBinding
+    private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var vm: NoteViewModel
     private lateinit var adapter: FastNoteAdapter
 
     override val homeUp: Boolean = true
 
-    override val layoutRes: Int = R.layout.recycler_activity
+    override val layoutRes: Int = R.layout.recycler_activity_ad
     override val menuRes: Int = R.menu.menu_notes
     override val toolbarId: Int = R.id.toolbar
     override val searchMenuItemId: Int = R.id.item_search

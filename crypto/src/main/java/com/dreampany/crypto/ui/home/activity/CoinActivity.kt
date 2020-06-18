@@ -16,6 +16,7 @@ import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.manager.AdManager
 import com.dreampany.crypto.misc.exts.setUrl
+import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import java.util.*
 import javax.inject.Inject
 

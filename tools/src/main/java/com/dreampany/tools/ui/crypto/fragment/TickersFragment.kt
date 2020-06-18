@@ -23,7 +23,6 @@ import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.ui.crypto.model.TickerItem
-import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 
 /**
  * Created by roman on 27/4/20
@@ -52,7 +51,6 @@ class TickersFragment
     }
 
     override fun onStopUi() {
-        adapter.destroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -76,22 +74,23 @@ class TickersFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
-        bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_tickers)
-        vm = createVm(TickerViewModel::class)
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        if (!::bind.isInitialized) {
+            bind = getBinding()
+            bind.swipe.init(this)
+            bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_tickers)
+            vm = createVm(TickerViewModel::class)
+            vm.subscribes(this, Observer { this.processResponses(it) })
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
             adapter = FastTickerAdapter()
+            adapter.initRecycler(
+                state,
+                bind.layoutRecycler.recycler
+            )
         }
-
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler
-        )
     }
 
     private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<TickerItem>>) {

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import com.dreampany.tools.ui.crypto.vm.ExchangeViewModel
+import com.dreampany.tools.ui.crypto.vm.TickerViewModel
 import com.dreampany.tools.ui.crypto.vm.TradeViewModel
 import dagger.Binds
 import dagger.Module
@@ -31,4 +32,9 @@ abstract class CryptoViewModelModule {
     @IntoMap
     @ViewModelKey(ExchangeViewModel::class)
     abstract fun bindExchange(vm: ExchangeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TickerViewModel::class)
+    abstract fun bindTicker(vm: TickerViewModel): ViewModel
 }

@@ -12,9 +12,12 @@ import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinActivityBinding
 import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.ui.crypto.adapter.CoinPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.content_pager_ad.view.*
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -42,10 +45,10 @@ class CoinActivity : InjectActivity() {
     override fun onStartUi(state: Bundle?) {
         val task : UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
         input = task.input ?: return
-        initAd()
         initUi()
         initPager()
-        setTitle(input.name)
+        initAd()
+        //setTitle(input.name)
         loadUi()
         ad.loadBanner(this.javaClass.simpleName)
     }
@@ -65,6 +68,15 @@ class CoinActivity : InjectActivity() {
 
     private fun initUi() {
         bind = getBinding()
+        bind.icon.setUrl(
+            String.format(
+                Locale.ENGLISH,
+                CryptoConstants.CoinMarketCap.IMAGE_URL,
+                input.id
+            )
+        )
+        bind.textName.text = input.name
+        bind.textSymbol.text = input.symbol
     }
 
     private fun initPager() {

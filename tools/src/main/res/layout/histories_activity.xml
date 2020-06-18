@@ -31,7 +31,7 @@
                 auto:layout_scrollFlags="exitUntilCollapsed"
                 auto:tabGravity="fill"
                 auto:tabIndicatorColor="@android:color/white"
-                auto:tabMode="scrollable"
+                auto:tabMode="fixed"
                 auto:tabSelectedTextColor="@android:color/white"
                 auto:tabTextColor="@color/material_white" />
 

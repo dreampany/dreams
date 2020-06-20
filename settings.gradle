@@ -1,6 +1,7 @@
-include ':nearby'
 rootProject.name='android'
 include ':framework'
+include ':network'
+include ':nearby'
 //include ':demo'
 //include ':opencv-430'
 //include ':firebase'

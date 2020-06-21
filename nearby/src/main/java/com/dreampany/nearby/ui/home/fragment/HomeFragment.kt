@@ -1,18 +1,17 @@
 package com.dreampany.nearby.ui.home.fragment
 
 import android.os.Bundle
+import android.view.View
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.ui.fragment.InjectFragment
-import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.nearby.R
-import com.dreampany.nearby.data.enums.Action
-import com.dreampany.nearby.data.enums.State
-import com.dreampany.nearby.data.enums.Subtype
-import com.dreampany.nearby.data.enums.Type
 import com.dreampany.nearby.databinding.RecyclerFragmentBinding
+import com.dreampany.nearby.ui.home.adapter.FastUserAdapter
+import com.dreampany.nearby.ui.home.model.UserItem
+import kotlinx.android.synthetic.main.content_recycler.view.*
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -25,14 +24,9 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
-    companion object {
-      private val REQUEST_CAMERA = 101
-    }
-
     private lateinit var bind: RecyclerFragmentBinding
     //private lateinit var vm: FeatureViewModel
-
-    //private lateinit var adapter: FastFeatureAdapter
+    private lateinit var adapter: FastUserAdapter
 
     override val layoutRes: Int = R.layout.recycler_fragment
 
@@ -44,6 +38,18 @@ class HomeFragment
     }
 
     override fun onStopUi() {
+    }
+
+    private fun onItemPressed(view: View, item: UserItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+                //openCoinUi(item)
+            }
+            else -> {
+
+            }
+        }
     }
 
     private fun initUi() {
@@ -59,17 +65,19 @@ class HomeFragment
     }
 
     private fun initRecycler(state: Bundle?) {
-        /*if (!::adapter.isInitialized) {
-            adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
-                Timber.v("StationItem: %s", item.item.toString())
-                openUi(item.item)
-            })
+        if (!::adapter.isInitialized) {
+            adapter = FastUserAdapter(
+                { currentPage ->
+                    Timber.v("CurrentPage: %d", currentPage)
+                    onRefresh()
+                }, this::onItemPressed
+            )
 
             adapter.initRecycler(
                 state,
                 bind.layoutRecycler.recycler
             )
-        }*/
+        }
     }
 
     /*private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {

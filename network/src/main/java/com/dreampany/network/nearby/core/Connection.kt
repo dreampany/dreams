@@ -32,7 +32,7 @@ class Connection(
 
     interface Callback {
         fun onConnection(peerId: Long, connected: Boolean)
-        fun onPayload(peerId: Long, payload: Payload?)
+        fun onPayload(peerId: Long, payload: Payload)
         fun onPayloadStatus(peerId: Long, status: PayloadTransferUpdate)
     }
 
@@ -49,6 +49,9 @@ class Connection(
     @Volatile
     private var discovering = false
 
+    @Volatile
+    private var started = false
+
     private val cache: BiMap<Long, String>
     private val endpoints: BiMap<Long, String> // peerId to endpointId
     private val states: MutableMap<String, State> // endpointId to State
@@ -58,7 +61,7 @@ class Connection(
     private val MAX_TRY = 5
 
     @Volatile
-    private lateinit var requestThread: RequestThread
+    private lateinit var requestThread: Runner
 
     init {
         client = Nearby.getConnectionsClient(context.applicationContext)
@@ -74,7 +77,6 @@ class Connection(
     }
 
     override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
-
         val peerId = info.endpointName.long
         endpoints[peerId] = endpointId
         states[endpointId] = State.INITIATED
@@ -109,6 +111,33 @@ class Connection(
             startRequestThread()
         }
     }
+
+    fun getPeerId(): Long = peerId
+
+    fun start() {
+        synchronized(guard) {
+            started = true
+            startAdvertising()
+            startDiscovery()
+        }
+    }
+
+    fun stop() {
+        synchronized(guard) {
+            started = false
+            stopRequestThread()
+            stopAdvertising()
+            stopDiscovery()
+        }
+    }
+
+    fun requireRestart(
+        strategy: Strategy,
+        serviceId: Long,
+        peerId: Long
+    ): Boolean = this.strategy != strategy ||
+            this.serviceId != serviceId ||
+            this.peerId != peerId || !started
 
     private fun startAdvertising() {
         synchronized(guard) {
@@ -288,6 +317,7 @@ class Connection(
     /* request thread */
     class RequestThread(val connection: Connection) : Runner() {
 
+        @Throws(InterruptedException::class)
         override fun looping(): Boolean {
             val endpointId: String? = connection.pendingEndpoints.pollFirst()
             val peerId = endpointId?.let { connection.peerIdOf(it) } ?: 0L

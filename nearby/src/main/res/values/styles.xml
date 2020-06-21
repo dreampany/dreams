@@ -15,7 +15,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:textColorPrimary">@color/material_black</item>
         <item name="android:textColorSecondary">@color/material_grey500</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/material_grey100</item>
     </style>
 
     <style name="Theme.Fullscreen" parent="NoActionBar">

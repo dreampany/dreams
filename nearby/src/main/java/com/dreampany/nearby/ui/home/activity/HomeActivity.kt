@@ -42,7 +42,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override fun onNavigationItem(navigationItemId: Int) {
         when (navigationItemId) {
             R.id.navigation_home -> {
-                setTitle(R.string.home)
+                setTitle(R.string.discover)
                 commitFragment(HomeFragment::class, home, R.id.layout)
             }
             R.id.navigation_more -> {

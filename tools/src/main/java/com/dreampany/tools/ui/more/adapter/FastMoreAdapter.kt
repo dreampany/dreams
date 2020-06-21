@@ -47,7 +47,7 @@ class FastMoreAdapter(
     ) {
         itemAdapter = ItemAdapter.items()
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
-            if (item is FeatureItem) true
+            if (item is MoreItem) true
                 //item.item.name.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
@@ -62,7 +62,7 @@ class FastMoreAdapter(
             addItemDecoration(
                 SpacingItemDecoration(
                     1,
-                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
+                    context.dimension(R.dimen.recycler_spacing).toInt(),
                     false
                 )
             )

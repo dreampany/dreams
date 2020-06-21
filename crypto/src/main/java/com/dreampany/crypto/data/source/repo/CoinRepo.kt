@@ -92,12 +92,12 @@ class CoinRepo
     }
 
     @Throws
-    override suspend fun getFavoriteCoins(
+    override suspend fun getFavorites(
         currency: Currency,
         sort: Sort,
         order: Order
     ) = withContext(Dispatchers.IO) {
-        room.getFavoriteCoins(currency, sort, order)
+        room.getFavorites(currency, sort, order)
     }
 
 }

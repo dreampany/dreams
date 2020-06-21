@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Process
 import android.provider.Settings
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
 
 /**
@@ -33,10 +34,18 @@ val isMinO: Boolean
 val isMinQ: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
-fun Context?.hasManifest(permission: String): Boolean {
-    val info = packageInfo(packageName, PackageManager.GET_PERMISSIONS)
-    return info?.requestedPermissions?.contains(permission) ?: false
-}
+fun Context?.hasManifest(permission: String): Boolean =
+    packageInfo(packageName, PackageManager.GET_PERMISSIONS)?.requestedPermissions?.contains(
+        permission
+    ) ?: false
+
+fun Context?.hasPermission(permission: String): Boolean =
+    if (isMinM) selfPermission(permission)
+    else hasManifest(permission)
+
+fun Context?.selfPermission(permission: String): Boolean =
+    if (this == null) false
+    else ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 
 val Context?.hasOverlayPermission: Boolean
     @RequiresApi(Build.VERSION_CODES.M)

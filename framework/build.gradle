@@ -147,6 +147,10 @@ dependencies {
     api 'org.apache.commons:commons-lang3:3.10'
     api 'org.apache.commons:commons-collections4:4.4'
 
+    /* about */
+    api "com.mikepenz:aboutlibraries-core:$about"
+    api "com.mikepenz:aboutlibraries:$about"
+
     /* misc */
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'

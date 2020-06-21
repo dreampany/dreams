@@ -20,7 +20,7 @@ interface CoinDataSource {
     suspend fun toggleFavorite(input: Coin): Boolean
 
     @Throws
-    suspend fun getFavoriteCoins(
+    suspend fun getFavorites(
         currency: Currency,
         sort: Sort,
         order: Order

@@ -84,4 +84,12 @@ class SmartQueue<T> : LinkedBlockingDeque<T>() {
             null
         }
     }
+
+    override fun pollFirst(): T? {
+        return try {
+            super.pollFirst()
+        } catch (ignored: InterruptedException) {
+            null
+        }
+    }
 }

@@ -59,8 +59,8 @@ class MoreFragment
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
             adapter = FastMoreAdapter(clickListener = { item: MoreItem ->
-                Timber.v("MoreItem: %s", item.item.toString())
-                onPressed(item.item)
+                Timber.v("MoreItem: %s", item.input.toString())
+                onPressed(item.input)
             })
 
             adapter.initRecycler(
@@ -116,7 +116,6 @@ class MoreFragment
                 activity.moreApps(getString(R.string.id_google_play))
             }
             Subtype.ABOUT -> {
-                //activity.moreApps(getString(R.string.id_google_play))
                 LibsBuilder().start(requireContext())
             }
         }

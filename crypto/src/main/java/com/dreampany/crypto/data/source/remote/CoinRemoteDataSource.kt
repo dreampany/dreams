@@ -161,7 +161,7 @@ constructor(
     }
 
     @Throws
-    override suspend fun getFavoriteCoins(
+    override suspend fun getFavorites(
         currency: Currency,
         sort: Sort,
         order: Order

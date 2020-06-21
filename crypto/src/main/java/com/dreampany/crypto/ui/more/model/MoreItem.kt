@@ -14,13 +14,11 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class MoreItem(
-    val item: More
-    ) : ModelAbstractBindingItem<More, MoreItemBinding>(item) {
+class MoreItem(val input: More) : ModelAbstractBindingItem<More, MoreItemBinding>(input) {
 
-    override fun hashCode(): Int = item.hashCode()
+    override fun hashCode(): Int = input.hashCode()
 
-    override fun equals(other: Any?): Boolean = item.equals(other)
+    override fun equals(other: Any?): Boolean = input.equals(other)
 
     override val type: Int
         get() = R.id.adapter_more_item_id
@@ -29,8 +27,8 @@ class MoreItem(
         MoreItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: MoreItemBinding, payloads: List<Any>) {
-        bind.icon.setImageResource(item.iconRes)
-        bind.title.text = bind.context.getText(item.titleRes)
+        bind.icon.setImageResource(input.iconRes)
+        bind.title.text = bind.context.getText(input.titleRes)
     }
 
     override fun unbindView(binding: MoreItemBinding) {

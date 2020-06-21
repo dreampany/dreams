@@ -17,6 +17,8 @@ import com.dreampany.nearby.databinding.RecyclerFragmentBinding
 import com.dreampany.nearby.ui.more.adapter.FastMoreAdapter
 import com.dreampany.nearby.ui.more.model.MoreItem
 import com.dreampany.nearby.ui.more.vm.MoreViewModel
+import com.mikepenz.aboutlibraries.LibsBuilder
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -58,8 +60,8 @@ class MoreFragment
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
             adapter = FastMoreAdapter(clickListener = { item: MoreItem ->
-                Timber.v("StationItem: %s", item.item.toString())
-                onPressed(item.item)
+                Timber.v("StationItem: %s", item.input.toString())
+                onPressed(item.input)
             })
 
             adapter.initRecycler(
@@ -117,7 +119,7 @@ class MoreFragment
                 activity.moreApps(getString(R.string.id_google_play))
             }
             Subtype.ABOUT -> {
-                activity.moreApps(getString(R.string.id_google_play))
+                LibsBuilder().start(requireContext())
             }
         }
 

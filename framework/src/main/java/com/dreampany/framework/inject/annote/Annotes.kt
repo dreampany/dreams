@@ -74,3 +74,8 @@ annotation class Firedatabase
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Firestore
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Nearby

@@ -73,24 +73,24 @@ class CoinMapper
     fun add(input: Coin) = coins.put(input.id, input)
 
     @Throws
-    suspend fun isFavorite(coin: Coin): Boolean {
-        if (!favorites.containsKey(coin.id)) {
+    suspend fun isFavorite(input: Coin): Boolean {
+        if (!favorites.containsKey(input.id)) {
             val favorite = storeRepo.isExists(
-                coin.id,
+                input.id,
                 Type.COIN.value,
                 Subtype.DEFAULT.value,
                 State.FAVORITE.value
             )
-            favorites.put(coin.id, favorite)
+            favorites.put(input.id, favorite)
         }
-        return favorites.get(coin.id).value()
+        return favorites.get(input.id).value()
     }
 
     @Throws
-    suspend fun insertFavorite(coin: Coin): Boolean {
-        favorites.put(coin.id, true)
+    suspend fun insertFavorite(input: Coin): Boolean {
+        favorites.put(input.id, true)
         val store = storeMapper.getItem(
-            coin.id,
+            input.id,
             Type.COIN.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value
@@ -100,10 +100,10 @@ class CoinMapper
     }
 
     @Throws
-    suspend fun deleteFavorite(coin: Coin): Boolean {
-        favorites.put(coin.id, false)
+    suspend fun deleteFavorite(input: Coin): Boolean {
+        favorites.put(input.id, false)
         val store = storeMapper.getItem(
-            coin.id,
+            input.id,
             Type.COIN.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value

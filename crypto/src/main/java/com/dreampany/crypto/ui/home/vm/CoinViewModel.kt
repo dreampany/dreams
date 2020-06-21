@@ -92,7 +92,7 @@ class CoinViewModel
                 val currency = pref.getCurrency()
                 val sort = pref.getSort()
                 val order = pref.getOrder()
-                result = repo.getFavoriteCoins(currency, sort, order)
+                result = repo.getFavorites(currency, sort, order)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

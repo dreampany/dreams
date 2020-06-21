@@ -74,6 +74,13 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-android'
     implementation 'com.google.android.gms:play-services-nearby:17.0.0'
 
+    /* dagger */
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    kapt "com.google.dagger:dagger-android-processor:$dagger"
+    implementation "com.google.dagger:dagger:$dagger"
+    implementation "com.google.dagger:dagger-android:$dagger"
+    implementation "com.google.dagger:dagger-android-support:$dagger"
+
     /* apache */
     implementation 'org.apache.commons:commons-lang3:3.10'
     implementation 'org.apache.commons:commons-collections4:4.4'

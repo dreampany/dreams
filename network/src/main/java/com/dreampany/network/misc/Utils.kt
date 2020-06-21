@@ -1,5 +1,6 @@
 package com.dreampany.network.misc
 
+import android.content.Context
 import java.util.*
 
 /**
@@ -10,12 +11,11 @@ import java.util.*
  */
 class Utils {
 
-
-
     companion object {
         private val random = Random()
         fun nextRand(upper: Int): Int = if (upper <= 0) -1 else random.nextInt(upper)
 
         fun nextRand(min: Int, max: Int): Int = random.nextInt(max - min + 1) + min
+
     }
 }

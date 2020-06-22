@@ -1,6 +1,7 @@
 package com.dreampany.nearby.data.source.api
 
 import com.dreampany.nearby.data.model.User
+import com.google.android.gms.nearby.connection.Strategy
 
 /**
  * Created by roman on 21/6/20
@@ -9,6 +10,18 @@ import com.dreampany.nearby.data.model.User
  * Last modified $file.lastModified
  */
 interface UserDataSource {
+
+    interface Callback {
+        fun onUser(user: User, live: Boolean)
+    }
+
+    fun register(callback: Callback)
+
+    fun unregister(callback: Callback)
+
+    fun startNearby(strategy: Strategy, serviceId: Long, user: User)
+
+    fun stopNearby()
 
     @Throws
     suspend fun isFavorite(input: User): Boolean

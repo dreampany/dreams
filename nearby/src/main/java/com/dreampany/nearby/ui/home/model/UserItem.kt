@@ -13,7 +13,12 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class UserItem(val input: User) : ModelAbstractBindingItem<User, UserItemBinding>(input) {
+class UserItem(
+    val input: User,
+    var live : Boolean = false
+) : ModelAbstractBindingItem<User, UserItemBinding>(input) {
+
+
 
     override fun hashCode(): Int = input.hashCode()
 

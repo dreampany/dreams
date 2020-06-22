@@ -4,6 +4,7 @@ import android.app.Application
 import com.dreampany.framework.inject.app.AppModule
 import com.dreampany.framework.inject.property.PropertyModule
 import com.dreampany.nearby.app.App
+import com.dreampany.nearby.inject.data.DataModule
 import com.dreampany.nearby.inject.ui.activity.ActivityModule
 import com.dreampany.nearby.inject.ui.vm.ViewModelModule
 import com.dreampany.nearby.inject.worker.WorkerModule
@@ -27,7 +28,8 @@ import javax.inject.Singleton
         PropertyModule::class,
         ActivityModule::class,
         ViewModelModule::class,
-        WorkerModule::class
+        WorkerModule::class,
+        DataModule::class
     ]
 )
 interface AppComponent : AndroidInjector<App> {

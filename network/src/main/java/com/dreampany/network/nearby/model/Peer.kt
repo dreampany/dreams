@@ -18,7 +18,7 @@ data class Peer(val id: Long, var meta: ByteArray? = null) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Id
+        val item = other as Peer
         return Objects.equal(this.id, item.id)
     }
 

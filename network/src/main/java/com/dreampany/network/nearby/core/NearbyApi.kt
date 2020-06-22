@@ -98,11 +98,19 @@ open class NearbyApi(
     override fun onPayloadStatus(peerId: Long, status: PayloadTransferUpdate) {
     }
 
-    protected open fun start(strategy: Strategy, serviceId: Long, peerId: Long) {
+    fun register(callback: NearbyApi.Callback) {
+        callbacks.add(callback)
+    }
+
+    fun unregister(callback: NearbyApi.Callback) {
+        callbacks.remove(callback)
+    }
+
+    protected open fun startApi(strategy: Strategy, serviceId: Long, peerId: Long) {
         check(inited) { "init() function need to be called before start()" }
         if (::connection.isInitialized) {
             if (connection.requireRestart(strategy, serviceId, peerId).value) {
-                stop()
+                stopApi()
                 executor.execute {
                     connection = Connection(context, executor, strategy, serviceId, peerId, this)
                     connection.start()
@@ -116,7 +124,7 @@ open class NearbyApi(
         }
     }
 
-    protected open fun stop() {
+    protected open fun stopApi() {
         check(inited) { "init() function need to be called before stop()" }
         if (::connection.isInitialized) {
             connection.stop()

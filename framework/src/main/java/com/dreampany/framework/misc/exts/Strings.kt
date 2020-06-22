@@ -4,7 +4,6 @@ import android.text.Spanned
 import android.util.Patterns
 import androidx.core.text.HtmlCompat
 import com.dreampany.framework.misc.constant.Constants
-import com.google.common.hash.Hashing
 
 /**
  * Created by roman on 3/4/20
@@ -12,8 +11,8 @@ import com.google.common.hash.Hashing
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-fun String.hash256(): String = Hashing.sha256().newHasher()
-    .putString(this, Charsets.UTF_8).hash().toString()
+/*fun String.hash256(): String = Hashing.sha256().newHasher()
+    .putString(this, Charsets.UTF_8).hash().toString()*/
 
 fun String?.string(): String = this ?: Constants.Default.STRING
 

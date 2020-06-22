@@ -1,50 +1,48 @@
-package com.dreampany.nearby.data.source.nearby
+package com.dreampany.nearby.data.source.repo
 
-import android.content.Context
-import android.os.UserManager
+import com.dreampany.framework.inject.annote.Nearby
+import com.dreampany.framework.misc.func.ResponseMapper
+import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.nearby.data.model.User
 import com.dreampany.nearby.data.source.api.UserDataSource
-import com.dreampany.network.nearby.NearbyManager
+import com.dreampany.nearby.data.source.mapper.UserMapper
+import com.dreampany.nearby.data.source.pref.AppPref
 import com.google.android.gms.nearby.connection.Strategy
-import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
- * Created by roman on 21/6/20
+ * Created by roman on 22/6/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class UserNearbyDataSource(
-   private val context : Context,
-   private  val mapper : UserManager,
-   private val nearby : NearbyManager
+@Singleton
+class UserRepo
+@Inject constructor(
+    rx: RxMapper,
+    rm: ResponseMapper,
+    private val pref: AppPref,
+    private val mapper: UserMapper,
+    @Nearby private val nearby: UserDataSource
 ) : UserDataSource {
 
-    private val callbacks: MutableSet<UserDataSource.Callback>
+    override fun register(callback: UserDataSource.Callback) =
+        nearby.register(callback)
 
-    init {
-        callbacks = Collections.synchronizedSet(HashSet<UserDataSource.Callback>())
-    }
-
-    override fun register(callback: UserDataSource.Callback) {
-        callbacks.add(callback)
-    }
-
-    override fun unregister(callback: UserDataSource.Callback) {
-        callbacks.remove(callback)
-    }
+    override fun unregister(callback: UserDataSource.Callback) =
+        nearby.unregister(callback)
 
     override fun startNearby(
         strategy: Strategy,
         serviceId: Long,
         user: User
     ) {
-        nearby.init(strategy, serviceId, user.id.toLong(), null)
-        nearby.start()
+        nearby.startNearby(strategy, serviceId, user)
     }
 
     override fun stopNearby() {
-        nearby.stop()
+        TODO("Not yet implemented")
     }
 
     override suspend fun isFavorite(input: User): Boolean {

@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.os.Build
+import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.util.DisplayMetrics
 import android.view.WindowManager
@@ -33,6 +34,13 @@ import java.util.concurrent.TimeUnit
  */
 val Context?.appContext: Context?
     get() = this?.applicationContext
+
+val Context?.deviceId: String
+    get() = if (this == null) Constants.Default.STRING
+    else Settings.Secure.getString(
+        contentResolver,
+        Settings.Secure.ANDROID_ID
+    )
 
 val Context?.screenWidth: Int
     get() {
@@ -203,7 +211,7 @@ val Context?.countryCode: String
         return Locale.ENGLISH.country
     }
 
-val Context?.country : String
+val Context?.country: String
     get() {
         val code = countryCode
         val locale = Locale("", code)

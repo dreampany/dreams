@@ -29,11 +29,12 @@ class NearbyManager
     private var peerData: ByteArray? = null
 
     @Throws(Throwable::class)
-    fun init(strategy: Strategy, serviceId: Long, peerId: Long, peerData: ByteArray?) : Boolean {
+    fun init(strategy: Strategy, serviceId: Long, peerId: Long, peerData: ByteArray?): Boolean {
         synchronized(guard) {
             this.strategy = strategy
             this.serviceId = serviceId
             this.peerId = peerId
+            this.peerData = peerData
 
             if (!context.hasPlayService) {
                 throw IllegalStateException("Google Play service is not available!")
@@ -48,27 +49,19 @@ class NearbyManager
         return inited
     }
 
-    fun register(callback: NearbyApi.Callback) {
-        callbacks.add(callback)
-    }
-
-    fun unregister(callback: NearbyApi.Callback) {
-        callbacks.remove(callback)
-    }
-
     fun start() {
         synchronized(guard) {
-            super.start(strategy, serviceId, peerId)
+            super.startApi(strategy, serviceId, peerId)
         }
     }
 
-    override fun stop() {
+    fun stop() {
         synchronized(guard) {
-            super.stop()
+            super.stopApi()
         }
     }
 
-    fun send(id: Id, data: ByteArray, timeout : Long) {
+    fun send(id: Id, data: ByteArray, timeout: Long) {
         synchronized(guard) {
             val packet = data.dataPacket
             sendPacket(id, packet, timeout)

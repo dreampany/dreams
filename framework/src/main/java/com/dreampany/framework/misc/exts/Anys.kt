@@ -61,3 +61,12 @@ fun append(vararg values : Any) : String {
     values.forEach { builder.append(it) }
     return builder.toString()
 }
+
+val ByteArray?.isEmpty: Boolean
+    get() {
+        if (this == null) return true
+        if (this.size == 0) return true
+        return false
+    }
+val ByteArray?.length: Int
+    get() = this?.size ?: 0

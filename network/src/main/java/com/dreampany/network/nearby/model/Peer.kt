@@ -8,7 +8,7 @@ import com.google.common.base.Objects
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class Peer(val id: Long, var meta: ByteArray? = null) {
+data class Peer(val id: String, var meta: ByteArray? = null) {
     enum class State {
         LIVE, DEAD
     }

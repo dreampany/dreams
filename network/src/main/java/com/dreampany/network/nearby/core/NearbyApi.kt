@@ -45,15 +45,15 @@ open class NearbyApi(
     @Volatile
     private lateinit var connection: Connection
 
-    private val peers: MutableMap<Long, Peer>
-    private val states: MutableMap<Long, Peer.State>
-    private val synced: MutableMap<Long, Boolean>
+    private val peers: MutableMap<String, Peer>
+    private val states: MutableMap<String, Peer.State>
+    private val synced: MutableMap<String, Boolean>
 
     private val timeouts: MutableMap<Id, MutablePair<Long, Long>>
 
-    private val syncingPeers: SmartQueue<Long>
-    private val outputs: SmartQueue<MutablePair<Long, Payload>>
-    private val inputs: SmartQueue<MutablePair<Long, Payload>>
+    private val syncingPeers: SmartQueue<String>
+    private val outputs: SmartQueue<MutablePair<String, Payload>>
+    private val inputs: SmartQueue<MutablePair<String, Payload>>
 
 
     @Volatile
@@ -63,19 +63,19 @@ open class NearbyApi(
         executor = Executors.newCachedThreadPool()
         callbacks = Collections.synchronizedSet(HashSet<Callback>())
 
-        peers = Maps.newConcurrentMap<Long, Peer>()
-        states = Maps.newConcurrentMap<Long, Peer.State>()
-        synced = Maps.newConcurrentMap<Long, Boolean>()
+        peers = Maps.newConcurrentMap<String, Peer>()
+        states = Maps.newConcurrentMap<String, Peer.State>()
+        synced = Maps.newConcurrentMap<String, Boolean>()
 
         timeouts = Maps.newConcurrentMap<Id, MutablePair<Long, Long>>()
 
-        syncingPeers = SmartQueue<Long>()
-        outputs = SmartQueue<MutablePair<Long, Payload>>()
-        inputs = SmartQueue<MutablePair<Long, Payload>>()
+        syncingPeers = SmartQueue<String>()
+        outputs = SmartQueue<MutablePair<String, Payload>>()
+        inputs = SmartQueue<MutablePair<String, Payload>>()
     }
 
-    override fun onConnection(peerId: Long, connected: Boolean) {
-        Timber.v("Peer (%d) - Connection - (%s)", peerId, connected)
+    override fun onConnection(peerId: String, connected: Boolean) {
+        Timber.v("Peer (%s) - Connection - (%s)", peerId, connected)
         if (!peers.containsKey(peerId)) {
             val peer = Peer(peerId)
             peers[peerId] = peer
@@ -89,13 +89,13 @@ open class NearbyApi(
         }
     }
 
-    override fun onPayload(peerId: Long, payload: Payload) {
-        Timber.v("Payload Received from: %d", peerId)
+    override fun onPayload(peerId: String, payload: Payload) {
+        Timber.v("Payload Received from: %s", peerId)
         inputs.add(MutablePair.of(peerId, payload))
         //startInputThread()
     }
 
-    override fun onPayloadStatus(peerId: Long, status: PayloadTransferUpdate) {
+    override fun onPayloadStatus(peerId: String, status: PayloadTransferUpdate) {
     }
 
     fun register(callback: NearbyApi.Callback) {

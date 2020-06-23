@@ -5,6 +5,7 @@ import android.os.UserManager
 import com.dreampany.framework.inject.annote.Nearby
 import com.dreampany.framework.inject.data.StoreModule
 import com.dreampany.nearby.data.source.api.UserDataSource
+import com.dreampany.nearby.data.source.mapper.UserMapper
 import com.dreampany.nearby.data.source.nearby.UserNearbyDataSource
 import com.dreampany.network.nearby.NearbyManager
 import dagger.Module
@@ -28,7 +29,7 @@ class DataModule {
     @Nearby
     fun provideUserNearbyDataSource(
         context: Context,
-        mapper: UserManager,
+        mapper: UserMapper,
         nearby: NearbyManager
     ): UserDataSource = UserNearbyDataSource(context, mapper, nearby)
 }

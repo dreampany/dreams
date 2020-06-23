@@ -77,7 +77,9 @@ class Connection(
     }
 
     override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
+        Timber.v("Connection Initiated endpoint: %s", endpointId)
         val peerId = info.endpointName.long
+        if (peerId == 0L) return
         endpoints[peerId] = endpointId
         states[endpointId] = State.INITIATED
         directs[endpointId] = info.isIncomingConnection
@@ -144,16 +146,17 @@ class Connection(
             if (advertising) {
                 return
             }
-            Timber.v("Advertising fired for Peer (%d) - ServiceId (%d)", peerId, serviceId)
+            Timber.v("Advertising fired for ServiceId (%d) - Peer (%d)", serviceId, peerId)
             client.startAdvertising(peerId.string, serviceId.string, this, advertisingOptions)
-                .addOnSuccessListener { ignored: Void ->
+                .addOnSuccessListener {
                     advertising = true
-                    Timber.v("Success Advertising of Peer (%d) - ServiceId (%d)", peerId, serviceId)
+                    Timber.v("Success Advertising of ServiceId (%d) - Peer (%d)", serviceId, peerId)
                 }.addOnFailureListener { error: Exception ->
                     advertising = false
                     Timber.e(
-                        "Error in Advertising of Peer (%d) - ServiceId (%d) - %s", peerId,
+                        "Error in Advertising of ServiceId (%d) - Peer (%d) - %s",
                         serviceId,
+                        peerId,
                         error.message
                     )
                 }
@@ -172,18 +175,18 @@ class Connection(
             if (discovering) {
                 return
             }
-            Timber.v("Discovering fired for Peer (%d) - ServiceId (%d)", peerId, serviceId)
+            Timber.v("Discovering fired for ServiceId (%d) - Peer (%d)", serviceId, peerId)
             client.startDiscovery(serviceId.string, discoveryCallback, discoveryOptions)
-                .addOnSuccessListener { ignored: Void ->
+                .addOnSuccessListener {
                     discovering = true
-                    Timber.v("Success Discovering Peer (%d) - ServiceId (%d)", peerId, serviceId)
+                    Timber.v("Success Discovering ServiceId (%d) - Peer (%d)", serviceId, peerId)
                 }
                 .addOnFailureListener { error: Exception ->
                     discovering = false
                     Timber.e(
-                        "Error Discovering Peer (%d) - ServiceId (%d) - %s",
-                        peerId,
+                        "Error Discovering ServiceId (%d) - Peer (%d) - %s",
                         serviceId,
+                        peerId,
                         error.message
                     )
                 }
@@ -218,12 +221,12 @@ class Connection(
     private fun requestConnection(endpointId: String) {
         Timber.v("Requesting Connection: %s state[%s]", endpointId, states[endpointId])
         client.requestConnection(peerId.string, endpointId, this)
-            .addOnSuccessListener { ignored: Void ->
+            .addOnSuccessListener {
                 Timber.v("Request Connection succeed for (%s)", endpointId)
                 states[endpointId] = State.REQUEST_SUCCESS
                 pendingEndpoints.remove(endpointId)
                 requestTries.remove(endpointId)
-            }.addOnFailureListener { error: java.lang.Exception ->
+            }.addOnFailureListener { error: Exception ->
                 Timber.e("Request Connection error (%s) - %s", endpointId, error.message)
                 Timber.e(error)
                 states[endpointId] = State.REQUEST_FAILED
@@ -249,9 +252,17 @@ class Connection(
     private val String.long: Long
         get() {
             var result = cache.inverse().get(this)
-            if (result == null) {
-                result = this.toLong()
-                cache.put(result, this)
+            try {
+                if (result == null) {
+                    result = this.toLong()
+                    cache.put(result, this)
+                }
+            } catch (error: NumberFormatException) {
+
+            } finally {
+                if (result == null) {
+                    result = 0L
+                }
             }
             return result
         }
@@ -261,6 +272,7 @@ class Connection(
 
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
             val serviceId = info.serviceId.long
+            if (serviceId == 0L) return
             if (this@Connection.serviceId != serviceId) {
                 Timber.e(
                     "Unknown ServiceId (%d) from EndpointId (%s)",
@@ -269,7 +281,10 @@ class Connection(
                 )
                 return
             }
+            Timber.v("Found EndpointId (%s) - EndpointName (%s)", endpointId, info.endpointName)
+           // if (true) return
             val peerId = info.endpointName.long
+            if (peerId == 0L) return
             Timber.v("Found EndpointId (%s) - PeerId (%d)", endpointId, peerId)
             //priority works: remove old endpoints if exists
             if (endpoints.containsKey(peerId)) {

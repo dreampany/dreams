@@ -1,11 +1,14 @@
 package com.dreampany.nearby.data.source.nearby
 
 import android.content.Context
-import android.os.UserManager
 import com.dreampany.nearby.data.model.User
 import com.dreampany.nearby.data.source.api.UserDataSource
+import com.dreampany.nearby.data.source.mapper.UserMapper
 import com.dreampany.network.nearby.NearbyManager
+import com.dreampany.network.nearby.core.NearbyApi
+import com.dreampany.network.nearby.model.Peer
 import com.google.android.gms.nearby.connection.Strategy
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -16,9 +19,9 @@ import java.util.*
  */
 class UserNearbyDataSource(
    private val context : Context,
-   private  val mapper : UserManager,
+   private  val mapper : UserMapper,
    private val nearby : NearbyManager
-) : UserDataSource {
+) : UserDataSource, NearbyApi.Callback {
 
     private val callbacks: MutableSet<UserDataSource.Callback>
 
@@ -39,11 +42,13 @@ class UserNearbyDataSource(
         serviceId: Long,
         user: User
     ) {
+        nearby.register(this)
         nearby.init(strategy, serviceId, user.id.toLong(), null)
         nearby.start()
     }
 
     override fun stopNearby() {
+        nearby.unregister(this)
         nearby.stop()
     }
 
@@ -81,5 +86,22 @@ class UserNearbyDataSource(
 
     override suspend fun gets(offset: Long, limit: Long): List<User>? {
         TODO("Not yet implemented")
+    }
+
+    override fun onPeer(peer: Peer, state: Peer.State) {
+        Timber.v("Peer [%s]", peer.id)
+    }
+
+    override fun onData(peer: Peer, data: ByteArray) {
+        Timber.v("Peer Data [%s]", peer.id)
+    }
+
+    override fun onStatus(
+        payloadId: Long,
+        state: NearbyApi.PayloadState,
+        totalBytes: Long,
+        bytesTransferred: Long
+    ) {
+        Timber.v("Peer Data Status [%s]", payloadId)
     }
 }

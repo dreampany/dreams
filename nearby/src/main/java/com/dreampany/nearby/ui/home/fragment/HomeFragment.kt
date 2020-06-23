@@ -47,6 +47,7 @@ class HomeFragment
         initRecycler(state)
         runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
             // Do something
+            vm.startNearby()
         }
         /* if (adapter.isEmpty)
              vm.loadFeatures()*/

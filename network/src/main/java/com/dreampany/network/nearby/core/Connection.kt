@@ -147,19 +147,14 @@ class Connection(
             this.peerId != peerId || !started
 
 
-    fun send(peerId: String, payload: Payload) {
+    fun send(peerId: String, payload: Payload) : Boolean {
         val endpointId = peerId.endpointId
         if (endpointId == null) {
             Timber.v("Send Failed - PeerId (%s) EndpointId not found", peerId)
-
-            return
+            return false
         }
         client.sendPayload(endpointId, payload)
-            .addOnSuccessListener {
-
-            }.addOnFailureListener {
-
-            }
+        return true
     }
 
     private fun startAdvertising() {

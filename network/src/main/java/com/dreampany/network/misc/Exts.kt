@@ -40,3 +40,6 @@ fun BiMap<String, String>.inverseOf(key: String): String? = inverse().get(key)
 val Context.hasPlayService: Boolean
     get() = GoogleApiAvailability.getInstance()
         .isGooglePlayServicesAvailable(applicationContext) == ConnectionResult.SUCCESS
+
+val String.isLong : Boolean
+    get() = this.toLongOrNull() != null

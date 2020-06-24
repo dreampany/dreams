@@ -239,7 +239,7 @@ open class NearbyApi(
     private fun startOutputThread() {
         synchronized(guard) {
             if (!::outputThread.isInitialized || !outputThread.running) {
-                outputThread = SyncingThread(this)
+                outputThread = OutputThread(this)
                 outputThread.start()
             }
             outputThread.notifyRunner()
@@ -258,7 +258,7 @@ open class NearbyApi(
 
         @Throws(InterruptedException::class)
         override fun looping(): Boolean {
-            val output = api.outputs.takeFirst()
+            val output = api.outputs.pollFirst()
             if (output == null) {
                 waitRunner(wait)
                 wait += delayS

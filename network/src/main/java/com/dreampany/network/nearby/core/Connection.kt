@@ -333,6 +333,9 @@ class Connection(
                 return
             }
             val peerId = info.endpointName
+            if (!peerId.isLong) {
+                return
+            }
             Timber.v("Found EndpointId (%s) - PeerId (%s)", endpointId, peerId)
             //priority works: remove old endpoints if exists
             if (endpoints.containsKey(peerId)) {
@@ -351,7 +354,10 @@ class Connection(
 
         override fun onEndpointLost(endpointId: String) {
             val peerId = endpointId.peerId
-            if (peerId == null) return
+            if (peerId == null) {
+                Timber.v("Endpoint lost empty")
+                return
+            }
             Timber.v("Endpoint lost (%s) - PeerId (%s)", endpointId, peerId)
             endpoints.remove(peerId)
             states.put(endpointId, State.LOST)
@@ -418,7 +424,7 @@ class Connection(
             }
 
             if (!delays.containsKey(endpointId)) {
-                delays[endpointId] = Utils.nextRand(5, 15) * delayS
+                delays[endpointId] = Utils.nextRand(5, 10) * delayS
             }
 
             if (!connection.requestTries.containsKey(endpointId)) {

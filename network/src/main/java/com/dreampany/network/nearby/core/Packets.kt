@@ -28,6 +28,15 @@ class Packets {
         private const val SUBTYPE_META_REQUEST: Byte = 6
         private const val SUBTYPE_DATA_REQUEST: Byte = 7
 
+        fun copy(src: ByteArray, from: Int): ByteArray {
+            return Arrays.copyOfRange(src, from, src.size)
+        }
+
+        fun copyToBuffer(src: ByteArray, from: Int): ByteBuffer {
+            val data = copy(src, from)
+            return ByteBuffer.wrap(data)
+        }
+
         val ByteArray?.isPeer: Boolean
             get() {
                 if (this.isEmpty) return false
@@ -44,6 +53,12 @@ class Packets {
             get() {
                 if (this.isEmpty) return false
                 return this?.get(0) == TYPE_FILE
+            }
+
+        val ByteArray.isMeta: Boolean
+            get() {
+                if (size <= 1) return false
+                return this.get(1) == SUBTYPE_META
             }
 
         val hash256 : String

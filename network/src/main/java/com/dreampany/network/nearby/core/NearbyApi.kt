@@ -4,6 +4,8 @@ import android.content.Context
 import com.dreampany.network.misc.*
 import com.dreampany.network.nearby.core.Packets.Companion.hash256
 import com.dreampany.network.nearby.core.Packets.Companion.hash256AsLong
+import com.dreampany.network.nearby.core.Packets.Companion.isMeta
+import com.dreampany.network.nearby.core.Packets.Companion.isPeer
 import com.dreampany.network.nearby.core.Packets.Companion.peerMetaPacket
 import com.dreampany.network.nearby.model.Id
 import com.dreampany.network.nearby.model.Peer
@@ -100,7 +102,7 @@ open class NearbyApi(
     override fun onPayload(peerId: String, payload: Payload) {
         Timber.v("Payload Received from: %s", peerId)
         inputs.add(MutablePair.of(peerId, payload))
-        //startInputThread()
+        startInputThread()
     }
 
     override fun onPayloadStatus(peerId: String, update: PayloadTransferUpdate) {
@@ -161,7 +163,7 @@ open class NearbyApi(
         startOutputThread()
     }
 
-    open fun resolveTimeout(id: Id, timeout: Long, starting: Long) {
+    private fun resolveTimeout(id: Id, timeout: Long, starting: Long) {
         if (!timeouts.containsKey(id)) {
             timeouts.put(id, MutablePair.of(0L, 0L))
         }
@@ -169,12 +171,28 @@ open class NearbyApi(
         timeouts[id]?.right = starting
     }
 
-/*    private fun sendPayload(peerId: Long, data: ByteArray, timeoutInMs: Long) {
-        synchronized(guard) {
-            *//* val packet: ByteArray = Packets.getDataPacket(data)
-             super.sendPacket(id, packet, timeoutInMs)*//*
+    private fun resolvePacket(peerId: String, packet: ByteArray?) {
+        if (packet == null) return
+        Timber.v("Received: %d", packet.size)
+
+        if (packet.isPeer) {
+            Timber.v("Received peer packet: %d", packet.size)
+            resolvePeerPacket(peerId, packet)
+            return
         }
-    }*/
+    }
+
+  private fun resolvePeerPacket(peerId: String, packet: ByteArray) {
+      if (packet.isMeta) {
+          Timber.v("Received peer meta packet (%d)", packet.size)
+          val metaBuffer = Packets.copyToBuffer(packet, 2)
+          val hash = metaBuffer.long
+
+          val ownHash = connection.
+
+      }
+
+  }
 
     /* syncing thread */
     private fun startSyncingThread() {
@@ -272,8 +290,53 @@ open class NearbyApi(
                 val sending = api.connection.send(peerId, payload)
                 Timber.v("Sending (%s) for PeerId (%s) PayloadId (%s)", sending, peerId, payload.id)
             }
+            waitRunner(100L)
             return true
         }
+    }
 
+    /* input thread */
+    private fun startInputThread() {
+        synchronized(guard) {
+            if (!::inputThread.isInitialized || !inputThread.running) {
+                inputThread = InputThread(this)
+                inputThread.start()
+            }
+            inputThread.notifyRunner()
+        }
+    }
+
+    private fun stopInputThread() {
+        synchronized(guard) {
+            if (::inputThread.isInitialized) {
+                inputThread.stop()
+            }
+        }
+    }
+
+    class InputThread(val api: NearbyApi) : Runner() {
+
+        @Throws(InterruptedException::class)
+        override fun looping(): Boolean {
+            val input = api.inputs.pollFirst()
+            if (input == null) {
+                waitRunner(wait)
+                wait += delayS
+                return true
+            }
+            wait = delayS
+
+            val peerId = input.left
+            val payload = input.right
+
+            when (payload.type) {
+                Payload.Type.BYTES -> {
+                    api.resolvePacket(peerId, payload.asBytes())
+                }
+            }
+
+            waitRunner(100L)
+            return true
+        }
     }
 }

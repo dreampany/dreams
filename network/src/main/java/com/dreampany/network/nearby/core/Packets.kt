@@ -1,5 +1,6 @@
 package com.dreampany.network.nearby.core
 
+import com.dreampany.network.misc.STRING_EMPTY
 import com.dreampany.network.misc.isEmpty
 import com.google.common.hash.Hashing
 import java.nio.ByteBuffer
@@ -45,16 +46,23 @@ class Packets {
                 return this?.get(0) == TYPE_FILE
             }
 
-        val hash256 : Long
-            get() = UUID.randomUUID().toString().hash256
+        val hash256 : String
+            get() = UUID.randomUUID().toString()
 
-        val ByteArray?.hash256: Long
+
+        val ByteArray?.hash256: String
+            get() {
+                if (this == null || isEmpty) return STRING_EMPTY
+                return Hashing.sha256().newHasher().putBytes(this).hash().toString()
+            }
+
+        val ByteArray?.hash256AsLong: Long
             get() {
                 if (this == null || isEmpty) return 0L
                 return Hashing.sha256().newHasher().putBytes(this).hash().asLong()
             }
 
-        val String?.hash256: Long
+        val String?.hash256: String
             get() = this?.toByteArray().hash256
 
         val Long.peerMetaPacket: ByteArray

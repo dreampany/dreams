@@ -3,6 +3,7 @@ package com.dreampany.network.nearby.core
 import android.content.Context
 import com.dreampany.network.misc.*
 import com.dreampany.network.nearby.core.Packets.Companion.hash256
+import com.dreampany.network.nearby.core.Packets.Companion.hash256AsLong
 import com.dreampany.network.nearby.core.Packets.Companion.peerMetaPacket
 import com.dreampany.network.nearby.model.Id
 import com.dreampany.network.nearby.model.Peer
@@ -58,6 +59,11 @@ open class NearbyApi(
 
     @Volatile
     private lateinit var syncingThread: Runner
+    @Volatile
+    private lateinit var outputThread: Runner
+    @Volatile
+    private lateinit var inputThread: Runner
+
     init {
 
         executor = Executors.newCachedThreadPool()
@@ -106,7 +112,7 @@ open class NearbyApi(
         callbacks.remove(callback)
     }
 
-    protected open fun startApi(strategy: Strategy, serviceId: Long, peerId: Long) {
+    protected open fun startApi(strategy: Strategy, serviceId: String, peerId: String) {
         check(inited) { "init() function need to be called before start()" }
         if (::connection.isInitialized) {
             if (connection.requireRestart(strategy, serviceId, peerId).value) {
@@ -131,7 +137,9 @@ open class NearbyApi(
         }
     }
 
-    protected fun isLive(peer: Peer): Boolean = states.valueOf(peer.id) == Peer.State.LIVE
+    protected fun isLive(peer: Peer): Boolean = isLive(peer.id)
+
+    protected fun isLive(peerId: String): Boolean = states.valueOf(peerId) == Peer.State.LIVE
 
     protected fun sendPacket(id: Id, packet: ByteArray, timeout: Long) {
         val payload = Payload.fromBytes(packet)
@@ -143,7 +151,7 @@ open class NearbyApi(
         // payloads.put(payload.getId(), payload);
         // payloadIds.put(id, payload.getId());
         outputs.add(MutablePair.of(id.target, payload))
-        //startOutputThread()
+        startOutputThread()
     }
 
     open fun resolveTimeout(id: Id, timeout: Long, starting: Long) {
@@ -182,7 +190,7 @@ open class NearbyApi(
 
     class SyncingThread(val api: NearbyApi) : Runner() {
 
-        private val timesOf: MutableMap<Long, Long>
+        private val timesOf: MutableMap<String, Long>
 
         init {
             timesOf = Maps.newConcurrentMap()
@@ -205,8 +213,7 @@ open class NearbyApi(
                 val peer = api.peers.get(peerId)
                 if (peer != null) {
                     Timber.v("Next syncing peer (%s)", peer.id)
-
-                    val hash: Long = peer.meta.hash256
+                    val hash: Long = peer.meta.hash256AsLong
                     val packet = hash.peerMetaPacket
 
                     val id = Id(hash256, api.connection.getPeerId(), peer.id)
@@ -222,11 +229,29 @@ open class NearbyApi(
     }
 
     /* output thread */
+    private fun startOutputThread() {
+        synchronized(guard) {
+            if (!::outputThread.isInitialized || !outputThread.running) {
+                outputThread = SyncingThread(this)
+                outputThread.start()
+            }
+            outputThread.notifyRunner()
+        }
+    }
+
+    private fun stopOutputThread() {
+        synchronized(guard) {
+            if (::outputThread.isInitialized) {
+                outputThread.stop()
+            }
+        }
+    }
+
     class OutputThread(val api: NearbyApi) : Runner() {
 
         @Throws(InterruptedException::class)
         override fun looping(): Boolean {
-            val output = api.outputs.pollFirst()
+            val output = api.outputs.takeFirst()
             if (output == null) {
                 waitRunner(wait)
                 wait += delayS
@@ -235,6 +260,10 @@ open class NearbyApi(
             wait = delayS
             val peerId = output.left
             val payload = output.right
+
+            if (api.isLive(peerId)) {
+                //api.connection.s
+            }
             return true
         }
 

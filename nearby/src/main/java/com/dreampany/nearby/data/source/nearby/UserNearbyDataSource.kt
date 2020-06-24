@@ -39,11 +39,11 @@ class UserNearbyDataSource(
 
     override fun startNearby(
         strategy: Strategy,
-        serviceId: Long,
+        serviceId: String,
         user: User
     ) {
         nearby.register(this)
-        nearby.init(strategy, serviceId, user.id.toLong(), null)
+        nearby.init(strategy, serviceId, user.id, null)
         nearby.start()
     }
 

@@ -34,7 +34,7 @@ fun MutableMap<String, Long>.valueOf(key: String): Long = get(key) ?: 0L
 fun MutableMap<Long, Long>.valueOf(key: Long): Long = get(key) ?: 0L
 fun MutableMap<Long, Long>.timeOf(key: Long): Long = get(key) ?: currentMillis
 fun MutableMap<String, Long>.timeOf(key: String): Long = get(key) ?: currentMillis
-fun MutableMap<Long, Peer.State>.valueOf(key: Long): Peer.State = get(key) ?: Peer.State.DEAD
+fun MutableMap<String, Peer.State>.valueOf(key: String): Peer.State = get(key) ?: Peer.State.DEAD
 fun BiMap<Long, String>.valueOf(key: Long): String = get(key) ?: STRING_EMPTY
 fun BiMap<String, String>.inverseOf(key: String): String = inverse().get(key) ?: STRING_EMPTY
 val Context.hasPlayService: Boolean

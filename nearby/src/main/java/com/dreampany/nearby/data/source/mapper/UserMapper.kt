@@ -135,7 +135,7 @@ class UserMapper
     @Synchronized
     fun get(input: Peer): User {
         Timber.v("Resolved User: %s", input.id);
-        val id = input.id.toString()
+        val id = input.id
         var out: User? = users.get(id)
         if (out == null) {
             out = User(id)

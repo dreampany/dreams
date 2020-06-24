@@ -8,7 +8,7 @@ import com.google.common.base.Objects
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class Id(val id: Long, val source: Long, val target: Long) {
+data class Id(val id: String, val source: String, val target: String) {
 
     override fun hashCode(): Int = Objects.hashCode(id, source, target)
 

@@ -19,7 +19,7 @@ interface UserDataSource {
 
     fun unregister(callback: Callback)
 
-    fun startNearby(strategy: Strategy, serviceId: Long, user: User)
+    fun startNearby(strategy: Strategy, serviceId: String, user: User)
 
     fun stopNearby()
 

@@ -2,6 +2,7 @@ package com.dreampany.network.nearby
 
 import android.Manifest
 import android.content.Context
+import com.dreampany.network.misc.STRING_EMPTY
 import com.dreampany.network.misc.hasPermission
 import com.dreampany.network.misc.hasPlayService
 import com.dreampany.network.nearby.core.NearbyApi
@@ -24,12 +25,12 @@ class NearbyManager
 ) : NearbyApi(context) {
 
     private lateinit var strategy: Strategy
-    private var serviceId: Long = 0L
-    private var peerId: Long = 0L
+    private lateinit var serviceId: String
+    private lateinit var peerId: String
     private var peerData: ByteArray? = null
 
     @Throws(Throwable::class)
-    fun init(strategy: Strategy, serviceId: Long, peerId: Long, peerData: ByteArray?): Boolean {
+    fun init(strategy: Strategy, serviceId: String, peerId: String, peerData: ByteArray?): Boolean {
         synchronized(guard) {
             this.strategy = strategy
             this.serviceId = serviceId

@@ -35,7 +35,7 @@ class UserRepo
 
     override fun startNearby(
         strategy: Strategy,
-        serviceId: Long,
+        serviceId: String,
         user: User
     ) {
         nearby.startNearby(strategy, serviceId, user)

@@ -16,7 +16,6 @@ import com.dreampany.nearby.data.source.repo.UserRepo
 import com.dreampany.nearby.ui.home.model.UserItem
 import com.google.android.gms.nearby.connection.Strategy
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 /**
  * Created by roman on 21/6/20
@@ -41,7 +40,7 @@ class UserViewModel
 
     fun startNearby() {
         val strategy = Strategy.P2P_STAR
-        val serviceId = BuildConfig.APPLICATION_ID.hash256
+        val serviceId = BuildConfig.APPLICATION_ID
         val deviceId = getApplication<App>().deviceId.hash256
         val userId = deviceId.toString()
         val user = User(userId)

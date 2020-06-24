@@ -111,7 +111,7 @@ class Connection(
         }
     }
 
-    fun getPeerId(): Long = peerId
+    fun getPeerId(): String = peerId
 
     fun start() {
         synchronized(guard) {

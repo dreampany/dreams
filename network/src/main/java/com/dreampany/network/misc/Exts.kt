@@ -36,7 +36,7 @@ fun MutableMap<Long, Long>.timeOf(key: Long): Long = get(key) ?: currentMillis
 fun MutableMap<String, Long>.timeOf(key: String): Long = get(key) ?: currentMillis
 fun MutableMap<String, Peer.State>.valueOf(key: String): Peer.State = get(key) ?: Peer.State.DEAD
 fun BiMap<Long, String>.valueOf(key: Long): String = get(key) ?: STRING_EMPTY
-fun BiMap<String, String>.inverseOf(key: String): String = inverse().get(key) ?: STRING_EMPTY
+fun BiMap<String, String>.inverseOf(key: String): String? = inverse().get(key)
 val Context.hasPlayService: Boolean
     get() = GoogleApiAvailability.getInstance()
         .isGooglePlayServicesAvailable(applicationContext) == ConnectionResult.SUCCESS

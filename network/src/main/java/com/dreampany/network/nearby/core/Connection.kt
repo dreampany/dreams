@@ -33,7 +33,7 @@ class Connection(
     interface Callback {
         fun onConnection(peerId: String, connected: Boolean)
         fun onPayload(peerId: String, payload: Payload)
-        fun onPayloadStatus(peerId: String, status: PayloadTransferUpdate)
+        fun onPayloadStatus(peerId: String, update: PayloadTransferUpdate)
     }
 
     private val guard = Object()
@@ -92,8 +92,12 @@ class Connection(
 
         if (accepted) {
             pendingEndpoints.remove(endpointId)
-            val peerId = peerIdOf(endpointId)
-            executor.execute({ callback.onConnection(peerId, true) })
+            val peerId = endpointId.peerId
+            if (peerId == null) {
+                // TODO
+            } else {
+                executor.execute({ callback.onConnection(peerId, true) })
+            }
         } else {
             pendingEndpoints.insertLastUniquely(endpointId)
             executor.execute({ startRequestThread() })
@@ -104,10 +108,14 @@ class Connection(
         Timber.v("First Disconnected endpoint: %s", endpointId)
         states.put(endpointId, State.DISCONNECTED)
         pendingEndpoints.insertLastUniquely(endpointId)
-        val peerId = peerIdOf(endpointId)
-        executor.execute {
-            callback.onConnection(peerId, false)
-            startRequestThread()
+        val peerId = endpointId.peerId
+        if (peerId == null) {
+            //TODO
+        } else {
+            executor.execute {
+                callback.onConnection(peerId, false)
+                startRequestThread()
+            }
         }
     }
 
@@ -138,6 +146,22 @@ class Connection(
             this.serviceId != serviceId ||
             this.peerId != peerId || !started
 
+
+    fun send(peerId: String, payload: Payload) {
+        val endpointId = peerId.endpointId
+        if (endpointId == null) {
+            Timber.v("Send Failed - PeerId (%s) EndpointId not found", peerId)
+
+            return
+        }
+        client.sendPayload(endpointId, payload)
+            .addOnSuccessListener {
+
+            }.addOnFailureListener {
+
+            }
+    }
+
     private fun startAdvertising() {
         synchronized(guard) {
             if (advertising) {
@@ -148,13 +172,13 @@ class Connection(
                 .addOnSuccessListener {
                     advertising = true
                     Timber.v("Success Advertising of ServiceId (%s) - Peer (%s)", serviceId, peerId)
-                }.addOnFailureListener { error: Exception ->
+                }.addOnFailureListener {
                     advertising = false
                     Timber.e(
                         "Error in Advertising of ServiceId (%s) - Peer (%s) - %s",
                         serviceId,
                         peerId,
-                        error.message
+                        it.message
                     )
                 }
         }
@@ -178,13 +202,13 @@ class Connection(
                     discovering = true
                     Timber.v("Success Discovering ServiceId (%s) - Peer (%s)", serviceId, peerId)
                 }
-                .addOnFailureListener { error: Exception ->
+                .addOnFailureListener {
                     discovering = false
                     Timber.e(
                         "Error Discovering ServiceId (%s) - Peer (%s) - %s",
                         serviceId,
                         peerId,
-                        error.message
+                        it.message
                     )
                 }
         }
@@ -232,9 +256,40 @@ class Connection(
             }
     }
 
-    private fun peerIdOf(endpointId: String): String {
-        return endpoints.inverse().get(endpointId) ?: STRING_EMPTY
-    }
+    private fun peerIdOf(endpointId: String): String? = endpointId.peerId
+
+    private val String.peerId: String?
+        get() = endpoints.inverse().get(this)
+
+    private val String.endpointId: String?
+        get() {
+            val endpointId = endpoints.get(this)
+            if (endpointId == null) return null
+            if (states.get(endpointId) != State.ACCEPTED) return null
+            return endpointId
+        }
+
+    /*private val String.acceptedEndpointId : String?
+        get() {
+            if (!endpoints.containsKey(peerId)) {
+                return null
+            }
+        }*/
+
+    /*private fun acceptedEndpointId(peerId: L) {
+        if (!endpoints.containsKey(peerId)) {
+            return null;
+        }
+
+        String endpointId = endpoints . get (peerId);
+        if (!states.containsKey(endpointId)) {
+            return null;
+        }
+        if (states.get(endpointId) != State.ACCEPTED) {
+            return null;
+        }
+        return endpointId;
+    }*/
 
     /*private val Long.string: String
         get() {
@@ -295,7 +350,8 @@ class Connection(
         }
 
         override fun onEndpointLost(endpointId: String) {
-            val peerId = peerIdOf(endpointId)
+            val peerId = endpointId.peerId
+            if (peerId == null) return
             Timber.v("Endpoint lost (%s) - PeerId (%s)", endpointId, peerId)
             endpoints.remove(peerId)
             states.put(endpointId, State.LOST)
@@ -310,12 +366,14 @@ class Connection(
 
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
             val peerId = endpoints.inverseOf(endpointId)
+            if (peerId == null) return
             Timber.v("Payload Received from PeerId (%s)", peerId)
             executor.execute { callback.onPayload(peerId, payload) }
         }
 
         override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {
             val peerId = endpoints.inverseOf(endpointId)
+            if (peerId == null) return
             Timber.v("Payload Transfer Update from PeerId (%s)", peerId)
             executor.execute { callback.onPayloadStatus(peerId, update) }
         }
@@ -328,9 +386,9 @@ class Connection(
         @Throws(InterruptedException::class)
         override fun looping(): Boolean {
             val endpointId: String? = connection.pendingEndpoints.pollFirst()
-            val peerId = endpointId?.let { connection.peerIdOf(it) } ?: STRING_EMPTY
+            val peerId = endpointId?.let { connection.peerIdOf(it) }
             Timber.v("Next EndpointId (%s) - PeerId (%s)", endpointId, peerId)
-            if (endpointId == null || peerId.isEmpty()) {
+            if (endpointId == null || peerId == null) {
                 waitRunner(wait)
                 wait += (delayS + delayS)
                 return true

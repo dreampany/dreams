@@ -59,8 +59,10 @@ open class NearbyApi(
 
     @Volatile
     private lateinit var syncingThread: Runner
+
     @Volatile
     private lateinit var outputThread: Runner
+
     @Volatile
     private lateinit var inputThread: Runner
 
@@ -101,14 +103,19 @@ open class NearbyApi(
         //startInputThread()
     }
 
-    override fun onPayloadStatus(peerId: String, status: PayloadTransferUpdate) {
+    override fun onPayloadStatus(peerId: String, update: PayloadTransferUpdate) {
+        val pair = outputs.find { it.right.id == update.payloadId }
+        if (pair != null) {
+            outputs.remove(pair)
+            Timber.v("Removed PeerId (%s) PayloadId (%s)", peerId, update.payloadId)
+        }
     }
 
-    fun register(callback: NearbyApi.Callback) {
+    fun register(callback: Callback) {
         callbacks.add(callback)
     }
 
-    fun unregister(callback: NearbyApi.Callback) {
+    fun unregister(callback: Callback) {
         callbacks.remove(callback)
     }
 
@@ -262,7 +269,8 @@ open class NearbyApi(
             val payload = output.right
 
             if (api.isLive(peerId)) {
-                //api.connection.s
+                val sending = api.connection.send(peerId, payload)
+                Timber.v("Sending (%s) for PeerId (%s) PayloadId (%s)", sending, peerId, payload.id)
             }
             return true
         }

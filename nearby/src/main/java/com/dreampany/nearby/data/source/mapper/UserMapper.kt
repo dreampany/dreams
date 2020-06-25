@@ -12,6 +12,10 @@ import com.dreampany.nearby.data.source.api.UserDataSource
 import com.dreampany.nearby.data.source.pref.AppPref
 import com.dreampany.network.nearby.model.Peer
 import com.google.common.collect.Maps
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParseException
+import com.google.gson.JsonParser
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,7 +31,8 @@ class UserMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
-    private val pref: AppPref
+    private val pref: AppPref,
+    private val gson: Gson
 ) {
     private val users: MutableMap<String, User>
     private val favorites: MutableMap<String, Boolean>
@@ -141,9 +146,25 @@ class UserMapper
             out = User(id)
             users.put(id, out)
         }
-       // out.name = input.name
-
+        parseUserData(out, input.meta)
         return out
+    }
+
+    fun parseUserData(user: User, data: ByteArray?) {
+        val parser = JsonParser()
+        try {
+            val json = parser.parse(data.toString()).asJsonObject
+            val name = json.get("name").asString
+            user.name = name
+        } catch (ignored : JsonParseException) {
+            user.name = null
+        }
+    }
+
+    fun getUserData(user: User): ByteArray {
+        val json = JsonObject()
+        json.addProperty("name", user.name)
+        return json.toString().toByteArray()
     }
 
     @Throws

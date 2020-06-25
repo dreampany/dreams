@@ -1,4 +1,4 @@
-package com.dreampany.nearby.misc.constants
+package com.dreampany.nearby.misc
 
 import java.util.concurrent.TimeUnit
 

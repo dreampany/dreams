@@ -2,7 +2,7 @@ package com.dreampany.nearby.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.nearby.misc.constants.AppConstants
+import com.dreampany.nearby.misc.AppConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 

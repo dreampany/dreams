@@ -43,7 +43,7 @@ class UserNearbyDataSource(
         user: User
     ) {
         nearby.register(this)
-        nearby.init(strategy, serviceId, user.id, null)
+        nearby.init(strategy, serviceId, user.id, mapper.getUserData(user))
         nearby.start()
     }
 

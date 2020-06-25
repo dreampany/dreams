@@ -2,6 +2,7 @@ package com.dreampany.network.nearby.core
 
 import android.content.Context
 import com.dreampany.network.misc.*
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import com.google.common.collect.BiMap
@@ -27,7 +28,7 @@ class Connection(
 
     private enum class State {
         FOUND, LOST, REQUESTING, REQUEST_SUCCESS, REQUEST_FAILED,
-        INITIATED, ACCEPTED, REJECTED, DISCONNECTED
+        INITIATED, ACCEPTED, REJECTED, ERROR, DISCONNECTED
     }
 
     interface Callback {
@@ -147,7 +148,7 @@ class Connection(
             this.peerId != peerId || !started
 
 
-    fun send(peerId: String, payload: Payload) : Boolean {
+    fun send(peerId: String, payload: Payload): Boolean {
         val endpointId = peerId.endpointId
         if (endpointId == null) {
             Timber.v("Send Failed - PeerId (%s) EndpointId not found", peerId)
@@ -242,9 +243,24 @@ class Connection(
                 states[endpointId] = State.REQUEST_SUCCESS
                 pendingEndpoints.remove(endpointId)
                 requestTries.remove(endpointId)
-            }.addOnFailureListener { error: Exception ->
-                Timber.e("Request Connection error (%s) - %s", endpointId, error.message)
-                Timber.e(error)
+            }.addOnFailureListener {
+                Timber.e("Request Connection error (%s) - %s", endpointId, it.message)
+                if (it is ApiException) {
+                    when (it.statusCode) {
+                        ConnectionsStatusCodes.STATUS_ALREADY_CONNECTED_TO_ENDPOINT -> {
+                            states[endpointId] = State.ACCEPTED
+                            return@addOnFailureListener
+                        }
+                        ConnectionsStatusCodes.STATUS_ENDPOINT_IO_ERROR -> {
+                            states[endpointId] = State.ERROR
+                            return@addOnFailureListener
+                        }
+                        ConnectionsStatusCodes.STATUS_OUT_OF_ORDER_API_CALL-> {
+                            states[endpointId] = State.ERROR
+                            return@addOnFailureListener
+                        }
+                    }
+                }
                 states[endpointId] = State.REQUEST_FAILED
                 pendingEndpoints.insertLastUniquely(endpointId)
                 startRequestThread()
@@ -406,6 +422,9 @@ class Connection(
                 )
             }
             if (connection.states.get(endpointId) == State.REQUESTING) {
+                return true
+            }
+            if (connection.states.get(endpointId) == State.ERROR) {
                 return true
             }
 

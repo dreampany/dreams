@@ -39,7 +39,7 @@ public class NearbyApi extends Api {
         File getFile(Id id);
     }
 
-    public interface Callback {
+    public interface Callback {Callback
         void onPeer(Peer peer, Peer.State state);
 
         void onData(Peer peer, byte[] data);
@@ -99,7 +99,7 @@ public class NearbyApi extends Api {
         //TODO notify to remote end that own data has been changed
     }
 
-    public void register(@NonNull Callback callback) {
+    public void register(@NonNull  callback) {
         callbacks.add(callback);
     }
 

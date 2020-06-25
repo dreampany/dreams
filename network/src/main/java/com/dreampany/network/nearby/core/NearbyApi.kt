@@ -4,8 +4,11 @@ import android.content.Context
 import com.dreampany.network.misc.*
 import com.dreampany.network.nearby.core.Packets.Companion.hash256
 import com.dreampany.network.nearby.core.Packets.Companion.hash256AsLong
+import com.dreampany.network.nearby.core.Packets.Companion.isHash
 import com.dreampany.network.nearby.core.Packets.Companion.isMeta
+import com.dreampany.network.nearby.core.Packets.Companion.isOkay
 import com.dreampany.network.nearby.core.Packets.Companion.isPeer
+import com.dreampany.network.nearby.core.Packets.Companion.peerHashPacket
 import com.dreampany.network.nearby.core.Packets.Companion.peerMetaPacket
 import com.dreampany.network.nearby.model.Id
 import com.dreampany.network.nearby.model.Peer
@@ -33,9 +36,14 @@ open class NearbyApi(
 
     interface Callback {
         fun onPeer(peer: Peer, state: Peer.State)
-        fun onData(peer: Peer, data: ByteArray)
+        fun onData(peer: Peer, meta: ByteArray)
         fun onStatus(payloadId: Long, state: PayloadState, totalBytes: Long, bytesTransferred: Long)
     }
+
+    protected lateinit var strategy: Strategy
+    protected lateinit var serviceId: String
+    protected lateinit var peerId: String
+    protected var peerData: ByteArray? = null
 
     protected val guard = Object()
 
@@ -150,7 +158,7 @@ open class NearbyApi(
 
     protected fun isLive(peerId: String): Boolean = states.valueOf(peerId) == Peer.State.LIVE
 
-    protected fun sendPacket(id: Id, packet: ByteArray, timeout: Long) {
+    protected fun sendPacket(id: Id, packet: ByteArray, timeout: Long = 0) {
         val payload = Payload.fromBytes(packet)
         sendPayload(id, payload)
         resolveTimeout(id, timeout, 0L)
@@ -161,6 +169,18 @@ open class NearbyApi(
         // payloadIds.put(id, payload.getId());
         outputs.add(MutablePair.of(id.target, payload))
         startOutputThread()
+    }
+
+    private fun peerCallback(peer: Peer, state : Peer.State) {
+        callbacks.forEach {
+            it.onPeer(peer, state)
+        }
+    }
+
+    private fun peerCallback(peer: Peer, meta : ByteArray) {
+        callbacks.forEach {
+            it.onData(peer, meta)
+        }
     }
 
     private fun resolveTimeout(id: Id, timeout: Long, starting: Long) {
@@ -182,17 +202,42 @@ open class NearbyApi(
         }
     }
 
-  private fun resolvePeerPacket(peerId: String, packet: ByteArray) {
-      if (packet.isMeta) {
-          Timber.v("Received peer meta packet (%d)", packet.size)
-          val metaBuffer = Packets.copyToBuffer(packet, 2)
-          val hash = metaBuffer.long
+    private fun resolvePeerPacket(peerId: String, packet: ByteArray) {
+        if (packet.isHash) {
+            Timber.v("Received peer hash packet (%d)", packet.size)
+            val buffer = Packets.copyToBuffer(packet, 2)
+            val remoteHash = buffer.long
+            val ownHash = peerData.hash256AsLong
+            Timber.v("Remote end own hash (%s) and Real own hash (%s)", remoteHash, ownHash)
+            val id = Id(hash256, peerId, peerId)
+            if (ownHash == remoteHash) {
+                sendPacket(id, Packets.peerOkayPacket)
+            } else {
+                sendPacket(id, peerData.peerMetaPacket)
+            }
+            return
+        }
 
-          val ownHash = connection.
+        if (packet.isMeta) {
+            Timber.v("Received meta packet (%d)", packet.size)
+            val buffer = Packets.copyToBuffer(packet, 2)
+            val peer = peers.get(peerId)
+            peer?.let {
+                it.meta = buffer.array()
+                peerCallback(it, Peer.State.LIVE)
+            }
+            return
+        }
 
-      }
+        if (packet.isOkay) {
+            Timber.v("Received okay packet (%d)", packet.size)
+            val peer = peers.get(peerId)
+            peer?.let {
+                peerCallback(it, Peer.State.LIVE)
+            }
+        }
+    }
 
-  }
 
     /* syncing thread */
     private fun startSyncingThread() {
@@ -238,11 +283,11 @@ open class NearbyApi(
                 val peer = api.peers.get(peerId)
                 if (peer != null) {
                     Timber.v("Next syncing peer (%s)", peer.id)
-                    val hash: Long = peer.meta.hash256AsLong
-                    val packet = hash.peerMetaPacket
-
+                    val remoteHash: Long = peer.meta.hash256AsLong
+                    val packet = remoteHash.peerHashPacket
                     val id = Id(hash256, api.connection.getPeerId(), peer.id)
-                    api.sendPacket(id, packet, 0L)
+                    // send remote peer hash to remote end
+                    api.sendPacket(id, packet)
                     timesOf.put(peerId, currentMillis)
                 }
             }

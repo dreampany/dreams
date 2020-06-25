@@ -24,11 +24,6 @@ class NearbyManager
     context: Context
 ) : NearbyApi(context) {
 
-    private lateinit var strategy: Strategy
-    private lateinit var serviceId: String
-    private lateinit var peerId: String
-    private var peerData: ByteArray? = null
-
     @Throws(Throwable::class)
     fun init(strategy: Strategy, serviceId: String, peerId: String, peerData: ByteArray?): Boolean {
         synchronized(guard) {

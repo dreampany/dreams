@@ -24,6 +24,8 @@ val ByteArray?.isEmpty: Boolean
 val ByteArray?.length: Int
     get() = this?.size ?: 0
 
+fun ByteArray.secondOrNull(): Byte? = if (length < 2) null else this[1]
+
 val Boolean?.value: Boolean get() = if (this == null) false else this
 val String?.value: String get() = if (this == null) STRING_EMPTY else this
 fun Long.isExpired(delay: Long): Boolean = currentMillis - this > delay

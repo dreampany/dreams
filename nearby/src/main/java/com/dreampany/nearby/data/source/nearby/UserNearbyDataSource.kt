@@ -92,7 +92,7 @@ class UserNearbyDataSource(
         Timber.v("Peer [%s]", peer.id)
     }
 
-    override fun onData(peer: Peer, data: ByteArray) {
+    override fun onData(peer: Peer, meta: ByteArray) {
         Timber.v("Peer Data [%s]", peer.id)
     }
 

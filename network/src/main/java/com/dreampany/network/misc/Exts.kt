@@ -45,3 +45,6 @@ val Context.hasPlayService: Boolean
 
 val String.isLong : Boolean
     get() = this.toLongOrNull() != null
+
+val String.isValidPeerId : Boolean
+    get() = this.find { !it.isLetterOrDigit() } == null

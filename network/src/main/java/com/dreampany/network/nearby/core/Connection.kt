@@ -293,7 +293,7 @@ class Connection(
                 return
             }
             val peerId = info.endpointName
-            if (!peerId.isLong) {
+            if (!peerId.isValidPeerId) {
                 return
             }
             Timber.v("Found EndpointId (%s) - PeerId (%s)", endpointId, peerId)
@@ -315,7 +315,7 @@ class Connection(
         override fun onEndpointLost(endpointId: String) {
             val peerId = endpointId.peerId
             if (peerId == null) {
-                Timber.v("Endpoint lost empty")
+                Timber.v("Endpoint lost %s", endpointId)
                 return
             }
             Timber.v("Endpoint lost (%s) - PeerId (%s)", endpointId, peerId)

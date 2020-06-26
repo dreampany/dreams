@@ -167,7 +167,7 @@ open class NearbyApi(
         resolveTimeout(id, timeout, 0L)
     }
 
-    fun sendPayload(id: Id, payload: Payload) {
+   private fun sendPayload(id: Id, payload: Payload) {
         // payloads.put(payload.getId(), payload);
         // payloadIds.put(id, payload.getId());
         outputs.add(MutablePair.of(id.target, payload))

@@ -16,6 +16,9 @@ import com.dreampany.nearby.data.source.repo.UserRepo
 import com.dreampany.nearby.ui.home.model.UserItem
 import com.google.android.gms.nearby.connection.Strategy
 import com.jaredrummler.android.device.DeviceName
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -45,14 +48,19 @@ class UserViewModel
     }
 
     fun startNearby() {
+        uiScope.launch {
+            startNearbyImp()
+        }
+    }
+
+    private suspend fun startNearbyImp() = withContext(Dispatchers.IO) {
         val strategy = Strategy.P2P_STAR
         val serviceId = BuildConfig.APPLICATION_ID
-        val deviceId = getApplication<App>().deviceId.hash256
-        val userId = deviceId.toString()
+        val deviceId = getApplication<App>().deviceId
         val deviceName = DeviceName.getDeviceName()
-        val user = User(userId)
+        val user = User(deviceId)
         user.name = deviceName
-        repo.register(this)
+        repo.register(this@UserViewModel)
         repo.startNearby(strategy, serviceId, user)
     }
 

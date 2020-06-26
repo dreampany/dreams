@@ -17,8 +17,10 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 21/3/20
@@ -153,10 +155,11 @@ class UserMapper
     fun parseUserData(user: User, data: ByteArray?) {
         val parser = JsonParser()
         try {
-            val json = parser.parse(data.toString()).asJsonObject
+            if (data == null) throw NullPointerException()
+            val json = parser.parse(String(data)).asJsonObject
             val name = json.get("name").asString
             user.name = name
-        } catch (ignored : JsonParseException) {
+        } catch (ignored: Throwable) {
             user.name = null
         }
     }
@@ -164,7 +167,9 @@ class UserMapper
     fun getUserData(user: User): ByteArray {
         val json = JsonObject()
         json.addProperty("name", user.name)
-        return json.toString().toByteArray()
+        val data = json.toString()
+        val array = data.toByteArray()
+        return array
     }
 
     @Throws

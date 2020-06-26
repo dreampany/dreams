@@ -14,6 +14,7 @@ class AppConstants {
         object Pref {
             const val PREF = "pref"
             const val EXPIRE = "expire"
+            const val NEARBY_TYPE = "nearby_type"
         }
 
         object Room {

@@ -1,6 +1,7 @@
 package com.dreampany.nearby.ui.home.fragment
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.lifecycle.Observer
 import com.afollestad.assent.Permission
@@ -17,12 +18,15 @@ import com.dreampany.nearby.data.enums.Action
 import com.dreampany.nearby.data.enums.State
 import com.dreampany.nearby.data.enums.Subtype
 import com.dreampany.nearby.data.enums.Type
+import com.dreampany.nearby.data.source.pref.AppPref
 import com.dreampany.nearby.databinding.RecyclerFragmentBinding
 import com.dreampany.nearby.ui.home.adapter.FastUserAdapter
 import com.dreampany.nearby.ui.home.model.UserItem
 import com.dreampany.nearby.ui.home.vm.UserViewModel
+import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.stateful.StatefulLayout
-import kotlinx.android.synthetic.main.content_recycler.view.*
+import com.skydoves.powermenu.PowerMenu
+import com.skydoves.powermenu.PowerMenuItem
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,15 +40,27 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
+    @Inject
+    internal lateinit var pref : AppPref
+
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var vm: UserViewModel
     private lateinit var adapter: FastUserAdapter
 
+    private val powerItems = mutableListOf<PowerMenuItem>()
+    private var powerMenu: PowerMenu? = null
+
     override val layoutRes: Int = R.layout.recycler_fragment
+
+    override val menuRes: Int = R.menu.menu_home
+
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
+        createMenuItems()
+
         runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
             // Do something
             vm.startNearby()
@@ -54,6 +70,15 @@ class HomeFragment
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onMenuCreated(menu: Menu) {
+/*        val activity = getParent()
+        if (activity is SearchViewCallback) {
+            val searchCallback = activity as SearchViewCallback?
+            searchView = searchCallback!!.searchView
+            initSearchView(searchView!!, searchItem)
+        }*/
     }
 
     private fun onItemPressed(view: View, item: UserItem) {
@@ -93,6 +118,33 @@ class HomeFragment
             adapter.initRecycler(
                 state,
                 bind.layoutRecycler.recycler
+            )
+        }
+    }
+
+    private fun createMenuItems() {
+        if (powerItems.isEmpty()) {
+
+            powerItems.add(
+                PowerMenuItem(
+                    getString(R.string.nearby_type_ptp),
+                    NearbyApi.Type.PTP == pref.getNearbyType(),
+                    NearbyApi.Type.PTP
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    getString(R.string.nearby_type_cluster),
+                    NearbyApi.Type.CLUSTER == pref.getNearbyType(),
+                    NearbyApi.Type.PTP
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    getString(R.string.nearby_type_star),
+                    NearbyApi.Type.STAR == pref.getNearbyType(),
+                    NearbyApi.Type.STAR
+                )
             )
         }
     }

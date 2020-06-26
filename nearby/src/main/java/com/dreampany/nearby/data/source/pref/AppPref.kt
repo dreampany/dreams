@@ -3,6 +3,7 @@ package com.dreampany.nearby.data.source.pref
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
 import com.dreampany.nearby.misc.AppConstants
+import com.dreampany.network.nearby.core.NearbyApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,4 +20,18 @@ class AppPref
 ) : BasePref(context) {
 
     override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.PREF
+
+    @Synchronized
+    fun getNearbyType(): NearbyApi.Type {
+        return getPrivately(
+            AppConstants.Keys.Pref.NEARBY_TYPE,
+            NearbyApi.Type::class.java,
+            NearbyApi.Type.PTP
+        )
+    }
+
+    @Synchronized
+    fun setNearbyType(type: NearbyApi.Type) {
+        setPrivately(AppConstants.Keys.Pref.NEARBY_TYPE, type)
+    }
 }

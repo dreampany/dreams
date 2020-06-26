@@ -2,13 +2,11 @@ package com.dreampany.network.nearby
 
 import android.Manifest
 import android.content.Context
-import com.dreampany.network.misc.STRING_EMPTY
 import com.dreampany.network.misc.hasPermission
 import com.dreampany.network.misc.hasPlayService
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.network.nearby.core.Packets.Companion.dataPacket
 import com.dreampany.network.nearby.model.Id
-import com.google.android.gms.nearby.connection.Strategy
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,9 +23,9 @@ class NearbyManager
 ) : NearbyApi(context) {
 
     @Throws(Throwable::class)
-    fun init(strategy: Strategy, serviceId: String, peerId: String, peerData: ByteArray?): Boolean {
+    fun init(type: Type, serviceId: String, peerId: String, peerData: ByteArray?): Boolean {
         synchronized(guard) {
-            this.strategy = strategy
+            this.type = type
             this.serviceId = serviceId
             this.peerId = peerId
             this.peerData = peerData
@@ -47,7 +45,7 @@ class NearbyManager
 
     fun start() {
         synchronized(guard) {
-            super.startApi(strategy, serviceId, peerId)
+            super.startApi(type, serviceId, peerId)
         }
     }
 

@@ -23,9 +23,8 @@ class CryptoPref
     context: Context
 ) : BasePref(context) {
 
-    override fun getPrivateName(context: Context): String {
-        return CryptoConstants.Keys.PrefKeys.CRYPTO
-    }
+    override fun getPrivateName(context: Context): String =
+        CryptoConstants.Keys.PrefKeys.CRYPTO
 
     @Synchronized
     fun getCurrency(): Currency {

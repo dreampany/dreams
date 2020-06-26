@@ -32,6 +32,7 @@ open class NearbyApi(
     val context: Context
 ) : Connection.Callback {
 
+    enum class Type { PTP, CLUSTER, STAR }
     enum class PayloadState { SUCCESS, FAILURE, PROGRESS }
 
     interface Callback {
@@ -40,7 +41,7 @@ open class NearbyApi(
         fun onStatus(payloadId: Long, state: PayloadState, totalBytes: Long, bytesTransferred: Long)
     }
 
-    protected lateinit var strategy: Strategy
+    protected lateinit var type: Type
     protected lateinit var serviceId: String
     protected lateinit var peerId: String
     protected var peerData: ByteArray? = null
@@ -129,19 +130,20 @@ open class NearbyApi(
         callbacks.remove(callback)
     }
 
-    protected open fun startApi(strategy: Strategy, serviceId: String, peerId: String) {
+    protected open fun startApi(type: Type, serviceId: String, peerId: String) {
         check(inited) { "init() function need to be called before start()" }
         if (::connection.isInitialized) {
-            if (connection.requireRestart(strategy, serviceId, peerId).value) {
+            if (connection.requireRestart(type.strategy, serviceId, peerId).value) {
                 stopApi()
                 executor.execute {
-                    connection = Connection(context, executor, strategy, serviceId, peerId, this)
+                    connection =
+                        Connection(context, executor, type.strategy, serviceId, peerId, this)
                     connection.start()
                 }
             }
         } else {
             executor.execute {
-                connection = Connection(context, executor, strategy, serviceId, peerId, this)
+                connection = Connection(context, executor, type.strategy, serviceId, peerId, this)
                 connection.start()
             }
         }
@@ -167,20 +169,20 @@ open class NearbyApi(
         resolveTimeout(id, timeout, 0L)
     }
 
-   private fun sendPayload(id: Id, payload: Payload) {
+    private fun sendPayload(id: Id, payload: Payload) {
         // payloads.put(payload.getId(), payload);
         // payloadIds.put(id, payload.getId());
         outputs.add(MutablePair.of(id.target, payload))
         startOutputThread()
     }
 
-    private fun peerCallback(peer: Peer, state : Peer.State) {
+    private fun peerCallback(peer: Peer, state: Peer.State) {
         callbacks.forEach {
             it.onPeer(peer, state)
         }
     }
 
-    private fun peerCallback(peer: Peer, data : ByteArray) {
+    private fun peerCallback(peer: Peer, data: ByteArray) {
         callbacks.forEach {
             it.onData(peer, data)
         }
@@ -241,6 +243,23 @@ open class NearbyApi(
         }
     }
 
+    private val NearbyApi.Type.strategy: Strategy
+        get() {
+            when (this) {
+                Type.PTP -> {
+                    return Strategy.P2P_POINT_TO_POINT
+                }
+                Type.CLUSTER -> {
+                    return Strategy.P2P_CLUSTER
+                }
+                Type.STAR -> {
+                    return Strategy.P2P_STAR
+                }
+                else -> {
+                    return Strategy.P2P_POINT_TO_POINT
+                }
+            }
+        }
 
     /* syncing thread */
     private fun startSyncingThread() {
@@ -387,4 +406,5 @@ open class NearbyApi(
             return true
         }
     }
+
 }

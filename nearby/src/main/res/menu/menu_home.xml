@@ -1,10 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dreampany.scan.HomeActivity">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_nearby_type"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="@string/nearby_type_ptp"
+        auto:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/item_search"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:iconTint="@color/material_white"
+        android:title="@string/search"
+        auto:actionViewClass="androidx.appcompat.widget.SearchView"
+        auto:showAsAction="collapseActionView|always" />
 </menu>

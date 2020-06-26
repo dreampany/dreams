@@ -2,13 +2,15 @@ package com.dreampany.nearby.ui.home.vm
 
 import android.app.Application
 import com.dreampany.framework.misc.exts.deviceId
-import com.dreampany.framework.misc.exts.hash256
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.nearby.BuildConfig
 import com.dreampany.nearby.app.App
-import com.dreampany.nearby.data.enums.*
+import com.dreampany.nearby.data.enums.Action
+import com.dreampany.nearby.data.enums.State
+import com.dreampany.nearby.data.enums.Subtype
+import com.dreampany.nearby.data.enums.Type
 import com.dreampany.nearby.data.model.User
 import com.dreampany.nearby.data.source.api.UserDataSource
 import com.dreampany.nearby.data.source.pref.AppPref

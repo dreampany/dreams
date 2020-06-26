@@ -13,6 +13,7 @@ import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
 import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
+import com.jaredrummler.android.device.DeviceName
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import java.util.concurrent.TimeUnit
@@ -41,6 +42,7 @@ class App : InjectApp() {
         initAd()
         initFresco()
         startAppIndex()
+        DeviceName.init(this)
     }
 
     override fun onClose() {

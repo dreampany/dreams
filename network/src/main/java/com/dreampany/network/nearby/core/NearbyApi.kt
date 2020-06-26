@@ -36,7 +36,7 @@ open class NearbyApi(
 
     interface Callback {
         fun onPeer(peer: Peer, state: Peer.State)
-        fun onData(peer: Peer, meta: ByteArray)
+        fun onData(peer: Peer, data: ByteArray)
         fun onStatus(payloadId: Long, state: PayloadState, totalBytes: Long, bytesTransferred: Long)
     }
 
@@ -149,6 +149,9 @@ open class NearbyApi(
 
     protected open fun stopApi() {
         check(inited) { "init() function need to be called before stop()" }
+        stopSyncingThread()
+        stopOutputThread()
+        stopInputThread()
         if (::connection.isInitialized) {
             connection.stop()
         }
@@ -177,9 +180,9 @@ open class NearbyApi(
         }
     }
 
-    private fun peerCallback(peer: Peer, meta : ByteArray) {
+    private fun peerCallback(peer: Peer, data : ByteArray) {
         callbacks.forEach {
-            it.onData(peer, meta)
+            it.onData(peer, data)
         }
     }
 

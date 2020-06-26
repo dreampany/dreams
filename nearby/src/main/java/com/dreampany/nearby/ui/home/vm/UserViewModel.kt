@@ -15,6 +15,7 @@ import com.dreampany.nearby.data.source.pref.AppPref
 import com.dreampany.nearby.data.source.repo.UserRepo
 import com.dreampany.nearby.ui.home.model.UserItem
 import com.google.android.gms.nearby.connection.Strategy
+import com.jaredrummler.android.device.DeviceName
 import javax.inject.Inject
 
 /**
@@ -34,6 +35,11 @@ class UserViewModel
     rm
 ), UserDataSource.Callback {
 
+    override fun onCleared() {
+        repo.stopNearby()
+        super.onCleared()
+    }
+
     override fun onUser(user: User, live: Boolean) {
 
     }
@@ -43,7 +49,9 @@ class UserViewModel
         val serviceId = BuildConfig.APPLICATION_ID
         val deviceId = getApplication<App>().deviceId.hash256
         val userId = deviceId.toString()
+        val deviceName = DeviceName.getDeviceName()
         val user = User(userId)
+        user.name = deviceName
         repo.register(this)
         repo.startNearby(strategy, serviceId, user)
     }

@@ -42,7 +42,7 @@ class UserRepo
     }
 
     override fun stopNearby() {
-        TODO("Not yet implemented")
+        nearby.stopNearby()
     }
 
     override suspend fun isFavorite(input: User): Boolean {

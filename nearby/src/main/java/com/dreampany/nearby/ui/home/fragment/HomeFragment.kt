@@ -75,6 +75,7 @@ class HomeFragment
             bind.fab.visible()
             bind.fab.setOnSafeClickListener { openScanUi() }
             vm = createVm(UserViewModel::class)
+            vm.subscribe(this, Observer { this.processResponse(it) })
             vm.subscribes(this, Observer { this.processResponses(it) })
         }
 
@@ -93,6 +94,17 @@ class HomeFragment
                 state,
                 bind.layoutRecycler.recycler
             )
+        }
+    }
+
+    private fun processResponse(response: Response<Type, Subtype, State, Action, UserItem>) {
+        if (response is Response.Progress) {
+            bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<Type, Subtype, State, Action, UserItem>) {
+            Timber.v("Result [%s]", response.result)
+            processResult(response.result)
         }
     }
 
@@ -122,6 +134,12 @@ class HomeFragment
 
             }
         )
+    }
+
+    private fun processResult(result: UserItem?) {
+        if (result != null) {
+            adapter.addItem(result)
+        }
     }
 
     private fun processResults(result: List<UserItem>?) {

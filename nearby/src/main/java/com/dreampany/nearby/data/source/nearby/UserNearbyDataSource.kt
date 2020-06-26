@@ -92,6 +92,9 @@ class UserNearbyDataSource(
         Timber.v("Peer [%s]", peer.id)
         val user = mapper.get(peer)
         Timber.v("User [%s]", user.name)
+        callbacks.forEach {
+            it.onUser(user, state == Peer.State.LIVE)
+        }
     }
 
     override fun onData(peer: Peer, data: ByteArray) {

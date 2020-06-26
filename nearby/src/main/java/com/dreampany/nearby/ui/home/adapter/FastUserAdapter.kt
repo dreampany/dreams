@@ -137,6 +137,10 @@ class FastUserAdapter(
         }
     }
 
+    fun addItem(item: UserItem) {
+        fastAdapter.add(item)
+    }
+
     fun addItems(items: List<UserItem>) {
         fastAdapter.add(items)
     }

@@ -44,7 +44,9 @@ class UserViewModel
     }
 
     override fun onUser(user: User, live: Boolean) {
-
+        uiScope.launch {
+            postResult(user.toItem(live, false))
+        }
     }
 
     fun startNearby() {
@@ -62,6 +64,21 @@ class UserViewModel
         user.name = deviceName
         repo.register(this@UserViewModel)
         repo.startNearby(strategy, serviceId, user)
+    }
+
+    private fun User.toItem(live: Boolean, favorite: Boolean): UserItem {
+        return UserItem(this, live = live, favorite = favorite)
+    }
+
+    private fun postResult(result: UserItem?, state: State = State.DEFAULT) {
+        postSingle(
+            Type.USER,
+            Subtype.DEFAULT,
+            state,
+            Action.DEFAULT,
+            result = result,
+            showProgress = true
+        )
     }
 
 }

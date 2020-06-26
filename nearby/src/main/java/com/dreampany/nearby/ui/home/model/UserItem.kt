@@ -15,10 +15,9 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
  */
 class UserItem(
     val input: User,
-    var live : Boolean = false
+    var live : Boolean = false,
+    var favorite: Boolean = false
 ) : ModelAbstractBindingItem<User, UserItemBinding>(input) {
-
-
 
     override fun hashCode(): Int = input.hashCode()
 

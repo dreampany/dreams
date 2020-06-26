@@ -269,8 +269,7 @@ class Connection(
 
     private fun peerIdOf(endpointId: String): String? = endpointId.peerId
 
-    private val String.peerId: String?
-        get() = endpoints.inverse().get(this)
+    private val String.peerId: String? get() = endpoints.inverse().get(this)
 
     private val String.endpointId: String?
         get() {
@@ -279,56 +278,6 @@ class Connection(
             if (states.get(endpointId) != State.ACCEPTED) return null
             return endpointId
         }
-
-    /*private val String.acceptedEndpointId : String?
-        get() {
-            if (!endpoints.containsKey(peerId)) {
-                return null
-            }
-        }*/
-
-    /*private fun acceptedEndpointId(peerId: L) {
-        if (!endpoints.containsKey(peerId)) {
-            return null;
-        }
-
-        String endpointId = endpoints . get (peerId);
-        if (!states.containsKey(endpointId)) {
-            return null;
-        }
-        if (states.get(endpointId) != State.ACCEPTED) {
-            return null;
-        }
-        return endpointId;
-    }*/
-
-    /*private val Long.string: String
-        get() {
-            var result = cache.get(this)
-            if (result == null) {
-                result = this.toString()
-                cache.put(this, result)
-            }
-            return result
-        }
-
-    private val String.long: Long
-        get() {
-            var result = cache.inverse().get(this)
-            try {
-                if (result == null) {
-                    result = this.toLong()
-                    cache.put(result, this)
-                }
-            } catch (error: NumberFormatException) {
-
-            } finally {
-                if (result == null) {
-                    result = 0L
-                }
-            }
-            return result
-        }*/
 
     /* discovery callback for getting advertised devices */
     private val discoveryCallback = object : EndpointDiscoveryCallback() {

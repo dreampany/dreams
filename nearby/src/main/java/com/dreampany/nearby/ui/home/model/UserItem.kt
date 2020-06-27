@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.dreampany.nearby.R
 import com.dreampany.nearby.data.model.User
 import com.dreampany.nearby.databinding.UserItemBinding
+import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 
 /**
@@ -21,7 +22,14 @@ class UserItem(
 
     override fun hashCode(): Int = input.hashCode()
 
-    override fun equals(other: Any?): Boolean = input.equals(other)
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as UserItem
+        return Objects.equal(this.input.id, item.input.id)
+    }
+
+    override var identifier: Long = hashCode().toLong()
 
     override val type: Int
         get() = R.id.adapter_user_item_id

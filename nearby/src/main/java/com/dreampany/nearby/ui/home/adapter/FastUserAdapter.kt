@@ -122,13 +122,15 @@ class FastUserAdapter(
         footerAdapter.clear()
     }
 
-    fun updateItem(item: UserItem) {
+    fun updateItem(item: UserItem): Boolean {
         var position = fastAdapter.getAdapterPosition(item)
         position = fastAdapter.getGlobalPosition(position)
         if (position >= 0) {
             fastAdapter.set(position, item)
+            return true
             //fastAdapter.notifyAdapterItemChanged(position)
         }
+        return false
     }
 
     fun updateItems(items: List<UserItem>) {
@@ -138,7 +140,9 @@ class FastUserAdapter(
     }
 
     fun addItem(item: UserItem) {
-        fastAdapter.add(item)
+        val updated = updateItem(item)
+        if (!updated)
+            fastAdapter.add(item)
     }
 
     fun addItems(items: List<UserItem>) {

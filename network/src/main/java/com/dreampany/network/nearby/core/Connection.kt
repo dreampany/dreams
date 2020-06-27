@@ -398,7 +398,7 @@ class Connection(
             }
 
             if (!delays.containsKey(endpointId)) {
-                delays[endpointId] = Utils.nextRand(5, 10) * delayS
+                delays[endpointId] = Utils.nextRand(2, 5) * delayS
             }
 
             if (!connection.requestTries.containsKey(endpointId)) {

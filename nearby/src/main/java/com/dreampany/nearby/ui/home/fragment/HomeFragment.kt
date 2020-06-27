@@ -84,7 +84,7 @@ class HomeFragment
         when (item.itemId) {
             R.id.action_nearby_type -> {
                 toolbarRef?.let {
-
+                    openNearbyTypePicker(it)
                 }
                 return true
             }

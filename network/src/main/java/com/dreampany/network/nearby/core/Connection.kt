@@ -125,7 +125,7 @@ class Connection(
     ) {
         synchronized(guard) {
             if (started) return
-            Timber.v("Starting Nearby Connection")
+            Timber.v("Starting Nearby Connection %s", strategy.toString())
             this.strategy = strategy
             this.serviceId = serviceId
             this.peerId = peerId

@@ -5,7 +5,6 @@
 
     <item
         android:id="@+id/action_nearby_type"
-        android:orderInCategory="100"
         android:title="@string/nearby_type_ptp"
         auto:showAsAction="always|withText" />
 

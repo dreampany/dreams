@@ -25,7 +25,7 @@ class Connection(
 
     private enum class State {
         FOUND, LOST, REQUESTING, REQUEST_SUCCESS, REQUEST_FAILED,
-        INITIATED, ACCEPTED, REJECTED, ERROR, DISCONNECTED
+        INITIATED, ALREADY_CONNECTED, ACCEPTED, REJECTED, ERROR, DISCONNECTED
     }
 
     interface Callback {
@@ -121,7 +121,8 @@ class Connection(
         }
     }
 
-    fun start(strategy: Strategy, serviceId: String, peerId: String
+    fun start(
+        strategy: Strategy, serviceId: String, peerId: String
     ) {
         synchronized(guard) {
             if (started) return
@@ -259,10 +260,15 @@ class Connection(
                 if (it is ApiException) {
                     when (it.statusCode) {
                         ConnectionsStatusCodes.STATUS_ALREADY_CONNECTED_TO_ENDPOINT -> {
-                            states[endpointId] = State.ACCEPTED
+                            states[endpointId] = State.ALREADY_CONNECTED
+                            pendingEndpoints.insertLastUniquely(endpointId)
                             return@addOnFailureListener
                         }
                         ConnectionsStatusCodes.STATUS_ENDPOINT_IO_ERROR -> {
+                            states[endpointId] = State.ERROR
+                            return@addOnFailureListener
+                        }
+                        ConnectionsStatusCodes.STATUS_BLUETOOTH_ERROR -> {
                             states[endpointId] = State.ERROR
                             return@addOnFailureListener
                         }
@@ -388,6 +394,10 @@ class Connection(
                 return true
             }
             if (connection.states.get(endpointId) == State.ERROR) {
+                return true
+            }
+            if (connection.states.get(endpointId) == State.ALREADY_CONNECTED) {
+                connection.callback.onConnection(peerId, true)
                 return true
             }
 

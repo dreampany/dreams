@@ -26,7 +26,6 @@ import com.dreampany.nearby.ui.home.model.UserItem
 import com.dreampany.nearby.ui.home.vm.UserViewModel
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.stateful.StatefulLayout
-import com.google.android.gms.nearby.connection.Strategy
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
@@ -120,7 +119,7 @@ class HomeFragment
             bind = getBinding()
             bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
             bind.fab.visible()
-            bind.fab.setOnSafeClickListener { openScanUi() }
+            bind.fab.setOnSafeClickListener { broadCast() }
             vm = createVm(UserViewModel::class)
             vm.subscribe(this, Observer { this.processResponse(it) })
             vm.subscribes(this, Observer { this.processResponses(it) })
@@ -308,14 +307,7 @@ class HomeFragment
         }
     }*/
 
-    private fun openScanUi() {
-        /* val task = UiTask(
-             Type.CAMERA,
-             Subtype.DEFAULT,
-             State.DEFAULT,
-             Action.SCAN,
-             null
-         )
-         open(CameraActivity::class, task, REQUEST_CAMERA)*/
+    private fun broadCast() {
+
     }
 }

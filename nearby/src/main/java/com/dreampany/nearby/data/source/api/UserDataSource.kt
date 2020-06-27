@@ -1,6 +1,7 @@
 package com.dreampany.nearby.data.source.api
 
 import com.dreampany.nearby.data.model.User
+import com.dreampany.network.nearby.core.NearbyApi
 import com.google.android.gms.nearby.connection.Strategy
 
 /**
@@ -19,7 +20,7 @@ interface UserDataSource {
 
     fun unregister(callback: Callback)
 
-    fun startNearby(strategy: Strategy, serviceId: String, user: User)
+    fun startNearby(type: NearbyApi.Type, serviceId: String, user: User)
 
     fun stopNearby()
 

@@ -58,14 +58,14 @@ class UserViewModel
     }
 
     private suspend fun startNearbyImp() = withContext(Dispatchers.IO) {
-        val strategy = Strategy.P2P_STAR
+        val type = pref.getNearbyType()
         val serviceId = BuildConfig.APPLICATION_ID
         val deviceId = getApplication<App>().deviceId
         val deviceName = DeviceName.getDeviceName()
         val user = User(deviceId)
         user.name = deviceName
         repo.register(this@UserViewModel)
-        repo.startNearby(strategy, serviceId, user)
+        repo.startNearby(type, serviceId, user)
     }
 
     private fun User.toItem(live: Boolean, favorite: Boolean): UserItem {

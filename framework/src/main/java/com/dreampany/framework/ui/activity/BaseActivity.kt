@@ -46,7 +46,7 @@ abstract class BaseActivity : AppCompatActivity(),
     protected var createdByChild: Boolean = false
     private var doubleBackPressedOnce: Boolean = false
 
-    private lateinit var toolbar: Toolbar
+    private var toolbar: Toolbar? = null
     private var menu: Menu? = null
 
     //protected var task: Task<*, *, *, *, *>? = null
@@ -178,6 +178,9 @@ abstract class BaseActivity : AppCompatActivity(),
     override fun <T> onItem(item: T) {
 
     }
+
+    val toolbarRef : Toolbar?
+        get() = toolbar
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu?.findItem(menuItemId)
 

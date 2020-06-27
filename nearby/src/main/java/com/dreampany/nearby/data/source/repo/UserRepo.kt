@@ -7,6 +7,7 @@ import com.dreampany.nearby.data.model.User
 import com.dreampany.nearby.data.source.api.UserDataSource
 import com.dreampany.nearby.data.source.mapper.UserMapper
 import com.dreampany.nearby.data.source.pref.AppPref
+import com.dreampany.network.nearby.core.NearbyApi
 import com.google.android.gms.nearby.connection.Strategy
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,11 +35,11 @@ class UserRepo
         nearby.unregister(callback)
 
     override fun startNearby(
-        strategy: Strategy,
+        type: NearbyApi.Type,
         serviceId: String,
         user: User
     ) {
-        nearby.startNearby(strategy, serviceId, user)
+        nearby.startNearby(type, serviceId, user)
     }
 
     override fun stopNearby() {

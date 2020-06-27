@@ -20,9 +20,6 @@ import java.util.concurrent.Executor
 class Connection(
     private val context: Context,
     private val executor: Executor,
-    private val strategy: Strategy,
-    private val serviceId: String,
-    private val peerId: String,
     private val callback: Callback
 ) : ConnectionLifecycleCallback() {
 
@@ -42,6 +39,10 @@ class Connection(
     private var client: ConnectionsClient
     private var advertisingOptions: AdvertisingOptions
     private var discoveryOptions: DiscoveryOptions
+
+    private var strategy: Strategy? = null
+    private var serviceId: String? = null
+    private var peerId: String? = null
 
     @Volatile
     private var advertising = false
@@ -120,10 +121,14 @@ class Connection(
         }
     }
 
-    fun getPeerId(): String = peerId
-
-    fun start() {
+    fun start(strategy: Strategy, serviceId: String, peerId: String
+    ) {
         synchronized(guard) {
+            if (started) return
+            Timber.v("Starting Nearby Connection")
+            this.strategy = strategy
+            this.serviceId = serviceId
+            this.peerId = peerId
             started = true
             startAdvertising()
             startDiscovery()
@@ -132,6 +137,8 @@ class Connection(
 
     fun stop() {
         synchronized(guard) {
+            if (!started) return
+            Timber.v("Stopping Nearby Connection")
             started = false
             stopRequestThread()
             stopAdvertising()
@@ -143,9 +150,9 @@ class Connection(
         strategy: Strategy,
         serviceId: String,
         peerId: String
-    ): Boolean = this.strategy != strategy ||
+    ): Boolean = started && (this.strategy != strategy ||
             this.serviceId != serviceId ||
-            this.peerId != peerId || !started
+            this.peerId != peerId)
 
 
     fun send(peerId: String, payload: Payload): Boolean {
@@ -164,6 +171,8 @@ class Connection(
                 return
             }
             Timber.v("Advertising fired for ServiceId (%s) - Peer (%s)", serviceId, peerId)
+            val serviceId = serviceId ?: return
+            val peerId = peerId ?: return
             client.startAdvertising(peerId, serviceId, this, advertisingOptions)
                 .addOnSuccessListener {
                     advertising = true
@@ -193,6 +202,7 @@ class Connection(
                 return
             }
             Timber.v("Discovering fired for ServiceId (%s) - Peer (%s)", serviceId, peerId)
+            val serviceId = serviceId ?: return
             client.startDiscovery(serviceId, discoveryCallback, discoveryOptions)
                 .addOnSuccessListener {
                     discovering = true
@@ -237,6 +247,7 @@ class Connection(
 
     private fun requestConnection(endpointId: String) {
         Timber.v("Requesting Connection: %s state[%s]", endpointId, states[endpointId])
+        val peerId = peerId ?: return
         client.requestConnection(peerId, endpointId, this)
             .addOnSuccessListener {
                 Timber.v("Request Connection succeed for (%s)", endpointId)
@@ -255,7 +266,7 @@ class Connection(
                             states[endpointId] = State.ERROR
                             return@addOnFailureListener
                         }
-                        ConnectionsStatusCodes.STATUS_OUT_OF_ORDER_API_CALL-> {
+                        ConnectionsStatusCodes.STATUS_OUT_OF_ORDER_API_CALL -> {
                             states[endpointId] = State.ERROR
                             return@addOnFailureListener
                         }

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.data.model.Task
@@ -79,3 +81,7 @@ val Fragment?.task: Task<*, *, *, *, *>?
     }
 
 fun <T : View> Fragment?.findViewById(@IdRes id: Int): T? = this?.view?.findViewById(id)
+
+@ColorInt
+fun Fragment?.color(@ColorRes resId: Int): Int =
+    this?.requireContext().color(resId)

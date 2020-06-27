@@ -38,12 +38,12 @@ class UserNearbyDataSource(
     }
 
     override fun startNearby(
-        strategy: Strategy,
+        type: NearbyApi.Type,
         serviceId: String,
         user: User
     ) {
         nearby.register(this)
-        nearby.init(strategy, serviceId, user.id, mapper.getUserData(user))
+        nearby.init(type, serviceId, user.id, mapper.getUserData(user))
         nearby.start()
     }
 

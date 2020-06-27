@@ -1,16 +1,17 @@
 package com.dreampany.nearby.ui.home.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
-import com.dreampany.framework.misc.exts.visible
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.nearby.R
@@ -25,6 +26,9 @@ import com.dreampany.nearby.ui.home.model.UserItem
 import com.dreampany.nearby.ui.home.vm.UserViewModel
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.stateful.StatefulLayout
+import com.google.android.gms.nearby.connection.Strategy
+import com.skydoves.powermenu.MenuAnimation
+import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import timber.log.Timber
@@ -38,7 +42,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class HomeFragment
-@Inject constructor() : InjectFragment() {
+@Inject constructor() : InjectFragment(), OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var pref : AppPref
@@ -73,12 +77,28 @@ class HomeFragment
     }
 
     override fun onMenuCreated(menu: Menu) {
-/*        val activity = getParent()
-        if (activity is SearchViewCallback) {
-            val searchCallback = activity as SearchViewCallback?
-            searchView = searchCallback!!.searchView
-            initSearchView(searchView!!, searchItem)
-        }*/
+        getSearchMenuItem().toTint(context, R.color.material_white)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_nearby_type -> {
+                toolbarRef?.let {
+
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onItemClick(position: Int, item: PowerMenuItem) {
+        powerMenu?.setSelectedPosition(position)
+        powerMenu?.dismiss()
+        val type = item.tag as NearbyApi.Type
+        findMenuItemById(R.id.action_nearby_type)?.setTitle(type.titleRes)
+        pref.setNearbyType(type)
+        vm.startNearby()
     }
 
     private fun onItemPressed(view: View, item: UserItem) {
@@ -149,6 +169,18 @@ class HomeFragment
         }
     }
 
+    private fun openNearbyTypePicker(view: View) {
+        powerMenu = PowerMenu.Builder(requireContext())
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(powerItems)
+            .setSelectedMenuColor(color(R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .build()
+        powerMenu?.showAsAnchorRightBottom(view)
+    }
+
     private fun processResponse(response: Response<Type, Subtype, State, Action, UserItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
@@ -205,6 +237,25 @@ class HomeFragment
             bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
+
+    @get:StringRes
+    private val NearbyApi.Type.titleRes : Int
+        get() {
+            when (this) {
+                NearbyApi.Type.PTP -> {
+                    return R.string.nearby_type_ptp
+                }
+                NearbyApi.Type.CLUSTER -> {
+                    return R.string.nearby_type_cluster
+                }
+                NearbyApi.Type.STAR -> {
+                    return R.string.nearby_type_star
+                }
+                else -> {
+                    return R.string.nearby_type_star
+                }
+            }
+        }
 
 
     /*private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {

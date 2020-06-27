@@ -10,6 +10,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.*
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -170,6 +171,16 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     override fun <T> onItem(item: T) {
 
     }
+
+    val parentRef: BaseActivity?
+        get() {
+            val ref = activity
+            return if (ref is BaseActivity) ref else null
+        }
+
+    val toolbarRef: Toolbar?
+        get() = parentRef?.toolbarRef
+
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
 

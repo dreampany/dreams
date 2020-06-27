@@ -132,21 +132,14 @@ open class NearbyApi(
 
     protected open fun startApi(type: Type, serviceId: String, peerId: String) {
         check(inited) { "init() function need to be called before start()" }
-        if (::connection.isInitialized) {
-            if (connection.requireRestart(type.strategy, serviceId, peerId).value) {
-                stopApi()
-                executor.execute {
-                    connection =
-                        Connection(context, executor, type.strategy, serviceId, peerId, this)
-                    connection.start()
-                }
-            }
-        } else {
-            executor.execute {
-                connection = Connection(context, executor, type.strategy, serviceId, peerId, this)
-                connection.start()
-            }
+        if (!::connection.isInitialized) {
+            connection = Connection(context, executor, this)
         }
+
+        if (connection.requireRestart(type.strategy, serviceId, peerId).value) {
+            stopApi()
+        }
+        connection.start(type.strategy, serviceId, peerId)
     }
 
     protected open fun stopApi() {
@@ -307,7 +300,7 @@ open class NearbyApi(
                     Timber.v("Next syncing peer (%s)", peer.id)
                     val remoteHash: Long = peer.meta.hash256AsLong
                     val packet = remoteHash.peerHashPacket
-                    val id = Id(hash256, api.connection.getPeerId(), peer.id)
+                    val id = Id(hash256, api.peerId, peer.id)
                     // send remote peer hash to remote end
                     api.sendPacket(id, packet)
                     timesOf.put(peerId, currentMillis)

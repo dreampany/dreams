@@ -95,9 +95,11 @@ open class NearbyApi(
 
     override fun onConnection(peerId: String, connected: Boolean) {
         Timber.v("Peer (%s) - Connection - (%s)", peerId, connected)
-        if (!peers.containsKey(peerId)) {
-            val peer = Peer(peerId)
-            peers[peerId] = peer
+        if (connected) {
+            if (!peers.containsKey(peerId)) {
+                val peer = Peer(peerId)
+                peers[peerId] = peer
+            }
         }
         states[peerId] = if (connected) Peer.State.LIVE else Peer.State.DEAD
         if (connected) {
@@ -105,6 +107,10 @@ open class NearbyApi(
             startSyncingThread()
         } else {
             syncingPeers.remove(peerId)
+            val peer = peers.get(peerId)
+            peer?.let {
+                peerCallback(it, Peer.State.DEAD)
+            }
         }
     }
 

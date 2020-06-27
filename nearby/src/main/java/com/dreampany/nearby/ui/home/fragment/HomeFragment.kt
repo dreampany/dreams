@@ -79,6 +79,7 @@ class HomeFragment
 
     override fun onMenuCreated(menu: Menu) {
         getSearchMenuItem().toTint(context, R.color.material_white)
+        updateMenu()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -97,8 +98,8 @@ class HomeFragment
         powerMenu?.setSelectedPosition(position)
         powerMenu?.dismiss()
         val type = item.tag as NearbyApi.Type
-        findMenuItemById(R.id.action_nearby_type)?.setTitle(type.titleRes)
         pref.setNearbyType(type)
+        updateMenu()
         vm.startNearby()
     }
 
@@ -143,9 +144,13 @@ class HomeFragment
         }
     }
 
+    private fun updateMenu() {
+        val type = pref.getNearbyType()
+        findMenuItemById(R.id.action_nearby_type)?.setTitle(type.titleRes)
+    }
+
     private fun createMenuItems() {
         if (powerItems.isEmpty()) {
-
             powerItems.add(
                 PowerMenuItem(
                     getString(R.string.nearby_type_ptp),

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.dreampany.nearby.R
 import com.dreampany.nearby.data.model.User
 import com.dreampany.nearby.databinding.UserItemBinding
+import com.dreampany.nearby.misc.setRes
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 
@@ -16,7 +17,7 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
  */
 class UserItem(
     val input: User,
-    var live : Boolean = false,
+    var live: Boolean = false,
     var favorite: Boolean = false
 ) : ModelAbstractBindingItem<User, UserItemBinding>(input) {
 
@@ -38,8 +39,10 @@ class UserItem(
         UserItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: UserItemBinding, payloads: List<Any>) {
-        //bind.icon.setImageResource(item.iconRes)
         bind.name.text = input.name
+
+        val statusRes = if (live) R.drawable.ic_status_live_24 else R.drawable.ic_status_dead_24
+        bind.status.setRes(statusRes)
     }
 
     override fun unbindView(binding: UserItemBinding) {

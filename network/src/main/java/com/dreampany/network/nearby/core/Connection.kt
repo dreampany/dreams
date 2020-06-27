@@ -335,6 +335,9 @@ class Connection(
             directs.remove(endpointId)
             pendingEndpoints.remove(endpointId)
             requestTries.remove(endpointId)
+            executor.execute {
+                callback.onConnection(peerId, false)
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.dreampany.tools.misc.exts
 
+import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
@@ -17,11 +18,25 @@ fun SimpleDraweeView.setUrl(url: String?): SimpleDraweeView {
         ImageRequestBuilder.newBuilderWithSource(uri)
             //.setResizeOptions(new ResizeOptions(width, height))
             .build()
-    setController(
+    this.setController(
         Fresco.newDraweeControllerBuilder()
             .setOldController(getController())
             .setImageRequest(request)
             //.setTapToRetryEnabled(retryEnabled)
+            .build()
+    )
+    return this
+}
+
+fun SimpleDraweeView.setRes(@DrawableRes resId: Int): SimpleDraweeView {
+    val request =
+        ImageRequestBuilder.newBuilderWithResourceId(resId)
+            //.setResizeOptions(new ResizeOptions(width, height))
+            .build()
+    this.setController(
+        Fresco.newDraweeControllerBuilder()
+            .setOldController(getController())
+            .setImageRequest(request)
             .build()
     )
     return this

@@ -161,7 +161,7 @@ class HomeFragment
                 PowerMenuItem(
                     getString(R.string.nearby_type_cluster),
                     NearbyApi.Type.CLUSTER == pref.getNearbyType(),
-                    NearbyApi.Type.PTP
+                    NearbyApi.Type.CLUSTER
                 )
             )
             powerItems.add(

@@ -1,6 +1,8 @@
 package com.dreampany.tools.app
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.os.Bundle
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.tools.R

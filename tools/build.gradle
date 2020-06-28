@@ -9,13 +9,13 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion '30.0.0'
 
     defaultConfig {
         applicationId 'com.dreampany.tools'
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 119
         versionName '0.1.1.9'
 

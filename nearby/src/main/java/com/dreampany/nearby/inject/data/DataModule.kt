@@ -1,7 +1,6 @@
 package com.dreampany.nearby.inject.data
 
 import android.content.Context
-import android.os.UserManager
 import com.dreampany.framework.inject.annote.Nearby
 import com.dreampany.framework.inject.data.StoreModule
 import com.dreampany.nearby.data.source.api.UserDataSource
@@ -20,7 +19,8 @@ import javax.inject.Singleton
  */
 @Module(
     includes = [
-        StoreModule::class
+        StoreModule::class,
+        MediaModule::class
     ]
 )
 class DataModule {

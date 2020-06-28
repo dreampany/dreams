@@ -174,7 +174,11 @@ fun Context?.appInfo(pkg: String?, flags: Int): ApplicationInfo? {
 val ApplicationInfo.isSystemApp: Boolean
     get() = ((this.flags and ApplicationInfo.FLAG_SYSTEM) != 0)
 
-fun Context?.versionCode(pkg: String?) : Long {
+fun ApplicationInfo.isValid(pm: PackageManager): Boolean {
+    return (pm.getLaunchIntentForPackage(packageName) != null)
+}
+
+fun Context?.versionCode(pkg: String?): Long {
     var result = 0L
     try {
         val info = packageInfo(pkg, 0)
@@ -187,7 +191,7 @@ fun Context?.versionCode(pkg: String?) : Long {
     return result
 }
 
-fun Context?.versionName(pkg: String?) : String? {
+fun Context?.versionName(pkg: String?): String? {
     try {
         val info = packageInfo(pkg, 0)
         if (info != null) {
@@ -221,6 +225,12 @@ fun Context?.icon(pkg: String?): Drawable? {
     }
     return null
 }
+
+val Context?.installedApps: List<ApplicationInfo>?
+    get() = installedApps(packageManager)
+
+fun Context?.installedApps(pm: PackageManager?): List<ApplicationInfo>? =
+    pm?.getInstalledApplications(PackageManager.GET_META_DATA)
 
 @SuppressLint("MissingPermission")
 fun Context?.kill(pkg: String?) {

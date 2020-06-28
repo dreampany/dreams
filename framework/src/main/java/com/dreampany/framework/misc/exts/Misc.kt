@@ -1,5 +1,6 @@
 package com.dreampany.framework.misc.exts
 
+import android.database.Cursor
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -22,7 +23,7 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     observe(owner, observer)
 }
 
-val hash256 : Long
+val hash256: Long
     get() = UUID.randomUUID().toString().hash256
 
 val ByteArray?.hash256: Long
@@ -33,5 +34,22 @@ val ByteArray?.hash256: Long
 
 val String?.hash256: Long
     get() = this?.toByteArray().hash256
+
+val Cursor?.has: Boolean
+    get() {
+        if (this == null) return false
+        if (isClosed) return false
+        if (count <= 0) {
+            close()
+            return true
+        }
+        return false
+    }
+
+fun Cursor?.close() {
+    if (this != null && !isClosed) {
+        this.close()
+    }
+}
 
 

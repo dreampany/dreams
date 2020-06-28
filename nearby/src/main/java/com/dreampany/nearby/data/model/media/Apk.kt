@@ -26,7 +26,10 @@ import kotlinx.android.parcel.Parcelize
 data class Apk(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var packageName : String = Constants.Default.STRING
+    var packageName : String = Constants.Default.STRING,
+    var versionCode: Long = Constants.Default.LONG,
+    var versionName: String? = Constants.Default.NULL,
+    var isSystem: Boolean = Constants.Default.BOOLEAN
 ) : Media() {
 
     @Ignore

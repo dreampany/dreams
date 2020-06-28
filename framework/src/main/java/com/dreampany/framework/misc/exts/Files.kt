@@ -1,5 +1,7 @@
 package com.dreampany.framework.misc.exts
 
+import android.net.Uri
+import android.webkit.MimeTypeMap
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -12,3 +14,20 @@ import java.util.*
  */
 fun File.createFile(format: String, extension: String): File =
     File(this, SimpleDateFormat(format, Locale.US).format(currentMillis) + extension)
+
+val String.mimeType: String?
+    get() {
+        val file = File(this)
+        val selectedUri = Uri.fromFile(file)
+        val extension: String = MimeTypeMap.getFileExtensionFromUrl(selectedUri.toString())
+        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+        return mimeType
+    }
+
+val String.fileSize: Long
+    get() {
+        val file = File(this)
+        return if (file.exists()) {
+            file.length()
+        } else -1
+    }

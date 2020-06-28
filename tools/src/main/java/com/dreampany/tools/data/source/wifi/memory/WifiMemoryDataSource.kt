@@ -10,8 +10,7 @@ import com.dreampany.tools.data.source.wifi.mapper.WifiMapper
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class WifiMemoryDataSource
-constructor(
+class WifiMemoryDataSource(
     private val mapper: WifiMapper,
     private val provider: WifiProvider
 ) : WifiDataSource {

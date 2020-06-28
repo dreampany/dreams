@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
@@ -76,6 +77,7 @@ val Context?.isNotNull: Boolean
     }
     return debug
 }*/
+
 
 val Context?.mediaDir: File?
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -158,6 +160,56 @@ fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
         //Timber.e(error)
     }
     return null
+}
+
+fun Context?.appInfo(pkg: String?, flags: Int): ApplicationInfo? {
+    try {
+        if (pkg.isNullOrEmpty()) return null
+        return packageManager?.getApplicationInfo(pkg, flags)
+    } catch (error: PackageManager.NameNotFoundException) {
+        return null
+    }
+}
+
+val ApplicationInfo.isSystemApp: Boolean
+    get() = ((this.flags and ApplicationInfo.FLAG_SYSTEM) != 0)
+
+fun Context?.versionCode(pkg: String?) : Long {
+    var result = 0L
+    try {
+        val info = packageInfo(pkg, 0)
+        if (info != null) {
+            result = info.versionCode.toLong()
+        }
+    } catch (error: PackageManager.NameNotFoundException) {
+        Timber.e(error)
+    }
+    return result
+}
+
+fun Context?.versionName(pkg: String?) : String? {
+    try {
+        val info = packageInfo(pkg, 0)
+        if (info != null) {
+            return info.versionName
+        }
+    } catch (error: PackageManager.NameNotFoundException) {
+        Timber.e(error)
+    }
+    return null
+}
+
+fun Context?.appIconUri(pkg: String?): Uri? {
+    var result = Uri.EMPTY
+    try {
+        val info = appInfo(pkg, 0)
+        if (info != null && info.icon != 0) {
+            result = Uri.parse("android.resource://" + pkg + "/" + info.icon)
+        }
+    } catch (error: PackageManager.NameNotFoundException) {
+        Timber.e(error)
+    }
+    return result
 }
 
 fun Context?.icon(pkg: String?): Drawable? {

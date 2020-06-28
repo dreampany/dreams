@@ -6,4 +6,4 @@
     android:layout_centerHorizontal="true"
     android:gravity="center"
     auto:adSize="SMART_BANNER"
-    auto:adUnitId="@string/banner_ad_unit_id" />
+    auto:adUnitId="@string/debug_banner_ad_unit_id" />

@@ -47,22 +47,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     auto:layout_collapseMode="pin"
+                    android:layout_gravity="top"
                     auto:popupTheme="@style/PopupOverlay" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
+                    auto:tabGravity="fill"
+                    auto:tabIndicatorFullWidth="false"
+                    auto:tabIndicator="@drawable/tab_indicator"
+                    auto:tabIndicatorColor="@android:color/white"
+                    auto:tabMode="scrollable"
+                    auto:tabSelectedTextColor="@android:color/white"
+                    auto:tabTextColor="@color/material_white" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                auto:tabGravity="fill"
-                auto:tabIndicatorFullWidth="false"
-                auto:tabIndicator="@drawable/tab_indicator"
-                auto:tabIndicatorColor="@android:color/white"
-                auto:tabMode="scrollable"
-                auto:tabSelectedTextColor="@android:color/white"
-                auto:tabTextColor="@color/material_white" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 

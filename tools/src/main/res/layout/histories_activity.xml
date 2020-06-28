@@ -35,7 +35,6 @@
                 auto:tabSelectedTextColor="@android:color/white"
                 auto:tabTextColor="@color/material_white" />
 
-
         </com.google.android.material.appbar.AppBarLayout>
 
         <include

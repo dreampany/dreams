@@ -2,8 +2,10 @@ package com.dreampany.nearby.inject.ui.activity
 
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.nearby.inject.ui.home.HomeModule
+import com.dreampany.nearby.inject.ui.publish.PublishModule
 import com.dreampany.nearby.inject.ui.more.MoreModule
 import com.dreampany.nearby.ui.home.activity.HomeActivity
+import com.dreampany.nearby.ui.publish.PublishActivity
 import com.dreampany.nearby.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -22,4 +24,8 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
     abstract fun home(): HomeActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [PublishModule::class])
+    abstract fun media(): PublishActivity
 }

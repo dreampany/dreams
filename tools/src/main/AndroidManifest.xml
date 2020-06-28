@@ -92,7 +92,7 @@
         <activity
             android:name=".ui.crypto.activity.CoinActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:label="@string/title_feature_crypto"
+            android:label=""
             android:windowSoftInputMode="adjustResize">
 
             <meta-data

@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.radio.activity.StationsActivity">
+    tools:context=".ui.home.activity.HomeActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -27,22 +27,6 @@
                 auto:titleEnabled="false"
                 tools:ignore="NewApi">
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    auto:layout_collapseMode="parallax" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0.3"
-                    android:background="@android:color/black"
-                    android:fitsSystemWindows="true"
-                    android:visibility="gone" />
-
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -59,7 +43,9 @@
                     android:layout_gravity="bottom"
                     android:background="@android:color/transparent"
                     auto:tabGravity="fill"
+                    auto:tabIndicator="@drawable/tab_indicator"
                     auto:tabIndicatorColor="@android:color/white"
+                    auto:tabIndicatorFullWidth="false"
                     auto:tabMode="scrollable"
                     auto:tabSelectedTextColor="@android:color/white"
                     auto:tabTextColor="@color/material_white" />

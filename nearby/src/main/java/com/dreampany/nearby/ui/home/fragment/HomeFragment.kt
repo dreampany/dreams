@@ -24,6 +24,7 @@ import com.dreampany.nearby.databinding.RecyclerFragmentBinding
 import com.dreampany.nearby.ui.home.adapter.FastUserAdapter
 import com.dreampany.nearby.ui.home.model.UserItem
 import com.dreampany.nearby.ui.home.vm.UserViewModel
+import com.dreampany.nearby.ui.publish.PublishActivity
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.stateful.StatefulLayout
 import com.skydoves.powermenu.MenuAnimation
@@ -117,9 +118,9 @@ class HomeFragment
     private fun initUi() {
         if (!::bind.isInitialized) {
             bind = getBinding()
-            bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
+            bind.fab.setImageResource(R.drawable.ic_baseline_publish_24)
             bind.fab.visible()
-            bind.fab.setOnSafeClickListener { broadCast() }
+            bind.fab.setOnSafeClickListener { openPublishUi() }
             vm = createVm(UserViewModel::class)
             vm.subscribe(this, Observer { this.processResponse(it) })
             vm.subscribes(this, Observer { this.processResponses(it) })
@@ -307,7 +308,7 @@ class HomeFragment
         }
     }*/
 
-    private fun broadCast() {
-
+    private fun openPublishUi() {
+        activity.open(PublishActivity::class)
     }
 }

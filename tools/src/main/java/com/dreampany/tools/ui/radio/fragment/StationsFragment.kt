@@ -23,6 +23,7 @@ import com.dreampany.tools.misc.constants.AppConstants
 import com.dreampany.tools.ui.radio.adapter.FastStationAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.dreampany.tools.ui.radio.vm.StationViewModel
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 

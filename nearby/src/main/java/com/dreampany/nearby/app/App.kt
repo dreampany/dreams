@@ -70,7 +70,7 @@ class App : InjectApp() {
             .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
             .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(5))
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(10))
-            .enabled(!isDebug)
+            .enabled(true)
         ad.setConfig(config.build())
     }
 

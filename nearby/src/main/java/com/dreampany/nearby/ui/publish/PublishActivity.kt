@@ -1,33 +1,31 @@
-package com.dreampany.tools.ui.history.activity
+package com.dreampany.nearby.ui.publish
 
 import android.os.Bundle
 import com.dreampany.framework.ui.activity.InjectActivity
-import com.dreampany.tools.R
-import com.dreampany.tools.databinding.HistoriesActivityBinding
-import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.ui.history.adapter.HistoryPagerAdapter
-import com.dreampany.tools.ui.history.model.HistoryItem
+import com.dreampany.nearby.manager.AdManager
+import javax.inject.Inject
+import com.dreampany.nearby.R
+import com.dreampany.nearby.databinding.PublishActivityBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.content_pager_ad.view.*
-import javax.inject.Inject
 
 /**
- * Created by roman on 14/4/20
+ * Created by roman on 28/6/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class HistoriesActivity : InjectActivity() {
+class PublishActivity : InjectActivity() {
 
     @Inject
     internal lateinit var ad: AdManager
 
-    private lateinit var bind: HistoriesActivityBinding
-    private lateinit var adapter: HistoryPagerAdapter
+    private lateinit var bind: PublishActivityBinding
+    private lateinit var adapter: MediaPagerAdapter
 
     override val homeUp: Boolean = true
 
-    override val layoutRes: Int = R.layout.histories_activity
+    override val layoutRes: Int = R.layout.publish_activity
 
     override val toolbarId: Int = R.id.toolbar
 
@@ -52,12 +50,6 @@ class HistoriesActivity : InjectActivity() {
         super.onPause()
     }
 
-    override fun <T> onItem(item: T) {
-         if (item is HistoryItem) {
-             //bind.icon.setUrl(item.item.favicon)
-         }
-    }
-
     private fun initAd() {
         ad.initAd(
             this,
@@ -73,7 +65,7 @@ class HistoriesActivity : InjectActivity() {
     }
 
     private fun initPager() {
-        adapter = HistoryPagerAdapter(this)
+        adapter = MediaPagerAdapter(this)
         bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
             bind.tabs,

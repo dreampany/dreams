@@ -100,17 +100,17 @@
 -keepclassmembers class com.dreampany.framework.service.** { *; }
 
 # app
--keep class com.dreampany.crypto.service.** { *; }
--keepclassmembers class com.dreampany.crypto.service.** { *; }
+-keep class com.dreampany.tube.service.** { *; }
+-keepclassmembers class com.dreampany.tube.service.** { *; }
 
--keep class com.dreampany.crypto.data.model.** { *; }
--keepclassmembers class com.dreampany.crypto.data.model.** { *; }
+-keep class com.dreampany.tube.data.model.** { *; }
+-keepclassmembers class com.dreampany.tube.data.model.** { *; }
 
--keep class com.dreampany.crypto.ui.model.** { *; }
--keepclassmembers class com.dreampany.crypto.ui.model.** { *; }
+-keep class com.dreampany.tube.ui.model.** { *; }
+-keepclassmembers class com.dreampany.tube.ui.model.** { *; }
 
--keep class com.dreampany.crypto.misc.** { *; }
--keepclassmembers class com.dreampany.crypto.misc.** { *; }
+-keep class com.dreampany.tube.misc.** { *; }
+-keepclassmembers class com.dreampany.tube.misc.** { *; }
 
--keep class com.dreampany.crypto.api.** { *; }
--keepclassmembers class com.dreampany.crypto.api.** { *; }
+-keep class com.dreampany.tube.api.** { *; }
+-keepclassmembers class com.dreampany.tube.api.** { *; }

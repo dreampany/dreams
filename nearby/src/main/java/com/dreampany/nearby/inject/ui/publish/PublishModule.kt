@@ -1,7 +1,7 @@
 package com.dreampany.nearby.inject.ui.publish
 
-import com.dreampany.nearby.ui.publish.ApksFragment
-import com.dreampany.nearby.ui.publish.ImagesFragment
+import com.dreampany.nearby.ui.publish.fragment.ApksFragment
+import com.dreampany.nearby.ui.publish.fragment.ImagesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

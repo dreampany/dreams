@@ -24,7 +24,7 @@ import com.dreampany.nearby.databinding.RecyclerFragmentBinding
 import com.dreampany.nearby.ui.home.adapter.FastUserAdapter
 import com.dreampany.nearby.ui.home.model.UserItem
 import com.dreampany.nearby.ui.home.vm.UserViewModel
-import com.dreampany.nearby.ui.publish.PublishActivity
+import com.dreampany.nearby.ui.publish.activity.PublishActivity
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.stateful.StatefulLayout
 import com.skydoves.powermenu.MenuAnimation

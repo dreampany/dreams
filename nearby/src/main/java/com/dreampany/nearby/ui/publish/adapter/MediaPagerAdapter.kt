@@ -1,4 +1,4 @@
-package com.dreampany.nearby.ui.publish
+package com.dreampany.nearby.ui.publish.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,6 +11,8 @@ import com.dreampany.nearby.data.enums.Subtype
 import com.dreampany.nearby.data.enums.Type
 import com.dreampany.nearby.data.model.media.Apk
 import com.dreampany.nearby.data.model.media.Image
+import com.dreampany.nearby.ui.publish.fragment.ApksFragment
+import com.dreampany.nearby.ui.publish.fragment.ImagesFragment
 
 /**
  * Created by roman on 28/6/20

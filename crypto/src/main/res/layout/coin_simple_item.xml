@@ -14,14 +14,14 @@
             android:layout_height="@dimen/_35sdp"
             android:adjustViewBounds="true"
             android:cropToPadding="true"
-            auto:actualImageScaleType="centerCrop"
+            auto:actualImageScaleType="fitXY"
             auto:failureImage="@color/material_red500"
-            auto:failureImageScaleType="centerInside"
+            auto:failureImageScaleType="fitXY"
             auto:layout_constraintBottom_toBottomOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent"
             auto:placeholderImage="@drawable/ic_coin"
-            auto:placeholderImageScaleType="centerCrop"
+            auto:placeholderImageScaleType="fitXY"
             auto:roundAsCircle="true" />
 
         <com.google.android.material.textview.MaterialTextView

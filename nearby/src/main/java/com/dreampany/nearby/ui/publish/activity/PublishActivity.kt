@@ -1,4 +1,4 @@
-package com.dreampany.nearby.ui.publish
+package com.dreampany.nearby.ui.publish.activity
 
 import android.os.Bundle
 import com.dreampany.framework.ui.activity.InjectActivity
@@ -6,6 +6,7 @@ import com.dreampany.nearby.manager.AdManager
 import javax.inject.Inject
 import com.dreampany.nearby.R
 import com.dreampany.nearby.databinding.PublishActivityBinding
+import com.dreampany.nearby.ui.publish.adapter.MediaPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.content_pager_ad.view.*
 

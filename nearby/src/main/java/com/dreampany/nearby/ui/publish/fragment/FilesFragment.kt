@@ -1,4 +1,4 @@
-package com.dreampany.nearby.ui.publish
+package com.dreampany.nearby.ui.publish.fragment
 
 import android.os.Bundle
 import com.dreampany.framework.inject.annote.ActivityScope
@@ -12,7 +12,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class VideosFragment @Inject constructor() : InjectFragment() {
+class FilesFragment @Inject constructor() : InjectFragment() {
 
 
     override fun onStartUi(state: Bundle?) {

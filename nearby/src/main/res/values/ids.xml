@@ -2,4 +2,5 @@
 <resources>
     <item name="adapter_more_item_id" type="id" />
     <item name="adapter_user_item_id" type="id" />
+    <item name="adapter_apk_item_id" type="id" />
 </resources>

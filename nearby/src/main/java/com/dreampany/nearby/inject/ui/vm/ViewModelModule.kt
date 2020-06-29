@@ -6,6 +6,7 @@ import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.nearby.ui.home.vm.UserViewModel
 import com.dreampany.nearby.ui.more.vm.MoreViewModel
+import com.dreampany.nearby.ui.publish.vm.ApkViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -33,4 +34,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UserViewModel::class)
     abstract fun bindUser(vm: UserViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ApkViewModel::class)
+    abstract fun bindApk(vm: ApkViewModel): ViewModel
 }

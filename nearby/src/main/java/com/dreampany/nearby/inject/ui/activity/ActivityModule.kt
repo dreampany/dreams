@@ -5,7 +5,7 @@ import com.dreampany.nearby.inject.ui.home.HomeModule
 import com.dreampany.nearby.inject.ui.publish.PublishModule
 import com.dreampany.nearby.inject.ui.more.MoreModule
 import com.dreampany.nearby.ui.home.activity.HomeActivity
-import com.dreampany.nearby.ui.publish.PublishActivity
+import com.dreampany.nearby.ui.publish.activity.PublishActivity
 import com.dreampany.nearby.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

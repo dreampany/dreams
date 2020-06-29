@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
+import com.dreampany.ads.HouseAdsDialog
+import com.dreampany.demo.R
 import com.dreampany.framework.data.source.pref.AdPref
-import com.dreampany.framework.misc.extension.gone
-import com.dreampany.framework.misc.extension.visible
+import com.dreampany.framework.misc.exts.gone
+import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.structure.MutablePair
 import com.dreampany.framework.misc.util.Util
 import com.google.android.gms.ads.AdListener
@@ -54,6 +56,8 @@ class AdManager
 
     private var points: Long = 0
     private lateinit var config: Config
+
+    private var ads: HouseAdsDialog? = null
 
     fun setConfig(config: Config) {
         this.config = config
@@ -341,6 +345,38 @@ class AdManager
             return
         }
         val rewarded: RewardedAd? = rewardeds[screenId]?.first
+    }
+
+    fun showInHouseAds(context: Context) {
+        ads = HouseAdsDialog(context, R.raw.apps).apply {
+            hideIfAppInstalled(true)
+            setCardCorners(16)
+            setCtaCorner(16)
+        }
+        ads?.loadAds()
+        ads?.setAdListener(object : com.dreampany.ads.AdListener {
+            override fun onAdLoadFailed(exception: Exception) {
+
+            }
+
+            override fun onAdLoaded() {
+                ads?.showAd()
+            }
+
+            override fun onAdClosed() {
+            }
+
+            override fun onAdShown() {
+            }
+
+            override fun onApplicationLeft() {
+            }
+
+        })
+    }
+
+    fun hideInHouseAds() {
+        //  ads?.
     }
 
     class Config

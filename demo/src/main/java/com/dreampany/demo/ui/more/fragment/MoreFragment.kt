@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.moreApps
-import com.dreampany.framework.misc.extension.rateUs
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.demo.R
 import com.dreampany.demo.data.enums.Action
@@ -17,6 +15,10 @@ import com.dreampany.demo.databinding.RecyclerFragmentBinding
 import com.dreampany.demo.ui.more.adapter.FastMoreAdapter
 import com.dreampany.demo.ui.more.model.MoreItem
 import com.dreampany.demo.ui.more.vm.MoreViewModel
+import com.dreampany.framework.misc.exts.moreApps
+import com.dreampany.framework.misc.exts.rateUs
+import com.mikepenz.aboutlibraries.LibsBuilder
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,8 +50,8 @@ class MoreFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
-        if (!::vm.isInitialized) {
+        if (!::bind.isInitialized) {
+            bind = getBinding()
             vm = createVm(MoreViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
         }
@@ -117,7 +119,7 @@ class MoreFragment
                 activity.moreApps(getString(R.string.id_google_play))
             }
             Subtype.ABOUT -> {
-                activity.moreApps(getString(R.string.id_google_play))
+                LibsBuilder().start(requireContext())
             }
         }
 

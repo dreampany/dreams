@@ -2,9 +2,6 @@ package com.dreampany.demo.ui.home.fragment
 
 import android.os.Bundle
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.extension.open
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
-import com.dreampany.framework.misc.extension.visible
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.demo.R
@@ -13,6 +10,8 @@ import com.dreampany.demo.data.enums.State
 import com.dreampany.demo.data.enums.Subtype
 import com.dreampany.demo.data.enums.Type
 import com.dreampany.demo.databinding.RecyclerFragmentBinding
+import com.dreampany.framework.misc.exts.setOnSafeClickListener
+import com.dreampany.framework.misc.exts.visible
 import javax.inject.Inject
 
 /**

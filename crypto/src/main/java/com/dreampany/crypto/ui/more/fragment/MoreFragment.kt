@@ -18,7 +18,7 @@ import com.dreampany.crypto.ui.more.adapter.FastMoreAdapter
 import com.dreampany.crypto.ui.more.model.MoreItem
 import com.dreampany.crypto.ui.more.vm.MoreViewModel
 import com.mikepenz.aboutlibraries.LibsBuilder
-import kotlinx.android.synthetic.main.content_recycler_ad.view.*
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,8 +50,8 @@ class MoreFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
-        if (!::vm.isInitialized) {
+        if (!::bind.isInitialized) {
+            bind = getBinding()
             vm = createVm(MoreViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
         }

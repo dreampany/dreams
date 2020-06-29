@@ -4,7 +4,7 @@ import com.dreampany.demo.R
 import com.dreampany.demo.inject.app.DaggerAppComponent
 import com.dreampany.demo.manager.AdManager
 import com.dreampany.framework.app.InjectApp
-import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.exts.isDebug
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp

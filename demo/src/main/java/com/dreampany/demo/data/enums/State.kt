@@ -1,7 +1,7 @@
 package com.dreampany.demo.data.enums
 
 import com.dreampany.framework.data.enums.BaseState
-import com.dreampany.framework.misc.extension.toTitle
+import com.dreampany.framework.misc.exts.toTitle
 import kotlinx.android.parcel.Parcelize
 
 /**

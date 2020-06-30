@@ -1,4 +1,4 @@
-package com.dreampany.crypto.api.inject
+package com.dreampany.crypto.api.inject.annote
 
 import javax.inject.Qualifier
 

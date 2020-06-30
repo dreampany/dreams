@@ -1,6 +1,6 @@
 package com.dreampany.crypto.api.inject.data
 
-import com.dreampany.crypto.api.inject.NewsApiAnnote
+import com.dreampany.crypto.api.inject.annote.NewsApiAnnote
 import com.dreampany.crypto.api.misc.ApiConstants
 import com.dreampany.crypto.api.remote.service.NewsApiService
 import com.google.gson.Gson

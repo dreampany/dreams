@@ -1,6 +1,6 @@
 package com.dreampany.crypto.api.inject.data
 
-import com.dreampany.crypto.api.inject.CoinMarketCapAnnote
+import com.dreampany.crypto.api.inject.annote.CoinMarketCapAnnote
 import com.dreampany.crypto.api.misc.ApiConstants
 import com.dreampany.crypto.api.remote.service.CoinMarketCapService
 import com.google.gson.Gson

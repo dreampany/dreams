@@ -23,8 +23,7 @@ import java.net.UnknownHostException
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ArticleRemoteDataSource
-constructor(
+class ArticleRemoteDataSource(
     private val context: Context,
     private val network: NetworkManager,
     private val parser: Parser,

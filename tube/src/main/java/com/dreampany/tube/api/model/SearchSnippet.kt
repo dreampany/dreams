@@ -8,11 +8,12 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class Snippet(
+class SearchSnippet(
     val title: String,
     val description: String,
     val channelId: String,
     val channelTitle: String,
+    val thumbnails : Map<String, Thumbnail>,
     val liveBroadcastContent: String,
     val publishedAt: Date
 )

@@ -6,7 +6,10 @@ package com.dreampany.tube.api.model
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SearchResult(
-    val id : Id,
-    val snippet: SearchSnippet
+class Statistics(
+    val viewCount: Long,
+    val likeCount: Long,
+    val dislikeCount: Long,
+    val favoriteCount: Long,
+    val commentCount: Long
 )

@@ -132,11 +132,13 @@ class StationsFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
-        bind.swipe.init(this)
-        //bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
-        vm = createVm(StationViewModel::class)
-        vm.subscribes(this, Observer { this.processResponse(it) })
+        if (!::bind.isInitialized) {
+            bind = getBinding()
+            bind.swipe.init(this)
+            //bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
+            vm = createVm(StationViewModel::class)
+            vm.subscribes(this, Observer { this.processResponse(it) })
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -148,12 +150,11 @@ class StationsFragment
                 Timber.v("StationItem: %s", item.input.toString())
                 onStationClicked(item)
             })
+            adapter.initRecycler(
+                state,
+                bind.layoutRecycler.recycler
+            )
         }
-
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler
-        )
     }
 
     private fun processResponse(response: Response<RadioType, RadioSubtype, RadioState, RadioAction, List<StationItem>>) {

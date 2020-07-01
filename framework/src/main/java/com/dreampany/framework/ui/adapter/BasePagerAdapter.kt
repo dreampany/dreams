@@ -25,7 +25,6 @@ abstract class BasePagerAdapter<T : Fragment>(val activity: AppCompatActivity) :
 
     override fun getItemCount(): Int = items.size
 
-
     override fun createFragment(position: Int): Fragment = items.get(position)
 
     open fun getPosition(item: T): Int = items.indexOf(item)

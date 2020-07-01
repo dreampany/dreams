@@ -1,4 +1,4 @@
-package com.dreampany.tube.data.model.scan
+package com.dreampany.tube.data.model
 
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -10,7 +10,7 @@ import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by roman on 30/5/20
+ * Created by roman on 30/6/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -23,9 +23,23 @@ import kotlinx.android.parcel.Parcelize
     )],
     primaryKeys = [Constants.Keys.ID]
 )
-data class Scan(
+data class Video(
     override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING
+    override var id: String = Constants.Default.STRING,
+    var title: String? = Constants.Default.NULL,
+    var description: String? = Constants.Default.NULL,
+    var thumbnail: String? = Constants.Default.NULL,
+    var channelId: String? = Constants.Default.NULL,
+    var channelTitle: String? = Constants.Default.NULL,
+    var categoryId: String? = Constants.Default.NULL,
+    var tags: List<String>? = Constants.Default.NULL,
+    var liveBroadcastContent: String? = Constants.Default.NULL,
+    var viewCount: Long = Constants.Default.LONG,
+    var likeCount: Long = Constants.Default.LONG,
+    var dislikeCount: Long = Constants.Default.LONG,
+    var favoriteCount: Long = Constants.Default.LONG,
+    var commentCount: Long = Constants.Default.LONG,
+    var publishedAt: Long = Constants.Default.LONG
 ) : Base() {
 
     @Ignore
@@ -42,9 +56,9 @@ data class Scan(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Scan
+        val item = other as Video
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String = "Coin ($id) == $id"
+    override fun toString(): String = "Video ($id) == $id"
 }

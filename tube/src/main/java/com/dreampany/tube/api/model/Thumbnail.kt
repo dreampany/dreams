@@ -6,4 +6,4 @@ package com.dreampany.tube.api.model
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class Thumbnail(val url: String, val width: UInt, val height: UInt)
+class Thumbnail(val url: String, val width: Int, val height: Int)

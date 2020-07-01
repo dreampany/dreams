@@ -1,26 +1,23 @@
-package com.dreampany.nearby.data.source.mapper
+package com.dreampany.tube.data.source.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.sub
 import com.dreampany.framework.misc.exts.value
-import com.dreampany.nearby.data.enums.State
-import com.dreampany.nearby.data.enums.Subtype
-import com.dreampany.nearby.data.enums.Type
-import com.dreampany.nearby.data.model.User
-import com.dreampany.nearby.data.source.api.UserDataSource
-import com.dreampany.nearby.data.source.pref.AppPref
-import com.dreampany.network.nearby.model.Peer
+import com.dreampany.tube.api.model.VideoResult
+import com.dreampany.tube.data.enums.State
+import com.dreampany.tube.data.enums.Subtype
+import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.data.model.Video
+import com.dreampany.tube.data.source.api.VideoDataSource
+import com.dreampany.tube.data.source.pref.AppPref
 import com.google.common.collect.Maps
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 21/3/20
@@ -29,30 +26,30 @@ import kotlin.collections.ArrayList
  * Last modified $file.lastModified
  */
 @Singleton
-class UserMapper
+class VideoMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
     private val pref: AppPref,
     private val gson: Gson
 ) {
-    private val users: MutableMap<String, User>
+    private val videos: MutableMap<String, Video>
     private val favorites: MutableMap<String, Boolean>
 
     init {
-        users = Maps.newConcurrentMap()
+        videos = Maps.newConcurrentMap()
         favorites = Maps.newConcurrentMap()
     }
 
     @Synchronized
-    fun add(input: User) = users.put(input.id, input)
+    fun add(input: Video) = videos.put(input.id, input)
 
     @Throws
-    suspend fun isFavorite(input: User): Boolean {
+    suspend fun isFavorite(input: Video): Boolean {
         if (!favorites.containsKey(input.id)) {
             val favorite = storeRepo.isExists(
                 input.id,
-                Type.USER.value,
+                Type.VIDEO.value,
                 Subtype.DEFAULT.value,
                 State.FAVORITE.value
             )
@@ -62,11 +59,11 @@ class UserMapper
     }
 
     @Throws
-    suspend fun insertFavorite(input: User): Boolean {
+    suspend fun insertFavorite(input: Video): Boolean {
         favorites.put(input.id, true)
         val store = storeMapper.getItem(
             input.id,
-            Type.USER.value,
+            Type.VIDEO.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value
         )
@@ -75,11 +72,11 @@ class UserMapper
     }
 
     @Throws
-    suspend fun deleteFavorite(input: User): Boolean {
+    suspend fun deleteFavorite(input: Video): Boolean {
         favorites.put(input.id, false)
         val store = storeMapper.getItem(
             input.id,
-            Type.USER.value,
+            Type.VIDEO.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value
         )
@@ -92,10 +89,10 @@ class UserMapper
     suspend fun gets(
         offset: Long,
         limit: Long,
-        source: UserDataSource
-    ): List<User>? {
+        source: VideoDataSource
+    ): List<Video>? {
         updateCache(source)
-        val cache = sort(users.values.toList())
+        val cache = sort(videos.values.toList())
         val result = sub(cache, offset, limit)
         return result
     }
@@ -104,26 +101,26 @@ class UserMapper
     @Synchronized
     suspend fun get(
         id: String,
-        source: UserDataSource
-    ): User? {
+        source: VideoDataSource
+    ): Video? {
         updateCache(source)
-        val result = users.get(id)
+        val result = videos.get(id)
         return result
     }
 
     @Throws
     @Synchronized
     suspend fun getFavorites(
-        source: UserDataSource
-    ): List<User>? {
+        source: VideoDataSource
+    ): List<Video>? {
         updateCache(source)
         val stores = storeRepo.getStores(
-            Type.USER.value,
+            Type.VIDEO.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value
         )
-        val outputs = stores?.mapNotNull { input -> users.get(input.id) }
-        var result: List<User>? = null
+        val outputs = stores?.mapNotNull { input -> videos.get(input.id) }
+        var result: List<Video>? = null
         outputs?.let {
             result = this.sort(it)
         }
@@ -131,8 +128,8 @@ class UserMapper
     }
 
     @Synchronized
-    fun gets(inputs: List<Peer>): List<User> {
-        val result = arrayListOf<User>()
+    fun gets(inputs: List<VideoResult>): List<Video> {
+        val result = arrayListOf<Video>()
         inputs.forEach { input ->
             result.add(get(input))
         }
@@ -140,42 +137,22 @@ class UserMapper
     }
 
     @Synchronized
-    fun get(input: Peer): User {
-        Timber.v("Resolved User: %s", input.id);
+    fun get(input: VideoResult): Video {
+        Timber.v("Resolved Video: %s", input.id);
         val id = input.id
-        var out: User? = users.get(id)
+        var out: Video? = videos.get(id)
         if (out == null) {
-            out = User(id)
-            users.put(id, out)
+            out = Video(id)
+            videos.put(id, out)
         }
-        parseUserData(out, input.meta)
+
         return out
-    }
-
-    fun parseUserData(user: User, data: ByteArray?) {
-        val parser = JsonParser()
-        try {
-            if (data == null) throw NullPointerException()
-            val json = parser.parse(String(data)).asJsonObject
-            val name = json.get("name").asString
-            user.name = name
-        } catch (ignored: Throwable) {
-            user.name = null
-        }
-    }
-
-    fun getUserData(user: User): ByteArray {
-        val json = JsonObject()
-        json.addProperty("name", user.name)
-        val data = json.toString()
-        val array = data.toByteArray()
-        return array
     }
 
     @Throws
     @Synchronized
-    private suspend fun updateCache(source: UserDataSource) {
-        if (users.isEmpty()) {
+    private suspend fun updateCache(source: VideoDataSource) {
+        if (videos.isEmpty()) {
             source.gets()?.let {
                 if (it.isNotEmpty())
                     it.forEach { add(it) }
@@ -185,8 +162,8 @@ class UserMapper
 
     @Synchronized
     private fun sort(
-        inputs: List<User>
-    ): List<User> {
+        inputs: List<Video>
+    ): List<Video> {
         val temp = ArrayList(inputs)
         //val comparator = CryptoComparator(currency, sort, order)
         //temp.sortWith(comparator)

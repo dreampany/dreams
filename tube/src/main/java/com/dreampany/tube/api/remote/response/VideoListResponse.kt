@@ -1,4 +1,6 @@
-package com.dreampany.tube.api.model
+package com.dreampany.tube.api.remote.response
+
+import com.dreampany.tube.api.model.SearchResult
 
 /**
  * Created by roman on 30/6/20
@@ -6,7 +8,6 @@ package com.dreampany.tube.api.model
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SearchResult(
-    val id : Id,
-    val snippet: SearchSnippet
+class VideoListResponse(
+    val items : List<SearchResult>
 )

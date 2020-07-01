@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit
  */
 class AppConstants {
     object Keys {
-
         object Pref {
             const val PREF = "pref"
             const val EXPIRE = "expire"

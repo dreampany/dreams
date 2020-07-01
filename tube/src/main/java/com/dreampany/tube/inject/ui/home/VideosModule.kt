@@ -1,7 +1,6 @@
 package com.dreampany.tube.inject.ui.home
 
-import com.dreampany.framework.inject.annote.FragmentScope
-import com.dreampany.tube.ui.home.fragment.HomeFragment
+import com.dreampany.tube.ui.home.fragment.VideosFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -12,8 +11,7 @@ import dagger.android.ContributesAndroidInjector
  * Last modified $file.lastModified
  */
 @Module
-abstract class HomeModule {
-    @FragmentScope
-    @ContributesAndroidInjector(modules = [VideosModule::class])
-    abstract fun home(): HomeFragment
+abstract class VideosModule {
+    @ContributesAndroidInjector
+    abstract fun videos(): VideosFragment
 }

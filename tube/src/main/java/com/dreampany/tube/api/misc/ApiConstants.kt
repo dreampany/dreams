@@ -12,7 +12,9 @@ class ApiConstants {
         const val API_KEY = "AIzaSyBzDevUMxzwnF3f-vfI9ohTH-kvaFVum6A"
 
         const val BASE_URL = "https://www.googleapis.com/youtube/v3/"
+        const val VIDEO_CATEGORIES = "videoCategories"
         const val SEARCH = "search"
+        const val VIDEOS = "videos"
     }
 
 

@@ -4,6 +4,7 @@ import android.app.Application
 import com.dreampany.framework.inject.app.AppModule
 import com.dreampany.framework.inject.property.PropertyModule
 import com.dreampany.tube.app.App
+import com.dreampany.tube.inject.data.DataModule
 import com.dreampany.tube.inject.ui.activity.ActivityModule
 import com.dreampany.tube.inject.ui.vm.ViewModelModule
 import com.dreampany.tube.inject.worker.WorkerModule
@@ -27,7 +28,8 @@ import javax.inject.Singleton
         PropertyModule::class,
         ActivityModule::class,
         ViewModelModule::class,
-        WorkerModule::class
+        WorkerModule::class,
+        DataModule::class
     ]
 )
 interface AppComponent : AndroidInjector<App> {

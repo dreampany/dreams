@@ -30,12 +30,14 @@ class CategoryRepo
     @Remote private val remote: CategoryDataSource
 ) : CategoryDataSource {
 
-    override suspend fun isFavorite(input: Category): Boolean {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun isFavorite(input: Category) = withContext(Dispatchers.IO) {
+        room.isFavorite(input)
     }
 
-    override suspend fun toggleFavorite(input: Category): Boolean {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun toggleFavorite(input: Category) = withContext(Dispatchers.IO) {
+        room.toggleFavorite(input)
     }
 
     override suspend fun getFavorites(): List<Category>? {
@@ -63,9 +65,11 @@ class CategoryRepo
         if (mapper.isExpired()) {
             val result = remote.gets(regionCode)
             if (!result.isNullOrEmpty()) {
-                mapper.commitExpire()
                 room.deleteAll()
-                room.put(result)
+                val result = room.put(result)
+                if (!result.isNullOrEmpty()) {
+                    mapper.commitExpire()
+                }
             }
         }
         room.gets()

@@ -15,9 +15,12 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.databinding.HomeFragmentBinding
 import com.dreampany.tube.databinding.RecyclerFragmentBinding
+import com.dreampany.tube.ui.home.adapter.CategoryPagerAdapter
 import com.dreampany.tube.ui.home.model.CategoryItem
 import com.dreampany.tube.ui.home.vm.CategoryViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,16 +34,16 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
-    private lateinit var bind: RecyclerFragmentBinding
+    private lateinit var bind: HomeFragmentBinding
     private lateinit var vm: CategoryViewModel
+    private lateinit var adapter: CategoryPagerAdapter
 
-    //private lateinit var adapter: FastFeatureAdapter
-
-    override val layoutRes: Int = R.layout.recycler_fragment
+    override val layoutRes: Int = R.layout.home_fragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        initRecycler(state)
+        initPager()
+        //initRecycler(state)
         vm.loadCategories()
         /* if (adapter.isEmpty)
              vm.loadFeatures()*/
@@ -53,30 +56,29 @@ class HomeFragment
         if (!::bind.isInitialized) {
             bind = getBinding()
             //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
-            bind.fab.visible()
-            bind.fab.setOnSafeClickListener { openScanUi() }
+            /*bind.fab.visible()
+            bind.fab.setOnSafeClickListener { openScanUi() }*/
             vm = createVm(CategoryViewModel::class)
             vm.subscribes(this, Observer { this.processResponses(it) })
         }
     }
 
-    private fun initRecycler(state: Bundle?) {
-        /*if (!::adapter.isInitialized) {
-            adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
-                Timber.v("StationItem: %s", item.item.toString())
-                openUi(item.item)
-            })
-
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
-            )
-        }*/
+    private fun initPager() {
+        if (!::adapter.isInitialized) {
+            adapter = CategoryPagerAdapter(this)
+            bind.pager.adapter = adapter
+            TabLayoutMediator(
+                bind.tabs,
+                bind.pager,
+                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                    tab.text = adapter.getTitle(position)
+                }).attach()
+        }
     }
 
     private fun processResponses(response: Response<Type, Subtype, State, Action, List<CategoryItem>>) {
         if (response is Response.Progress) {
-            bind.swipe.refresh(response.progress)
+            //bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, List<CategoryItem>>) {
@@ -104,7 +106,7 @@ class HomeFragment
 
     private fun processResults(result: List<CategoryItem>?) {
         if (result != null) {
-
+            adapter.addItems(result)
         }
     }
 

@@ -80,14 +80,16 @@ class CoinActivity : InjectActivity() {
     }
 
     private fun initPager() {
-        adapter = CoinPagerAdapter(this)
-        bind.layoutPager.pager.adapter = adapter
-        TabLayoutMediator(
-            bind.tabs,
-            bind.layoutPager.pager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.text = adapter.getTitle(position)
-            }).attach()
+        if (!::adapter.isInitialized) {
+            adapter = CoinPagerAdapter(this)
+            bind.layoutPager.pager.adapter = adapter
+            TabLayoutMediator(
+                bind.tabs,
+                bind.layoutPager.pager,
+                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                    tab.text = adapter.getTitle(position)
+                }).attach()
+        }
     }
 
     private fun initAd() {

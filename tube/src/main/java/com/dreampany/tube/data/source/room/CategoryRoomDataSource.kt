@@ -15,12 +15,19 @@ class CategoryRoomDataSource(
     private val mapper: CategoryMapper,
     private val dao: CategoryDao
 ) : CategoryDataSource {
-    override suspend fun isFavorite(input: Category): Boolean {
-        TODO("Not yet implemented")
-    }
 
+    @Throws
+    override suspend fun isFavorite(input: Category): Boolean = mapper.isFavorite(input)
+
+    @Throws
     override suspend fun toggleFavorite(input: Category): Boolean {
-        TODO("Not yet implemented")
+        val favorite = isFavorite(input)
+        if (favorite) {
+            mapper.deleteFavorite(input)
+        } else {
+            mapper.insertFavorite(input)
+        }
+        return favorite.not()
     }
 
     override suspend fun getFavorites(): List<Category>? {
@@ -45,7 +52,10 @@ class CategoryRoomDataSource(
     }
 
     @Throws
-    override suspend fun gets(): List<Category>? = dao.items
+    override suspend fun gets(): List<Category>? {
+        val result = dao.items
+        return result
+    }
 
     override suspend fun gets(regionCode: String): List<Category>? {
         TODO("Not yet implemented")

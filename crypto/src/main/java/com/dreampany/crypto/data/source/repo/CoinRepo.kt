@@ -37,7 +37,7 @@ class CoinRepo
         room.isFavorite(input)
     }
 
-    override suspend fun toggleFavorite(input: Coin)= withContext(Dispatchers.IO) {
+    override suspend fun toggleFavorite(input: Coin) = withContext(Dispatchers.IO) {
         room.toggleFavorite(input)
     }
 

@@ -5,9 +5,30 @@
     auto:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="${relativePackage}.${activityClass}">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            auto:tabGravity="fill"
+            auto:tabIndicator="@drawable/tab_indicator"
+            auto:tabIndicatorColor="@android:color/white"
+            auto:tabIndicatorHeight="@dimen/_4sdp"
+            auto:tabMode="scrollable"
+            auto:tabSelectedTextColor="@android:color/white"
+            auto:tabTextAppearance="@style/TabLayoutTextStyle"
+            auto:tabTextColor="@color/material_white" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

@@ -20,8 +20,7 @@ class AppConstants {
         }
 
         object Room {
-            const val TYPE_CATEGORY = "category"
-            const val TYPE_VIDEO = "video"
+            const val TYPE_TUBE = "tube"
         }
     }
 
@@ -30,6 +29,7 @@ class AppConstants {
     }
 
     object Times {
-        val VIDEOS = TimeUnit.MINUTES.toMillis(30)
+        val CATEGORIES = TimeUnit.DAYS.toMillis(7)
+        val VIDEOS = TimeUnit.DAYS.toMillis(1)
     }
 }

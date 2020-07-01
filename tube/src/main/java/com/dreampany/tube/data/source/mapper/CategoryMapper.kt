@@ -1,7 +1,9 @@
 package com.dreampany.tube.data.source.mapper
 
+import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
+import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.tube.api.model.CategorySnippet
 import com.dreampany.tube.api.model.VideoCategory
@@ -11,6 +13,7 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.source.api.CategoryDataSource
 import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.misc.AppConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject
@@ -36,6 +39,15 @@ class CategoryMapper
         categories = Maps.newConcurrentMap()
         favorites = Maps.newConcurrentMap()
     }
+
+    @Synchronized
+    fun isExpired(): Boolean {
+        val time = pref.getExpireTimeOfCategory()
+        return time.isExpired(AppConstants.Times.CATEGORIES)
+    }
+
+    @Synchronized
+    fun commitExpire() = pref.commitExpireTimeOfCategory()
 
     @Synchronized
     fun add(input: Category) = categories.put(input.id, input)

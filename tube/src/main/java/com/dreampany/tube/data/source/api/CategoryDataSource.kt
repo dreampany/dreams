@@ -38,4 +38,7 @@ interface CategoryDataSource {
 
     @Throws
     suspend fun gets(offset: Long, limit: Long): List<Category>?
+
+    @Throws
+    suspend fun deleteAll()
 }

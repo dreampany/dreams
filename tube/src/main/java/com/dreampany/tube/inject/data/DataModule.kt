@@ -1,7 +1,9 @@
 package com.dreampany.tube.inject.data
 
+import android.app.Application
 import android.content.Context
 import com.dreampany.framework.inject.annote.Remote
+import com.dreampany.framework.inject.annote.Room
 import com.dreampany.framework.inject.data.StoreModule
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
@@ -14,6 +16,11 @@ import com.dreampany.tube.data.source.mapper.CategoryMapper
 import com.dreampany.tube.data.source.mapper.VideoMapper
 import com.dreampany.tube.data.source.remote.CategoryRemoteDataSource
 import com.dreampany.tube.data.source.remote.VideoRemoteDataSource
+import com.dreampany.tube.data.source.room.CategoryRoomDataSource
+import com.dreampany.tube.data.source.room.VideoRoomDataSource
+import com.dreampany.tube.data.source.room.dao.CategoryDao
+import com.dreampany.tube.data.source.room.dao.VideoDao
+import com.dreampany.tube.data.source.room.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -32,6 +39,27 @@ import javax.inject.Singleton
 )
 class DataModule {
 
+    @Provides
+    @Singleton
+    fun provideDatabase(application: Application): DatabaseManager =
+        DatabaseManager.getInstance(application)
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(database: DatabaseManager): CategoryDao = database.categoryDao()
+
+    @Provides
+    @Singleton
+    fun provideVideoDao(database: DatabaseManager): VideoDao = database.videoDao()
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideCategoryRoomDataSource(
+        mapper: CategoryMapper,
+        dao: CategoryDao
+    ): CategoryDataSource = CategoryRoomDataSource(mapper, dao)
+
     @Singleton
     @Provides
     @Remote
@@ -42,7 +70,16 @@ class DataModule {
         keys: Keys,
         mapper: CategoryMapper,
         service: YoutubeService
-    ): CategoryDataSource = CategoryRemoteDataSource(context, network, parser, keys, mapper, service)
+    ): CategoryDataSource =
+        CategoryRemoteDataSource(context, network, parser, keys, mapper, service)
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideVideoRoomDataSource(
+        mapper: VideoMapper,
+        dao: VideoDao
+    ): VideoDataSource = VideoRoomDataSource(mapper, dao)
 
     @Singleton
     @Provides

@@ -1,12 +1,24 @@
 package com.dreampany.tube.ui.home.fragment
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.exts.refresh
 import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.visible
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tube.R
+import com.dreampany.tube.data.enums.Action
+import com.dreampany.tube.data.enums.State
+import com.dreampany.tube.data.enums.Subtype
+import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.databinding.RecyclerFragmentBinding
+import com.dreampany.tube.ui.home.model.CategoryItem
+import com.dreampany.tube.ui.home.vm.CategoryViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -20,7 +32,7 @@ class HomeFragment
 @Inject constructor() : InjectFragment() {
 
     private lateinit var bind: RecyclerFragmentBinding
-    //private lateinit var vm: FeatureViewModel
+    private lateinit var vm: CategoryViewModel
 
     //private lateinit var adapter: FastFeatureAdapter
 
@@ -29,22 +41,23 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-       /* if (adapter.isEmpty)
-            vm.loadFeatures()*/
+        vm.loadCategories()
+        /* if (adapter.isEmpty)
+             vm.loadFeatures()*/
     }
 
     override fun onStopUi() {
     }
 
     private fun initUi() {
-        bind = getBinding()
-        //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
-        bind.fab.visible()
-        bind.fab.setOnSafeClickListener { openScanUi() }
-        /*if (!::vm.isInitialized) {
-            vm = createVm(FeatureViewModel::class)
-            vm.subscribes(this, Observer { this.processResponse(it) })
-        }*/
+        if (!::bind.isInitialized) {
+            bind = getBinding()
+            //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
+            bind.fab.visible()
+            bind.fab.setOnSafeClickListener { openScanUi() }
+            vm = createVm(CategoryViewModel::class)
+            vm.subscribes(this, Observer { this.processResponses(it) })
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -61,12 +74,12 @@ class HomeFragment
         }*/
     }
 
-    /*private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CategoryItem>>) {
         if (response is Response.Progress) {
-            if (response.progress) showProgress() else hideProgress()
+            bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<FeatureItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<CategoryItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -89,30 +102,20 @@ class HomeFragment
         )
     }
 
-    private fun processResults(result: List<FeatureItem>?) {
+    private fun processResults(result: List<CategoryItem>?) {
         if (result != null) {
-            adapter.addItems(result)
+
         }
     }
 
-    private fun openUi(item: Feature) {
-        when (item.subtype) {
-            Subtype.WIFI -> activity.open(WifisActivity::class)
-            Subtype.CRYPTO -> activity.open(CoinsActivity::class)
-            Subtype.RADIO -> activity.open(StationsActivity::class)
-            Subtype.NOTE -> activity.open(NotesActivity::class)
-            Subtype.HISTORY -> activity.open(HistoriesActivity::class)
-        }
-    }*/
-
     private fun openScanUi() {
-       /* val task = UiTask(
-            Type.CAMERA,
-            Subtype.DEFAULT,
-            State.DEFAULT,
-            Action.SCAN,
-            null
-        )
-        open(CameraActivity::class, task, REQUEST_CAMERA)*/
+        /* val task = UiTask(
+             Type.CAMERA,
+             Subtype.DEFAULT,
+             State.DEFAULT,
+             Action.SCAN,
+             null
+         )
+         open(CameraActivity::class, task, REQUEST_CAMERA)*/
     }
 }

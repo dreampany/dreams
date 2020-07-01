@@ -6,4 +6,4 @@ package com.dreampany.tube.api.model
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class VideoCategorySnippet(val channelId: String, val title: String, val assignable: Boolean)
+class CategorySnippet(val channelId: String, val title: String, val assignable: Boolean)

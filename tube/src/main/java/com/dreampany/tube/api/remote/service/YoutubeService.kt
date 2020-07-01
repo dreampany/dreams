@@ -2,7 +2,7 @@ package com.dreampany.tube.api.remote.service
 
 import com.dreampany.tube.api.misc.ApiConstants
 import com.dreampany.tube.api.remote.response.SearchListResponse
-import com.dreampany.tube.api.remote.response.VideoCategoryListResponse
+import com.dreampany.tube.api.remote.response.CategoryListResponse
 import com.dreampany.tube.api.remote.response.VideoListResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -15,12 +15,13 @@ import retrofit2.http.Query
  * Last modified $file.lastModified
  */
 interface YoutubeService {
+
     @GET(ApiConstants.Youtube.VIDEO_CATEGORIES)
-    fun getVideoCategoriesOfRegionCode(
+    fun getCategories(
         @Query("key") key: String,
         @Query("part") part: String,
         @Query("regionCode") regionCode: String
-    ): Call<VideoCategoryListResponse>
+    ): Call<CategoryListResponse>
 
     @GET(ApiConstants.Youtube.SEARCH)
     fun getSearchResultOfQuery(

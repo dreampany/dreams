@@ -2,6 +2,8 @@ package com.dreampany.tube.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tube.misc.AppConstants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,5 +21,48 @@ class AppPref
 ) : BasePref(context) {
 
     override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.PREF
+
+
+    @Synchronized
+    fun commitExpireTimeOfCategory() {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.CATEGORY)
+        }
+        setPrivately(key.toString(), currentMillis)
+    }
+
+    @Synchronized
+    fun getExpireTimeOfCategory(): Long {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.CATEGORY)
+        }
+        return getPrivately(key.toString(), Constants.Default.LONG)
+    }
+
+    @Synchronized
+    fun commitExpireTimeOfSearch() {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.CATEGORY)
+        }
+        setPrivately(key.toString(), currentMillis)
+    }
+
+    @Synchronized
+    fun getExpireTimeOfSearch(query: String): Long {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.SEARCH)
+            append(query)
+        }
+        return getPrivately(key.toString(), Constants.Default.LONG)
+    }
+
+    @Synchronized
+    fun getExpireTimeOfVideo(id: String): Long {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.VIDEO)
+            append(id)
+        }
+        return getPrivately(key.toString(), Constants.Default.LONG)
+    }
 
 }

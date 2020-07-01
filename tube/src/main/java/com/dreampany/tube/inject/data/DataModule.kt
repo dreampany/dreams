@@ -8,8 +8,11 @@ import com.dreampany.framework.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tube.api.inject.data.YoutubeModule
 import com.dreampany.tube.api.remote.service.YoutubeService
+import com.dreampany.tube.data.source.api.CategoryDataSource
 import com.dreampany.tube.data.source.api.VideoDataSource
+import com.dreampany.tube.data.source.mapper.CategoryMapper
 import com.dreampany.tube.data.source.mapper.VideoMapper
+import com.dreampany.tube.data.source.remote.CategoryRemoteDataSource
 import com.dreampany.tube.data.source.remote.VideoRemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -28,6 +31,19 @@ import javax.inject.Singleton
     ]
 )
 class DataModule {
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideCategoryRemoteDataSource(
+        context: Context,
+        network: NetworkManager,
+        parser: Parser,
+        keys: Keys,
+        mapper: CategoryMapper,
+        service: YoutubeService
+    ): CategoryDataSource = CategoryRemoteDataSource(context, network, parser, keys, mapper, service)
+
     @Singleton
     @Provides
     @Remote

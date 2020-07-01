@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="adapter_more_item_id" type="id" />
+    <item name="adapter_category_item_id" type="id" />
+    <item name="adapter_video_item_id" type="id" />
 </resources>

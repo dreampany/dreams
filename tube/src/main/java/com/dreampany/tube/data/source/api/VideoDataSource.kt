@@ -31,7 +31,10 @@ interface VideoDataSource {
     suspend fun gets(): List<Video>?
 
     @Throws
-    suspend fun gets(query: String): List<Video>?
+    suspend fun getsOfQuery(query: String): List<Video>?
+
+    @Throws
+    suspend fun getsOfCategoryId(categoryId: String): List<Video>?
 
     @Throws
     suspend fun gets(ids: List<String>): List<Video>?

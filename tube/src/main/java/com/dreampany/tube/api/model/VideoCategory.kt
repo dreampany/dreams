@@ -8,5 +8,5 @@ package com.dreampany.tube.api.model
  */
 class VideoCategory(
     val id: String,
-    val snippet: VideoCategorySnippet
+    val snippet: CategorySnippet
 )

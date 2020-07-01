@@ -51,7 +51,11 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun gets(query: String): List<Video>? {
+    override suspend fun getsOfQuery(query: String): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getsOfCategoryId(categoryId: String): List<Video>? {
         TODO("Not yet implemented")
     }
 

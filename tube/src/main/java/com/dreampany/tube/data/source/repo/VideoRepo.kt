@@ -54,15 +54,19 @@ class VideoRepo
         TODO("Not yet implemented")
     }
 
-    override suspend fun gets(query: String): List<Video>? {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun gets(ids: List<String>): List<Video>? {
         TODO("Not yet implemented")
     }
 
     override suspend fun gets(offset: Long, limit: Long): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getsOfQuery(query: String): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getsOfCategoryId(categoryId: String): List<Video>? {
         TODO("Not yet implemented")
     }
 }

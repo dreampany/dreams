@@ -29,10 +29,9 @@ class CategoryRemoteDataSource(
 ) : CategoryDataSource {
 
     init {
-        if (context.isDebug) {
-            keys.setKeys(ApiConstants.Youtube.API_KEY)
-        } else {
-            keys.setKeys(ApiConstants.Youtube.API_KEY)
+        keys.setKeys(ApiConstants.Youtube.API_KEY_ROMAN_BJIT)
+        if (!context.isDebug) {
+            keys.setKeys(ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL)
         }
     }
 
@@ -100,6 +99,10 @@ class CategoryRemoteDataSource(
     }
 
     override suspend fun gets(offset: Long, limit: Long): List<Category>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteAll() {
         TODO("Not yet implemented")
     }
 }

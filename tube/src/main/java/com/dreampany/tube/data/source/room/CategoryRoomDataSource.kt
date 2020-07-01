@@ -27,21 +27,25 @@ class CategoryRoomDataSource(
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun put(input: Category): Long {
-        TODO("Not yet implemented")
+        mapper.add(input)
+        return dao.insertOrReplace(input)
     }
 
+    @Throws
     override suspend fun put(inputs: List<Category>): List<Long>? {
-        TODO("Not yet implemented")
+        val result = arrayListOf<Long>()
+        inputs.forEach { result.add(put(it)) }
+        return result
     }
 
     override suspend fun get(id: String): Category? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun gets(): List<Category>? {
-        TODO("Not yet implemented")
-    }
+    @Throws
+    override suspend fun gets(): List<Category>? = dao.items
 
     override suspend fun gets(regionCode: String): List<Category>? {
         TODO("Not yet implemented")

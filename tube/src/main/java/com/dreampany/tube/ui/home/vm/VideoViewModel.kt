@@ -9,14 +9,15 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.data.source.repo.VideoRepo
-import com.dreampany.tube.ui.home.model.CategoryItem
+import com.dreampany.tube.misc.AppConstants
 import com.dreampany.tube.ui.home.model.VideoItem
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -36,18 +37,13 @@ class VideoViewModel
     rm
 ) {
 
-/*    fun loadCategories() {
+    fun loadVideos(categoryId : String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
-            var result: List<Category>? = null
+            var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                var regionCode = getApplication<App>().countryCode
-                result = repo.gets(regionCode)
-                if (result.isNullOrEmpty()) {
-                    regionCode = Locale.US.country
-                    result = repo.gets(regionCode)
-                }
+                result = repo.getsOfCategoryId(categoryId, offset, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -58,17 +54,17 @@ class VideoViewModel
                 postResult(result?.toItems())
             }
         }
-    }*/
+    }
 
-    /*private suspend fun List<Category>.toItems(): List<CategoryItem> {
+    private suspend fun List<Video>.toItems(): List<VideoItem> {
         val input = this
         return withContext(Dispatchers.IO) {
             input.map { input ->
                 val favorite = repo.isFavorite(input)
-                CategoryItem(input, favorite)
+                VideoItem(input, favorite)
             }
         }
-    }*/
+    }
 
     private fun postProgressSingle(progress: Boolean) {
         postProgressSingle(

@@ -3,11 +3,13 @@ package com.dreampany.tube.data.source.remote
 import android.content.Context
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tube.api.remote.service.YoutubeService
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.mapper.VideoMapper
+import java.net.UnknownHostException
 
 /**
  * Created by roman on 30/6/20
@@ -55,7 +57,45 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun getsOfCategoryId(categoryId: String): List<Video>? {
+        for (index in 0..keys.length) {
+            try {
+                val key = keys.nextKey ?: continue
+                val part = "id,snippet,statistics"
+                val chart = "mostPopular"
+                val response = service.getVideosOfChartCategoryId(
+                    key,
+                    part,
+                    chart,
+                    categoryId
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.items ?: return null
+                    return mapper.gets(data)
+                } else {
+                    //val error = parser.parseError(response, CoinsResponse::class)
+                    throw SmartError(
+                        message = "error?.status?.errorMessage"
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
+
+    override suspend fun getsOfCategoryId(
+        categoryId: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
         TODO("Not yet implemented")
     }
 

@@ -57,6 +57,26 @@ class AppPref
     }
 
     @Synchronized
+    fun commitExpireTimeOfCategoryId(categoryId: String, offset: Long) {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.VIDEO)
+            append(categoryId)
+            append(offset)
+        }
+        setPrivately(key.toString(), currentMillis)
+    }
+
+    @Synchronized
+    fun getExpireTimeOfCategoryId(categoryId: String, offset: Long): Long {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.VIDEO)
+            append(categoryId)
+            append(offset)
+        }
+        return getPrivately(key.toString(), Constants.Default.LONG)
+    }
+
+    @Synchronized
     fun getExpireTimeOfVideo(id: String): Long {
         val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
             append(AppConstants.Keys.Pref.VIDEO)

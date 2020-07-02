@@ -1,6 +1,6 @@
 package com.dreampany.tube.api.remote.response
 
-import com.dreampany.tube.api.model.SearchResult
+import com.dreampany.tube.api.model.VideoResult
 
 /**
  * Created by roman on 30/6/20
@@ -8,6 +8,4 @@ import com.dreampany.tube.api.model.SearchResult
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class VideoListResponse(
-    val items : List<SearchResult>
-)
+class VideoListResponse(val items : List<VideoResult>)

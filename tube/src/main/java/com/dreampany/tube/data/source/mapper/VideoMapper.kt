@@ -2,19 +2,21 @@ package com.dreampany.tube.data.source.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
+import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.exts.sub
+import com.dreampany.framework.misc.exts.utc
 import com.dreampany.framework.misc.exts.value
+import com.dreampany.tube.api.model.Statistics
 import com.dreampany.tube.api.model.VideoResult
+import com.dreampany.tube.api.model.VideoSnippet
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.misc.AppConstants
 import com.google.common.collect.Maps
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,10 +32,9 @@ class VideoMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
-    private val pref: AppPref,
-    private val gson: Gson
+    private val pref: AppPref
 ) {
-    private val videos: MutableMap<String, Video>
+    private val videos: MutableMap<String, MutableMap<String, Video>>
     private val favorites: MutableMap<String, Boolean>
 
     init {
@@ -42,7 +43,22 @@ class VideoMapper
     }
 
     @Synchronized
-    fun add(input: Video) = videos.put(input.id, input)
+    fun isExpired(categoryId: String, offset: Long): Boolean {
+        val time = pref.getExpireTimeOfCategoryId(categoryId, offset)
+        return time.isExpired(AppConstants.Times.VIDEOS)
+    }
+
+    @Synchronized
+    fun commitExpire(categoryId: String, offset: Long) = pref.commitExpireTimeOfCategoryId(categoryId, offset)
+
+    @Synchronized
+    fun add(input: Video) {
+        val categoryId = input.categoryId ?: return
+        if (!videos.containsKey(categoryId)) {
+            videos[categoryId] = Maps.newConcurrentMap()
+        }
+        videos[categoryId]?.put(categoryId, input)
+    }
 
     @Throws
     suspend fun isFavorite(input: Video): Boolean {
@@ -87,12 +103,14 @@ class VideoMapper
     @Throws
     @Synchronized
     suspend fun gets(
+        categoryId: String,
         offset: Long,
         limit: Long,
         source: VideoDataSource
     ): List<Video>? {
-        updateCache(source)
-        val cache = sort(videos.values.toList())
+        updateCache(categoryId, source)
+        val values = videos[categoryId]?.values?.toList() ?: return null
+        val cache = sort(values)
         val result = sub(cache, offset, limit)
         return result
     }
@@ -103,9 +121,10 @@ class VideoMapper
         id: String,
         source: VideoDataSource
     ): Video? {
-        updateCache(source)
+        /*updateCache(source)
         val result = videos.get(id)
-        return result
+        return result*/
+        return null
     }
 
     @Throws
@@ -113,18 +132,19 @@ class VideoMapper
     suspend fun getFavorites(
         source: VideoDataSource
     ): List<Video>? {
-        updateCache(source)
-        val stores = storeRepo.getStores(
-            Type.VIDEO.value,
-            Subtype.DEFAULT.value,
-            State.FAVORITE.value
-        )
-        val outputs = stores?.mapNotNull { input -> videos.get(input.id) }
-        var result: List<Video>? = null
-        outputs?.let {
-            result = this.sort(it)
-        }
-        return result
+        /* updateCache(source)
+         val stores = storeRepo.getStores(
+             Type.VIDEO.value,
+             Subtype.DEFAULT.value,
+             State.FAVORITE.value
+         )
+         val outputs = stores?.mapNotNull { input -> videos.get(input.id) }
+         var result: List<Video>? = null
+         outputs?.let {
+             result = this.sort(it)
+         }
+         return result*/
+        return null
     }
 
     @Synchronized
@@ -138,22 +158,44 @@ class VideoMapper
 
     @Synchronized
     fun get(input: VideoResult): Video {
-        Timber.v("Resolved Video: %s", input.id);
+        Timber.v("Resolved Video: %s", input.id)
+        val categoryId = input.snippet.categoryId
         val id = input.id
-        var out: Video? = videos.get(id)
-        if (out == null) {
-            out = Video(id)
-            videos.put(id, out)
+        var output: Video? = videos[categoryId]?.get(id)
+        if (output == null) {
+            output = Video(id)
+            add(output)
         }
+        bindSnippet(input.snippet, output)
+        bindStatistics(input.statistics, output)
+        return output
+    }
 
-        return out
+    private fun bindSnippet(input: VideoSnippet, output: Video) {
+        output.title = input.title
+        output.description = input.description
+        output.channelId = input.channelId
+        output.channelTitle = input.channelTitle
+        output.categoryId = input.categoryId
+        output.thumbnail = input.thumbnails.values.firstOrNull()?.url
+        output.tags = input.tags
+        output.liveBroadcastContent = input.liveBroadcastContent
+        output.publishedAt = input.publishedAt.utc
+    }
+
+    private fun bindStatistics(input: Statistics, output: Video) {
+        output.viewCount = input.viewCount
+        output.likeCount = input.likeCount
+        output.dislikeCount = input.dislikeCount
+        output.favoriteCount = input.favoriteCount
+        output.commentCount = input.commentCount
     }
 
     @Throws
     @Synchronized
-    private suspend fun updateCache(source: VideoDataSource) {
-        if (videos.isEmpty()) {
-            source.gets()?.let {
+    private suspend fun updateCache(categoryId: String, source: VideoDataSource) {
+        if (videos.get(categoryId).isNullOrEmpty()) {
+            source.getsOfCategoryId(categoryId)?.let {
                 if (it.isNotEmpty())
                     it.forEach { add(it) }
             }

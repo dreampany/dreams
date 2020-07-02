@@ -8,6 +8,6 @@ package com.dreampany.tube.api.model
  */
 class VideoResult(
     val id : String,
-    val snippet: SearchSnippet,
+    val snippet: VideoSnippet,
     val statistics : Statistics
 )

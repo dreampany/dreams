@@ -31,16 +31,17 @@ interface YoutubeService {
     ): Call<SearchListResponse>
 
     @GET(ApiConstants.Youtube.VIDEOS)
+    fun getVideosOfChartCategoryId(
+        @Query("key") key: String,
+        @Query("part") part: String,
+        @Query("chart") chart: String,
+        @Query("videoCategoryId") categoryId: String
+    ): Call<VideoListResponse>
+
+    @GET(ApiConstants.Youtube.VIDEOS)
     fun getVideosOfId(
         @Query("key") key: String,
         @Query("part") part: String,
         @Query("id") id: String
-    ): Call<VideoListResponse>
-
-    @GET(ApiConstants.Youtube.VIDEOS)
-    fun getVideosOfChart(
-        @Query("key") key: String,
-        @Query("part") part: String,
-        @Query("chart") chart: String
     ): Call<VideoListResponse>
 }

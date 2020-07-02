@@ -1,21 +1,18 @@
 package com.dreampany.tools.ui.news.fragment
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.*
+import com.dreampany.framework.misc.exts.init
+import com.dreampany.framework.misc.exts.open
+import com.dreampany.framework.misc.exts.refresh
+import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
-import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
-import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
-import com.dreampany.tools.ui.news.vm.ArticleViewModel
-import javax.inject.Inject
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
@@ -26,10 +23,14 @@ import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
 import com.dreampany.tools.data.enums.news.NewsType
 import com.dreampany.tools.data.model.news.Article
+import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
+import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
 import com.dreampany.tools.ui.news.model.ArticleItem
+import com.dreampany.tools.ui.news.vm.ArticleViewModel
 import com.dreampany.tools.ui.web.WebActivity
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by roman on 14/6/20

@@ -1,18 +1,16 @@
-package com.dreampany.crypto.ui.home.adapter
+package com.dreampany.tube.ui.home.adapter
 
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.util.ViewInfo
 import com.dreampany.adapter.SpacingItemDecoration
-import com.dreampany.crypto.R
-import com.dreampany.crypto.data.enums.Currency
-import com.dreampany.crypto.data.enums.Sort
-import com.dreampany.crypto.databinding.CoinInfoItemBinding
-import com.dreampany.crypto.databinding.CoinItemBinding
-import com.dreampany.crypto.ui.home.model.CoinItem
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.misc.exts.dimension
+import com.dreampany.tube.R
+import com.dreampany.tube.databinding.VideoItemBinding
+import com.dreampany.tube.ui.home.model.VideoItem
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
@@ -24,14 +22,14 @@ import com.mikepenz.fastadapter.ui.items.ProgressItem
 import com.mikepenz.fastadapter.utils.ComparableItemListImpl
 
 /**
- * Created by roman on 13/4/20
+ * Created by roman on 2/7/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FastCoinAdapter(
+class FastVideoAdapter(
     val scrollListener: ((currentPage: Int) -> Unit)? = null,
-    val clickListener: ((view: View, item: CoinItem) -> Unit)? = null
+    val clickListener: ((view: View, item: VideoItem) -> Unit)? = null
 ) {
 
     private lateinit var scroller: EndlessRecyclerOnScrollListener
@@ -39,31 +37,26 @@ class FastCoinAdapter(
     private lateinit var itemAdapter: GenericItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
 
-    private lateinit var capComparator: Comparator<GenericItem>
-    private val rankComparator: Comparator<GenericItem>
+    private val viewComparator: Comparator<GenericItem>
 
     init {
-        rankComparator = RankComparator()
+        viewComparator = ViewComparator()
     }
 
     val itemCount: Int
-        get() = fastAdapter.adapterItems.size
+        get() = fastAdapter.itemCount
 
     val isEmpty: Boolean get() = itemCount == 0
 
     fun initRecycler(
         state: Bundle?,
-        recycler: RecyclerView,
-        currency: Currency,
-        sort: Sort,
-        order: Order
+        recycler: RecyclerView
     ) {
-        capComparator = CryptoComparator(currency, sort, order)
-        val list = ComparableItemListImpl(comparator = capComparator)
+        val list = ComparableItemListImpl(comparator = viewComparator)
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
-            if (item is CoinItem)
-                item.input.name.toString().contains(constraint.toString(), ignoreCase = true)
+            if (item is VideoItem)
+                item.input.title.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }
@@ -74,6 +67,13 @@ class FastCoinAdapter(
         recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
+            addItemDecoration(
+                SpacingItemDecoration(
+                    1,
+                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
+                    true
+                )
+            )
 
             scrollListener?.let {
                 scroller = object : EndlessRecyclerOnScrollListener(footerAdapter) {
@@ -94,21 +94,21 @@ class FastCoinAdapter(
                     }
                 false
             }*/
-            fastAdapter.addClickListener<CoinItemBinding, GenericItem>(
-                { bind -> bind.root }, { bind -> arrayListOf(bind.layoutOptions.buttonFavorite) }
+            fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
+                { bind -> bind.root }, { bind -> arrayListOf(bind.root) }
             )
             { view, position, adapter, item ->
-                if (item is CoinItem) {
+                if (item is VideoItem) {
                     listener(view, item)
                 }
             }
 
-            fastAdapter.addClickListener<CoinInfoItemBinding, GenericItem>(
+            fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
                 { bind -> bind.root },
-                { bind -> arrayListOf(bind.buttonFavorite) }
+                { bind -> arrayListOf(bind.root) }
             )
             { view, position, adapter, item ->
-                if (item is CoinItem) {
+                if (item is VideoItem) {
                     listener(view, item)
                 }
             }
@@ -116,7 +116,6 @@ class FastCoinAdapter(
     }
 
     fun destroy() {
-        fastAdapter.clear()
     }
 
     fun saveInstanceState(outState: Bundle): Bundle {
@@ -138,7 +137,7 @@ class FastCoinAdapter(
         footerAdapter.clear()
     }
 
-    fun updateItem(item: CoinItem): Boolean {
+    fun updateItem(item: VideoItem): Boolean {
         var position = fastAdapter.getAdapterPosition(item)
         position = fastAdapter.getGlobalPosition(position)
         if (position >= 0) {
@@ -149,49 +148,27 @@ class FastCoinAdapter(
         return false
     }
 
-    fun updateItems(items: List<CoinItem>) {
+    fun updateItems(items: List<VideoItem>) {
         items.forEach {
             updateItem(it)
         }
     }
 
-    fun addItem(item: CoinItem) {
+    fun addItem(item: VideoItem) {
         val updated = updateItem(item)
         if (!updated)
             fastAdapter.add(item)
     }
 
-    fun addItems(items: List<CoinItem>) {
+    fun addItems(items: List<VideoItem>) {
         fastAdapter.add(items)
     }
 
-    class CryptoComparator(
-        private val currency: Currency,
-        private val sort: Sort,
-        private val order: Order
+    class ViewComparator(
     ) : Comparator<GenericItem> {
         override fun compare(left: GenericItem, right: GenericItem): Int {
-            if (left is CoinItem && right is CoinItem) {
-                if (sort == Sort.MARKET_CAP) {
-                    val leftCap = left.input.getQuote(currency)
-                    val rightCap = right.input.getQuote(currency)
-                    if (leftCap != null && rightCap != null) {
-                        if (order == Order.ASCENDING) {
-                            return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
-                        } else {
-                            return (rightCap.getMarketCap() - leftCap.getMarketCap()).toInt()
-                        }
-                    }
-                }
-            }
-            return 0
-        }
-    }
-
-    class RankComparator : Comparator<GenericItem> {
-        override fun compare(left: GenericItem, right: GenericItem): Int {
-            if (left is CoinItem && right is CoinItem) {
-                return left.input.rank - right.input.rank
+            if (left is VideoItem && right is VideoItem) {
+                return (right.input.viewCount - left.input.viewCount).toInt()
             }
             return 0
         }

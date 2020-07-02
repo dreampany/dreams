@@ -5,6 +5,9 @@ import com.dreampany.framework.inject.annote.FragmentScope
 import com.dreampany.framework.ui.fragment.InjectFragment
 import javax.inject.Inject
 import com.dreampany.tube.R
+import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.databinding.VideosFragmentBinding
+import com.dreampany.tube.ui.home.vm.VideoViewModel
 
 /**
  * Created by roman on 30/6/20
@@ -15,6 +18,10 @@ import com.dreampany.tube.R
 @FragmentScope
 class VideosFragment
 @Inject constructor() : InjectFragment() {
+
+    private lateinit var bind: VideosFragmentBinding
+    private lateinit var vm: VideoViewModel
+    private lateinit var input: Category
 
     override val layoutRes: Int = R.layout.videos_fragment
 

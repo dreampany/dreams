@@ -47,7 +47,7 @@ class FastCoinAdapter(
     }
 
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 
@@ -144,19 +144,27 @@ class FastCoinAdapter(
         footerAdapter.clear()
     }
 
-    fun updateItem(item: CoinItem) {
+    fun updateItem(item: CoinItem): Boolean {
         var position = fastAdapter.getAdapterPosition(item)
         position = fastAdapter.getGlobalPosition(position)
         if (position >= 0) {
             fastAdapter.set(position, item)
+            return true
             //fastAdapter.notifyAdapterItemChanged(position)
         }
+        return false
     }
 
     fun updateItems(items: List<CoinItem>) {
         items.forEach {
             updateItem(it)
         }
+    }
+
+    fun addItem(item: CoinItem) {
+        val updated = updateItem(item)
+        if (!updated)
+            fastAdapter.add(item)
     }
 
     fun addItems(items: List<CoinItem>) {

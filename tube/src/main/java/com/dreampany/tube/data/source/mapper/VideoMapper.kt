@@ -2,13 +2,8 @@ package com.dreampany.tube.data.source.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.exts.isExpired
-import com.dreampany.framework.misc.exts.sub
-import com.dreampany.framework.misc.exts.utc
-import com.dreampany.framework.misc.exts.value
-import com.dreampany.tube.api.model.Statistics
-import com.dreampany.tube.api.model.VideoResult
-import com.dreampany.tube.api.model.VideoSnippet
+import com.dreampany.framework.misc.exts.*
+import com.dreampany.tube.api.model.*
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
@@ -148,12 +143,34 @@ class VideoMapper
     }
 
     @Synchronized
+    fun getsOfSearch(categoryId: String, inputs: List<SearchResult>): List<Video> {
+        val result = arrayListOf<Video>()
+        inputs.forEach { input ->
+            result.add(get(categoryId, input))
+        }
+        return result
+    }
+
+    @Synchronized
     fun gets(inputs: List<VideoResult>): List<Video> {
         val result = arrayListOf<Video>()
         inputs.forEach { input ->
             result.add(get(input))
         }
         return result
+    }
+
+    @Synchronized
+    fun get(categoryId: String, input: SearchResult): Video {
+        Timber.v("Resolved Video: %s", input.id)
+        val id = input.id.videoId
+        var output: Video? = videos[categoryId]?.get(id)
+        if (output == null) {
+            output = Video(id)
+            add(output)
+        }
+        bindSnippet(input.snippet, output)
+        return output
     }
 
     @Synchronized
@@ -169,6 +186,16 @@ class VideoMapper
         bindSnippet(input.snippet, output)
         bindStatistics(input.statistics, output)
         return output
+    }
+
+    private fun bindSnippet(input: SearchSnippet, output: Video) {
+        output.title = input.title
+        output.description = input.description
+        output.channelId = input.channelId
+        output.channelTitle = input.channelTitle
+        output.thumbnail = input.thumbnails.values.firstOrNull()?.url
+        output.liveBroadcastContent = input.liveBroadcastContent
+        output.publishedAt = input.publishedAt.simpleUtc
     }
 
     private fun bindSnippet(input: VideoSnippet, output: Video) {

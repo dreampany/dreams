@@ -30,6 +30,15 @@ interface YoutubeService {
         @Query("q") query: String
     ): Call<SearchListResponse>
 
+    @GET(ApiConstants.Youtube.SEARCH)
+    fun getSearchResultOfCategoryId(
+        @Query("key") key: String,
+        @Query("part") part: String,
+        @Query("type") type: String,
+        @Query("videoCategoryId") categoryId: String,
+        @Query("order") order: String
+    ): Call<SearchListResponse>
+
     @GET(ApiConstants.Youtube.VIDEOS)
     fun getVideosOfChartCategoryId(
         @Query("key") key: String,

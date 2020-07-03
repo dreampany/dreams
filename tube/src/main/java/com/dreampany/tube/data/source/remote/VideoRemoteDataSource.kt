@@ -1,10 +1,12 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tube.api.misc.ApiConstants
 import com.dreampany.tube.api.remote.service.YoutubeService
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
@@ -25,6 +27,14 @@ class VideoRemoteDataSource(
     private val mapper: VideoMapper,
     private val service: YoutubeService
 ) : VideoDataSource {
+
+    init {
+        keys.setKeys(ApiConstants.Youtube.API_KEY_ROMAN_BJIT)
+        if (!context.isDebug) {
+            keys.setKeys(ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL)
+        }
+    }
+
     override suspend fun isFavorite(input: Video): Boolean {
         TODO("Not yet implemented")
     }
@@ -53,26 +63,44 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
+    override suspend fun gets(ids: List<String>): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun gets(offset: Long, limit: Long): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getsOfQuery(query: String): List<Video>? {
         TODO("Not yet implemented")
     }
 
-    @Throws
     override suspend fun getsOfCategoryId(categoryId: String): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun getsOfCategoryId(
+        categoryId: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val part = "id,snippet,statistics"
-                val chart = "mostPopular"
-                val response = service.getVideosOfChartCategoryId(
+                val part = "snippet"
+                val type = "video"
+                val order = "viewCount"
+                val response = service.getSearchResultOfCategoryId(
                     key,
                     part,
-                    chart,
+                    type,
+                    order,
                     categoryId
                 ).execute()
                 if (response.isSuccessful) {
                     val data = response.body()?.items ?: return null
-                    return mapper.gets(data)
+                    return mapper.getsOfSearch(categoryId, data)
                 } else {
                     //val error = parser.parseError(response, CoinsResponse::class)
                     throw SmartError(
@@ -91,19 +119,4 @@ class VideoRemoteDataSource(
         throw SmartError()
     }
 
-    override suspend fun getsOfCategoryId(
-        categoryId: String,
-        offset: Long,
-        limit: Long
-    ): List<Video>? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun gets(ids: List<String>): List<Video>? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun gets(offset: Long, limit: Long): List<Video>? {
-        TODO("Not yet implemented")
-    }
 }

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">UTube</string>
     <string name="action_settings">Settings</string>
+
+    <string name="title_empty_videos" translatable="false">No Videos</string>
+    <string name="message_empty_videos" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
+
 </resources>

@@ -25,7 +25,7 @@ class AppConstants {
     }
 
     object Limits {
-        const val VIDEOS = 100L
+        const val VIDEOS = 50L
     }
 
     object Times {

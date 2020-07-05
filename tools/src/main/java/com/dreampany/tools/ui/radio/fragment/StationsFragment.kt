@@ -12,6 +12,7 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.radio.RadioAction
 import com.dreampany.tools.data.enums.radio.RadioState
@@ -135,7 +136,7 @@ class StationsFragment
         if (!::bind.isInitialized) {
             bind = getBinding()
             bind.swipe.init(this)
-            //bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
+            bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
             vm = createVm(StationViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
         }
@@ -190,9 +191,9 @@ class StationsFragment
         }
 
         if (adapter.isEmpty) {
-            //bind.stateful.setState(StatefulLayout.State.EMPTY)
+            bind.stateful.setState(StatefulLayout.State.EMPTY)
         } else {
-           // bind.stateful.setState(StatefulLayout.State.CONTENT)
+            bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 }

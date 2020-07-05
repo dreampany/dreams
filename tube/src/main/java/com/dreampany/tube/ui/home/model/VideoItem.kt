@@ -31,7 +31,7 @@ class VideoItem(
     override var identifier: Long = hashCode().toLong()
 
     override val type: Int
-        get() = R.id.adapter_category_item_id
+        get() = R.id.adapter_video_item_id
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): VideoItemBinding =
         VideoItemBinding.inflate(inflater, parent, false)

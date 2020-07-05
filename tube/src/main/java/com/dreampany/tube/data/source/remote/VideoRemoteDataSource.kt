@@ -1,6 +1,7 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
@@ -63,8 +64,37 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun gets(ids: List<String>): List<Video>? {
-        TODO("Not yet implemented")
+        for (index in 0..keys.length) {
+            try {
+                val key = keys.nextKey ?: continue
+                val part = "snippet,statistics"
+                val id = ids.joinToString(Constants.Sep.COMMA.toString())
+                val response = service.getVideosOfId(
+                    key,
+                    part,
+                    id
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.items ?: return null
+                    return mapper.gets(data)
+                } else {
+                    //val error = parser.parseError(response, CoinsResponse::class)
+                    throw SmartError(
+                        message = "error?.status?.errorMessage"
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
     }
 
     override suspend fun gets(offset: Long, limit: Long): List<Video>? {
@@ -95,8 +125,9 @@ class VideoRemoteDataSource(
                     key,
                     part,
                     type,
+                    categoryId,
                     order,
-                    categoryId
+                    limit
                 ).execute()
                 if (response.isSuccessful) {
                     val data = response.body()?.items ?: return null

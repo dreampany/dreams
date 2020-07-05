@@ -36,7 +36,8 @@ interface YoutubeService {
         @Query("part") part: String,
         @Query("type") type: String,
         @Query("videoCategoryId") categoryId: String,
-        @Query("order") order: String
+        @Query("order") order: String,
+        @Query("maxResults") limit: Long
     ): Call<SearchListResponse>
 
     @GET(ApiConstants.Youtube.VIDEOS)

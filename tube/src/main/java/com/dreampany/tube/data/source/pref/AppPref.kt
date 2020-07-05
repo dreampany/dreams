@@ -77,6 +77,15 @@ class AppPref
     }
 
     @Synchronized
+    fun commitExpireTimeOfVideo(id: String) {
+        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+            append(AppConstants.Keys.Pref.VIDEO)
+            append(id)
+        }
+        setPrivately(key.toString(), currentMillis)
+    }
+
+    @Synchronized
     fun getExpireTimeOfVideo(id: String): Long {
         val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
             append(AppConstants.Keys.Pref.VIDEO)

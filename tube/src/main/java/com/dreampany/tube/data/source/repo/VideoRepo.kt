@@ -29,12 +29,15 @@ class VideoRepo
     @Room private val room: VideoDataSource,
     @Remote private val remote: VideoDataSource
 ) : VideoDataSource {
-    override suspend fun isFavorite(input: Video): Boolean {
-        TODO("Not yet implemented")
+
+    @Throws
+    override suspend fun isFavorite(input: Video) = withContext(Dispatchers.IO) {
+        room.isFavorite(input)
     }
 
-    override suspend fun toggleFavorite(input: Video): Boolean {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun toggleFavorite(input: Video) = withContext(Dispatchers.IO) {
+        room.toggleFavorite(input)
     }
 
     override suspend fun getFavorites(): List<Video>? {
@@ -73,21 +76,34 @@ class VideoRepo
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun getsOfCategoryId(
         categoryId: String,
         offset: Long,
         limit: Long
     ) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(categoryId, offset)) {
-            val result = remote.getsOfCategoryId(categoryId)
+            var result = remote.getsOfCategoryId(categoryId, offset, limit)
             if (!result.isNullOrEmpty()) {
-                val result = room.put(result)
-                if (!result.isNullOrEmpty()) {
-                    mapper.commitExpire(categoryId, offset)
+                room.put(result)
+                mapper.commitExpire(categoryId, offset)
+                result.expiredIds?.let {
+                    if (it.isNotEmpty()) {
+                        result = remote.gets(it)
+                        result?.let {
+                            room.put(it)
+                        }
+                        result?.forEach {
+                            mapper.commitExpire(it.id)
+                        }
+                    }
                 }
             }
         }
         room.getsOfCategoryId(categoryId, offset, limit)
     }
 
+
+    private val List<Video>.expiredIds: List<String>?
+        get() = this.filter { mapper.isExpired(it.id) }.map { it.id }
 }

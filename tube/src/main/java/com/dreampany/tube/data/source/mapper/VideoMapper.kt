@@ -38,13 +38,23 @@ class VideoMapper
     }
 
     @Synchronized
+    fun commitExpire(categoryId: String, offset: Long) = pref.commitExpireTimeOfCategoryId(categoryId, offset)
+
+    @Synchronized
     fun isExpired(categoryId: String, offset: Long): Boolean {
         val time = pref.getExpireTimeOfCategoryId(categoryId, offset)
         return time.isExpired(AppConstants.Times.VIDEOS)
     }
 
     @Synchronized
-    fun commitExpire(categoryId: String, offset: Long) = pref.commitExpireTimeOfCategoryId(categoryId, offset)
+    fun commitExpire(id: String) = pref.commitExpireTimeOfVideo(id)
+
+    @Synchronized
+    fun isExpired(id: String): Boolean {
+        val time = pref.getExpireTimeOfVideo(id)
+        return time.isExpired(AppConstants.Times.VIDEOS)
+    }
+
 
     @Synchronized
     fun add(input: Video) {
@@ -169,6 +179,7 @@ class VideoMapper
             output = Video(id)
             add(output)
         }
+        output.categoryId = categoryId
         bindSnippet(input.snippet, output)
         return output
     }
@@ -207,7 +218,7 @@ class VideoMapper
         output.thumbnail = input.thumbnails.values.firstOrNull()?.url
         output.tags = input.tags
         output.liveBroadcastContent = input.liveBroadcastContent
-        output.publishedAt = input.publishedAt.utc
+        output.publishedAt = input.publishedAt.simpleUtc
     }
 
     private fun bindStatistics(input: Statistics, output: Video) {

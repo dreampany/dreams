@@ -31,5 +31,6 @@ class AppConstants {
     object Times {
         val CATEGORIES = TimeUnit.DAYS.toMillis(7)
         val VIDEOS = TimeUnit.DAYS.toMillis(1)
+        val VIDEO = TimeUnit.HOURS.toMillis(1)
     }
 }

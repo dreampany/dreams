@@ -38,7 +38,7 @@ class FastUserAdapter(
     private lateinit var liveComparator: Comparator<GenericItem>
 
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 

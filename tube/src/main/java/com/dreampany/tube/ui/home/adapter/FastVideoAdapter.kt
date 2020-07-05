@@ -44,7 +44,7 @@ class FastVideoAdapter(
     }
 
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 

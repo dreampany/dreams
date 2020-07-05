@@ -114,35 +114,4 @@ class ResponseMapper
             result = result
         )
     }
-
-    /*fun <T : BaseType,
-            S : BaseSubtype,
-            ST : BaseState,
-            A : BaseAction,
-            I> responseEmpty(
-        live: MutableLiveData<Response<T, S, ST, A, I>>,
-        type: T,
-        subtype: S,
-        state: ST,
-        action: A,
-        result: I?
-    ) {
-        live.value = Response.Empty(type, subtype, state, action, result)
-    }*/
-
-    /*fun <T : BaseType,
-            S : BaseSubtype,
-            ST : BaseState,
-            A : BaseAction,
-            I> responseEmptyWithProgress(
-        live: MutableLiveData<Response<T, S, ST, A, I>>,
-        type: T,
-        subtype: S,
-        state: ST,
-        action: A,
-        result: I?
-    ) {
-        response(live, type, subtype, state, action, progress = false)
-        live.value = Response.Empty(type, subtype, state, action, result)
-    }*/
 }

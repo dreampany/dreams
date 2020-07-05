@@ -54,6 +54,7 @@ androidExtensions { experimental = true }
 dependencies {
     /* libs */
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     /* test */
     testImplementation 'junit:junit:4.13'
@@ -139,7 +140,6 @@ dependencies {
     api 'com.mikepenz:fastadapter:5.1.0'
     api 'com.mikepenz:fastadapter-extensions-binding:5.1.0'
     api 'com.mikepenz:fastadapter-extensions-scroll:5.1.0'
-    api 'com.mikepenz:fastadapter-extensions-ui:5.1.0'
     api 'com.mikepenz:fastadapter-extensions-ui:5.1.0'
     api 'com.mikepenz:fastadapter-extensions-utils:5.1.0'
 

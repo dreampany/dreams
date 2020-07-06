@@ -25,6 +25,12 @@ interface VideoDataSource {
     suspend fun put(inputs: List<Video>): List<Long>?
 
     @Throws
+    suspend fun putIf(inputs: List<Video>): List<Long>?
+
+    @Throws
+    suspend fun isExists(id: String): Boolean
+
+    @Throws
     suspend fun get(id: String): Video?
 
     @Throws

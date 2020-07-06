@@ -62,7 +62,7 @@ class VideoMapper
         if (!videos.containsKey(categoryId)) {
             videos[categoryId] = Maps.newConcurrentMap()
         }
-        videos[categoryId]?.put(categoryId, input)
+        videos[categoryId]?.put(input.id, input)
     }
 
     @Throws
@@ -204,7 +204,7 @@ class VideoMapper
         output.description = input.description
         output.channelId = input.channelId
         output.channelTitle = input.channelTitle
-        output.thumbnail = input.thumbnails.values.firstOrNull()?.url
+        output.thumbnail = input.thumbnails.values.lastOrNull()?.url
         output.liveBroadcastContent = input.liveBroadcastContent
         output.publishedAt = input.publishedAt.simpleUtc
     }
@@ -215,7 +215,7 @@ class VideoMapper
         output.channelId = input.channelId
         output.channelTitle = input.channelTitle
         output.categoryId = input.categoryId
-        output.thumbnail = input.thumbnails.values.firstOrNull()?.url
+        output.thumbnail = input.thumbnails.values.lastOrNull()?.url
         output.tags = input.tags
         output.liveBroadcastContent = input.liveBroadcastContent
         output.publishedAt = input.publishedAt.simpleUtc

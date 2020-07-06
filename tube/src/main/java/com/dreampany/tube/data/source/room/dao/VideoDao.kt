@@ -19,6 +19,9 @@ interface VideoDao : BaseDao<Video> {
     @get:Query("select * from video")
     val items: List<Video>?
 
+    @Query("select count(*) from video where id = :id limit 1")
+    fun getCount(id: String): Int
+
     @Query("select * from video where categoryId = :categoryId")
     fun getsOfCategoryId(categoryId: String): List<Video>?
 }

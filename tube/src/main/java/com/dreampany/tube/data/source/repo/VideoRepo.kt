@@ -10,6 +10,7 @@ import com.dreampany.tube.data.source.mapper.VideoMapper
 import com.dreampany.tube.data.source.pref.AppPref
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -52,6 +53,14 @@ class VideoRepo
         TODO("Not yet implemented")
     }
 
+    override suspend fun putIf(inputs: List<Video>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun isExists(id: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun get(id: String): Video? {
         TODO("Not yet implemented")
     }
@@ -85,13 +94,14 @@ class VideoRepo
         if (mapper.isExpired(categoryId, offset)) {
             var result = remote.getsOfCategoryId(categoryId, offset, limit)
             if (!result.isNullOrEmpty()) {
-                room.put(result)
+                room.putIf(result)
                 mapper.commitExpire(categoryId, offset)
                 result.expiredIds?.let {
                     if (it.isNotEmpty()) {
                         result = remote.gets(it)
                         result?.let {
-                            room.put(it)
+                            val puts = room.put(it)
+                            Timber.v("")
                         }
                         result?.forEach {
                             mapper.commitExpire(it.id)

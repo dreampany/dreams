@@ -1,4 +1,4 @@
-package com.dreampany.crypto.misc.exts
+package com.dreampany.tube.misc
 
 import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
@@ -7,7 +7,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 /**
- * Created by roman on 3/22/20
+ * Created by roman on 27/6/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

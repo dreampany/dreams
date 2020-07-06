@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.databinding.VideoItemBinding
+import com.dreampany.tube.misc.setUrl
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 
@@ -37,7 +38,8 @@ class VideoItem(
         VideoItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: VideoItemBinding, payloads: List<Any>) {
-
+        bind.thumb.setUrl(input.thumbnail)
+        bind.title.text = input.title
     }
 
     override fun unbindView(binding: VideoItemBinding) {

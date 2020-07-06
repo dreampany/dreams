@@ -47,6 +47,19 @@ class VideoRoomDataSource(
         return result
     }
 
+    @Throws
+    override suspend fun putIf(inputs: List<Video>): List<Long>? {
+        val result = arrayListOf<Long>()
+        inputs.forEach {
+            if (!isExists(it.id))
+                result.add(put(it))
+        }
+        return result
+    }
+
+    @Throws
+    override suspend fun isExists(id: String): Boolean = dao.getCount(id) > 0
+
     override suspend fun get(id: String): Video? {
         TODO("Not yet implemented")
     }

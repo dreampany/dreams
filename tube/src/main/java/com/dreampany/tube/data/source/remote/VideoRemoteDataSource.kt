@@ -56,6 +56,14 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
+    override suspend fun putIf(inputs: List<Video>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun isExists(id: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun get(id: String): Video? {
         TODO("Not yet implemented")
     }

@@ -3,6 +3,7 @@ package com.dreampany.framework.misc.exts
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.Duration
 import java.util.*
 
 /**
@@ -43,6 +44,30 @@ val String.simpleUtc: Long
             Timber.e(error)
             return 0L
         }
+    }
+
+val String.isoMillis: Long
+    get() {
+        val format = this.substring(2)
+            .replace("H", ":")
+            .replace("M", ":")
+            .replace("S", "")
+        var multiplier = 1L
+        var duration = 0L
+        format.reversed().split(":").forEach {
+            duration += it.toLong() * multiplier
+            multiplier *= 60
+        }
+        return duration
+    }
+
+val String.isoTime: String
+    get() {
+        val format = this.substring(2)
+            .replace("H", ":")
+            .replace("M", ":")
+            .replace("S", "")
+        return format
     }
 
 fun Long.format(pattern: String): String {

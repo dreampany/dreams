@@ -6,9 +6,9 @@ package com.dreampany.tube.api.model
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class VideoResult(
-    val id : String,
-    val snippet: VideoSnippet,
-    val contentDetails: ContentDetails,
-    val statistics : Statistics
+class ContentDetails(
+    val duration: String,
+    val dimension: String,
+    val definition: String,
+    val licensedContent: Boolean
 )

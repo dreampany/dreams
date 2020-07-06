@@ -77,7 +77,7 @@ class VideoRemoteDataSource(
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val part = "snippet,statistics"
+                val part = "snippet,contentDetails,statistics"
                 val id = ids.joinToString(Constants.Sep.COMMA.toString())
                 val response = service.getVideosOfId(
                     key,

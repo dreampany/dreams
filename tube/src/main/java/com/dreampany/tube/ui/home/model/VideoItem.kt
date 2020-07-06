@@ -39,6 +39,7 @@ class VideoItem(
 
     override fun bindView(bind: VideoItemBinding, payloads: List<Any>) {
         bind.thumb.setUrl(input.thumbnail)
+        bind.duration.text = input.duration
         bind.title.text = input.title
     }
 

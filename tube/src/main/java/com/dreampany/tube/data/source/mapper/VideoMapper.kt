@@ -195,6 +195,7 @@ class VideoMapper
             add(output)
         }
         bindSnippet(input.snippet, output)
+        bindContentDetails(input.contentDetails, output)
         bindStatistics(input.statistics, output)
         return output
     }
@@ -219,6 +220,13 @@ class VideoMapper
         output.tags = input.tags
         output.liveBroadcastContent = input.liveBroadcastContent
         output.publishedAt = input.publishedAt.simpleUtc
+    }
+
+    private fun bindContentDetails(input: ContentDetails, output: Video) {
+        output.duration = input.duration.isoTime
+        output.dimension = input.dimension
+        output.definition = input.definition
+        output.licensedContent = input.licensedContent
     }
 
     private fun bindStatistics(input: Statistics, output: Video) {

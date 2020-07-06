@@ -67,20 +67,26 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:ellipsize="end"
+                android:fontFamily="@font/roboto_slab_bold"
                 android:maxLines="2"
                 android:text="Youtube Title"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_12ssp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_slab_regular"
+                android:singleLine="true"
                 android:text="Youtube Info"
-                android:textColor="@color/white" />
+                android:textColor="@color/material_grey600"
+                android:textSize="@dimen/_10ssp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

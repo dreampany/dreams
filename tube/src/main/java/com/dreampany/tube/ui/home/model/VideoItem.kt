@@ -2,6 +2,9 @@ package com.dreampany.tube.ui.home.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.dreampany.framework.misc.exts.context
+import com.dreampany.framework.misc.exts.count
+import com.dreampany.framework.misc.exts.publishTime
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.databinding.VideoItemBinding
@@ -41,6 +44,12 @@ class VideoItem(
         bind.thumb.setUrl(input.thumbnail)
         bind.duration.text = input.duration
         bind.title.text = input.title
+        bind.info.text = bind.context.getString(
+            R.string.video_info_format,
+            input.channelTitle,
+            input.viewCount.count,
+            input.publishedAt.publishTime
+        )
     }
 
     override fun unbindView(binding: VideoItemBinding) {

@@ -70,3 +70,6 @@ val ByteArray?.isEmpty: Boolean
     }
 val ByteArray?.length: Int
     get() = this?.size ?: 0
+
+val Long.count : String
+    get() = String.format(Locale.getDefault(), "%,d", this)

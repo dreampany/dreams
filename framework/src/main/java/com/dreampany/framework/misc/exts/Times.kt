@@ -1,5 +1,6 @@
 package com.dreampany.framework.misc.exts
 
+import android.text.format.DateUtils
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -67,7 +68,8 @@ val String.isoTime: String
             .replace("H", ":")
             .replace("M", ":")
             .replace("S", "")
-        return format
+
+        return if (format.length <= 2) "0:$format" else format
     }
 
 fun Long.format(pattern: String): String {
@@ -92,4 +94,12 @@ fun String.calendar(pattern: String): Calendar? {
 fun String.getDay(pattern: String): Int = calendar(pattern)?.day ?: 0
 
 fun String.getMonth(pattern: String): Int = calendar(pattern)?.month ?: 0
+
+val Long.publishTime: String
+    get() = DateUtils.getRelativeTimeSpanString(
+        this,
+        currentMillis,
+        DateUtils.MINUTE_IN_MILLIS
+    ).toString()
+
 

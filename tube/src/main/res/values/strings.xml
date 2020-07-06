@@ -5,4 +5,6 @@
     <string name="title_empty_videos" translatable="false">No Videos</string>
     <string name="message_empty_videos" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
 
+    <string name="video_info_format" translatable="false">%s . %s views . %s</string>
+
 </resources>

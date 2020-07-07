@@ -1,10 +1,12 @@
 package com.dreampany.tube.ui.home.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.FragmentScope
 import com.dreampany.framework.misc.exts.init
+import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.refresh
 import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.func.SmartError
@@ -21,6 +23,7 @@ import com.dreampany.tube.databinding.VideosFragmentBinding
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.ui.player.VideoPlayerActivity
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,7 +62,19 @@ class VideosFragment
     }
 
     override fun onRefresh() {
-         vm.loadVideos(input.id, adapter.itemCount.toLong())
+        vm.loadVideos(input.id, adapter.itemCount.toLong())
+    }
+
+    private fun onItemPressed(view: View, item: VideoItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+                openPlayerUi(item)
+            }
+            else -> {
+
+            }
+        }
     }
 
     private fun initUi() {
@@ -74,10 +89,12 @@ class VideosFragment
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastVideoAdapter(scrollListener = { currentPage: Int ->
+            adapter = FastVideoAdapter(
+                { currentPage: Int ->
                 Timber.v("CurrentPage: %d", currentPage)
                 onRefresh()
-            })
+            }, this::onItemPressed
+            )
             adapter.initRecycler(
                 state,
                 bind.layoutRecycler.recycler
@@ -98,7 +115,8 @@ class VideosFragment
 
     private fun processError(error: SmartError) {
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
-        val message = if (error.hostError) getString(R.string.message_no_internet) else error.message
+        val message =
+            if (error.hostError) getString(R.string.message_no_internet) else error.message
         showDialogue(
             titleRes,
             messageRes = R.string.message_unknown,
@@ -122,5 +140,16 @@ class VideosFragment
         } else {
             bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
+    }
+
+    private fun openPlayerUi(item: VideoItem) {
+        val task = UiTask(
+            Type.VIDEO,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
+            item.input
+        )
+        open(VideoPlayerActivity::class, task)
     }
 }

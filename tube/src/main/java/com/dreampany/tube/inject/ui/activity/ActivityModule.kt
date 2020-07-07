@@ -4,6 +4,7 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.tube.inject.ui.home.HomeModule
 import com.dreampany.tube.inject.ui.more.MoreModule
 import com.dreampany.tube.ui.home.activity.HomeActivity
+import com.dreampany.tube.ui.player.VideoPlayerActivity
 import com.dreampany.tube.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -22,4 +23,7 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
     abstract fun home(): HomeActivity
+
+    @ContributesAndroidInjector
+    abstract fun videoPlayer(): VideoPlayerActivity
 }

@@ -37,6 +37,11 @@ fun View?.visible() {
     this?.visibility = View.VISIBLE
 }
 
+fun View?.visible(visible : Boolean) {
+    if (visible) visible()
+    else gone()
+}
+
 fun View?.invisible() {
     this?.visibility = View.INVISIBLE
 }

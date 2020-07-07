@@ -137,11 +137,11 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$retrofit"
 
     /* adapter */
-    api 'com.mikepenz:fastadapter:5.1.0'
+    api 'com.mikepenz:fastadapter:5.2.0'
     api 'com.mikepenz:fastadapter-extensions-binding:5.1.0'
-    api 'com.mikepenz:fastadapter-extensions-scroll:5.1.0'
+    api 'com.mikepenz:fastadapter-extensions-scroll:5.2.0'
     api 'com.mikepenz:fastadapter-extensions-ui:5.1.0'
-    api 'com.mikepenz:fastadapter-extensions-utils:5.1.0'
+    api 'com.mikepenz:fastadapter-extensions-utils:5.2.0'
 
     /* apache */
     api 'org.apache.commons:commons-lang3:3.10'

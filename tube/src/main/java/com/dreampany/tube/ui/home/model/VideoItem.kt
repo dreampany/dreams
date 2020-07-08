@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.context
 import com.dreampany.framework.misc.exts.count
 import com.dreampany.framework.misc.exts.publishTime
+import com.dreampany.framework.misc.exts.visible
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.databinding.VideoItemBinding
@@ -50,6 +51,8 @@ class VideoItem(
             input.viewCount.count,
             input.publishedAt.publishTime
         )
+
+        bind.duration.visible(input.isLive.not())
     }
 
     override fun unbindView(binding: VideoItemBinding) {

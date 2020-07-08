@@ -65,4 +65,9 @@ data class Video(
     }
 
     override fun toString(): String = "Video ($id) == $id"
+
+    @get:Ignore
+    val isLive : Boolean
+        get() = "live" == liveBroadcastContent
+
 }

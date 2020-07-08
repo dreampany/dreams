@@ -15,8 +15,8 @@ android {
         applicationId "com.dreampany.tube"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName '0.0.0.1'
+        versionCode 2
+        versionName '0.0.0.2'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -50,6 +50,32 @@ android {
             jniDebuggable = true
             renderscriptDebuggable = true
             signingConfig signingConfigs.debug
+
+            /*proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules-crashlytics.pro'
+            proguardFiles 'proguard-rules-webview.pro'
+            proguardFiles 'proguard-rules-jni.pro'
+            proguardFiles 'proguard-rules-firebase.pro'
+            proguardFiles 'proguard-rules-play-service.pro'
+            proguardFiles 'proguard-rules-data-binding.pro'
+            proguardFiles 'proguard-rules-joda-time.pro'
+            proguardFiles 'proguard-rules-joda-time-android.pro'
+            proguardFiles 'proguard-rules-eventbus.pro'
+            proguardFiles 'proguard-rules-about.pro'
+            proguardFiles 'proguard-rules-support.pro'
+            proguardFiles 'proguard-rules-guava.pro'
+            proguardFiles 'proguard-rules-fresco.pro'
+            proguardFiles 'proguard-rules-flexible-adapter.pro'
+            proguardFiles 'proguard-rules-condom.pro'
+            proguardFiles 'proguard-rules-retrofit.pro'
+            proguardFiles 'proguard-rules-okhttp.pro'
+            proguardFiles 'proguard-rules-okio.pro'
+            proguardFiles 'proguard-rules-dagger.pro'
+            proguardFiles 'proguard-rules-reactive-network.pro'
+            proguardFiles 'proguard-rules-jackson.pro'
+            proguardFiles 'proguard-rules-kotlin.pro'
+            proguardFiles 'proguard-rules-rx.pro'
+            proguardFiles 'proguard-rules-youtube.pro'*/
         }
         release {
             minifyEnabled true

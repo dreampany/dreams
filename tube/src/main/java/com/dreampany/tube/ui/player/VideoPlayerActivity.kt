@@ -20,6 +20,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstan
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController
 
 /**
  * Created by roman on 7/7/20
@@ -49,6 +50,7 @@ class VideoPlayerActivity : InjectActivity() {
         if (!::bind.isInitialized) {
             bind = getBinding()
             lifecycle.addObserver(bind.player)
+            bind.player.getPlayerUiController().enableLiveVideoUi(video.isLive)
             bind.player.addYouTubePlayerListener(object : YouTubePlayerListener {
                 override fun onApiChange(youTubePlayer: YouTubePlayer) {
 

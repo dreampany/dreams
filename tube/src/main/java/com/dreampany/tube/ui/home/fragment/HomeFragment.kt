@@ -66,14 +66,14 @@ class HomeFragment
     private fun initPager() {
         if (!::adapter.isInitialized) {
             adapter = CategoryPagerAdapter(this)
-            bind.pager.adapter = adapter
-            TabLayoutMediator(
-                bind.tabs,
-                bind.pager,
-                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                    tab.text = adapter.getTitle(position)
-                }).attach()
         }
+        bind.pager.adapter = adapter
+        TabLayoutMediator(
+            bind.tabs,
+            bind.pager,
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                tab.text = adapter.getTitle(position)
+            }).attach()
     }
 
     private fun processResponses(response: Response<Type, Subtype, State, Action, List<CategoryItem>>) {

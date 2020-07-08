@@ -29,9 +29,16 @@ class CategoryRemoteDataSource(
 ) : CategoryDataSource {
 
     init {
-        keys.setKeys(ApiConstants.Youtube.API_KEY_ROMAN_BJIT)
-        if (!context.isDebug) {
-            keys.setKeys(ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL)
+        if (context.isDebug) {
+            keys.setKeys(
+                ApiConstants.Youtube.API_KEY_ROMAN_BJIT
+            )
+        } else {
+            keys.setKeys(
+                ApiConstants.Youtube.API_KEY_ROMAN_BJIT,
+                ApiConstants.Youtube.API_KEY_DREAMPANY_PLAY_TV,
+                ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL
+            )
         }
     }
 

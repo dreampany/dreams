@@ -14,14 +14,18 @@ class Keys
 @Inject constructor() {
     private lateinit var queue: CircularFifoQueue<Int>
     private val keys = mutableListOf<String>()
+
     val length: Int
         get() = keys.size
+
+    val indexLength: Int
+        get() = length.dec()
 
     fun setKeys(vararg keys: String) {
         queue = CircularFifoQueue(keys.size)
         this.keys.clear()
         this.keys.addAll(keys)
-        for (index in 0..this.keys.size - 1) {
+        for (index in 0..this.indexLength) {
             queue.add(index)
         }
     }

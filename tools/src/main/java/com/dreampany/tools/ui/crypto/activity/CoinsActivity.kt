@@ -36,6 +36,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class CoinsActivity : InjectActivity() {
+
     @Inject
     internal lateinit var ad: AdManager
 

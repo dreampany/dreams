@@ -5,6 +5,7 @@ import com.dreampany.tube.inject.ui.home.HomeModule
 import com.dreampany.tube.inject.ui.more.MoreModule
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.player.VideoPlayerActivity
+import com.dreampany.tube.ui.settings.CategoriesActivity
 import com.dreampany.tube.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -26,4 +27,7 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun videoPlayer(): VideoPlayerActivity
+
+    @ContributesAndroidInjector
+    abstract fun categories(): CategoriesActivity
 }

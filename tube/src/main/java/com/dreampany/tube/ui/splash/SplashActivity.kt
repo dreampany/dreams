@@ -4,8 +4,11 @@ import android.os.Bundle
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
+import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.ui.home.activity.HomeActivity
+import com.dreampany.tube.ui.settings.CategoriesActivity
 import kotlinx.coroutines.Runnable
+import javax.inject.Inject
 
 /**
  * Created by roman on 3/10/20
@@ -14,6 +17,9 @@ import kotlinx.coroutines.Runnable
  * Last modified $file.lastModified
  */
 class SplashActivity : InjectActivity() {
+
+    @Inject
+    internal lateinit var pref : AppPref
 
     override val layoutRes: Int = R.layout.splash_activity
 
@@ -33,6 +39,11 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun nextScreen() {
+        if (pref.isCategory()) {
+           //open(HomeActivity::class, true)
+        } else {
+            //open(CategoriesActivity::class, true)
+        }
         open(HomeActivity::class, true)
 /*        if (vm.isJoinPressed()) {
             if (vm.isLoggedIn()) {

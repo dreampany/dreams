@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UTube</string>
+    <string name="app_name">Tube Player</string>
     <string name="action_settings">Settings</string>
 
     <string name="title_empty_videos" translatable="false">No Videos</string>

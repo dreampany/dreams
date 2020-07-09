@@ -5,6 +5,7 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         auto:cardElevation="@dimen/_2sdp"

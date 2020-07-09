@@ -7,6 +7,7 @@ import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.databinding.CategoryItemBinding
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
+import com.mikepenz.fastadapter.drag.IDraggable
 
 /**
  * Created by roman on 1/7/20
@@ -17,7 +18,7 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 class CategoryItem(
     val input: Category,
     var favorite: Boolean = false
-) : ModelAbstractBindingItem<Category, CategoryItemBinding>(input) {
+) : ModelAbstractBindingItem<Category, CategoryItemBinding>(input), IDraggable {
 
     override fun hashCode(): Int = input.hashCode()
 
@@ -27,6 +28,8 @@ class CategoryItem(
         val item = other as CategoryItem
         return Objects.equal(this.input.id, item.input.id)
     }
+
+    override val isDraggable: Boolean = true
 
     override var identifier: Long = hashCode().toLong()
 

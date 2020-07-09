@@ -22,6 +22,16 @@ class AppPref
 
     override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.PREF
 
+    @Synchronized
+    fun commitCategory() {
+        setPrivately(AppConstants.Keys.Pref.CATEGORY, true)
+    }
+
+    @Synchronized
+    fun isCategory(): Boolean {
+        return getPrivately(AppConstants.Keys.Pref.CATEGORY, Constants.Default.BOOLEAN)
+    }
+
 
     @Synchronized
     fun commitExpireTimeOfCategory() {

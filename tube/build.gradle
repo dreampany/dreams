@@ -15,8 +15,8 @@ android {
         applicationId "com.dreampany.tube"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 3
-        versionName '0.0.0.3'
+        versionCode 4
+        versionName '0.0.0.4'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -172,14 +172,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:19.0.7'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
     implementation 'com.google.firebase:firebase-ads:19.2.0'
-
-    /* google api client */
- /*   implementation('com.google.api-client:google-api-client-android:1.22.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    implementation('com.google.apis:google-api-services-youtube:v3-rev183-1.22.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }*/
 
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.1.0'

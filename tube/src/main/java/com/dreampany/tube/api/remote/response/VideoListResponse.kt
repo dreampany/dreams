@@ -8,4 +8,4 @@ import com.dreampany.tube.api.model.VideoResult
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class VideoListResponse(val items : List<VideoResult>)
+class VideoListResponse(val items : List<VideoResult>): Response()

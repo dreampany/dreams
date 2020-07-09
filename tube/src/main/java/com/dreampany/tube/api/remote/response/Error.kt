@@ -1,13 +1,9 @@
 package com.dreampany.tube.api.remote.response
 
-import com.dreampany.tube.api.model.SearchResult
-
 /**
- * Created by roman on 30/6/20
+ * Created by roman on 9/7/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SearchListResponse(
-    val items : List<SearchResult>
-): Response()
+data class Error(val code : Int = 0, val message : String? = null)

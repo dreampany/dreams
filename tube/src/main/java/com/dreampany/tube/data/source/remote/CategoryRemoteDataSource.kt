@@ -1,16 +1,18 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
-import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tube.api.misc.ApiConstants
+import com.dreampany.tube.api.remote.response.CategoryListResponse
+import com.dreampany.tube.api.remote.response.SearchListResponse
 import com.dreampany.tube.api.remote.service.YoutubeService
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.source.api.CategoryDataSource
 import com.dreampany.tube.data.source.mapper.CategoryMapper
+import retrofit2.Response
 import java.net.UnknownHostException
 
 /**
@@ -29,7 +31,7 @@ class CategoryRemoteDataSource(
 ) : CategoryDataSource {
 
     init {
-        if (context.isDebug) {
+        /*if (context.isDebug) {
             keys.setKeys(
                 ApiConstants.Youtube.API_KEY_ROMAN_BJIT
             )
@@ -39,7 +41,12 @@ class CategoryRemoteDataSource(
                 ApiConstants.Youtube.API_KEY_DREAMPANY_PLAY_TV,
                 ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL
             )
-        }
+        }*/
+        keys.setKeys(
+            ApiConstants.Youtube.API_KEY_ROMAN_BJIT,
+            ApiConstants.Youtube.API_KEY_DREAMPANY_PLAY_TV,
+            ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL
+        )
     }
 
     override suspend fun isFavorite(input: Category): Boolean {
@@ -72,25 +79,30 @@ class CategoryRemoteDataSource(
 
     @Throws
     override suspend fun gets(regionCode: String): List<Category>? {
-        for (index in 0..keys.length) {
+        for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue
-                val response = service.getCategories(
+                val response: Response<CategoryListResponse> = service.getCategories(
                     key,
                     "id,snippet",
                     regionCode
                 ).execute()
+
                 if (response.isSuccessful) {
                     val data = response.body()?.items ?: return null
                     return mapper.gets(data)
                 } else {
-                    //val error = parser.parseError(response, CoinsResponse::class)
+                    val error = parser.parseError(response, CategoryListResponse::class)
                     throw SmartError(
-                        message = "error?.status?.errorMessage"
+                        message = error?.error?.message,
+                        code = error?.error?.code
                     )
                 }
             } catch (error: Throwable) {
-                if (error is SmartError) throw error
+                if (error is SmartError) {
+                    if (error.code != 403)
+                        throw error
+                }
                 if (error is UnknownHostException) throw SmartError(
                     message = error.message,
                     error = error

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.util.Util
+import com.dreampany.framework.misc.exts.currentMillis
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -32,10 +32,10 @@ data class Store(
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = Util.currentMillis())
-    constructor(id: String) : this(time = Util.currentMillis(), id = id)
+    constructor() : this(time = currentMillis)
+    constructor(id: String) : this(time = currentMillis, id = id)
     constructor(id: String, type: String, subtype: String, state: String) : this(
-        time = Util.currentMillis(),
+        time = currentMillis,
         id = id,
         type = type,
         subtype = subtype,

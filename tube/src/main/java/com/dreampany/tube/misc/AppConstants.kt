@@ -33,4 +33,8 @@ class AppConstants {
         val VIDEOS = TimeUnit.DAYS.toMillis(1)
         val VIDEO = TimeUnit.HOURS.toMillis(1)
     }
+
+    object Count {
+        const val MIN_CATEGORIES = 3
+    }
 }

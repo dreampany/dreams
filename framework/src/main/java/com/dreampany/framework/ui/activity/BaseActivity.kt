@@ -179,8 +179,21 @@ abstract class BaseActivity : AppCompatActivity(),
 
     }
 
-    val toolbarRef : Toolbar?
+    val toolbarRef: Toolbar?
         get() = toolbar
+
+    protected fun setSubtitle(@StringRes subtitleRes: Int) {
+        if (subtitleRes != 0) {
+            setSubtitle(getString(subtitleRes))
+        }
+    }
+
+    protected fun setSubtitle(subtitle: String?) {
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.subtitle = subtitle
+        }
+    }
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu?.findItem(menuItemId)
 

@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">Tube Player</string>
+    <string name="app_name">Super Tube</string>
     <string name="action_settings">Settings</string>
 
     <string name="title_empty_videos" translatable="false">No Videos</string>
     <string name="message_empty_videos" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
 
     <string name="video_info_format" translatable="false">%s . %s views . %s</string>
+    <string name="title_categories" translatable="false">Categories</string>
+    <string name="subtitle_categories" translatable="false">%d / %d</string>
+
+    <string name="notify_select_min_categories" translatable="false">Select %d categories</string>
 
 </resources>

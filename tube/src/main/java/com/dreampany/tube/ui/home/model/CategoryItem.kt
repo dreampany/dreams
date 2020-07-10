@@ -17,7 +17,8 @@ import com.mikepenz.fastadapter.drag.IDraggable
  */
 class CategoryItem(
     val input: Category,
-    var favorite: Boolean = false
+    var favorite: Boolean = false,
+    var select: Boolean = false
 ) : ModelAbstractBindingItem<Category, CategoryItemBinding>(input), IDraggable {
 
     override fun hashCode(): Int = input.hashCode()
@@ -41,6 +42,9 @@ class CategoryItem(
 
     override fun bindView(bind: CategoryItemBinding, payloads: List<Any>) {
         bind.title.text = input.title
+        val selectRes =
+            if (select) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
+        bind.selection.setImageResource(selectRes)
     }
 
     override fun unbindView(binding: CategoryItemBinding) {

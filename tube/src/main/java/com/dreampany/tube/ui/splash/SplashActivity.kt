@@ -40,7 +40,7 @@ class SplashActivity : InjectActivity() {
 
     private fun nextScreen() {
         if (pref.isCategoriesSelected()) {
-           open(HomeActivity::class, true)
+            open(HomeActivity::class, true)
         } else {
             open(CategoriesActivity::class, true)
         }

@@ -2,9 +2,7 @@ package com.dreampany.tube.ui.settings.adapter
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tube.R
@@ -32,7 +30,7 @@ import timber.log.Timber
  */
 class FastCategoryAdapter(
     val clickListener: ((view: View, item: CategoryItem) -> Unit)? = null
-): ItemTouchCallback {
+) : ItemTouchCallback {
 
     private lateinit var fastAdapter: GenericFastItemAdapter
     private lateinit var itemAdapter: GenericItemAdapter
@@ -65,29 +63,29 @@ class FastCategoryAdapter(
         //val fastScrollIndicatorAdapter = FastScrollIndicatorAdapter<SimpleItem>()
         itemAdapter = ItemAdapter.items()
         fastAdapter = FastItemAdapter(itemAdapter)
-     /*   val selectExtension = fastAdapter.getSelectExtension() as SelectExtension<CategoryItem>
-        selectExtension.apply {
-            isSelectable = true
-            multiSelect = true
-            selectionListener = object : ISelectionListener<CategoryItem> {
-                override fun onSelectionChanged(item: CategoryItem, selected: Boolean) {
-                   Timber.i( "SelectedCount: " + selectExtension.selections.size + " ItemsCount: " + selectExtension.selectedItems.size)
-                   Timber.i( "Selected " + item.isSelected)
+        /*   val selectExtension = fastAdapter.getSelectExtension() as SelectExtension<CategoryItem>
+           selectExtension.apply {
+               isSelectable = true
+               multiSelect = true
+               selectionListener = object : ISelectionListener<CategoryItem> {
+                   override fun onSelectionChanged(item: CategoryItem, selected: Boolean) {
+                      Timber.i( "SelectedCount: " + selectExtension.selections.size + " ItemsCount: " + selectExtension.selectedItems.size)
+                      Timber.i( "Selected " + item.isSelected)
 
-                }
-            }
-        }*/
+                   }
+               }
+           }*/
 
         touchCallback = SimpleDragCallback(this)
         touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(recycler)
 
         recycler.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context, 3)
             adapter = fastAdapter
             addItemDecoration(
                 SpacingItemDecoration(
-                    2,
+                    3,
                     context.dimension(R.dimen.recycler_spacing).toInt(),
                     true
                 )
@@ -117,6 +115,14 @@ class FastCategoryAdapter(
 
     fun filter(constraint: CharSequence?) {
         fastAdapter.filter(constraint)
+    }
+
+    val selectionCount: Int
+        get() = fastAdapter.adapterItems.filter { (it as CategoryItem).select }.size
+
+    fun toggle(item: CategoryItem) {
+        item.select = item.select.not()
+        updateItem(item)
     }
 
     fun updateItem(item: CategoryItem): Boolean {

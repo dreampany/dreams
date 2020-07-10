@@ -15,8 +15,8 @@ android {
         applicationId "com.dreampany.tube"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 4
-        versionName '0.0.0.4'
+        versionCode 5
+        versionName '0.0.0.5'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true

@@ -39,12 +39,12 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun nextScreen() {
-        if (pref.isCategory()) {
-           //open(HomeActivity::class, true)
+        if (pref.isCategoriesSelected()) {
+           open(HomeActivity::class, true)
         } else {
-            //open(CategoriesActivity::class, true)
+            open(CategoriesActivity::class, true)
         }
-        open(HomeActivity::class, true)
+        //open(HomeActivity::class, true)
 /*        if (vm.isJoinPressed()) {
             if (vm.isLoggedIn()) {
                 open(HomeActivity::class, true)

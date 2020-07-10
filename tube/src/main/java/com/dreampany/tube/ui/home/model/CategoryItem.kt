@@ -40,7 +40,7 @@ class CategoryItem(
         CategoryItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: CategoryItemBinding, payloads: List<Any>) {
-
+        bind.title.text = input.title
     }
 
     override fun unbindView(binding: CategoryItemBinding) {

@@ -57,6 +57,7 @@ class CategoriesActivity : InjectActivity() {
     private fun initUi() {
         if (!::bind.isInitialized) {
             bind = getBinding()
+            bind.swipe.isEnabled = false
             //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
             /*bind.fab.visible()
             bind.fab.setOnSafeClickListener { openScanUi() }*/

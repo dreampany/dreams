@@ -23,6 +23,7 @@ import com.dreampany.framework.misc.func.Executors
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.ui.callback.Callback
 import com.dreampany.framework.ui.fragment.BaseFragment
+import com.google.android.material.appbar.MaterialToolbar
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
@@ -43,11 +44,11 @@ abstract class BaseActivity : AppCompatActivity(),
     @Inject
     protected lateinit var ex: Executors
 
-    protected var createdByChild: Boolean = false
+    protected var startByBase: Boolean = true
     private var doubleBackPressedOnce: Boolean = false
 
-    private var toolbar: Toolbar? = null
-    private var menu: Menu? = null
+    protected var toolbar: MaterialToolbar? = null
+    protected var menu: Menu? = null
 
     //protected var task: Task<*, *, *, *, *>? = null
 
@@ -91,16 +92,15 @@ abstract class BaseActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        if (fullScreen) {
+        if (fullScreen)
             requestWindowFeature(Window.FEATURE_NO_TITLE)
-        }
-        if (!createdByChild && layoutRes != 0) {
+
+        if (startByBase && layoutRes != 0) {
             setContentView(layoutRes)
             initToolbar()
         }
-        if (!createdByChild) {
+        if (startByBase)
             onStartUi(savedInstanceState)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -329,7 +329,7 @@ abstract class BaseActivity : AppCompatActivity(),
 
     protected fun initToolbar() {
         if (toolbarId != 0) {
-            toolbar = findViewById<Toolbar>(toolbarId)
+            toolbar = findViewById<MaterialToolbar>(toolbarId)
             setSupportActionBar(toolbar)
             if (homeUp) {
                 val actionBar = supportActionBar

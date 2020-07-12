@@ -26,6 +26,7 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
 
+    protected var startByInject: Boolean = true
     private lateinit var binding: ViewDataBinding
 
     override fun androidInjector(): AndroidInjector<Any> = injector
@@ -34,12 +35,15 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
-        createdByChild = true
+        startByBase = false
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, layoutRes)
-        binding.setLifecycleOwner(this)
-        initToolbar()
-        onStartUi(savedInstanceState)
+        if (layoutRes != 0) {
+            binding = DataBindingUtil.setContentView(this, layoutRes)
+            binding.setLifecycleOwner(this)
+            initToolbar()
+        }
+        if (startByInject)
+            onStartUi(savedInstanceState)
     }
 
     protected fun <T : ViewDataBinding> getBinding(): T = binding as T

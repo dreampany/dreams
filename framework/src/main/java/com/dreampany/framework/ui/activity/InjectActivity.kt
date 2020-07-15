@@ -31,8 +31,6 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
 
     override fun androidInjector(): AndroidInjector<Any> = injector
 
-    //override val hasBinding: Boolean = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         startByBase = false

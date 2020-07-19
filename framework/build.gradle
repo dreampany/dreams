@@ -80,7 +80,7 @@ dependencies {
     api 'androidx.vectordrawable:vectordrawable:1.1.0'
     api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'androidx.recyclerview:recyclerview-selection:1.0.0'
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta8'
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     api "androidx.navigation:navigation-fragment-ktx:$nav_version"
     api "androidx.navigation:navigation-ui-ktx:$nav_version"
@@ -137,14 +137,14 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$retrofit"
 
     /* adapter */
-    api 'com.mikepenz:fastadapter:5.2.0'
-    api 'com.mikepenz:fastadapter-extensions-binding:5.2.0'
-    api 'com.mikepenz:fastadapter-extensions-scroll:5.2.0'
-    api 'com.mikepenz:fastadapter-extensions-ui:5.2.0'
-    api 'com.mikepenz:fastadapter-extensions-utils:5.2.0'
+    api 'com.mikepenz:fastadapter:5.2.2'
+    api 'com.mikepenz:fastadapter-extensions-binding:5.2.2'
+    api 'com.mikepenz:fastadapter-extensions-scroll:5.2.2'
+    api 'com.mikepenz:fastadapter-extensions-ui:5.2.2'
+    api 'com.mikepenz:fastadapter-extensions-utils:5.2.2'
 
     /* apache */
-    api 'org.apache.commons:commons-lang3:3.10'
+    api 'org.apache.commons:commons-lang3:3.11'
     api 'org.apache.commons:commons-collections4:4.4'
 
     /* about */

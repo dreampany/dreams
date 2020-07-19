@@ -4,7 +4,9 @@ import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.currentMillis
+import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.misc.AppConstants
+import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +19,8 @@ import javax.inject.Singleton
 @Singleton
 class AppPref
 @Inject constructor(
-    context: Context
+    context: Context,
+    private val gson: Gson
 ) : BasePref(context) {
 
     override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.PREF
@@ -27,11 +30,8 @@ class AppPref
         setPrivately(AppConstants.Keys.Pref.CATEGORY, true)
     }
 
-    @Synchronized
-    fun isCategoriesSelected(): Boolean {
-        return getPrivately(AppConstants.Keys.Pref.CATEGORY, Constants.Default.BOOLEAN)
-    }
-
+    val isCategoriesSelected: Boolean
+        get() = getPrivately(AppConstants.Keys.Pref.CATEGORY, Constants.Default.BOOLEAN)
 
     @Synchronized
     fun commitExpireTimeOfCategory() {
@@ -103,5 +103,22 @@ class AppPref
         }
         return getPrivately(key.toString(), Constants.Default.LONG)
     }
+
+    @Synchronized
+    fun commitCategories(inputs: List<Category>) {
+        val json = gson.toJson(inputs)
+        setPrivately(AppConstants.Keys.Pref.CATEGORIES, json)
+    }
+
+    val categories: List<Category>?
+        get() {
+            val json =
+                getPrivately(AppConstants.Keys.Pref.CATEGORIES, Constants.Default.NULL as String?)
+            if (json.isNullOrEmpty()) {
+                return null
+            } else {
+                return gson.fromJson(json, Array<Category>::class.java).toList()
+            }
+        }
 
 }

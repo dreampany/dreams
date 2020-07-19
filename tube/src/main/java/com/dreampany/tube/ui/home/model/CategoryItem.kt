@@ -2,6 +2,7 @@ package com.dreampany.tube.ui.home.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.databinding.CategoryItemBinding
@@ -18,7 +19,8 @@ import com.mikepenz.fastadapter.drag.IDraggable
 class CategoryItem(
     val input: Category,
     var favorite: Boolean = false,
-    var select: Boolean = false
+    var select: Boolean = false,
+    var color: Int = 0
 ) : ModelAbstractBindingItem<Category, CategoryItemBinding>(input), IDraggable {
 
     override fun hashCode(): Int = input.hashCode()
@@ -41,6 +43,7 @@ class CategoryItem(
         CategoryItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: CategoryItemBinding, payloads: List<Any>) {
+        bind.layout.setCardBackgroundColor(color)
         bind.title.text = input.title
         val selectRes =
             if (select) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24

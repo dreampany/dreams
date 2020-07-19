@@ -6,6 +6,7 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
+import com.dreampany.theme.Colors
 import com.dreampany.tube.app.App
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.enums.Subtype
@@ -32,6 +33,7 @@ class CategoryViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
+    private val colors: Colors,
     private val pref: AppPref,
     private val repo: CategoryRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Category, CategoryItem, UiTask<Type, Subtype, State, Action, Category>>(
@@ -63,12 +65,33 @@ class CategoryViewModel
         }
     }
 
+    fun loadCategoriesOfCache() {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Category>? = null
+            var errors: SmartError? = null
+            try {
+                result = pref.categories
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
     private suspend fun List<Category>.toItems(): List<CategoryItem> {
         val input = this
         return withContext(Dispatchers.IO) {
             input.map { input ->
                 val favorite = repo.isFavorite(input)
-                CategoryItem(input, favorite)
+                val item = CategoryItem(input, favorite)
+                item.color = colors.nextColor(Type.CATEGORY.name)
+                item
             }
         }
     }

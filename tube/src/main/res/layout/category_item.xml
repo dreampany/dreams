@@ -22,11 +22,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:alpha=".5"
-                android:background="@color/material_grey300"
+                android:background="@color/material_grey700"
                 android:gravity="center"
                 android:singleLine="false"
-                android:textColor="@color/material_grey800"
+                android:textColor="@color/white"
                 auto:fontFamily="@font/roboto_slab_bold" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -37,7 +36,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                auto:backgroundTint="@color/white"
+                auto:tint="@color/white"
                 auto:srcCompat="@drawable/ic_baseline_radio_button_unchecked_24" />
 
         </RelativeLayout>

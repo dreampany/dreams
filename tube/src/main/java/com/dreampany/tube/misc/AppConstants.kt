@@ -15,6 +15,7 @@ class AppConstants {
             const val PREF = "pref"
             const val EXPIRE = "expire"
             const val CATEGORY = "category"
+            const val CATEGORIES = "categories"
             const val SEARCH = "search"
             const val VIDEO = "video"
         }

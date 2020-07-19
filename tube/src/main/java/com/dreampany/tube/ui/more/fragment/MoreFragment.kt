@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.exts.disable
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tube.R
 import com.dreampany.tube.data.enums.Action
@@ -52,6 +53,7 @@ class MoreFragment
     private fun initUi() {
         if (!::bind.isInitialized) {
             bind = getBinding()
+            bind.swipe.disable()
             vm = createVm(MoreViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
         }

@@ -15,12 +15,14 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.databinding.HomeFragmentBinding
 import com.dreampany.tube.databinding.RecyclerFragmentBinding
 import com.dreampany.tube.ui.home.adapter.CategoryPagerAdapter
 import com.dreampany.tube.ui.home.model.CategoryItem
 import com.dreampany.tube.ui.home.vm.CategoryViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,6 +36,9 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
+    @Inject
+    internal lateinit var pref : AppPref
+
     private lateinit var bind: HomeFragmentBinding
     private lateinit var vm: CategoryViewModel
     private lateinit var adapter: CategoryPagerAdapter
@@ -43,8 +48,9 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initPager()
+        vm.loadCategoriesOfCache()
         //initRecycler(state)
-        vm.loadCategories()
+        //vm.loadCategories()
         /* if (adapter.isEmpty)
              vm.loadFeatures()*/
     }

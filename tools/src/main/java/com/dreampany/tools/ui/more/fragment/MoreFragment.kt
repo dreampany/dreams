@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.exts.disable
 import com.dreampany.framework.misc.exts.moreApps
 import com.dreampany.framework.misc.exts.rateUs
 import com.dreampany.framework.ui.fragment.InjectFragment
@@ -18,6 +19,7 @@ import com.dreampany.tools.ui.more.adapter.FastMoreAdapter
 import com.dreampany.tools.ui.more.model.MoreItem
 import com.dreampany.tools.ui.more.vm.MoreViewModel
 import com.mikepenz.aboutlibraries.LibsBuilder
+import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,9 +34,8 @@ class MoreFragment
 @Inject constructor() : InjectFragment() {
 
     private lateinit var bind: RecyclerFragmentBinding
-    private lateinit var vm: MoreViewModel
-
     private lateinit var adapter: FastMoreAdapter
+    private lateinit var vm: MoreViewModel
 
     override val layoutRes: Int = R.layout.recycler_fragment
 
@@ -49,8 +50,9 @@ class MoreFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
-        if (!::vm.isInitialized) {
+        if (!::bind.isInitialized) {
+            bind = getBinding()
+            bind.swipe.disable()
             vm = createVm(MoreViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
         }

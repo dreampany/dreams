@@ -120,6 +120,9 @@ class FastCategoryAdapter(
     val selectionCount: Int
         get() = fastAdapter.adapterItems.filter { (it as CategoryItem).select }.size
 
+    val selectedItems: List<CategoryItem>
+        get() = fastAdapter.adapterItems.filter { (it as CategoryItem).select }.map { it as CategoryItem }
+
     fun toggle(item: CategoryItem) {
         item.select = item.select.not()
         updateItem(item)

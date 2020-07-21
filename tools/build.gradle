@@ -155,7 +155,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
 
     /* facebook */
-    implementation 'com.facebook.fresco:fresco:2.1.0'
+    implementation 'com.facebook.fresco:fresco:2.3.0'
 
     /* misc */
     implementation 'me.relex:circleindicator:2.1.4'

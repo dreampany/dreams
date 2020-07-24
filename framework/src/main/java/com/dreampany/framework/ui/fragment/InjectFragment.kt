@@ -44,6 +44,9 @@ abstract class InjectFragment : BaseFragment(), HasAndroidInjector {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if (prefLayoutRes != 0) {
+            return super.onCreateView(inflater, container, savedInstanceState)
+        }
         if (currentView != null) {
             currentView?.parent?.let { (it as ViewGroup).removeView(currentView) }
             return currentView

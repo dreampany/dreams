@@ -6,7 +6,7 @@ import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.ui.home.activity.HomeActivity
-import com.dreampany.tube.ui.settings.CategoriesActivity
+import com.dreampany.tube.ui.settings.activity.CategoriesActivity
 import kotlinx.coroutines.Runnable
 import javax.inject.Inject
 

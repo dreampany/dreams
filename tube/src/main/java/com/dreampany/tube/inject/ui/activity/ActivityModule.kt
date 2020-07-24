@@ -2,10 +2,10 @@ package com.dreampany.tube.inject.ui.activity
 
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.tube.inject.ui.home.HomeModule
-import com.dreampany.tube.inject.ui.more.MoreModule
+import com.dreampany.tube.inject.ui.settings.SettingsModule
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.player.VideoPlayerActivity
-import com.dreampany.tube.ui.settings.CategoriesActivity
+import com.dreampany.tube.ui.settings.activity.CategoriesActivity
 import com.dreampany.tube.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -22,7 +22,7 @@ abstract class ActivityModule {
     abstract fun splash(): SplashActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
+    @ContributesAndroidInjector(modules = [HomeModule::class, SettingsModule::class])
     abstract fun home(): HomeActivity
 
     @ContributesAndroidInjector

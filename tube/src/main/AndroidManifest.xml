@@ -71,7 +71,7 @@
         </activity>
 
         <activity
-            android:name=".ui.settings.CategoriesActivity"
+            android:name=".ui.settings.activity.CategoriesActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
             android:label="@string/title_categories"
             android:windowSoftInputMode="adjustResize">

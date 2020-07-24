@@ -7,6 +7,7 @@ import com.dreampany.tube.databinding.HomeActivityBinding
 import com.dreampany.tube.manager.AdManager
 import com.dreampany.tube.ui.more.fragment.MoreFragment
 import com.dreampany.tube.ui.home.fragment.HomeFragment
+import com.dreampany.tube.ui.settings.fragment.SettingsFragment
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     internal lateinit var home: Lazy<HomeFragment>
 
     @Inject
-    internal lateinit var more: Lazy<MoreFragment>
+    internal lateinit var settings: Lazy<SettingsFragment>
 
     private lateinit var bind: HomeActivityBinding
 
@@ -45,9 +46,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
                 setTitle(R.string.home)
                 commitFragment(HomeFragment::class, home, R.id.layout)
             }
-            R.id.navigation_more -> {
-                setTitle(R.string.more)
-                commitFragment(MoreFragment::class, more, R.id.layout)
+            R.id.navigation_settings -> {
+                setTitle(R.string.settings)
+                commitFragment(SettingsFragment::class, settings, R.id.layout)
             }
         }
     }

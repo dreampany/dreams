@@ -1,10 +1,15 @@
 package com.dreampany.tube.ui.settings.fragment
 
 import android.os.Bundle
+import androidx.preference.Preference
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.ui.fragment.BaseFragment
+import com.dreampany.framework.misc.exts.moreApps
+import com.dreampany.framework.misc.exts.open
+import com.dreampany.framework.misc.exts.rateUs
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tube.R
+import com.dreampany.tube.ui.settings.activity.CategoriesActivity
+import com.mikepenz.aboutlibraries.LibsBuilder
 import javax.inject.Inject
 
 /**
@@ -26,7 +31,43 @@ class SettingsFragment
     override fun onStopUi() {
     }
 
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == getString(R.string.key_settings_categories)) {
+            openCategoriesUi()
+            return true
+        }  else if (preference.key == getString(R.string.key_settings_more_apps)) {
+            moreApps()
+            return true
+        } else if (preference.key == getString(R.string.key_settings_rate_us)) {
+            rateUs()
+            return true
+        } else if (preference.key == getString(R.string.key_settings_feedback)) {
+            rateUs()
+            return true
+        } else if (preference.key == getString(R.string.key_settings_about)) {
+            about()
+            return true
+        }
+        return super.onPreferenceTreeClick(preference)
+    }
+
     private fun initUi() {
 
+    }
+
+    private fun openCategoriesUi() {
+        open(CategoriesActivity::class)
+    }
+
+    private fun moreApps() {
+        activity.moreApps(getString(R.string.id_google_play))
+    }
+
+    private fun rateUs() {
+        activity.rateUs()
+    }
+
+    private fun about() {
+        LibsBuilder().start(requireContext())
     }
 }

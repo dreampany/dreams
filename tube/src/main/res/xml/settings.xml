@@ -2,8 +2,42 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory
+        android:title="@string/category_general"
+        auto:iconSpaceReserved="false">
 
-    <!-- <android.support.v7.preference.PreferenceCategory android:title="@string/category_general">
+        <Preference
+            android:key="@string/key_settings_categories"
+            android:title="@string/title_settings_categories"
+            auto:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/category_advance"
+        auto:iconSpaceReserved="false">
+
+        <Preference
+            android:key="@string/key_settings_more_apps"
+            android:title="@string/title_settings_more_apps"
+            auto:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_settings_rate_us"
+            android:title="@string/title_settings_rate_us"
+            auto:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_settings_feedback"
+            android:title="@string/title_settings_feedback"
+            auto:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_settings_about"
+            android:title="@string/title_settings_about"
+            auto:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <!-- <android.support.v7.preference.PreferenceCategory >
 
 
 

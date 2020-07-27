@@ -86,11 +86,15 @@ class CategoryViewModel
 
     private suspend fun List<Category>.toItems(): List<CategoryItem> {
         val input = this
+        val categories = pref.categories
         return withContext(Dispatchers.IO) {
             input.map { input ->
                 val favorite = repo.isFavorite(input)
                 val item = CategoryItem(input, favorite)
                 item.color = colors.nextColor(Type.CATEGORY.name)
+                if (!categories.isNullOrEmpty()) {
+                    item.select = categories.contains(input)
+                }
                 item
             }
         }

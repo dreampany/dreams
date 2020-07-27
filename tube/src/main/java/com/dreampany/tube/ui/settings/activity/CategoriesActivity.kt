@@ -39,14 +39,11 @@ class CategoriesActivity : InjectActivity() {
     private lateinit var vm: CategoryViewModel
     private lateinit var adapter: FastCategoryAdapter
 
-    override val layoutRes: Int
-        get() = R.layout.recycler_activity
+    override val layoutRes: Int = R.layout.recycler_activity
 
-    override val menuRes: Int
-        get() = R.menu.menu_categories
+    override val menuRes: Int = R.menu.menu_categories
 
-    override val toolbarId: Int
-        get() = R.id.toolbar
+    override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
         initUi()

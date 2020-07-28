@@ -26,6 +26,12 @@ abstract class BasePagerFragmentAdapter<T : Fragment>(val fragment: Fragment) :
 
     override fun createFragment(position: Int): Fragment = items.get(position)
 
+    open fun clear() {
+        items.clear()
+        titles.clear()
+        notifyDataSetChanged()
+    }
+
     open fun getPosition(item: T): Int = items.indexOf(item)
 
     open fun getTitle(position: Int): String {
@@ -67,4 +73,7 @@ abstract class BasePagerFragmentAdapter<T : Fragment>(val fragment: Fragment) :
     }
 
     fun getItem(position: Int): T? = items.get(position)
+
+    val isEmpty : Boolean
+        get() = itemCount == 0
 }

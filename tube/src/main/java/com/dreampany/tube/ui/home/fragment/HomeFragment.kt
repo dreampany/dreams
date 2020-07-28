@@ -49,13 +49,21 @@ class HomeFragment
         initUi()
         initPager()
         vm.loadCategoriesOfCache()
-        //initRecycler(state)
-        //vm.loadCategories()
-        /* if (adapter.isEmpty)
-             vm.loadFeatures()*/
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onStart() {
+        super.onStart()
+        updateCategories()
+    }
+
+    private fun updateCategories() {
+        val categories = pref.categories ?: return
+        if (adapter.hasUpdate(categories)) {
+            vm.loadCategoriesOfCache()
+        }
     }
 
     private fun initUi() {
@@ -110,6 +118,9 @@ class HomeFragment
 
     private fun processResults(result: List<CategoryItem>?) {
         if (result != null) {
+            if (!adapter.isEmpty) {
+                adapter.clear()
+            }
             adapter.addItems(result)
         }
     }

@@ -77,7 +77,7 @@ open class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>>(
     }
 
     override fun getItemCount(): Int {
-        return items?.size.value()
+        return items?.size.value
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -276,7 +276,7 @@ open class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>>(
     }
 
     private fun filterObject(item: T, values: ArrayList<T>): Boolean {
-        if (filterTask?.running.value().not()) return false
+        if (filterTask?.running.value.not()) return false
         if (originals != null && values.contains(item)) return false
 
         val filteredItems = ArrayList<T>()
@@ -298,7 +298,7 @@ open class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>>(
 
         if (hasFilter && hasNewFilter(filterText)) {
             for (item in unfilteredItems) {
-                if (filterTask?.running.value().not()) return
+                if (filterTask?.running.value.not()) return
                 filterObject(item, filteredItems)
             }
         } else if (hasNewFilter(filterText)) {

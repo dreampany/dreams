@@ -7,6 +7,7 @@ import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.misc.AppConstants
 import com.google.gson.Gson
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,6 +25,14 @@ class AppPref
 ) : BasePref(context) {
 
     override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.PREF
+
+    /*@Synchronized
+    fun commitRegionCode(regionCode : String) {
+        setPrivately(AppConstants.Keys.Pref.REGION_CODE, regionCode)
+    }
+
+    val regionCode: String?
+        get() = getPrivately(AppConstants.Keys.Pref.REGION_CODE, Locale.US.country)*/
 
     @Synchronized
     fun commitCategoriesSelection() {

@@ -47,9 +47,8 @@ class CategoryRoomDataSource(
         return result
     }
 
-    override suspend fun get(id: String): Category? {
-        TODO("Not yet implemented")
-    }
+    @Throws
+    override suspend fun get(id: String): Category? = dao.getItem(id)
 
     @Throws
     override suspend fun gets(): List<Category>? {

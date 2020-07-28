@@ -1,6 +1,7 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
+import com.dreampany.adapter.value
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
@@ -105,7 +106,7 @@ class VideoRemoteDataSource(
                     val error = parser.parseError(response, VideoListResponse::class)
                     throw SmartError(
                         message = error?.error?.message,
-                        code = error?.error?.code
+                        code = error?.error?.code.value
                     )
                 }
             } catch (error: Throwable) {
@@ -162,12 +163,57 @@ class VideoRemoteDataSource(
                     val error = parser.parseError(response, SearchListResponse::class)
                     throw SmartError(
                         message = error?.error?.message,
-                        code = error?.error?.code
+                        code = error?.error?.code.value
                     )
                 }
             } catch (error: Throwable) {
                 if (error is SmartError) {
-                    if (error.code != 403)
+                    if (!error.isForbidden)
+                        throw error
+                }
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
+
+    @Throws
+    override suspend fun getsOfRegionCode(
+        regionCode: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
+        for (index in 0..keys.indexLength) {
+            try {
+                val key = keys.nextKey ?: continue
+                val part = "snippet"
+                val type = "video"
+                val order = "viewCount"
+                val response : Response<SearchListResponse> = service.getSearchResultOfRegionCode(
+                    key,
+                    part,
+                    type,
+                    regionCode,
+                    order,
+                    limit
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.items ?: return null
+                    return mapper.getsOfSearch(regionCode, data)
+                } else {
+                    val error = parser.parseError(response, SearchListResponse::class)
+                    throw SmartError(
+                        message = error?.error?.message,
+                        code = error?.error?.code.value
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) {
+                    if (!error.isForbidden)
                         throw error
                 }
                 if (error is UnknownHostException) throw SmartError(

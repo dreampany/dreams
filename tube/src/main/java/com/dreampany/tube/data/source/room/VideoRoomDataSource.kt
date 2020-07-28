@@ -94,4 +94,10 @@ class VideoRoomDataSource(
         offset: Long,
         limit: Long
     ): List<Video>? = mapper.gets(categoryId, offset, limit, this)
+
+    override suspend fun getsOfRegionCode(
+        regionCode: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>?  = mapper.gets(regionCode, offset, limit, this)
 }

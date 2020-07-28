@@ -7,7 +7,13 @@ import com.dreampany.framework.misc.exts.moreApps
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.rateUs
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tube.R
+import com.dreampany.tube.data.enums.Subtype
+import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.data.enums.Action
+import com.dreampany.tube.data.enums.State
+import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.ui.settings.activity.CategoriesActivity
 import com.mikepenz.aboutlibraries.LibsBuilder
 import javax.inject.Inject
@@ -56,7 +62,14 @@ class SettingsFragment
     }
 
     private fun openCategoriesUi() {
-        open(CategoriesActivity::class)
+        val task = UiTask(
+            Type.CATEGORY,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.BACK,
+            null as Category?
+        )
+        open(CategoriesActivity::class, task)
     }
 
     private fun moreApps() {

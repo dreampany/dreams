@@ -52,8 +52,8 @@ class CategoryRepo
         TODO("Not yet implemented")
     }
 
-    override suspend fun get(id: String): Category? {
-        TODO("Not yet implemented")
+    override suspend fun get(id: String) = withContext(Dispatchers.IO) {
+        room.get(id)
     }
 
     override suspend fun gets(): List<Category>? {

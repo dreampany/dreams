@@ -9,6 +9,7 @@ import com.dreampany.tube.data.model.Video
  * Last modified $file.lastModified
  */
 interface VideoDataSource {
+
     @Throws
     suspend fun isFavorite(input: Video): Boolean
 
@@ -50,4 +51,7 @@ interface VideoDataSource {
 
     @Throws
     suspend fun getsOfCategoryId(categoryId: String, offset: Long, limit: Long): List<Video>?
+
+    @Throws
+    suspend fun getsOfRegionCode(regionCode: String, offset: Long, limit: Long): List<Video>?
 }

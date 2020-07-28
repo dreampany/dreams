@@ -1,6 +1,7 @@
 package com.dreampany.tube.ui.home.vm
 
 import android.app.Application
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.countryCode
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
@@ -22,6 +23,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 1/7/20
@@ -47,11 +49,20 @@ class CategoryViewModel
             var result: List<Category>? = null
             var errors: SmartError? = null
             try {
-                var regionCode = getApplication<App>().countryCode
-                result = repo.gets(regionCode)
+                var countryCode = getApplication<App>().countryCode
+                result = repo.gets(countryCode)
                 if (result.isNullOrEmpty()) {
-                    regionCode = Locale.US.country
-                    result = repo.gets(regionCode)
+                    countryCode = Locale.US.country
+                    result = repo.gets(countryCode)
+                }
+                if (!result.isNullOrEmpty()) {
+                    //pref.commitRegionCode(countryCode)
+                    val name = Locale(Constants.Default.STRING, countryCode).displayName
+                    val total = ArrayList(result)
+                    val countryCategory = Category(countryCode)
+                    countryCategory.title = name
+                    total.add(0, countryCategory)
+                    result = total
                 }
             } catch (error: SmartError) {
                 Timber.e(error)
@@ -60,7 +71,12 @@ class CategoryViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItems())
+                val items = result?.toItems()
+                items?.firstOrNull()?.apply {
+                    select = true
+                    fixed = true
+                }
+                postResult(items)
             }
         }
     }

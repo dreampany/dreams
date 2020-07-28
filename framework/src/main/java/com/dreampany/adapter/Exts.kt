@@ -12,6 +12,6 @@ fun CharSequence?.equals(text: CharSequence?): Boolean {
     return false
 }
 
-fun Boolean?.value(): Boolean = this ?: false
+val Boolean?.value: Boolean get() = this ?: false
 
-fun Int?.value(): Int = this ?: 0
+val Int?.value: Int get() = this ?: 0

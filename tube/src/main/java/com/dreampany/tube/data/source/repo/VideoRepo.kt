@@ -113,6 +113,34 @@ class VideoRepo
         room.getsOfCategoryId(categoryId, offset, limit)
     }
 
+    @Throws
+    override suspend fun getsOfRegionCode(
+        regionCode: String,
+        offset: Long,
+        limit: Long
+    )= withContext(Dispatchers.IO) {
+        if (mapper.isExpired(regionCode, offset)) {
+            var result = remote.getsOfRegionCode(regionCode, offset, limit)
+            if (!result.isNullOrEmpty()) {
+                room.putIf(result)
+                mapper.commitExpire(regionCode, offset)
+                result.expiredIds?.let {
+                    if (it.isNotEmpty()) {
+                        result = remote.gets(it)
+                        result?.let {
+                            val puts = room.put(it)
+                            Timber.v("")
+                        }
+                        result?.forEach {
+                            mapper.commitExpire(it.id)
+                        }
+                    }
+                }
+            }
+        }
+        room.getsOfRegionCode(regionCode, offset, limit)
+    }
+
 
     private val List<Video>.expiredIds: List<String>?
         get() = this.filter { mapper.isExpired(it.id) }.map { it.id }

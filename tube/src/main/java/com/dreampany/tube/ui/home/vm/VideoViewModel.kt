@@ -11,6 +11,7 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.repo.CategoryRepo
 import com.dreampany.tube.data.source.repo.VideoRepo
 import com.dreampany.tube.misc.AppConstants
 import com.dreampany.tube.ui.home.model.VideoItem
@@ -31,19 +32,25 @@ class VideoViewModel
     application: Application,
     rm: ResponseMapper,
     private val pref: AppPref,
+    private val categoryRepo: CategoryRepo,
     private val repo: VideoRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Video, VideoItem, UiTask<Type, Subtype, State, Action, Video>>(
     application,
     rm
 ) {
 
-    fun loadVideos(categoryId : String, offset: Long) {
+    fun loadVideos(categoryId: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfCategoryId(categoryId, offset, AppConstants.Limits.VIDEOS)
+                val category = categoryRepo.get(categoryId)
+                if (category == null) {
+                    result = repo.getsOfRegionCode(categoryId, offset, AppConstants.Limits.VIDEOS)
+                } else {
+                    result = repo.getsOfCategoryId(categoryId, offset, AppConstants.Limits.VIDEOS)
+                }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -55,6 +62,26 @@ class VideoViewModel
             }
         }
     }
+
+    /*fun loadVideosOfRegionCode(regionCode : String, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Video>? = null
+            var errors: SmartError? = null
+            try {
+
+                result = repo.getsOfRegionCode(regionCode, offset, AppConstants.Limits.VIDEOS)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }*/
 
     private suspend fun List<Video>.toItems(): List<VideoItem> {
         val input = this

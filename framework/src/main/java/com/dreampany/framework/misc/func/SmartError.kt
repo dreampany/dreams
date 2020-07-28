@@ -10,10 +10,13 @@ import java.net.UnknownHostException
  */
 data class SmartError(
     override val message: String? = null,
-    val code: Int? = null,
+    val code: Int = 0,
     val error: Throwable? = null
 ) : Throwable(message = message) {
 
-    val hostError : Boolean
+    val hostError: Boolean
         get() = error is UnknownHostException
+
+    val isForbidden: Boolean
+        get() = code == 403
 }

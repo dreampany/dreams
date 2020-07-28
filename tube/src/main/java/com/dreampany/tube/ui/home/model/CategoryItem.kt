@@ -20,6 +20,7 @@ class CategoryItem(
     val input: Category,
     var favorite: Boolean = false,
     var select: Boolean = false,
+    var fixed: Boolean = false,
     var color: Int = 0
 ) : ModelAbstractBindingItem<Category, CategoryItemBinding>(input), IDraggable {
 
@@ -46,7 +47,8 @@ class CategoryItem(
         bind.layout.setCardBackgroundColor(color)
         bind.title.text = input.title
         val selectRes =
-            if (select) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
+            if (select || fixed) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
+
         bind.selection.setImageResource(selectRes)
     }
 

@@ -19,6 +19,9 @@ interface CategoryDao : BaseDao<Category> {
     @get:Query("select * from category")
     val items: List<Category>?
 
+    @Query("select * from category where id = :id limit 1")
+    fun getItem(id: String): Category?
+
     @Query("delete from category")
     fun deleteAll()
 }

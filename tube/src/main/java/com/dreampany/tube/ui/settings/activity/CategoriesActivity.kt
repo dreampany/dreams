@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.exts.open
+import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.ui.activity.InjectActivity
@@ -157,6 +158,12 @@ class CategoriesActivity : InjectActivity() {
         pref.commitCategoriesSelection()
         val categories = adapter.selectedItems.map { it.input }
         pref.commitCategories(categories)
+
+        val action = task?.action as Action? ?: return
+        if (action == Action.BACK) {
+            onBackPressed()
+            return
+        }
         open(HomeActivity::class, true)
     }
 }

@@ -1,6 +1,7 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
+import com.dreampany.adapter.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
@@ -95,7 +96,7 @@ class CategoryRemoteDataSource(
                     val error = parser.parseError(response, CategoryListResponse::class)
                     throw SmartError(
                         message = error?.error?.message,
-                        code = error?.error?.code
+                        code = error?.error?.code.value
                     )
                 }
             } catch (error: Throwable) {

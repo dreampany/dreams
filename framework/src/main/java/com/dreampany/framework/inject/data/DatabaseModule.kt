@@ -2,9 +2,12 @@ package com.dreampany.framework.inject.data
 
 import android.app.Application
 import com.dreampany.framework.data.source.api.StoreDataSource
+import com.dreampany.framework.data.source.api.TimeDataSource
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.room.StoreRoomDataSource
+import com.dreampany.framework.data.source.room.TimeRoomDataSource
 import com.dreampany.framework.data.source.room.dao.StoreDao
+import com.dreampany.framework.data.source.room.dao.TimeDao
 import com.dreampany.framework.data.source.room.database.DatabaseManager
 import com.dreampany.framework.inject.annote.Room
 import dagger.Module
@@ -18,7 +21,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Module
-class StoreModule {
+class DatabaseModule {
 
     @Provides
     @Singleton
@@ -27,7 +30,11 @@ class StoreModule {
 
     @Provides
     @Singleton
-    fun provideCoinDao(database: DatabaseManager): StoreDao = database.storeDao()
+    fun provideStoreDao(database: DatabaseManager): StoreDao = database.storeDao()
+
+    @Provides
+    @Singleton
+    fun provideTimeDao(database: DatabaseManager): TimeDao = database.timeDao()
 
     @Singleton
     @Provides
@@ -36,4 +43,11 @@ class StoreModule {
         mapper: StoreMapper,
         dao: StoreDao
     ): StoreDataSource = StoreRoomDataSource(mapper, dao)
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideTimeRoomDataSource(
+        dao: TimeDao
+    ): TimeDataSource = TimeRoomDataSource( dao)
 }

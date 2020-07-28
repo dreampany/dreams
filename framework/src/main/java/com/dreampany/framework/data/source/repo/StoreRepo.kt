@@ -25,6 +25,7 @@ class StoreRepo
     private val mapper: StoreMapper,
     @Room private val room: StoreDataSource
 ) : StoreDataSource {
+
     @Throws
     override suspend fun isExists(
         id: String,

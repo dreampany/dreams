@@ -96,7 +96,7 @@ class VideoRepo
             if (!result.isNullOrEmpty()) {
                 room.putIf(result)
                 mapper.commitExpire(categoryId, offset)
-                result.expiredIds?.let {
+                result.expiredIds()?.let {
                     if (it.isNotEmpty()) {
                         result = remote.gets(it)
                         result?.let {
@@ -118,13 +118,13 @@ class VideoRepo
         regionCode: String,
         offset: Long,
         limit: Long
-    )= withContext(Dispatchers.IO) {
+    ) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(regionCode, offset)) {
             var result = remote.getsOfRegionCode(regionCode, offset, limit)
             if (!result.isNullOrEmpty()) {
                 room.putIf(result)
                 mapper.commitExpire(regionCode, offset)
-                result.expiredIds?.let {
+                result.expiredIds()?.let {
                     if (it.isNotEmpty()) {
                         result = remote.gets(it)
                         result?.let {
@@ -142,6 +142,5 @@ class VideoRepo
     }
 
 
-    private val List<Video>.expiredIds: List<String>?
-        get() = this.filter { mapper.isExpired(it.id) }.map { it.id }
+    suspend fun List<Video>.expiredIds(): List<String>? = this.filter { mapper.isExpired(it.id) }.map { it.id }
 }

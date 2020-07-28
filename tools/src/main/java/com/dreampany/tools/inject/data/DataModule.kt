@@ -1,6 +1,6 @@
 package com.dreampany.tools.inject.data
 
-import com.dreampany.framework.inject.data.StoreModule
+import com.dreampany.framework.inject.data.DatabaseModule
 import dagger.Module
 
 /**
@@ -11,7 +11,7 @@ import dagger.Module
  */
 @Module(
     includes = [
-        StoreModule::class,
+        DatabaseModule::class,
         CryptoModule::class,
         RadioModule::class,
         NoteModule::class,

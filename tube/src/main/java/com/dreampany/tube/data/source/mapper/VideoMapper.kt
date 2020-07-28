@@ -1,7 +1,9 @@
 package com.dreampany.tube.data.source.mapper
 
+import com.dreampany.framework.data.model.Time
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
+import com.dreampany.framework.data.source.repo.TimeRepo
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.tube.api.model.*
 import com.dreampany.tube.data.enums.State
@@ -27,6 +29,7 @@ class VideoMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
+    private val timeRepo: TimeRepo,
     private val pref: AppPref
 ) {
     private val videos: MutableMap<String, MutableMap<String, Video>>
@@ -38,7 +41,8 @@ class VideoMapper
     }
 
     @Synchronized
-    fun commitExpire(categoryId: String, offset: Long) = pref.commitExpireTimeOfCategoryId(categoryId, offset)
+    fun commitExpire(categoryId: String, offset: Long) =
+        pref.commitExpireTimeOfCategoryId(categoryId, offset)
 
     @Synchronized
     fun isExpired(categoryId: String, offset: Long): Boolean {
@@ -46,12 +50,16 @@ class VideoMapper
         return time.isExpired(AppConstants.Times.VIDEOS)
     }
 
-    @Synchronized
-    fun commitExpire(id: String) = pref.commitExpireTimeOfVideo(id)
 
-    @Synchronized
-    fun isExpired(id: String): Boolean {
-        val time = pref.getExpireTimeOfVideo(id)
+    @Throws
+    suspend fun commitExpire(id: String) {
+        val time = Time(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+        timeRepo.insert(time)
+    }
+
+    suspend fun isExpired(id: String): Boolean {
+        val time =
+            timeRepo.getTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
         return time.isExpired(AppConstants.Times.VIDEOS)
     }
 

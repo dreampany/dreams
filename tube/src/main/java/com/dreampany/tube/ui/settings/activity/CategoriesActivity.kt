@@ -159,7 +159,7 @@ class CategoriesActivity : InjectActivity() {
         val categories = adapter.selectedItems.map { it.input }
         pref.commitCategories(categories)
 
-        val action = task?.action as Action? ?: return
+        val action = task?.action as Action?
         if (action == Action.BACK) {
             onBackPressed()
             return

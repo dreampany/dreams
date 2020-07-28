@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.dreampany.framework.inject.annote.Remote
 import com.dreampany.framework.inject.annote.Room
-import com.dreampany.framework.inject.data.StoreModule
+import com.dreampany.framework.inject.data.DatabaseModule
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
@@ -33,7 +33,7 @@ import javax.inject.Singleton
  */
 @Module(
     includes = [
-        StoreModule::class,
+        DatabaseModule::class,
         YoutubeModule::class
     ]
 )

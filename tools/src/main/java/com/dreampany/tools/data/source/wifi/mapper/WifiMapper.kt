@@ -100,8 +100,8 @@ class WifiMapper
 
     class WifiComparator : Comparator<Wifi> {
         override fun compare(left: Wifi, right: Wifi): Int {
-            val leftLevel = left.signal?.level.value()
-            val rightLevel = right.signal?.level.value()
+            val leftLevel = left.signal?.level.value
+            val rightLevel = right.signal?.level.value
             return rightLevel - leftLevel
         }
     }

@@ -85,7 +85,7 @@ class CoinMapper
             )
             favorites.put(coin.id, favorite)
         }
-        return favorites.get(coin.id).value()
+        return favorites.get(coin.id).value
     }
 
     @Throws

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.enums.Payload
 import com.dreampany.adapter.item.IFilterable
 import com.dreampany.adapter.item.IFlexible
+import com.dreampany.framework.misc.exts.value
 import kotlinx.coroutines.Runnable
 import timber.log.Timber
 import java.util.*

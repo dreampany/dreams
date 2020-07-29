@@ -12,7 +12,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-val Boolean.default : Boolean get() = false
+val Boolean.default: Boolean get() = false
 val Int.default get() = 0
 val Long.default get() = 0L
 val Float.default get() = 0f
@@ -26,17 +26,17 @@ fun float() = 0f
 fun double() = 0.0
 fun string() = ""
 
-fun Boolean?.value(): Boolean = this ?: false
+val Boolean?.value: Boolean get() = this ?: false
 
-fun Int?.value(): Int = this ?: 0
+val Int?.value: Int get() = this ?: 0
 
-fun Long?.value(): Long = this ?: 0L
+val Long?.value: Long get() = this ?: 0L
 
-fun Double?.value(): Double = this ?: 0.toDouble()
+val Double?.value: Double get() = this ?: 0.toDouble()
 
-fun String?.value(): String = this ?: Constants.Default.STRING
+val String?.value: String get() = this ?: Constants.Default.STRING
 
-fun Int.isZeroOrLess(): Boolean = this <= 0
+val Int.isZeroOrLess: Boolean get() = this <= 0
 
 fun Long.isExpired(delay: Long): Boolean = Util.currentMillis() - this > delay
 
@@ -56,7 +56,7 @@ fun String.toColor(): Int = Color.parseColor(this)
 
 fun randomId(): String = UUID.randomUUID().toString()
 
-fun append(vararg values : Any) : String {
+fun append(vararg values: Any): String {
     val builder = StringBuilder()
     values.forEach { builder.append(it) }
     return builder.toString()
@@ -71,5 +71,5 @@ val ByteArray?.isEmpty: Boolean
 val ByteArray?.length: Int
     get() = this?.size ?: 0
 
-val Long.count : String
+val Long.count: String
     get() = String.format(Locale.getDefault(), "%,d", this)

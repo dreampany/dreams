@@ -189,7 +189,7 @@ class RadioPlayerService
             Timber.v("Stream INFO: ${it.key} - ${it.value}")
         }
 
-        if (oldStream == null || !oldStream.title?.value().equals(stream.title)) {
+        if (oldStream == null || !oldStream.title?.value.equals(stream.title)) {
             localCast(AppConstants.Service.PLAYER_SERVICE_UPDATE)
             updateNotify()
         }

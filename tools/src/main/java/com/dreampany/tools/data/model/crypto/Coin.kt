@@ -182,7 +182,7 @@ data class Coin(
     fun getLatestQuote(): Quote? {
         var latest: Quote? = null
         quotes.forEach { entry ->
-            if (latest?.time.value() < entry.value.time)
+            if (latest?.time.value < entry.value.time)
                 latest = entry.value
         }
         return latest

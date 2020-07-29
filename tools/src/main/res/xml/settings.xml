@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
-    <androidx.preference.SwitchPreferenceCompat
+    <PreferenceCategory
+        android:title="@string/category_advance"
+        auto:iconSpaceReserved="false">
+
+        <Preference
+            android:key="@string/key_settings_more_apps"
+            android:title="@string/title_settings_more_apps"
+            auto:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_settings_rate_us"
+            android:title="@string/title_settings_rate_us"
+            auto:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_settings_feedback"
+            android:title="@string/title_settings_feedback"
+            auto:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/key_settings_about"
+            android:title="@string/title_settings_about"
+            auto:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <!--<androidx.preference.SwitchPreferenceCompat
         android:defaultValue="true"
         auto:iconSpaceReserved="false"
         android:key="@string/key_notification"
         android:summary="@string/summary_notification"
-        android:title="@string/title_notification" />
+        android:title="@string/title_notification" />-->
 
     <!--    <android.support.v7.preference.PreferenceCategory android:title="@string/category_general">
 
@@ -84,4 +109,4 @@
             android:key="@string/key_about"
             android:title="@string/title_about" />-->
 
-</androidx.preference.PreferenceScreen>
+</PreferenceScreen>

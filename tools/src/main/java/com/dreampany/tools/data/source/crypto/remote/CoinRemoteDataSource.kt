@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.IntRange
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.misc.exts.isDebug
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
@@ -112,7 +113,7 @@ constructor(
                     val error = parser.parseError(response, CoinsResponse::class)
                     throw SmartError(
                         message = error?.status?.errorMessage,
-                        code = error?.status?.errorCode
+                        code = error?.status?.errorCode.value
                     )
                 }
             } catch (error: Throwable) {
@@ -144,7 +145,7 @@ constructor(
                     val error = parser.parseError(response, QuotesResponse::class)
                     throw SmartError(
                         message = error?.status?.errorMessage,
-                        code = error?.status?.errorCode
+                        code = error?.status?.errorCode.value
                     )
                 }
             } catch (error: Throwable) {

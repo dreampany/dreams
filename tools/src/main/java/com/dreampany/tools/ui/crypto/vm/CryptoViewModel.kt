@@ -69,7 +69,7 @@ class CryptoViewModel
                 //postError(errors)
             } else {
                 //postResult(result?.toItems())
-                val result = result?.maxBy { it.getQuote(currency)?.getChange24h().value() }
+                val result = result?.maxBy { it.getQuote(currency)?.getChange24h().value }
                 if (result != null) {
                     showNotification(result)
                 }
@@ -91,8 +91,8 @@ class CryptoViewModel
 
         val title: String = app.getString(R.string.notify_title_profit)
         val message: String = formatter.formatPrice(
-            coin.symbol.value(),
-            coin.name.value(),
+            coin.symbol.value,
+            coin.name.value,
             price,
             dayChange,
             currency

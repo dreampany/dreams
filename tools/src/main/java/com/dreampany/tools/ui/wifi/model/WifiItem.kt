@@ -2,9 +2,9 @@ package com.dreampany.tools.ui.wifi.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.adapter.value
 import com.dreampany.framework.misc.exts.color
 import com.dreampany.framework.misc.exts.string
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.databinding.WifiItemBinding
@@ -49,11 +49,11 @@ private constructor(
 
     override fun bindView(bind: WifiItemBinding, payloads: List<Any>) {
         val strength = input.signal?.strength
-        bind.icon.setImageResource(strength?.imageRes.value())
-        bind.icon.setColorFilter(bind.color(strength?.colorRes.value()))
+        bind.icon.setImageResource(strength?.imageRes.value)
+        bind.icon.setColorFilter(bind.color(strength?.colorRes.value))
         bind.textSsid.text = String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
         bind.textLevel.text = String.format(bind.string(R.string.format_wifi_level), input.signal?.level)
-        bind.textLevel.setTextColor(bind.color(strength?.colorRes.value()))
+        bind.textLevel.setTextColor(bind.color(strength?.colorRes.value))
     }
 
     override fun unbindView(binding: WifiItemBinding) {

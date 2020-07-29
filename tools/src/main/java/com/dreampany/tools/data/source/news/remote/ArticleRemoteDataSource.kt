@@ -102,7 +102,7 @@ constructor(
                 } else {
                     throw SmartError(
                         message = response.body()?.message,
-                        code = response.body()?.code.value().toInt()
+                        code = response.body()?.code.value.toInt()
                     )
                     /*val error = parser.parseError(response, NewsResponse::class)
                     throw SmartError(
@@ -139,7 +139,7 @@ constructor(
                 } else {
                     throw SmartError(
                         message = response.body()?.message,
-                        code = response.body()?.code.value().toInt()
+                        code = response.body()?.code.value.toInt()
                     )
                     /*val error = parser.parseError(response, NewsResponse::class)
                     throw SmartError(
@@ -180,7 +180,7 @@ constructor(
                 } else {
                     throw SmartError(
                         message = response.body()?.message,
-                        code = response.body()?.code.value().toInt()
+                        code = response.body()?.code.value.toInt()
                     )
                     /*val error = parser.parseError(response, NewsResponse::class)
                     throw SmartError(

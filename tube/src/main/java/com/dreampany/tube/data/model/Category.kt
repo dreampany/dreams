@@ -6,6 +6,7 @@ import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
+import com.dreampany.tube.data.enums.CategoryType
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -26,6 +27,7 @@ import kotlinx.android.parcel.Parcelize
 data class Category(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
+    var type : CategoryType = CategoryType.DEFAULT,
     var title: String? = Constants.Default.NULL,
     var channelId: String? = Constants.Default.NULL,
     var assignable: Boolean = Constants.Default.BOOLEAN

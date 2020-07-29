@@ -19,7 +19,7 @@ import com.dreampany.tube.misc.AppConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Category::class, Video::class], version = 1, exportSchema = false)
+@Database(entities = [Category::class, Video::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 

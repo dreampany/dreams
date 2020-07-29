@@ -9,11 +9,9 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.theme.Colors
 import com.dreampany.tube.app.App
-import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.enums.Subtype
-import com.dreampany.tube.data.enums.State
-import com.dreampany.tube.data.enums.Action
+import com.dreampany.tube.data.enums.*
 import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.data.source.mapper.CategoryMapper
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.data.source.repo.CategoryRepo
 import com.dreampany.tube.ui.home.model.CategoryItem
@@ -37,6 +35,7 @@ class CategoryViewModel
     rm: ResponseMapper,
     private val colors: Colors,
     private val pref: AppPref,
+    private val mapper : CategoryMapper,
     private val repo: CategoryRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Category, CategoryItem, UiTask<Type, Subtype, State, Action, Category>>(
     application,
@@ -56,11 +55,13 @@ class CategoryViewModel
                     result = repo.gets(countryCode)
                 }
                 if (!result.isNullOrEmpty()) {
-                    //pref.commitRegionCode(countryCode)
-                    val name = Locale(Constants.Default.STRING, countryCode).displayName
                     val total = ArrayList(result)
-                    val countryCategory = Category(countryCode)
+                    val regionCode = getApplication<App>().countryCode
+                    val name = Locale(Constants.Default.STRING, regionCode).displayName
+                    val countryCategory = Category(regionCode)
                     countryCategory.title = name
+                    countryCategory.type = CategoryType.REGION
+
                     total.add(0, countryCategory)
                     result = total
                 }
@@ -72,10 +73,6 @@ class CategoryViewModel
                 postError(errors)
             } else {
                 val items = result?.toItems()
-                items?.firstOrNull()?.apply {
-                    select = true
-                    fixed = true
-                }
                 postResult(items)
             }
         }
@@ -105,8 +102,7 @@ class CategoryViewModel
         val categories = pref.categories
         return withContext(Dispatchers.IO) {
             input.map { input ->
-                val favorite = repo.isFavorite(input)
-                val item = CategoryItem(input, favorite)
+                val item = CategoryItem(input)
                 item.color = colors.nextColor(Type.CATEGORY.name)
                 if (!categories.isNullOrEmpty()) {
                     item.select = categories.contains(input)
@@ -114,6 +110,13 @@ class CategoryViewModel
                 item
             }
         }
+    }
+
+    private fun categoryType(id : String) : CategoryType {
+        if (mapper.isIsoCountry(id)) {
+            return CategoryType.REGION
+        }
+        return CategoryType.DEFAULT
     }
 
     private fun postProgressSingle(progress: Boolean) {

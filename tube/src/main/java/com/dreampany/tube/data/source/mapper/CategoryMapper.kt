@@ -1,6 +1,5 @@
 package com.dreampany.tube.data.source.mapper
 
-import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.isExpired
@@ -16,8 +15,11 @@ import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.misc.AppConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 /**
  * Created by roman on 21/3/20
@@ -34,11 +36,15 @@ class CategoryMapper
 ) {
     private val categories: MutableMap<String, Category>
     private val favorites: MutableMap<String, Boolean>
+    private val countries : HashSet<String>
 
     init {
         categories = Maps.newConcurrentMap()
         favorites = Maps.newConcurrentMap()
+        countries = HashSet(Locale.getISOCountries().asList())
     }
+
+    fun isIsoCountry(country : String) : Boolean = countries.contains(country)
 
     @Synchronized
     fun isExpired(): Boolean {

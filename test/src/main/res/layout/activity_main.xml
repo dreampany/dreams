@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            auto:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAFAFA"
+        android:gravity="center"
+        android:orientation="vertical">
+
+       <!-- <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:value="60"
+            android:valueFrom="0"
+            android:valueTo="100"
+            auto:labelBehavior="withinBounds"
+            auto:labelStyle="@style/tooltip"
+            auto:thumbColor="@color/material_on_background_disabled"
+            auto:thumbRadius="20dp" />-->
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/thumb" />
+
+        <!--<com.warkiz.widget.IndicatorSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            auto:isb_indicator_color="@android:color/darker_gray"
+            auto:isb_indicator_text_color="@color/colorAccent"
+            auto:isb_indicator_text_size="18sp"
+            auto:isb_max="100"
+            auto:isb_min="-1.0"
+            auto:isb_only_thumb_draggable="false"
+            auto:isb_progress="25"
+            auto:isb_seek_smoothly="true"
+            auto:isb_show_indicator="rounded_rectangle"
+            auto:isb_show_tick_marks_type="oval"
+            auto:isb_show_tick_texts="true"
+            auto:isb_thumb_color="@android:color/holo_green_dark"
+            auto:isb_thumb_size="20dp"
+            auto:isb_tick_marks_drawable="@mipmap/ic_launcher"
+            auto:isb_tick_marks_size="13dp"
+            auto:isb_tick_texts_color="@android:color/holo_blue_dark"
+            auto:isb_tick_texts_size="15sp"
+            auto:isb_ticks_count="5"
+            auto:isb_track_background_color="@android:color/darker_gray"
+            auto:isb_track_background_size="2dp"
+            auto:isb_track_progress_color="@android:color/holo_blue_dark"
+            auto:isb_track_progress_size="4dp" />-->
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        auto:srcCompat="@android:drawable/ic_dialog_email" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

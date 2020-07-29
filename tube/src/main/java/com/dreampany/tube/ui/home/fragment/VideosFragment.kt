@@ -62,7 +62,11 @@ class VideosFragment
     }
 
     override fun onRefresh() {
-        vm.loadVideos(input.id, adapter.itemCount.toLong())
+        if (input.type.isRegion) {
+            vm.loadRegionVideos(input.id, adapter.itemCount.toLong())
+        } else {
+            vm.loadVideos(input.id, adapter.itemCount.toLong())
+        }
     }
 
     private fun onItemPressed(view: View, item: VideoItem) {

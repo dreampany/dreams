@@ -2,7 +2,6 @@ package com.dreampany.tube.ui.home.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.ColorRes
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.databinding.CategoryItemBinding
@@ -20,7 +19,6 @@ class CategoryItem(
     val input: Category,
     var favorite: Boolean = false,
     var select: Boolean = false,
-    var fixed: Boolean = false,
     var color: Int = 0
 ) : ModelAbstractBindingItem<Category, CategoryItemBinding>(input), IDraggable {
 
@@ -47,7 +45,7 @@ class CategoryItem(
         bind.layout.setCardBackgroundColor(color)
         bind.title.text = input.title
         val selectRes =
-            if (select || fixed) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
+            if (isPureSelected) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
 
         bind.selection.setImageResource(selectRes)
     }
@@ -55,4 +53,7 @@ class CategoryItem(
     override fun unbindView(binding: CategoryItemBinding) {
 
     }
+
+    val isPureSelected : Boolean
+        get() = select || input.type.isFixed
 }

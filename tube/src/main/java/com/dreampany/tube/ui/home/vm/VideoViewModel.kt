@@ -39,18 +39,33 @@ class VideoViewModel
     rm
 ) {
 
+
+    fun loadRegionVideos(regionCode: String, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Video>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.getsOfRegionCode(regionCode, offset, AppConstants.Limits.VIDEOS)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
     fun loadVideos(categoryId: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                val category = categoryRepo.get(categoryId)
-                if (category == null) {
-                    result = repo.getsOfRegionCode(categoryId, offset, AppConstants.Limits.VIDEOS)
-                } else {
-                    result = repo.getsOfCategoryId(categoryId, offset, AppConstants.Limits.VIDEOS)
-                }
+                result = repo.getsOfCategoryId(categoryId, offset, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

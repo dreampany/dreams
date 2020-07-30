@@ -1,9 +1,7 @@
 package com.dreampany.framework.app
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
-import android.os.Bundle
 import androidx.multidex.MultiDex
 import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.worker.WorkerManager
@@ -19,7 +17,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class InjectApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
+abstract class InjectApp : DaggerApplication()/*, Application.ActivityLifecycleCallbacks*/ {
 
     @Inject
     protected lateinit var worker: WorkerManager
@@ -45,7 +43,7 @@ abstract class InjectApp : DaggerApplication(), Application.ActivityLifecycleCal
 
     override fun onCreate() {
         super.onCreate()
-        registerActivityLifecycleCallbacks(this)
+        //registerActivityLifecycleCallbacks(this)
         if (isDebug)
             Timber.plant(Timber.DebugTree())
         onOpen()
@@ -56,7 +54,7 @@ abstract class InjectApp : DaggerApplication(), Application.ActivityLifecycleCal
         super.onTerminate()
     }
 
-    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
+    /*override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
         //onActivityOpen(activity)
         refs = WeakReference(activity)
         //goToRemoteUi()
@@ -88,5 +86,5 @@ abstract class InjectApp : DaggerApplication(), Application.ActivityLifecycleCal
         //if (hasUpdate()) {
             //stopUpdate()
         //}
-    }
+    }*/
 }

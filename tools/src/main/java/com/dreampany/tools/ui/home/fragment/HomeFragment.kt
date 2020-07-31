@@ -23,6 +23,7 @@ import com.dreampany.tools.ui.news.activity.NewsActivity
 import com.dreampany.tools.ui.note.activity.NotesActivity
 import com.dreampany.tools.ui.radio.activity.StationsActivity
 import com.dreampany.tools.ui.wifi.activity.WifisActivity
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,9 +38,8 @@ class HomeFragment
 @Inject constructor() : InjectFragment() {
 
     private lateinit var bind: RecyclerFragmentBinding
-    private lateinit var vm: FeatureViewModel
-
     private lateinit var adapter: FastFeatureAdapter
+    private lateinit var vm: FeatureViewModel
 
     override val layoutRes: Int = R.layout.recycler_fragment
 

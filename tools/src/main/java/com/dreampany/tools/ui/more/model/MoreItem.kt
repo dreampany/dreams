@@ -3,6 +3,9 @@ package com.dreampany.tools.ui.more.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.context
+import com.dreampany.framework.misc.exts.dimension
+import com.dreampany.framework.misc.exts.screenWidth
+import com.dreampany.framework.misc.exts.spanHeight
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.more.More
 import com.dreampany.tools.databinding.MoreItemBinding
@@ -20,11 +23,16 @@ class MoreItem(val input: More) : ModelAbstractBindingItem<More, MoreItemBinding
 
     override fun equals(other: Any?): Boolean = input.equals(other)
 
-    override val type: Int
-        get() = R.id.adapter_more_item_id
+    override var identifier: Long = hashCode().toLong()
 
-    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): MoreItemBinding =
-        MoreItemBinding.inflate(inflater, parent, false)
+    override val type: Int = R.id.adapter_more_item_id
+
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): MoreItemBinding {
+        val height = inflater.context.spanHeight(3, inflater.context.dimension(R.dimen.recycler_spacing).toInt())
+        val bind = MoreItemBinding.inflate(inflater, parent, false)
+        bind.root.layoutParams.height = height
+        return bind
+    }
 
     override fun bindView(bind: MoreItemBinding, payloads: List<Any>) {
         bind.icon.setImageResource(input.iconRes)
@@ -32,6 +40,5 @@ class MoreItem(val input: More) : ModelAbstractBindingItem<More, MoreItemBinding
     }
 
     override fun unbindView(binding: MoreItemBinding) {
-
     }
 }

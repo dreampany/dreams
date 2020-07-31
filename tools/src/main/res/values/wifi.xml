@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_wifis">All Discovered Wifi</string>
+
     <string name="title_favorite_wifis">Favorite Wifis</string>
     <string name="subtitle_favorite_wifis" translatable="false">Total: %d</string>
 

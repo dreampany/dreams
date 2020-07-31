@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.framework.misc.exts.dimension
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import com.mikepenz.fastadapter.GenericItem
@@ -34,6 +35,7 @@ class FastWifiAdapter(
     private lateinit var itemAdapter: GenericItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
 
+    private lateinit var timeBssidComparator: Comparator<GenericItem>
     private lateinit var bssidComparator: Comparator<GenericItem>
     //private val rankComparator: Comparator<GenericItem>
 
@@ -50,12 +52,12 @@ class FastWifiAdapter(
         state: Bundle?,
         recycler: RecyclerView
     ) {
-        bssidComparator = BssidComparator()
-        val list = ComparableItemListImpl(comparator = bssidComparator)
+        timeBssidComparator = TimeBssidComparator()
+        val list = ComparableItemListImpl(comparator = timeBssidComparator)
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is WifiItem)
-                item.input.ssid.toString().contains(constraint.toString(), ignoreCase = true)
+                item.input.ssid.contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }
@@ -136,13 +138,15 @@ class FastWifiAdapter(
         footerAdapter.clear()
     }
 
-    fun updateItem(item: WifiItem) {
+    fun updateItem(item: WifiItem): Boolean {
         var position = fastAdapter.getAdapterPosition(item)
         position = fastAdapter.getGlobalPosition(position)
         if (position >= 0) {
             fastAdapter.set(position, item)
+            return true
             //fastAdapter.notifyAdapterItemChanged(position)
         }
+        return false
     }
 
     fun updateItems(items: List<WifiItem>) {
@@ -151,15 +155,41 @@ class FastWifiAdapter(
         }
     }
 
-    fun addItems(items: List<WifiItem>) {
-        fastAdapter.add(items)
+    fun addItem(item: WifiItem) {
+        val updated = updateItem(item)
+        if (!updated)
+            fastAdapter.add(item)
     }
 
-    class BssidComparator(
-    ) : Comparator<GenericItem> {
+    fun addItems(items: List<WifiItem>) {
+        //fastAdapter.add(items)
+        items.forEach { addItem(it) }
+    }
+
+    class TimeBssidComparator : Comparator<GenericItem> {
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is WifiItem && right is WifiItem) {
-               return CompareToBuilder()
+                /*return CompareToBuilder()
+                    .append(right.input.signal?.level, left.input.signal?.level)
+                    //.append(right.input.time, left.input.time)
+                    .toComparison()*/
+                val leftTime = left.input.time
+                val rightTime = right.input.time
+
+                var comaparison = (rightTime - leftTime).toInt()
+                if (comaparison < 0) {
+                    comaparison = right.input.signal?.level.value - left.input.signal?.level.value
+                }
+                return comaparison
+            }
+            return 0
+        }
+    }
+
+    class BssidComparator : Comparator<GenericItem> {
+        override fun compare(left: GenericItem, right: GenericItem): Int {
+            if (left is WifiItem && right is WifiItem) {
+                return CompareToBuilder()
                     //.append(left.input.bssid, right.input.bssid)
                     .append(right.input.signal?.level, left.input.signal?.level)
                     .toComparison()

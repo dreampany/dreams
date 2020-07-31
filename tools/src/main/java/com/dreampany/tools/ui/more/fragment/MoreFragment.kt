@@ -30,8 +30,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class MoreFragment
-@Inject constructor() : InjectFragment() {
+class MoreFragment @Inject constructor() : InjectFragment() {
 
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var adapter: FastMoreAdapter
@@ -60,7 +59,8 @@ class MoreFragment
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastMoreAdapter(clickListener = { item: MoreItem ->
+            adapter = FastMoreAdapter(
+                clickListener = { item: MoreItem ->
                 Timber.v("MoreItem: %s", item.input.toString())
                 onPressed(item.input)
             })

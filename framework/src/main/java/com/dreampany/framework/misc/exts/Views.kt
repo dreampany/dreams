@@ -37,7 +37,7 @@ fun View?.visible() {
     this?.visibility = View.VISIBLE
 }
 
-fun View?.visible(visible : Boolean) {
+fun View?.visible(visible: Boolean) {
     if (visible) visible()
     else gone()
 }
@@ -65,7 +65,7 @@ const val FLAGS_FULLSCREEN = View.SYSTEM_UI_FLAG_LOW_PROFILE or
         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 
-val Context.inflater: LayoutInflater  get() = LayoutInflater.from(this)
+val Context.inflater: LayoutInflater get() = LayoutInflater.from(this)
 
 val ViewGroup.inflater: LayoutInflater get() = context.inflater
 
@@ -236,3 +236,6 @@ inline fun View.afterMeasured(crossinline block: () -> Unit) {
         }
     })
 }
+
+fun Context?.spanHeight(spans: Int, offset: Int): Int =
+    (screenWidth / spans) - (dpToPx(offset.toFloat()) * spans)

@@ -6,7 +6,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HomeActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.home.fragment.HomeFragment
-import com.dreampany.tools.ui.settings.SettingsFragment
+import com.dreampany.tools.ui.more.fragment.MoreFragment
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     internal lateinit var home: Lazy<HomeFragment>
 
     @Inject
-    internal lateinit var settings: Lazy<SettingsFragment>
+    internal lateinit var more: Lazy<MoreFragment>
 
     private lateinit var bind: HomeActivityBinding
 
@@ -35,15 +35,13 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     override val toolbarId: Int = R.id.toolbar
 
-    //override fun getNavigationViewId(): Int = R.id.navigation_view
-
     override val navigationViewId: Int = R.id.navigation_view
 
     override val selectedNavigationItemId: Int = R.id.navigation_home
 
     override fun onStartUi(state: Bundle?) {
-        initUi()
         initAd()
+        initUi()
         ad.loadBanner(this.javaClass.simpleName)
     }
 
@@ -66,15 +64,11 @@ class HomeActivity : InjectBottomNavigationActivity() {
                 setTitle(R.string.home)
                 commitFragment(HomeFragment::class, home, R.id.layout)
             }
-            R.id.navigation_settings -> {
-                setTitle(R.string.settings)
-                commitFragment(SettingsFragment::class, settings, R.id.layout)
+            R.id.navigation_more -> {
+                setTitle(R.string.more)
+                commitFragment(MoreFragment::class, more, R.id.layout)
             }
         }
-    }
-
-    private fun initUi() {
-        bind = getBinding()
     }
 
     private fun initAd() {
@@ -85,5 +79,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
         )
+    }
+
+    private fun initUi() {
+        bind = getBinding()
     }
 }

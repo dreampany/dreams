@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.wifi.vm
 
 import android.app.Application
+import com.dreampany.framework.misc.func.Executors
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
@@ -12,9 +13,11 @@ import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.dreampany.tools.data.source.wifi.repo.WifiRepo
+import com.dreampany.tools.misc.constants.AppConstants
 import com.dreampany.tools.misc.constants.WifiConstants
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -30,12 +33,15 @@ class WifiViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
+    private val ex: Executors,
     private val pref: WifiPref,
     private val repo: WifiRepo
 ) : BaseViewModel<WifiType, WifiSubtype, WifiState, WifiAction, Wifi, WifiItem, UiTask<WifiType, WifiSubtype, WifiState, WifiAction, Wifi>>(
     application,
     rm
 ) {
+
+    private var running = false
 
     fun loadWifis(offset: Long, callback: () -> Unit) {
         uiScope.launch {
@@ -53,6 +59,46 @@ class WifiViewModel
             } else {
                 postResult(result?.toItems())
             }
+        }
+    }
+
+    fun startPeriodicWifis() {
+        nextRun(AppConstants.Times.Wifi.PERIODIC_SCAN)
+    }
+
+    fun stopPeriodicWifis() {
+        ex.getUiHandler().removeCallbacks(periodicRunner)
+        running = false
+    }
+
+    private fun nextRun(delay: Long) {
+        stopPeriodicWifis()
+        ex.getUiHandler().postDelayed(periodicRunner, delay)
+        running = true
+    }
+
+    private fun periodicWifisInternal() {
+        uiScope.launch {
+            var result: List<Wifi>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.gets()
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors, false)
+            } else {
+                postResult(result?.toItems(), false)
+            }
+        }
+    }
+
+    private val periodicRunner = object : Runnable {
+        override fun run() {
+            periodicWifisInternal()
+            nextRun(AppConstants.Times.Wifi.PERIODIC_SCAN)
         }
     }
 
@@ -76,25 +122,25 @@ class WifiViewModel
         )
     }
 
-    private fun postError(error: SmartError) {
+    private fun postError(error: SmartError, showProgress: Boolean = true) {
         postMultiple(
             WifiType.WIFI,
             WifiSubtype.DEFAULT,
             WifiState.DEFAULT,
             WifiAction.DEFAULT,
             error = error,
-            showProgress = true
+            showProgress = showProgress
         )
     }
 
-    private fun postResult(result: List<WifiItem>?) {
+    private fun postResult(result: List<WifiItem>?, showProgress: Boolean = true) {
         postMultiple(
             WifiType.WIFI,
             WifiSubtype.DEFAULT,
             WifiState.DEFAULT,
             WifiAction.DEFAULT,
             result = result,
-            showProgress = true
+            showProgress = showProgress
         )
     }
 }

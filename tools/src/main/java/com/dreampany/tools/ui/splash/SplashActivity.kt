@@ -21,7 +21,7 @@ class SplashActivity : InjectActivity() {
         initUi()
         ex.postToUi(Runnable {
             nextScreen()
-        }, 1000L)
+        }, 500L)
     }
 
     override fun onStopUi() {
@@ -29,7 +29,6 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        //vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
     }
 
     private fun nextScreen() {

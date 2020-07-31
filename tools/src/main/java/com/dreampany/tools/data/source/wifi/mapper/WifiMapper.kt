@@ -94,15 +94,16 @@ class WifiMapper
     ): List<Wifi> {
         val temp = ArrayList(inputs)
         val comparator = WifiComparator()
-        //temp.sortWith(comparator)
+        temp.sortWith(comparator)
         return temp
     }
 
     class WifiComparator : Comparator<Wifi> {
         override fun compare(left: Wifi, right: Wifi): Int {
-            val leftLevel = left.signal?.level.value
+            /*val leftLevel = left.signal?.level.value
             val rightLevel = right.signal?.level.value
-            return rightLevel - leftLevel
+            return rightLevel - leftLevel*/
+            return (right.time - left.time).toInt()
         }
     }
 }

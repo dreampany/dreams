@@ -7,21 +7,20 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardPreventCornerOverlap="false"
         auto:cardElevation="@dimen/_4sdp"
-        auto:cardMaxElevation="@dimen/_4sdp">
+        auto:cardMaxElevation="@dimen/_4sdp"
+        auto:cardPreventCornerOverlap="false">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_12sdp">
+            android:padding="@dimen/_4sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_centerInParent="true"
                 auto:srcCompat="@drawable/ic_android_black_24dp"
                 tools:ignore="ContentDescription" />
 
@@ -29,11 +28,11 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/icon"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:text="@string/more"
                 android:textColor="@color/material_black"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_bold" />
 
         </RelativeLayout>

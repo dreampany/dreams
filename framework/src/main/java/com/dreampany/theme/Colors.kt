@@ -24,23 +24,23 @@ class Colors @Inject constructor() {
         colors = Maps.newConcurrentMap()
         materialColors.addAll(
             listOf(
-                0xffe57373,
-                0xfff06292,
-                0xffba68c8,
-                0xff9575cd,
-                0xff7986cb,
-                0xff64b5f6,
-                0xff4fc3f7,
-                0xff4dd0e1,
-                0xff4db6ac,
-                0xff81c784,
-                0xffaed581,
-                0xffff8a65,
-                0xffd4e157,
-                0xffffd54f,
-                0xffffb74d,
-                0xffa1887f,
-                0xff90a4ae
+                0xffcca700,
+                0xffbb114a,
+                0xff883696,
+                0xff593696,
+                0xff394893,
+                0xff0b6fc1,
+                0xff0988c3,
+                0xff1e9eae,
+                0xff3b9188,
+                0xff3f8d43,
+                0xff699933,
+                0xffcc3000,
+                0xff9fad1f,
+                0xffcc9c00,
+                0xffcc7a00,
+                0xff755f57,
+                0xff566b76
             ) as Collection<Int>
         )
     }

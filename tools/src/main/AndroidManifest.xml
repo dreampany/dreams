@@ -204,7 +204,7 @@
         <activity
             android:name=".ui.wifi.activity.WifisActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:label="@string/title_feature_wifi"
+            android:label="@string/title_wifis"
             android:windowSoftInputMode="adjustResize">
 
             <meta-data

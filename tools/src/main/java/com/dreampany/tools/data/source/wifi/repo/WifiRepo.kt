@@ -37,6 +37,15 @@ class WifiRepo
         TODO("Not yet implemented")
     }
 
+    @Throws
+    override suspend fun gets() = withContext(Dispatchers.IO) {
+        val result = memory.gets()
+        if (!result.isNullOrEmpty()) {
+            room.put(result)
+        }
+        result
+    }
+
     override suspend fun gets(callback: () -> Unit): List<Wifi>? {
         TODO("Not yet implemented")
     }

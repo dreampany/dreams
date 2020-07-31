@@ -4,6 +4,7 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.tools.inject.ui.crypto.CryptoModule
 import com.dreampany.tools.inject.ui.history.HistoryModule
 import com.dreampany.tools.inject.ui.home.HomeModule
+import com.dreampany.tools.inject.ui.more.MoreModule
 import com.dreampany.tools.inject.ui.news.NewsModule
 import com.dreampany.tools.inject.ui.note.NoteModule
 import com.dreampany.tools.inject.ui.radio.RadioModule
@@ -36,7 +37,7 @@ abstract class ActivityModule {
     abstract fun splash(): SplashActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [HomeModule::class, SettingsModule::class])
+    @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class, SettingsModule::class])
     abstract fun home(): HomeActivity
 
     @ContributesAndroidInjector

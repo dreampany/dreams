@@ -30,6 +30,10 @@ constructor(
         return result
     }
 
+    override suspend fun gets(): List<Wifi>? {
+        TODO("Not yet implemented")
+    }
+
     @Throws
     override suspend fun gets(callback: () -> Unit): List<Wifi>? = dao.items
 

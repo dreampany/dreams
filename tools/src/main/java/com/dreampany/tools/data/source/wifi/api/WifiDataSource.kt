@@ -17,6 +17,9 @@ interface WifiDataSource {
     suspend fun put(inputs: List<Wifi>): List<Long>?
 
     @Throws
+    suspend fun gets(): List<Wifi>?
+
+    @Throws
     suspend fun gets(callback: () -> Unit): List<Wifi>?
 
     @Throws

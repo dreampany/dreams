@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.wifi.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
@@ -25,12 +26,12 @@ import com.dreampany.tools.data.enums.wifi.WifiSubtype
 import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
-import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.wifi.adapter.FastWifiAdapter
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import com.dreampany.tools.ui.wifi.vm.WifiViewModel
+import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,6 +42,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class WifisActivity : InjectActivity() {
+
     @Inject
     internal lateinit var ad: AdManager
 
@@ -48,20 +50,19 @@ class WifisActivity : InjectActivity() {
     internal lateinit var wifiPref: WifiPref
 
     private lateinit var bind: RecyclerActivityAdBinding
-    private lateinit var vm: WifiViewModel
     private lateinit var adapter: FastWifiAdapter
+    private lateinit var vm: WifiViewModel
 
     override val homeUp: Boolean = true
-
     override val layoutRes: Int = R.layout.recycler_activity_ad
-    //override fun menuRes(): Int = R.menu.menu_coins
+    override val menuRes: Int = R.menu.menu_search
     override val toolbarId: Int = R.id.toolbar
-    //override fun searchMenuItemId(): Int = R.id.item_search
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
+        initAd()
         initUi()
         initRecycler(state)
-        initAd()
         onRefresh()
         ad.loadBanner(this.javaClass.simpleName)
         ad.showInHouseAds(this)
@@ -69,6 +70,7 @@ class WifisActivity : InjectActivity() {
 
     override fun onStopUi() {
         adapter.destroy()
+        vm.stopPeriodicWifis()
     }
 
     override fun onResume() {
@@ -111,11 +113,15 @@ class WifisActivity : InjectActivity() {
         loadWifis()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun onItemPressed(view: View, item: WifiItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-               // openCoinUi(item)
+                // openCoinUi(item)
             }
             R.id.button_favorite -> {
                 //onFavoriteClicked(item)
@@ -137,12 +143,13 @@ class WifisActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        bind = getBinding()
-        bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_wifis)
-        vm = createVm(WifiViewModel::class)
-        //vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        if (!::bind.isInitialized) {
+            bind = getBinding()
+            bind.swipe.init(this)
+            bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_wifis)
+            vm = createVm(WifiViewModel::class)
+            vm.subscribes(this, Observer { this.processResponses(it) })
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -153,12 +160,8 @@ class WifisActivity : InjectActivity() {
                     //onRefresh()
                 }, this::onItemPressed
             )
+            adapter.initRecycler(state, bind.layoutRecycler.recycler)
         }
-
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler
-        )
     }
 
     private fun loadWifis() {
@@ -168,6 +171,8 @@ class WifisActivity : InjectActivity() {
                     open(Settings.Panel.ACTION_WIFI, 0)
                 }
             })
+            // TODO work for ACTION_WIFI in periodic
+            vm.startPeriodicWifis()
         }
     }
 

@@ -71,7 +71,7 @@ class FastWifiAdapter(
             addItemDecoration(
                 SpacingItemDecoration(
                     1,
-                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
+                    context.dimension(R.dimen.recycler_spacing).toInt(),
                     true
                 )
             )

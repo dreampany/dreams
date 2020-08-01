@@ -49,11 +49,17 @@ private constructor(
 
     override fun bindView(bind: WifiItemBinding, payloads: List<Any>) {
         val strength = input.signal?.strength
+        val security = input.security
+
         bind.icon.setImageResource(strength?.imageRes.value)
         bind.icon.setColorFilter(bind.color(strength?.colorRes.value))
+
+        bind.securityIcon.setImageResource(security.res)
+        bind.securityIcon.setColorFilter(bind.color(strength?.colorRes.value))
+
         bind.textSsid.text = String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
         bind.textLevel.text = String.format(bind.string(R.string.format_wifi_level), input.signal?.level)
-        bind.textLevel.setTextColor(bind.color(strength?.colorRes.value))
+        //bind.textLevel.setTextColor(bind.color(strength?.colorRes.value))
     }
 
     override fun unbindView(binding: WifiItemBinding) {

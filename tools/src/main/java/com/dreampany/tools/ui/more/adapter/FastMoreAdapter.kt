@@ -44,7 +44,7 @@ class FastMoreAdapter(val clickListener : ((item: MoreItem) -> Unit)? = null) {
                 SpacingItemDecoration(
                     3,
                     context.dimension(R.dimen.recycler_spacing).toInt(),
-                    false
+                    true
                 )
             )
         }

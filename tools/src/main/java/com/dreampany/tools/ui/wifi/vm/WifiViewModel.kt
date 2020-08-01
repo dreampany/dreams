@@ -63,7 +63,7 @@ class WifiViewModel
     }
 
     fun startPeriodicWifis() {
-        nextRun(AppConstants.Times.Wifi.PERIODIC_SCAN)
+        nextRun(WifiConstants.Times.PERIODIC_SCAN)
     }
 
     fun stopPeriodicWifis() {
@@ -98,7 +98,7 @@ class WifiViewModel
     private val periodicRunner = object : Runnable {
         override fun run() {
             periodicWifisInternal()
-            nextRun(AppConstants.Times.Wifi.PERIODIC_SCAN)
+            nextRun(WifiConstants.Times.PERIODIC_SCAN)
         }
     }
 

@@ -1,5 +1,7 @@
 package com.dreampany.tools.misc.constants
 
+import java.util.concurrent.TimeUnit
+
 /**
  * Created by roman on 2019-11-11
  * Copyright (c) 2019 bjit. All rights reserved.
@@ -7,7 +9,6 @@ package com.dreampany.tools.misc.constants
  * Last modified $file.lastModified
  */
 class WifiConstants {
-
 
     object Keys {
         object PrefKeys {
@@ -21,6 +22,8 @@ class WifiConstants {
         object Room {
             const val TYPE_WIFI = "wifi"
         }
+
+        const val RSN = "RSN"
     }
 
     object Limits {
@@ -28,6 +31,6 @@ class WifiConstants {
     }
 
     object Times {
-
+        val PERIODIC_SCAN = TimeUnit.SECONDS.toMillis(10)
     }
 }

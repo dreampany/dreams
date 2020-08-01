@@ -87,10 +87,6 @@ class AppConstants {
             val DEAD = TimeUnit.HOURS.toMillis(1)
         }
 
-        object Wifi {
-            val PERIODIC_SCAN = TimeUnit.SECONDS.toMillis(10)
-        }
-
         fun minuteToMillis(minutes: Long): Long {
             return TimeUnit.MINUTES.toMillis(minutes)
         }

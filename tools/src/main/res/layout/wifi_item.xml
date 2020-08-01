@@ -17,15 +17,29 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_4sdp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:adjustViewBounds="true"
-                android:cropToPadding="true"
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toTopOf="parent"
-                auto:srcCompat="@drawable/ic_signal_wifi_4_bar" />
+                auto:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icon"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    auto:srcCompat="@drawable/ic_signal_wifi_4_bar" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/security_icon"
+                    android:layout_width="@dimen/_4sdp" android:visibility="gone"
+                    android:layout_height="@dimen/_4sdp"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true" android:layout_gravity="bottom|end"
+                    auto:srcCompat="@drawable/ic_signal_wifi_4_bar" />
+
+            </FrameLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_ssid"

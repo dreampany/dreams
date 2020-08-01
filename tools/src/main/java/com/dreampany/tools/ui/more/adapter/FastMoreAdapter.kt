@@ -26,7 +26,7 @@ class FastMoreAdapter(val clickListener : ((item: MoreItem) -> Unit)? = null) {
     private lateinit var footerAdapter: GenericItemAdapter
 
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 

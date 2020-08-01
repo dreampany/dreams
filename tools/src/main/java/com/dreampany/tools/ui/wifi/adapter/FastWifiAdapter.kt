@@ -44,7 +44,7 @@ class FastWifiAdapter(
     }
 
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 
@@ -139,8 +139,7 @@ class FastWifiAdapter(
     }
 
     fun updateItem(item: WifiItem): Boolean {
-        var position = fastAdapter.getAdapterPosition(item)
-        position = fastAdapter.getGlobalPosition(position)
+        val position = findPosition(item)
         if (position >= 0) {
             fastAdapter.set(position, item)
             return true
@@ -156,14 +155,21 @@ class FastWifiAdapter(
     }
 
     fun addItem(item: WifiItem) {
-        val updated = updateItem(item)
-        if (!updated)
-            fastAdapter.add(item)
+        val position = findPosition(item)
+        if (position >= 0) {
+            fastAdapter.remove(position)
+        }
+        fastAdapter.add(item)
     }
 
     fun addItems(items: List<WifiItem>) {
-        //fastAdapter.add(items)
         items.forEach { addItem(it) }
+    }
+
+    private fun findPosition(item: WifiItem): Int {
+        var position = fastAdapter.getAdapterPosition(item)
+        position = fastAdapter.getGlobalPosition(position)
+        return position
     }
 
     class TimeBssidComparator : Comparator<GenericItem> {

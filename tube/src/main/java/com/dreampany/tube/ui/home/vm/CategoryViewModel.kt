@@ -3,6 +3,7 @@ package com.dreampany.tube.ui.home.vm
 import android.app.Application
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.countryCode
+import com.dreampany.framework.misc.exts.toTitle
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
@@ -56,13 +57,9 @@ class CategoryViewModel
                 }
                 if (!result.isNullOrEmpty()) {
                     val total = ArrayList(result)
-                    val regionCode = getApplication<App>().countryCode
-                    val name = Locale(Constants.Default.STRING, regionCode).displayName
-                    val countryCategory = Category(regionCode)
-                    countryCategory.title = name
-                    countryCategory.type = CategoryType.REGION
-
-                    total.add(0, countryCategory)
+                    total.add(0, regionCategory())
+                    total.add(1, liveCategory())
+                    total.add(2, upcomingCategory())
                     result = total
                 }
             } catch (error: SmartError) {
@@ -95,6 +92,29 @@ class CategoryViewModel
                 postResult(result?.toItems())
             }
         }
+    }
+
+    private fun regionCategory() : Category {
+        val regionCode = getApplication<App>().countryCode
+        val name = Locale(Constants.Default.STRING, regionCode).displayName
+        val category = Category(regionCode)
+        category.title = name
+        category.type = CategoryType.REGION
+        return category
+    }
+
+    private fun liveCategory() : Category {
+        val category = Category(CategoryType.LIVE.value)
+        category.title = CategoryType.LIVE.value.toTitle()
+        category.type = CategoryType.LIVE
+        return category
+    }
+
+    private fun upcomingCategory() : Category {
+        val category = Category(CategoryType.UPCOMING.value)
+        category.title = CategoryType.UPCOMING.value.toTitle()
+        category.type = CategoryType.UPCOMING
+        return category
     }
 
     private suspend fun List<Category>.toItems(): List<CategoryItem> {

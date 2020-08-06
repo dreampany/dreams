@@ -27,9 +27,7 @@ class StationsActivity : InjectActivity() {
     private lateinit var adapter: StationPagerAdapter
 
     override val homeUp: Boolean = true
-
     override val layoutRes: Int = R.layout.stations_activity
-
     override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {

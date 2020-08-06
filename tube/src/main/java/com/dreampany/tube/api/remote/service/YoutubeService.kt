@@ -50,6 +50,16 @@ interface YoutubeService {
         @Query("maxResults") limit: Long
     ): Call<SearchListResponse>
 
+    @GET(ApiConstants.Youtube.SEARCH)
+    fun getSearchResultOfEvent(
+        @Query("key") key: String,
+        @Query("part") part: String,
+        @Query("type") type: String,
+        @Query("eventType") eventType: String,
+        @Query("order") order: String,
+        @Query("maxResults") limit: Long
+    ): Call<SearchListResponse>
+
     @GET(ApiConstants.Youtube.VIDEOS)
     fun getVideosOfChartCategoryId(
         @Query("key") key: String,

@@ -44,6 +44,8 @@ class VideosFragment
     private lateinit var input: Category
 
     override val layoutRes: Int = R.layout.videos_fragment
+    override val menuRes: Int = R.menu.menu_search
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Category>
@@ -64,6 +66,8 @@ class VideosFragment
     override fun onRefresh() {
         if (input.type.isRegion) {
             vm.loadRegionVideos(input.id, adapter.itemCount.toLong())
+        } else if (input.type.isEvent) {
+            vm.loadEventVideos(input.id, adapter.itemCount.toLong())
         } else {
             vm.loadVideos(input.id, adapter.itemCount.toLong())
         }
@@ -95,9 +99,9 @@ class VideosFragment
         if (!::adapter.isInitialized) {
             adapter = FastVideoAdapter(
                 { currentPage: Int ->
-                Timber.v("CurrentPage: %d", currentPage)
-                onRefresh()
-            }, this::onItemPressed
+                    Timber.v("CurrentPage: %d", currentPage)
+                    onRefresh()
+                }, this::onItemPressed
             )
             adapter.initRecycler(
                 state,

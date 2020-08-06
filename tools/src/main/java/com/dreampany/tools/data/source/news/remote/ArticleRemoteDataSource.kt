@@ -130,7 +130,7 @@ constructor(
                 val response: Response<ArticlesResponse> = service.getHeadlinesByCountry(
                     getHeader(key),
                     country,
-                    offset, //Coin Market Cap start from 1 - IntRange
+                    offset,
                     limit
                 ).execute()
                 if (response.isSuccessful) {

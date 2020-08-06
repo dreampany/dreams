@@ -54,8 +54,8 @@ class HomeFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
-        if (!::vm.isInitialized) {
+        if (!::bind.isInitialized) {
+            bind = getBinding()
             vm = createVm(FeatureViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
         }
@@ -68,10 +68,7 @@ class HomeFragment
                 openUi(item.item)
             })
 
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
-            )
+            adapter.initRecycler(state, bind.layoutRecycler.recycler)
         }
     }
 

@@ -5,7 +5,6 @@ import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.tube.R
 import com.dreampany.tube.databinding.HomeActivityBinding
 import com.dreampany.tube.manager.AdManager
-import com.dreampany.tube.ui.more.fragment.MoreFragment
 import com.dreampany.tube.ui.home.fragment.HomeFragment
 import com.dreampany.tube.ui.settings.fragment.SettingsFragment
 import dagger.Lazy

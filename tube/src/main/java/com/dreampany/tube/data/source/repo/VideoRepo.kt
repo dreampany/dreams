@@ -141,6 +141,32 @@ class VideoRepo
         room.getsOfRegionCode(regionCode, offset, limit)
     }
 
+    @Throws
+    override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long) =
+        withContext(Dispatchers.IO) {
+            if (mapper.isExpired(eventType, offset)) {
+                var result = remote.getsOfEvent(eventType, offset, limit)
+                if (!result.isNullOrEmpty()) {
+                    room.putIf(result)
+                    mapper.commitExpire(eventType, offset)
+                    result.expiredIds()?.let {
+                        if (it.isNotEmpty()) {
+                            result = remote.gets(it)
+                            result?.let {
+                                val puts = room.put(it)
+                                Timber.v("")
+                            }
+                            result?.forEach {
+                                mapper.commitExpire(it.id)
+                            }
+                        }
+                    }
+                }
+            }
+            room.getsOfEvent(eventType, offset, limit)
+        }
 
-    suspend fun List<Video>.expiredIds(): List<String>? = this.filter { mapper.isExpired(it.id) }.map { it.id }
+
+    suspend fun List<Video>.expiredIds(): List<String>? =
+        this.filter { mapper.isExpired(it.id) }.map { it.id }
 }

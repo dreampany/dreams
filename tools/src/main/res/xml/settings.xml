@@ -9,22 +9,27 @@
         <Preference
             android:key="@string/key_settings_more_apps"
             android:title="@string/title_settings_more_apps"
+            auto:icon="@drawable/ic_apps_black_24dp"
             auto:iconSpaceReserved="false" />
 
         <Preference
             android:key="@string/key_settings_rate_us"
             android:title="@string/title_settings_rate_us"
+            auto:icon="@drawable/ic_rate_review_black_24dp"
             auto:iconSpaceReserved="false" />
 
         <Preference
             android:key="@string/key_settings_feedback"
             android:title="@string/title_settings_feedback"
+            auto:icon="@drawable/ic_feedback_black_24dp"
             auto:iconSpaceReserved="false" />
 
         <Preference
             android:key="@string/key_settings_about"
             android:title="@string/title_settings_about"
+            auto:icon="@drawable/ic_info_black_24dp"
             auto:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <!--<androidx.preference.SwitchPreferenceCompat

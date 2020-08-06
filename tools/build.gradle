@@ -16,8 +16,8 @@ android {
         applicationId 'com.dreampany.tools'
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 125
-        versionName '0.1.2.5'
+        versionCode 127
+        versionName '0.1.2.7'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -151,7 +151,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-ads:19.3.0'
     implementation 'com.google.firebase:firebase-database:19.3.1'
     implementation 'com.google.firebase:firebase-firestore:21.5.0'
-    implementation 'com.google.firebase:firebase-messaging:20.2.3'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
 
     /* facebook */

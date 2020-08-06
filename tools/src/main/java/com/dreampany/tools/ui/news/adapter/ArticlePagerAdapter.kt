@@ -21,6 +21,10 @@ import com.dreampany.tools.ui.news.fragment.ArticlesFragment
  */
 class ArticlePagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
+    init {
+        addItems()
+    }
+
     fun addItems() {
         val country = UiTask(
             NewsType.DEFAULT,

@@ -28,10 +28,8 @@ class NewsActivity : InjectActivity() {
     private lateinit var adapter: ArticlePagerAdapter
 
     override val homeUp: Boolean = true
-
     override val layoutRes: Int = R.layout.news_activity
     override val menuRes: Int = R.menu.menu_news
-
     override val toolbarId: Int = R.id.toolbar
     override val searchMenuItemId: Int = R.id.item_search
 
@@ -39,7 +37,6 @@ class NewsActivity : InjectActivity() {
         initAd()
         initUi()
         initPager()
-        loadUi()
         ad.loadBanner(this.javaClass.simpleName)
         ad.showInHouseAds(this)
     }
@@ -100,9 +97,5 @@ class NewsActivity : InjectActivity() {
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
-    }
-
-    private fun loadUi() {
-        adapter.addItems()
     }
 }

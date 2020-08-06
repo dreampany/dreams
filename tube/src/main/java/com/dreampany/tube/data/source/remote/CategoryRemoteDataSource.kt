@@ -1,7 +1,7 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
-import com.dreampany.adapter.value
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError

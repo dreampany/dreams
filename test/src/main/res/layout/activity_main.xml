@@ -21,58 +21,144 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAFAFA">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            auto:layout_constraintGuide_percent="0.5" />
+
+        <com.example.test.CircularWheelView
+            android:id="@+id/picker"
+            android:layout_width="0dp"
+            android:layout_height="500dp"
+            android:layout_marginStart="10dp"
+            auto:layout_constraintBottom_toBottomOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="@id/guideline"
+            auto:layout_constraintTop_toTopOf="parent"
+            auto:wheel_background_color="#F4F4F4"
+            auto:wheel_item_selected_text_color="#252525"
+            auto:wheel_item_text_color="#ADADAD"
+            auto:wheel_item_text_size="14dp"
+            auto:wheel_position="right" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FAFAFA"
         android:gravity="center"
-        android:orientation="vertical">
-
-       <!-- <com.google.android.material.slider.Slider
-            android:id="@+id/slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:value="60"
-            android:valueFrom="0"
-            android:valueTo="100"
-            auto:labelBehavior="withinBounds"
-            auto:labelStyle="@style/tooltip"
-            auto:thumbColor="@color/material_on_background_disabled"
-            auto:thumbRadius="20dp" />-->
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:maxHeight="1.7dp"
+            android:minHeight="1.7dp"
+            android:progress="20"
+            android:progressDrawable="@drawable/seekbar_style"
             android:thumb="@drawable/thumb" />
 
-        <!--<com.warkiz.widget.IndicatorSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            auto:isb_indicator_color="@android:color/darker_gray"
-            auto:isb_indicator_text_color="@color/colorAccent"
-            auto:isb_indicator_text_size="18sp"
-            auto:isb_max="100"
-            auto:isb_min="-1.0"
-            auto:isb_only_thumb_draggable="false"
-            auto:isb_progress="25"
-            auto:isb_seek_smoothly="true"
-            auto:isb_show_indicator="rounded_rectangle"
-            auto:isb_show_tick_marks_type="oval"
-            auto:isb_show_tick_texts="true"
-            auto:isb_thumb_color="@android:color/holo_green_dark"
-            auto:isb_thumb_size="20dp"
-            auto:isb_tick_marks_drawable="@mipmap/ic_launcher"
-            auto:isb_tick_marks_size="13dp"
-            auto:isb_tick_texts_color="@android:color/holo_blue_dark"
-            auto:isb_tick_texts_size="15sp"
-            auto:isb_ticks_count="5"
-            auto:isb_track_background_color="@android:color/darker_gray"
-            auto:isb_track_background_size="2dp"
-            auto:isb_track_progress_color="@android:color/holo_blue_dark"
-            auto:isb_track_progress_size="4dp" />-->
+        <TextView
+            android:id="@+id/progress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@id/seek_bar"
+            android:background="@drawable/marker_ellipse"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@android:color/white" />
 
-    </LinearLayout>
+
+        <!-- <androidx.cardview.widget.CardView
+             android:id="@+id/ripple"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="?android:attr/selectableItemBackground"
+             android:clickable="true"
+             android:focusable="true">
+
+             <Button
+                 android:id="@+id/button"
+                 android:layout_width="100dp"
+                 android:layout_height="50dp"
+                 android:layout_below="@id/seek_bar"
+                 android:layout_centerHorizontal="true"
+                 android:background="@drawable/button_effect"
+                 android:elevation="12dp"
+                 android:text="Hello"
+                 android:textColor="@android:color/black" />
+
+         </androidx.cardview.widget.CardView>
+
+         <androidx.appcompat.widget.AppCompatButton
+             android:id="@+id/my_button"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerHorizontal="true"
+             android:layout_marginLeft="20dp"
+             android:background="@android:color/white"
+             android:text="BUTTON"
+             android:translationZ="16dp"
+             auto:elevation="16dp" />-->
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/seek_bar"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_press_effect"
+            android:elevation="12dp"
+            android:text="Hello"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/textview_effect"
+            android:gravity="center_vertical"
+            android:minWidth="200dp"
+            android:minHeight="40dp"
+            android:paddingStart="10dp"
+            android:text="Hello"
+            android:textColor="@android:color/black" />
+
+        <!--<com.blure.complexview.ComplexView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            auto:radius="30dp"
+            auto:shadow="true"
+            auto:shadowAlpha="30"
+            auto:shadowColor="#DADADA"
+            auto:shadowSpread="3">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="5dp"
+                android:text="Show" />
+        </com.blure.complexview.ComplexView>-->
+
+    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -80,6 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
         auto:srcCompat="@android:drawable/ic_dialog_email" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

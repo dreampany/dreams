@@ -39,7 +39,7 @@ class CategoryPagerAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragme
                     VideosFragment::class,
                     video
                 ),
-                it.input.title.value(),
+                it.input.title.value,
                 false
             )
         }

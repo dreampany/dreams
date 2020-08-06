@@ -11,10 +11,13 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class CategoryType(val value: String) : Parcelable {
-    DEFAULT("default"), REGION("region"), LIVE("live"), NEWS("news");
+    DEFAULT("default"), REGION("region"), LIVE("live") , UPCOMING("upcoming"), NEWS("news");
 
     val isRegion : Boolean
         get() = this == REGION
+
+    val isEvent : Boolean
+        get() = this == LIVE || this == UPCOMING
 
     val isFixed : Boolean
         get() = this == REGION || this == LIVE

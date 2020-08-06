@@ -1,8 +1,8 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
-import com.dreampany.adapter.value
 import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
@@ -204,6 +204,47 @@ class VideoRemoteDataSource(
                 if (response.isSuccessful) {
                     val data = response.body()?.items ?: return null
                     return mapper.getsOfSearch(regionCode, data)
+                } else {
+                    val error = parser.parseError(response, SearchListResponse::class)
+                    throw SmartError(
+                        message = error?.error?.message,
+                        code = error?.error?.code.value
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) {
+                    if (!error.isForbidden)
+                        throw error
+                }
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
+
+    @Throws
+    override suspend fun getsOfEvent(eventType : String, offset: Long, limit: Long): List<Video>? {
+        for (index in 0..keys.indexLength) {
+            try {
+                val key = keys.nextKey ?: continue
+                val part = "snippet"
+                val type = "video"
+                val order = "viewCount"
+                val response : Response<SearchListResponse> = service.getSearchResultOfEvent(
+                    key,
+                    part,
+                    type,
+                    eventType,
+                    order,
+                    limit
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.items ?: return null
+                    return mapper.getsOfSearch(eventType, data)
                 } else {
                     val error = parser.parseError(response, SearchListResponse::class)
                     throw SmartError(

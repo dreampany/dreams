@@ -59,6 +59,25 @@ class VideoViewModel
         }
     }
 
+    fun loadEventVideos(eventType: String, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Video>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.getsOfEvent(eventType, offset, AppConstants.Limits.VIDEOS)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
     fun loadVideos(categoryId: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)

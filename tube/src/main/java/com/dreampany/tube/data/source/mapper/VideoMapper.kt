@@ -84,7 +84,7 @@ class VideoMapper
             )
             favorites.put(input.id, favorite)
         }
-        return favorites.get(input.id).value()
+        return favorites.get(input.id).value
     }
 
     @Throws

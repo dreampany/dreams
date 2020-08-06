@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="transparent">
+
+    <!--<item>
+        <shape android:shape="rectangle">
+            <size
+                android:width="180dp"
+                android:height="90dp" />
+
+            <corners
+                android:topLeftRadius="200dp"
+                android:topRightRadius="200dp" />
+            <stroke
+                android:width="2px"
+                android:color="@android:color/black" />
+        </shape>
+    </item>-->
+
+
+    <item
+        android:width="40dp"
+        android:height="10dp"
+        android:top="-8.5dp"
+        android:drawable="@drawable/ic_ellipse"
+        android:gravity="center" />
 
     <item
         android:width="10dp"
         android:height="10dp"
-        android:top="25dp"
-        android:right="15dp"
         android:bottom="5dp"
-        android:left="15dp">
-        <shape
-            android:shape="oval">
+        android:left="15dp"
+        android:right="15dp"
+        android:top="25dp">
+        <shape android:shape="oval">
             <solid android:color="#FF9800" />
         </shape>
     </item>
+
+
     <!--<item>
         <shape
             android:shape="oval">

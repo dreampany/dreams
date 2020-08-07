@@ -131,7 +131,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
             ex.postToUi(Runnable {
                 onMenuCreated(menu)
                 initSearch()
-            })
+            }, 500L)
         }
     }
 

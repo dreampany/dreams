@@ -10,14 +10,14 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.0'
+    buildToolsVersion '30.0.1'
 
     defaultConfig {
         applicationId 'com.dreampany.tools'
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 127
-        versionName '0.1.2.7'
+        versionCode 128
+        versionName '0.1.2.8'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true

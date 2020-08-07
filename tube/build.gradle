@@ -8,15 +8,15 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '30.0.0'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.1'
 
     defaultConfig {
-        applicationId "com.dreampany.tube"
+        applicationId 'com.dreampany.tube'
         minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 11
-        versionName '0.0.1.1'
+        targetSdkVersion 30
+        versionCode 12
+        versionName '0.0.1.2'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true

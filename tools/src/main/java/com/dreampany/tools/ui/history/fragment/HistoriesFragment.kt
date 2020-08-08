@@ -25,6 +25,7 @@ import com.dreampany.tools.ui.history.adapter.FastHistoryAdapter
 import com.dreampany.tools.ui.history.model.HistoryItem
 import com.dreampany.tools.ui.history.vm.HistoryViewModel
 import com.dreampany.tools.ui.web.WebActivity
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -103,12 +104,8 @@ class HistoriesFragment
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
             adapter = FastHistoryAdapter(this::onItemPressed)
+            adapter.initRecycler(state, bind.layoutRecycler.recycler)
         }
-
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler
-        )
     }
 
     private fun processResponse(response: Response<HistoryType, HistorySubtype, HistoryState, HistoryAction, List<HistoryItem>>) {

@@ -9,6 +9,7 @@ import androidx.annotation.AnyRes
 import androidx.annotation.RestrictTo
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -38,7 +39,7 @@ object HouseAdsHelper {
                 .header("Accept-Language", "en-US,en;q=0.8,ru;q=0.6")
                 .get()
         } catch (e: IOException) {
-            Log.e("HouseAds", e.message)
+            Timber.e(e, "HouseAds")
             e.printStackTrace()
         }
 

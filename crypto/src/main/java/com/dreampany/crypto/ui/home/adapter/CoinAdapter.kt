@@ -36,7 +36,7 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
         ViewHolder(bind as CoinItemBinding, this)
 
     override fun filter(item: Coin, constraint: CharSequence): Boolean =
-        item.name.value().contains(constraint)
+        item.name.value.contains(constraint)
 
     fun setProperty(
         currency: Currency,

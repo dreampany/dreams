@@ -21,7 +21,7 @@ import com.dreampany.crypto.data.source.room.dao.QuoteDao
 import com.dreampany.crypto.data.source.room.database.DatabaseManager
 import com.dreampany.framework.inject.annote.Remote
 import com.dreampany.framework.inject.annote.Room
-import com.dreampany.framework.inject.data.StoreModule
+import com.dreampany.framework.inject.data.DatabaseModule
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
@@ -37,7 +37,7 @@ import javax.inject.Singleton
  */
 @Module(
     includes = [
-        StoreModule::class,
+        DatabaseModule::class,
         CoinMarketCapModule::class,
         CryptoCompareModule::class,
         GeckoModule::class,

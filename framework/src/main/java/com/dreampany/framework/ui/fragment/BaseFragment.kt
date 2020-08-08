@@ -128,10 +128,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         if (menuRes != 0) { //this need clear
             menu.clear()
             inflater.inflate(menuRes, menu)
-            ex.postToUi(Runnable {
-                onMenuCreated(menu)
-                initSearch()
-            }, 500L)
+            onMenuCreated(menu)
+            initSearch()
         }
     }
 
@@ -314,7 +312,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         searchView?.apply {
             inputType = InputType.TYPE_TEXT_VARIATION_FILTER
             imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
-            queryHint = getString(R.string.search)
+            //queryHint = getString(R.string.search)
             val searchManager =
                 context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
             setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))

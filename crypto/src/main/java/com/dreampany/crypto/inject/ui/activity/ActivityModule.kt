@@ -10,6 +10,7 @@ import com.dreampany.crypto.ui.home.activity.FavoriteCoinsActivity
 import com.dreampany.crypto.ui.home.activity.HomeActivity
 import com.dreampany.crypto.ui.splash.SplashActivity
 import com.dreampany.crypto.ui.web.WebActivity
+import com.dreampany.cryto.inject.ui.settings.SettingsModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,7 +26,7 @@ abstract class ActivityModule {
     abstract fun splash(): SplashActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [HomeModule::class, NewsModule::class, MoreModule::class])
+    @ContributesAndroidInjector(modules = [HomeModule::class, NewsModule::class, SettingsModule::class])
     abstract fun home(): HomeActivity
 
     @ActivityScope

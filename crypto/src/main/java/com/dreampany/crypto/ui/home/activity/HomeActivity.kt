@@ -5,9 +5,9 @@ import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.crypto.R
 import com.dreampany.crypto.databinding.HomeActivityBinding
 import com.dreampany.crypto.manager.AdManager
-import com.dreampany.crypto.ui.more.fragment.MoreFragment
 import com.dreampany.crypto.ui.home.fragment.HomeFragment
 import com.dreampany.crypto.ui.news.NewsFragment
+import com.dreampany.crypto.ui.settings.SettingsFragment
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     internal lateinit var news: Lazy<NewsFragment>
 
     @Inject
-    internal lateinit var more: Lazy<MoreFragment>
+    internal lateinit var settings: Lazy<SettingsFragment>
 
     private lateinit var bind: HomeActivityBinding
 
@@ -53,9 +53,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
                 setTitle(R.string.news)
                 commitFragment(NewsFragment::class, news, R.id.layout)
             }
-            R.id.navigation_more -> {
-                setTitle(R.string.more)
-                commitFragment(MoreFragment::class, more, R.id.layout)
+            R.id.navigation_settings -> {
+                setTitle(R.string.settings)
+                commitFragment(SettingsFragment::class, settings, R.id.layout)
             }
         }
     }

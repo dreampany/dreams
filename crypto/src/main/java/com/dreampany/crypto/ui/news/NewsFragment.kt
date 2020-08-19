@@ -1,11 +1,9 @@
 package com.dreampany.crypto.ui.news
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.enums.Action
@@ -20,13 +18,13 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.init
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.refresh
+import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
-import com.smarteist.autoimageslider.SliderViewAdapter
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,8 +45,8 @@ class NewsFragment
     private lateinit var adapter: FastArticleAdapter
 
     override val layoutRes: Int = R.layout.news_fragment
-    //override val menuRes: Int = R.menu.menu_home
-    //override val searchMenuItemId: Int = R.id.item_search
+    override val menuRes: Int = R.menu.menu_search
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -62,14 +60,14 @@ class NewsFragment
         //adapter.destroy()
     }
 
-    /*override fun onSaveInstanceState(outState: Bundle) {
+    override fun onSaveInstanceState(outState: Bundle) {
         var outState = outState
         outState = adapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
-    }*/
+    }
 
     override fun onMenuCreated(menu: Menu) {
-        //getSearchMenuItem().toTint(context, R.color.material_white)
+        getSearchMenuItem().toTint(context, R.color.material_white)
         //findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
     }
 
@@ -84,7 +82,7 @@ class NewsFragment
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        //adapter.filter(newText)
+        adapter.filter(newText)
         return false
     }
 
@@ -136,12 +134,14 @@ class NewsFragment
                     onRefresh()
                 }, this::onItemPressed
             )
+
+            adapter.initRecycler(
+                state,
+                bind.layoutRecycler.recycler
+            )
         }
 
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler
-        )
+
 
         //ViewCompat.setNestedScrollingEnabled(bind.layoutRecycler.recycler, false)
     }

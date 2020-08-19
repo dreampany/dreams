@@ -18,7 +18,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -34,17 +33,19 @@
                             android:id="@+id/slider"
                             android:layout_width="match_parent"
                             android:layout_height="180dp"
+                            android:background="@android:color/transparent"
                             auto:sliderAnimationDuration="600"
                             auto:sliderAutoCycleDirection="right"
                             auto:sliderAutoCycleEnabled="true"
                             auto:sliderIndicatorAnimationDuration="600"
+                            auto:sliderIndicatorEnabled="true"
                             auto:sliderIndicatorGravity="center_horizontal|bottom"
                             auto:sliderIndicatorMargin="15dp"
                             auto:sliderIndicatorOrientation="horizontal"
                             auto:sliderIndicatorPadding="3dp"
                             auto:sliderIndicatorRadius="2dp"
-                            auto:sliderIndicatorSelectedColor="#5A5A5A"
-                            auto:sliderIndicatorUnselectedColor="#FFF"
+                            auto:sliderIndicatorSelectedColor="#FFFFFF"
+                            auto:sliderIndicatorUnselectedColor="#050505"
                             auto:sliderScrollTimeInSec="4"
                             auto:sliderStartAutoCycle="true" />
 
@@ -69,7 +70,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                android:backgroundTint="?attr/colorAccent"
                 android:tint="@color/material_white"
                 android:visibility="gone"
                 auto:backgroundTint="?attr/colorAccent"

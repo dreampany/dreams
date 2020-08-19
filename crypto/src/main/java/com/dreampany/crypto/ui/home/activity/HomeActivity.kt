@@ -50,7 +50,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
                 commitFragment(HomeFragment::class, home, R.id.layout)
             }
             R.id.navigation_news -> {
-                setTitle(R.string.news)
+                setTitle(R.string.title_crypto_news)
                 commitFragment(NewsFragment::class, news, R.id.layout)
             }
             R.id.navigation_settings -> {

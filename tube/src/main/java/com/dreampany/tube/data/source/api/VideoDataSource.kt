@@ -26,6 +26,12 @@ interface VideoDataSource {
     suspend fun put(inputs: List<Video>): List<Long>?
 
     @Throws
+    suspend fun putOfRegionCode(regionCode: String, inputs: List<Video>)
+
+    @Throws
+    suspend fun putOfEvent(eventType: String, inputs: List<Video>)
+
+    @Throws
     suspend fun putIf(inputs: List<Video>): List<Long>?
 
     @Throws

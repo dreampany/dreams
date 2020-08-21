@@ -48,6 +48,15 @@ class VideoRoomDataSource(
     }
 
     @Throws
+    override suspend fun putOfRegionCode(regionCode: String, inputs: List<Video>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun putOfEvent(eventType: String, inputs: List<Video>) {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
     override suspend fun putIf(inputs: List<Video>): List<Long>? {
         val result = arrayListOf<Long>()
         inputs.forEach {
@@ -100,9 +109,9 @@ class VideoRoomDataSource(
         regionCode: String,
         offset: Long,
         limit: Long
-    ): List<Video>? = mapper.gets(regionCode, offset, limit, this)
+    ): List<Video>? = mapper.getRegionVideos(regionCode)
 
     @Throws
     override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long): List<Video>? =
-        mapper.gets(eventType, offset, limit, this)
+        mapper.getEventVideos(eventType)
 }

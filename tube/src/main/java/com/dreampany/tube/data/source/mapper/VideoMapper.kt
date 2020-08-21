@@ -4,6 +4,7 @@ import com.dreampany.framework.data.model.Time
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.data.source.repo.TimeRepo
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.tube.api.model.*
 import com.dreampany.tube.data.enums.State
@@ -14,6 +15,8 @@ import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.misc.AppConstants
 import com.google.common.collect.Maps
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,8 +33,11 @@ class VideoMapper
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
     private val timeRepo: TimeRepo,
-    private val pref: AppPref
+    private val pref: AppPref,
+    private val gson: Gson
 ) {
+
+    private val type = object : TypeToken<List<Video>>() {}.type
     private val videos: MutableMap<String, MutableMap<String, Video>>
     private val favorites: MutableMap<String, Boolean>
 
@@ -50,7 +56,6 @@ class VideoMapper
         return time.isExpired(AppConstants.Times.VIDEOS)
     }
 
-
     @Throws
     suspend fun commitExpire(id: String) {
         val time = Time(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
@@ -61,6 +66,32 @@ class VideoMapper
         val time =
             timeRepo.getTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
         return time.isExpired(AppConstants.Times.VIDEOS)
+    }
+
+    fun setRegionVideos(regionCode: String, videos: List<Video>) {
+        val json = videos.toJson
+        pref.setPrivately(AppConstants.Keys.Pref.VIDEOS.plus(regionCode), json)
+    }
+
+    fun getRegionVideos(regionCode: String): List<Video>? {
+        val json = pref.getPrivately(
+            AppConstants.Keys.Pref.VIDEOS.plus(regionCode),
+            Constants.Default.STRING
+        )
+        return if (json.isNullOrEmpty()) null else json.toItems
+    }
+
+    fun setEventVideos(eventType: String, videos: List<Video>) {
+        val json = videos.toJson
+        pref.setPrivately(AppConstants.Keys.Pref.VIDEOS.plus(eventType), json)
+    }
+
+    fun getEventVideos(eventType: String): List<Video>? {
+        val json = pref.getPrivately(
+            AppConstants.Keys.Pref.VIDEOS.plus(eventType),
+            Constants.Default.STRING
+        )
+        return if (json.isNullOrEmpty()) null else json.toItems
     }
 
 
@@ -265,5 +296,11 @@ class VideoMapper
         //temp.sortWith(comparator)
         return temp
     }
+
+    private val List<Video>.toJson: String
+        get() = gson.toJson(this, type)
+
+    private val String.toItems: List<Video>
+        get() = gson.fromJson<List<Video>>(this, type)
 
 }

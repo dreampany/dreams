@@ -53,6 +53,15 @@ class VideoRepo
         TODO("Not yet implemented")
     }
 
+    @Throws
+    override suspend fun putOfRegionCode(regionCode: String, inputs: List<Video>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun putOfEvent(eventType: String, inputs: List<Video>) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun putIf(inputs: List<Video>): List<Long>? {
         TODO("Not yet implemented")
     }
@@ -123,6 +132,7 @@ class VideoRepo
             var result = remote.getsOfRegionCode(regionCode, offset, limit)
             if (!result.isNullOrEmpty()) {
                 room.putIf(result)
+                mapper.setRegionVideos(regionCode, result)
                 mapper.commitExpire(regionCode, offset)
                 result.expiredIds()?.let {
                     if (it.isNotEmpty()) {
@@ -148,6 +158,7 @@ class VideoRepo
                 var result = remote.getsOfEvent(eventType, offset, limit)
                 if (!result.isNullOrEmpty()) {
                     room.putIf(result)
+                    mapper.setEventVideos(eventType, result)
                     mapper.commitExpire(eventType, offset)
                     result.expiredIds()?.let {
                         if (it.isNotEmpty()) {

@@ -18,7 +18,7 @@ class AppConstants {
             const val CATEGORIES = "categories"
             const val SEARCH = "search"
             const val VIDEO = "video"
-            const val REGION_CODE = "region_code"
+            const val VIDEOS = "videos"
         }
 
         object Room {

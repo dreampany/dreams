@@ -71,6 +71,14 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
+    override suspend fun putOfRegionCode(regionCode: String, inputs: List<Video>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun putOfEvent(eventType: String, inputs: List<Video>) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun putIf(inputs: List<Video>): List<Long>? {
         TODO("Not yet implemented")
     }

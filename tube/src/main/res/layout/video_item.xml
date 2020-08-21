@@ -8,8 +8,9 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardElevation="@dimen/_2sdp"
-        auto:cardMaxElevation="@dimen/_2sdp"
+        auto:cardCornerRadius="@dimen/_4sdp"
+        auto:cardElevation="@dimen/_4sdp"
+        auto:cardMaxElevation="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false">
 
         <androidx.appcompat.widget.LinearLayoutCompat

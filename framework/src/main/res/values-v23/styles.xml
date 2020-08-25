@@ -3,8 +3,9 @@
 
     <style name="NoActionBar" parent="Base.NoActionBar" />
 
-    <style name="LightActionBar" parent="Base.LightActionBar" >
+    <style name="LightActionBar" parent="Base.LightActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Transparent" parent="Base.Transparent" />

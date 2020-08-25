@@ -17,6 +17,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
+                android:theme="@style/Theme.Toolbar.Light"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 auto:popupTheme="@style/PopupOverlay" />
@@ -42,6 +43,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
+                auto:itemIconTint="@color/tab_color_light"
+                auto:itemTextColor="@color/tab_color_light"
                 auto:menu="@menu/bottom_nav_menu" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

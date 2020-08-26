@@ -12,7 +12,7 @@ class RadioConstants {
 
     object Apis {
         object Radio {
-            const val BASE_URL = "http://www.radio-browser.info/webservice/"
+            const val BASE_URL = "http://de1.api.radio-browser.info/"
             const val RADIO_BROWSER_STATIONS_OF_COUNTRY =
                 "json/stations/bycountrycodeexact/{${Keys.Station.COUNTRY_CODE}}"
             const val RADIO_BROWSER_STATIONS_OF_TRENDS =

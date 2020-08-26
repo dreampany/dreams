@@ -35,9 +35,6 @@ data class Station(
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CHANGE_UUID)
     @ColumnInfo(name = RadioConstants.Keys.Station.CHANGE_UUID)
     private var changeUuid: String? = Constants.Default.NULL,
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
-    @ColumnInfo(name = RadioConstants.Keys.Station.STATION_UUID)
-    private var stationUuid: String? = Constants.Default.NULL,
     var name: String? = Constants.Default.NULL,
     var url: String? = Constants.Default.NULL,
     var homepage: String? = Constants.Default.NULL,
@@ -123,16 +120,6 @@ data class Station(
     @PropertyName(RadioConstants.Keys.Station.CHANGE_UUID)
     fun getChangeUuid(): String? {
         return changeUuid
-    }
-
-    @PropertyName(RadioConstants.Keys.Station.STATION_UUID)
-    fun setStationUuid(stationUuid: String?) {
-        this.stationUuid = stationUuid
-    }
-
-    @PropertyName(RadioConstants.Keys.Station.STATION_UUID)
-    fun getStationUuid(): String? {
-        return stationUuid
     }
 
     @PropertyName(RadioConstants.Keys.Station.COUNTRY_CODE)

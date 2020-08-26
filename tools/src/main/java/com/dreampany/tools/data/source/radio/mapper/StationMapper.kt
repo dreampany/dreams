@@ -111,7 +111,6 @@ class StationMapper
             stations.put(input.id, out)
         }
         out.setChangeUuid(input.changeUuid)
-        out.setStationUuid(input.stationUuid)
         out.name = input.name
         out.url = input.url
         out.homepage = input.homepage

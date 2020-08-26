@@ -431,7 +431,7 @@ class RadioPlayerService
 
     private fun showNotify(title: String, message: String, ticker: String) {
         val notifyIntent = Intent(this, HomeActivity::class.java)
-        notifyIntent.putExtra(RadioConstants.Keys.Station.STATION_UUID, station?.getStationUuid())
+        notifyIntent.putExtra(RadioConstants.Keys.Station.STATION_UUID, station?.id)
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         val stopIntent = Intent(this, RadioPlayerService::class.java)

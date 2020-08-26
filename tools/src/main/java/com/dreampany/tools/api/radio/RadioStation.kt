@@ -18,11 +18,12 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class RadioStation(
     override var time: Long = Constants.Default.LONG,
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
     override var id: String = Constants.Default.STRING,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CHANGE_UUID)
     var changeUuid: String? = Constants.Default.NULL,
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
-    var stationUuid: String? = Constants.Default.NULL,
+    /*@SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
+    var stationUuid: String = Constants.Default.STRING,*/
     var name: String? = Constants.Default.NULL,
     var url: String? = Constants.Default.NULL,
     var homepage: String? = Constants.Default.NULL,
@@ -65,9 +66,7 @@ data class RadioStation(
 
     }
 
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
-    }
+    override fun hashCode(): Int = Objects.hashCode(id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

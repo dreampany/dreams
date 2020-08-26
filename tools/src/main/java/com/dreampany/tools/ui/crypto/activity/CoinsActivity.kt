@@ -76,11 +76,6 @@ class CoinsActivity : InjectActivity() {
         super.onPause()
     }
 
-    override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(this, R.color.material_white)
-        findMenuItemById(R.id.item_favorites).toTint(this, R.color.material_white)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         var outState = outState
         outState = adapter.saveInstanceState(outState)

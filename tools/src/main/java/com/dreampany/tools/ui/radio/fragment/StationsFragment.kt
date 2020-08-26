@@ -77,10 +77,6 @@ class StationsFragment
         super.onPause()
     }
 
-    override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(context, R.color.material_white)
-    }
-
     override fun onRefresh() {
         loadStations()
     }

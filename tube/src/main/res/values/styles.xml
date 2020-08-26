@@ -10,6 +10,16 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <style name="Theme.App.Light" parent="LightActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+    </style>
+
     <!-- activity -->
     <style name="Theme.Splash" parent="LightActionBar">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -21,18 +31,6 @@
         <item name="android:textColorPrimary">@color/material_black</item>
         <item name="android:textColorSecondary">@color/material_grey500</item>
         <item name="android:windowBackground">@color/windowBackground</item>
-    </style>
-
-    <style name="Theme.Home" parent="LightActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:windowBackground">@color/windowBackground</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-
-        <!--<item name="homeAsUpIndicator">@drawable/ic_drawer</item>-->
     </style>
 
 </resources>

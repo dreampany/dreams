@@ -13,7 +13,13 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppBarOverlay">
 
-            <include layout="@layout/content_toolbar" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/Theme.Toolbar.Light"
+                auto:popupTheme="@style/PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,11 +38,13 @@
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/navigation_view"
+                style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
-                style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+                auto:itemIconTint="@color/tab_color_light"
+                auto:itemTextColor="@color/tab_color_light"
                 auto:menu="@menu/bottom_nav_menu" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

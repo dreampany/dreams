@@ -49,6 +49,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="top"
                     android:layout_marginBottom="48dp"
+                    android:theme="@style/Theme.Toolbar.Light"
                     auto:layout_collapseMode="pin"
                     auto:popupTheme="@style/PopupOverlay" />
 
@@ -58,11 +59,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:background="@android:color/transparent"
-                    auto:tabGravity="fill" auto:tabIndicator="@drawable/tab_indicator"
-                    auto:tabIndicatorColor="@android:color/white"
+                    auto:tabGravity="fill"
+                    auto:tabIndicator="@drawable/tab_indicator"
+                    auto:tabIndicatorColor="@color/textColorPrimary"
+                    auto:tabIndicatorHeight="@dimen/_4sdp"
                     auto:tabMode="scrollable"
-                    auto:tabSelectedTextColor="@android:color/white"
-                    auto:tabTextColor="@color/material_white" />
+                    auto:tabSelectedTextColor="@color/textColorPrimary"
+                    auto:tabTextAppearance="@style/TabTextLight" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

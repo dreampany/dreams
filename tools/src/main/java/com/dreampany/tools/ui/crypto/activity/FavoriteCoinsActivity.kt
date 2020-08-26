@@ -67,9 +67,9 @@ class FavoriteCoinsActivity : InjectActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    override fun onMenuCreated(menu: Menu) {
+    /*override fun onMenuCreated(menu: Menu) {
         getSearchMenuItem().toTint(this, R.color.material_white)
-    }
+    }*/
 
     override fun onQueryTextChange(newText: String?): Boolean {
         adapter.filter(newText)

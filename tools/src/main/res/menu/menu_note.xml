@@ -5,21 +5,18 @@
     <item
         android:id="@+id/item_favorite"
         android:icon="@drawable/ic_favorite_border_black_24dp"
-        android:iconTint="@color/material_white"
         android:title="@string/favorites"
         auto:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/item_edit"
         android:icon="@drawable/ic_edit_black_24dp"
-        android:iconTint="@color/material_white"
         android:title="@string/edit"
         auto:showAsAction="always" />
 
     <item
         android:id="@+id/item_done"
         android:icon="@drawable/ic_done_black_24dp"
-        android:iconTint="@color/material_white"
         android:title="@string/done"
         auto:showAsAction="always" />
 

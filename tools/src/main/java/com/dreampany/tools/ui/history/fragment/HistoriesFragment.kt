@@ -59,10 +59,6 @@ class HistoriesFragment
     override fun onStopUi() {
     }
 
-    override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(context, R.color.material_white)
-    }
-
     override fun onRefresh() {
         loadHistories()
     }

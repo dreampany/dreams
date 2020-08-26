@@ -21,7 +21,7 @@
             auto:tabIndicatorHeight="@dimen/_4sdp"
             auto:tabMode="scrollable"
             auto:tabSelectedTextColor="@color/textColorPrimary"
-            auto:tabTextAppearance="@style/TabLightText" />
+            auto:tabTextAppearance="@style/TabTextLight" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"

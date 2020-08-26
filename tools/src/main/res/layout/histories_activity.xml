@@ -20,6 +20,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:theme="@style/Theme.Toolbar.Light"
                 auto:layout_scrollFlags="scroll|enterAlways"
                 auto:popupTheme="@style/PopupOverlay" />
 
@@ -30,10 +31,12 @@
                 android:background="@android:color/transparent"
                 auto:layout_scrollFlags="exitUntilCollapsed"
                 auto:tabGravity="fill"
-                auto:tabIndicatorColor="@android:color/white"
-                auto:tabMode="fixed"
-                auto:tabSelectedTextColor="@android:color/white"
-                auto:tabTextColor="@color/material_white" />
+                auto:tabIndicator="@drawable/tab_indicator"
+                auto:tabIndicatorColor="@color/textColorPrimary"
+                auto:tabIndicatorHeight="@dimen/_4sdp"
+                auto:tabMode="scrollable"
+                auto:tabSelectedTextColor="@color/textColorPrimary"
+                auto:tabTextAppearance="@style/TabTextLight" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

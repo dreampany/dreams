@@ -89,11 +89,6 @@ class WifisActivity : InjectActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(this, R.color.material_white)
-        findMenuItemById(R.id.item_favorites).toTint(this, R.color.material_white)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_favorites -> {

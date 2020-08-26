@@ -50,6 +50,7 @@
                     android:layout_gravity="top"
                     android:layout_marginBottom="48dp"
                     auto:layout_collapseMode="pin"
+                    android:theme="@style/Theme.Toolbar.Light"
                     auto:popupTheme="@style/PopupOverlay" />
 
                 <com.google.android.material.tabs.TabLayout
@@ -60,10 +61,11 @@
                     android:background="@android:color/transparent"
                     auto:tabGravity="fill"
                     auto:tabIndicator="@drawable/tab_indicator"
-                    auto:tabIndicatorColor="@android:color/white"
+                    auto:tabIndicatorColor="@color/textColorPrimary"
+                    auto:tabIndicatorHeight="@dimen/_4sdp"
                     auto:tabMode="scrollable"
-                    auto:tabSelectedTextColor="@android:color/white"
-                    auto:tabTextColor="@color/material_white" />
+                    auto:tabSelectedTextColor="@color/textColorPrimary"
+                    auto:tabTextAppearance="@style/TabTextLight" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

@@ -284,7 +284,7 @@ abstract class BaseActivity : AppCompatActivity(),
         onNegativeClick: () -> Unit
     ) {
         if (sheetDialog == null) {
-            sheetDialog = BottomSheetMaterialDialog.Builder(this)
+            val builder = BottomSheetMaterialDialog.Builder(this)
                 .setTitle(getString(titleRes))
                 .setMessage(
                     message
@@ -307,7 +307,7 @@ abstract class BaseActivity : AppCompatActivity(),
                         dialog.dismiss()
                         sheetDialog = null
                     })
-                .build()
+            sheetDialog = builder.build()
         }
         sheetDialog?.show()
     }

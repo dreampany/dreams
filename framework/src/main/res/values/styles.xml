@@ -7,8 +7,8 @@
 
     <style name="Base.LightActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@style/Theme.Animation</item>
-        <item name="bottomNavigationStyle">@style/bottomNavigationStyle.Light</item>
-
+        <item name="bottomNavigationStyle">@style/BottomNavigationStyle.Light</item>
+        <!--<item name="bottomSheetDialogTheme">@style/Theme.BottomSheetDialog.Light</item>-->
     </style>
 
     <style name="Base.Transparent" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -56,11 +56,26 @@
         <item name="android:textColorPrimary">@color/material_black</item>
     </style>
 
-    <style name="bottomNavigationStyle.Light" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="BottomNavigationStyle.Light" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="TabLightText">
+    <style name="Theme.BottomSheetDialog.Light" parent="@style/Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="colorPrimary">@color/textColorPrimary</item>
+        <item name="colorPrimaryDark">@color/textColorSecondary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomSheetStyle">@style/Theme.BottomSheet.Light</item>
+    </style>
+
+    <style name="Theme.BottomSheet.Light" parent="Widget.MaterialComponents.BottomSheet">
+    </style>
+
+<!--    <style name="SearchView.Light" parent="Widget.MaterialComponents.">
+        <item name="android:textColor">#000</item>
+        <item name="android:textColorHint">#5000</item>
+    </style>-->
+
+    <style name="TabTextLight">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColorSecondary</item>

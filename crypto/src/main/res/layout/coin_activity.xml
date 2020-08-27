@@ -46,6 +46,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/Theme.Toolbar.Light"
                     auto:contentInsetLeft="0dp"
                     auto:contentInsetStart="0dp"
                     auto:contentInsetStartWithNavigation="0dp"
@@ -82,7 +83,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
-                                android:textColor="@color/material_white"
+                                android:textColor="@color/textColorPrimary"
                                 android:textSize="@dimen/_12ssp"
                                 auto:fontFamily="@font/roboto_slab_bold"
                                 tools:text="@string/title" />
@@ -92,7 +93,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
-                                android:textColor="@color/material_grey300"
+                                android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/_10ssp"
                                 auto:fontFamily="@font/roboto_slab_regular"
                                 tools:text="@string/title" />
@@ -111,11 +112,12 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
                 auto:tabGravity="fill"
-                auto:tabIndicatorColor="@android:color/white"
+                auto:tabIndicator="@drawable/tab_indicator"
+                auto:tabIndicatorColor="@color/textColorPrimary"
                 auto:tabIndicatorHeight="@dimen/_4sdp"
-                auto:tabMode="fixed"
-                auto:tabSelectedTextColor="@android:color/white"
-                auto:tabTextColor="@color/material_white" />
+                auto:tabMode="scrollable"
+                auto:tabSelectedTextColor="@color/textColorPrimary"
+                auto:tabTextAppearance="@style/TabTextLight" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -25,7 +25,7 @@
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App"
+        android:theme="@style/Theme.App.Light"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
 

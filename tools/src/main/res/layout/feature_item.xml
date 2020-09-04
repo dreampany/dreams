@@ -4,14 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <com.google.android.material.card.MaterialCardView
+    <soup.neumorphism.NeumorphCardView
         android:id="@+id/card"
+        style="@style/Widget.Neumorph.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_4sdp"
-        auto:cardElevation="@dimen/_4sdp"
-        auto:cardMaxElevation="@dimen/_6sdp"
-        auto:cardPreventCornerOverlap="false">
+        android:padding="8dp"
+        auto:neumorph_inset="8dp"
+        auto:neumorph_insetStart="8dp"
+        auto:neumorph_insetEnd="8dp"
+        auto:neumorph_insetTop="8dp"
+        auto:neumorph_insetBottom="8dp"
+        auto:neumorph_shapeAppearance="@style/RoundedShapeAppearance"
+        auto:neumorph_shapeType="flat">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,14 +32,14 @@
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent"
                 auto:srcCompat="@drawable/ic_android_black_24dp"
-                auto:tint="@color/material_grey200" />
+                auto:tint="@color/textColorSecondary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:textColor="@color/material_grey200"
+                android:textColor="@color/textColorSecondary"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
                 auto:fontFamily="@font/roboto_slab_bold"
@@ -44,5 +49,5 @@
                 tools:text="@string/title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </soup.neumorphism.NeumorphCardView>
 </layout>

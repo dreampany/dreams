@@ -13,6 +13,7 @@ import com.dreampany.tools.data.enums.home.State
 import com.dreampany.tools.data.enums.home.Subtype
 import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.home.Feature
+import com.dreampany.tools.databinding.HomeFragmentBinding
 import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import com.dreampany.tools.ui.history.activity.HistoriesActivity
@@ -37,11 +38,11 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
-    private lateinit var bind: RecyclerFragmentBinding
+    private lateinit var bind: HomeFragmentBinding
     private lateinit var adapter: FastFeatureAdapter
     private lateinit var vm: FeatureViewModel
 
-    override val layoutRes: Int = R.layout.recycler_fragment
+    override val layoutRes: Int = R.layout.home_fragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()

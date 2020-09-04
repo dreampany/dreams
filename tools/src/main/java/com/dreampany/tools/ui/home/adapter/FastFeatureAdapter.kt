@@ -53,7 +53,7 @@ class FastFeatureAdapter(
         recycler.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = fastAdapter
-            addItemDecoration(SpacingItemDecoration(3, context.dimension(R.dimen.recycler_horizontal_spacing).toInt(), true))
+            //addItemDecoration(SpacingItemDecoration(3, context.dimension(R.dimen.recycler_horizontal_spacing).toInt(), true))
             /*addItemDecoration(
                 ItemSpaceDecoration(
                     context.dimension(R.dimen.recycler_horizontal_spacing).toInt(),

@@ -33,4 +33,14 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <style name="RoundedShapeAppearance">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">6dp</item>
+    </style>
+
+    <style name="OvalShapeAppearance">
+        <item name="neumorph_cornerFamily">oval</item>
+        <item name="neumorph_cornerSize">6dp</item>
+    </style>
+
 </resources>

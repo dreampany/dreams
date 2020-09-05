@@ -5,4 +5,7 @@
     <dimen name="text_size_h3">18dp</dimen>
     <dimen name="text_content_padding">8dp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
+
+    <dimen name="feature_recycler_spacing">8dp</dimen>
+
 </resources>

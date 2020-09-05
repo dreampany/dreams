@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.exts.disable
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
@@ -59,6 +60,8 @@ class HomeFragment
             bind = getBinding()
             vm = createVm(FeatureViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
+
+            bind.swipe.disable()
         }
     }
 

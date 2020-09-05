@@ -4,19 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <soup.neumorphism.NeumorphCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
-        style="@style/Widget.Neumorph.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        auto:neumorph_inset="8dp"
-        auto:neumorph_insetStart="8dp"
-        auto:neumorph_insetEnd="8dp"
-        auto:neumorph_insetTop="8dp"
-        auto:neumorph_insetBottom="8dp"
-        auto:neumorph_shapeAppearance="@style/RoundedShapeAppearance"
-        auto:neumorph_shapeType="flat">
+        auto:cardCornerRadius="@dimen/_8sdp"
+        auto:cardElevation="@dimen/_8sdp"
+        auto:cardPreventCornerOverlap="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,5 +43,5 @@
                 tools:text="@string/title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </soup.neumorphism.NeumorphCardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

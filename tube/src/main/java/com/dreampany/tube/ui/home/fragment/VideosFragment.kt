@@ -103,10 +103,7 @@ class VideosFragment
                     onRefresh()
                 }, this::onItemPressed
             )
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
-            )
+            adapter.initRecycler(state, bind.layoutRecycler.recycler)
         }
     }
 

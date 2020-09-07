@@ -1,26 +1,21 @@
 package com.dreampany.tube.ui.player
 
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.init
 import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tube.R
 import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.databinding.VideoPlayerActivityBinding
-import com.dreampany.tube.databinding.WebActivityBinding
-import com.dreampany.tube.ui.home.vm.VideoViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController
 
 /**
  * Created by roman on 7/7/20
@@ -33,8 +28,7 @@ class VideoPlayerActivity : InjectActivity() {
     private lateinit var bind: VideoPlayerActivityBinding
     private lateinit var video: Video
 
-    override val layoutRes: Int
-        get() = R.layout.video_player_activity
+    override val layoutRes: Int = R.layout.video_player_activity
 
     override fun onStartUi(state: Bundle?) {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Video>
@@ -50,7 +44,14 @@ class VideoPlayerActivity : InjectActivity() {
         if (!::bind.isInitialized) {
             bind = getBinding()
             lifecycle.addObserver(bind.player)
-            bind.player.getPlayerUiController().enableLiveVideoUi(video.isLive)
+            bind.player.getPlayerUiController().apply {
+                enableLiveVideoUi(video.isLive)
+                setVideoTitle(video.title.value)
+                showBufferingProgress(true)
+                showMenuButton(true)
+            }
+            bind.player.enableBackgroundPlayback(true)
+            //bind.player.getPlayerUiController().enableLiveVideoUi(video.isLive)
             bind.player.addYouTubePlayerListener(object : YouTubePlayerListener {
                 override fun onApiChange(youTubePlayer: YouTubePlayer) {
 
@@ -72,7 +73,7 @@ class VideoPlayerActivity : InjectActivity() {
                 }
 
                 override fun onPlaybackRateChange(
-                    youTubePlayer: YouTubePlayer,
+                    player: YouTubePlayer,
                     playbackRate: PlayerConstants.PlaybackRate
                 ) {
                 }
@@ -87,10 +88,10 @@ class VideoPlayerActivity : InjectActivity() {
                 ) {
                 }
 
-                override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
+                override fun onVideoDuration(player: YouTubePlayer, duration: Float) {
                 }
 
-                override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {
+                override fun onVideoId(player: YouTubePlayer, videoId: String) {
                 }
 
                 override fun onVideoLoadedFraction(

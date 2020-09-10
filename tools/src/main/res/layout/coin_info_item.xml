@@ -17,19 +17,19 @@
             android:orientation="vertical"
             android:padding="@dimen/_8sdp">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <!--<androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <include
+                &lt;!&ndash;<include
                     android:id="@+id/layout_simple"
                     layout="@layout/coin_simple_item"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|start"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1" />&ndash;&gt;
 
                 <com.like.LikeButton
                     android:id="@+id/button_favorite"
@@ -38,13 +38,13 @@
                     auto:icon_size="@dimen/_14sdp"
                     auto:icon_type="heart" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".5dp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@color/material_grey400" />
+            <!-- <View
+                 android:layout_width="match_parent"
+                 android:layout_height=".5dp"
+                 android:layout_marginTop="@dimen/_8sdp"
+                 android:background="@color/material_grey400" />-->
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

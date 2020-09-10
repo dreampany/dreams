@@ -112,7 +112,7 @@ class FastCoinAdapter(
 
             fastAdapter.addClickListener<CoinInfoItemBinding, GenericItem>(
                 { bind -> bind.root },
-                { bind -> arrayListOf(bind.buttonFavorite) }
+                { bind -> arrayListOf(bind.root) }
             )
             { view, position, adapter, item ->
                 if (item is CoinItem) {

@@ -27,7 +27,8 @@
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="1"
                 android:textColor="@color/material_grey800"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/layout_simple"

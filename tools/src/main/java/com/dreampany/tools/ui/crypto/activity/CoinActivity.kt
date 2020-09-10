@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
 import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
@@ -10,10 +11,12 @@ import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.misc.exts.setUrl
+import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.ui.crypto.adapter.CoinPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.content_pager_ad.view.*
@@ -31,10 +34,17 @@ class CoinActivity : InjectActivity() {
     @Inject
     internal lateinit var ad: AdManager
 
+    @Inject
+    internal lateinit var pref: CryptoPref
+
+    @Inject
+    internal lateinit var formatter: CurrencyFormatter
+
+
     private lateinit var bind: CoinActivityBinding
     private lateinit var adapter: CoinPagerAdapter
 
-    private lateinit var input : Coin
+    private lateinit var input: Coin
 
     override val homeUp: Boolean = true
 
@@ -43,7 +53,8 @@ class CoinActivity : InjectActivity() {
     override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
-        val task : UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
+        val task: UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> =
+            (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
         input = task.input ?: return
         initUi()
         initPager()
@@ -75,8 +86,22 @@ class CoinActivity : InjectActivity() {
                 input.id
             )
         )
-        bind.textName.text = input.name
-        bind.textSymbol.text = input.symbol
+
+        val title =
+            String.format(
+                Locale.ENGLISH,
+                getString(R.string.crypto_symbol_name),
+                input.symbol,
+                input.name
+            )
+
+        val currency = pref.getCurrency()
+        val quote = input.getQuote(currency)
+        val price = quote?.price.value
+        val subtitle = formatter.formatPrice(price, currency)
+
+        bind.title.text = title
+        bind.subtitle.text = subtitle
     }
 
     private fun initPager() {

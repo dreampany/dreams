@@ -88,6 +88,7 @@ class InfoFragment
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
         bind.swipe.init(this)
         vm = createVm(CoinViewModel::class)
@@ -96,10 +97,8 @@ class InfoFragment
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter(clickListener = this::onItemPressed)
-        }
-
+        if (::adapter.isInitialized) return
+        adapter = FastCoinAdapter(clickListener = this::onItemPressed)
         adapter.initRecycler(
             state,
             bind.layoutRecycler.recycler,
@@ -133,7 +132,8 @@ class InfoFragment
 
     private fun processError(error: SmartError) {
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
-        val message = if (error.hostError) getString(R.string.message_no_internet) else error.message
+        val message =
+            if (error.hostError) getString(R.string.message_no_internet) else error.message
         showDialogue(
             titleRes,
             messageRes = R.string.message_unknown,

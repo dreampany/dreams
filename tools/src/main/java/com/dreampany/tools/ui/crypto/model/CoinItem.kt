@@ -20,6 +20,7 @@ import com.dreampany.tools.databinding.CoinQuoteItemBinding
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
+import kotlinx.android.synthetic.main.coin_pair_item.view.*
 import java.util.*
 
 /**
@@ -208,40 +209,20 @@ private constructor(
     }
 
     private fun bindItem(bind: CoinInfoItemBinding) {
-        bind.layoutSimple.icon.setUrl(
-            String.format(
-                Locale.ENGLISH,
-                CryptoConstants.CoinMarketCap.IMAGE_URL,
-                item.id
-            )
-        )
-        val name =
-            String.format(
-                Locale.ENGLISH,
-                bind.root.context.getString(R.string.crypto_symbol_name),
-                item.symbol,
-                item.name
-            )
-        bind.layoutSimple.textName.text = name
 
         val quote = item.getQuote(currency)
-
-        var price = 0.0
         var change1h = 0.0
         var change24h = 0.0
         var change7d = 0.0
         var marketCap = 0.0
         var volume24h = 0.0
         if (quote != null) {
-            price = quote.price
             change1h = quote.getChange1h()
             change24h = quote.getChange24h()
             change7d = quote.getChange7d()
             marketCap = quote.getMarketCap()
             volume24h = quote.getVolume24h()
         }
-
-        bind.layoutSimple.textPrice.text = formatter.formatPrice(price, currency)
 
         val change1hFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
         val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
@@ -272,8 +253,14 @@ private constructor(
             DateUtils.MINUTE_IN_MILLIS
         ) as String
 
+        bind.layoutMarketCap.title.setText(R.string.market_cap)
+        bind.layoutMarketCap.value.text = formatter.formatPrice(marketCap, currency)
+
+        bind.layoutVolume.title.setText(R.string.volume_24h)
+        bind.layoutVolume.value.text = formatter.formatPrice(volume24h, currency)
+
         //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
-        bind.buttonFavorite.isLiked = favorite
+        //bind.buttonFavorite.isLiked = favorite
     }
 
     private fun bindItem(bind: CoinQuoteItemBinding) {
@@ -299,9 +286,9 @@ private constructor(
         bind.layoutTotal.title.setText(R.string.total_supply)
         bind.layoutMax.title.setText(R.string.max_supply)
 
-        bind.layoutCirculating.textValue.text = circulating
-        bind.layoutTotal.textValue.text = total
-        bind.layoutMax.textValue.text = max
+        bind.layoutCirculating.value.text = circulating
+        bind.layoutTotal.value.text = total
+        bind.layoutMax.value.text = max
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),

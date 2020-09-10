@@ -13,6 +13,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            auto:elevation="0dp"
             android:fitsSystemWindows="true"
             android:theme="@style/AppBarOverlay">
 
@@ -80,21 +81,21 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/text_name"
+                                android:id="@+id/title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
-                                android:textColor="@color/material_white"
+                                android:textColor="@color/textColorPrimary"
                                 android:textSize="@dimen/_12ssp"
                                 auto:fontFamily="@font/roboto_slab_bold"
                                 tools:text="@string/title" />
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/text_symbol"
+                                android:id="@+id/subtitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
-                                android:textColor="@color/material_grey300"
+                                android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/_10ssp"
                                 auto:fontFamily="@font/roboto_slab_regular"
                                 tools:text="@string/title" />
@@ -105,18 +106,20 @@
 
                 </com.google.android.material.appbar.MaterialToolbar>
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    auto:tabGravity="fill"
-                    auto:tabIndicatorColor="@android:color/white"
-                    auto:tabMode="scrollable"
-                    auto:tabSelectedTextColor="@android:color/white"
-                    auto:tabTextColor="@color/material_white" />
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                auto:tabGravity="fill"
+                auto:tabIndicator="@drawable/tab_indicator"
+                auto:tabIndicatorColor="@color/textColorPrimary"
+                auto:tabIndicatorHeight="@dimen/_4sdp"
+                auto:tabMode="scrollable"
+                auto:tabSelectedTextColor="@color/textColorPrimary"
+                auto:tabTextAppearance="@style/TabTextLight" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

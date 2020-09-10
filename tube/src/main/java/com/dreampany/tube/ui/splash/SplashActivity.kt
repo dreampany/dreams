@@ -1,13 +1,17 @@
 package com.dreampany.tube.ui.splash
 
 import android.os.Bundle
+import com.dreampany.framework.misc.exts.decodeBase64
+import com.dreampany.framework.misc.exts.encodeBase64
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
+import com.dreampany.tube.api.misc.ApiConstants
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.settings.activity.CategoriesActivity
 import kotlinx.coroutines.Runnable
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -36,6 +40,13 @@ class SplashActivity : InjectActivity() {
 
     private fun initUi() {
         //vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+
+        val data = ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL.encodeBase64
+        val real = data.decodeBase64
+
+        Timber.v("Main %s", ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL)
+        Timber.v("Encoded %s", data)
+        Timber.v("Decoded %s", real)
     }
 
     private fun nextScreen() {

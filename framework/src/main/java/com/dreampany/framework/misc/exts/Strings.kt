@@ -4,6 +4,7 @@ import android.text.Spanned
 import android.util.Patterns
 import androidx.core.text.HtmlCompat
 import com.dreampany.framework.misc.constant.Constants
+import com.google.common.io.BaseEncoding
 
 /**
  * Created by roman on 3/4/20
@@ -78,3 +79,9 @@ val String.hasDrawableSign: Boolean
     get() {
         return this.startsWith("@drawable/")
     }
+
+val String.encodeBase64 : String
+    get() = BaseEncoding.base64().encode(this.toByteArray(Charsets.UTF_8))
+
+val String.decodeBase64 : String
+    get() = BaseEncoding.base64().decode(this).toString(Charsets.UTF_8)

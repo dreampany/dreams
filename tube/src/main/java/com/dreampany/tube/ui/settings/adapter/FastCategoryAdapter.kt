@@ -84,7 +84,7 @@ class FastCategoryAdapter(
             addItemDecoration(
                 SpacingItemDecoration(
                     3,
-                    context.dimension(R.dimen.recycler_spacing).toInt(),
+                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
                     true
                 )
             )

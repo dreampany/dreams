@@ -8,8 +8,8 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardElevation="@dimen/_2sdp"
-        auto:cardMaxElevation="@dimen/_2sdp"
+        auto:cardElevation="@dimen/_4sdp"
+        auto:cardMaxElevation="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false">
 
         <RelativeLayout
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/material_grey700"
+                android:background="@color/textColorSecondary"
                 android:gravity="center"
                 android:singleLine="false"
                 android:textColor="@color/white"
@@ -36,7 +36,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                auto:tint="@color/white"
+                auto:tint="@color/textColorPrimary"
                 auto:srcCompat="@drawable/ic_baseline_radio_button_unchecked_24" />
 
         </RelativeLayout>

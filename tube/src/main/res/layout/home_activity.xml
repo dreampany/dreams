@@ -11,15 +11,15 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            auto:elevation="0dp"
-            android:theme="@style/AppBarOverlay">
+            android:theme="@style/AppBarOverlay"
+            auto:elevation="0dp">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:theme="@style/Theme.Toolbar.Light"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                android:theme="@style/Theme.Toolbar.Light"
                 auto:popupTheme="@style/PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>

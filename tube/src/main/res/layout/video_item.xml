@@ -29,16 +29,15 @@
                     android:adjustViewBounds="true"
                     android:cropToPadding="true"
                     auto:actualImageScaleType="fitXY"
-                    auto:failureImage="@color/material_grey300"
+                    auto:failureImage="@color/material_grey200"
                     auto:failureImageScaleType="fitXY"
-                    auto:placeholderImage="@color/material_grey300"
+                    auto:placeholderImage="@color/material_grey200"
                     auto:placeholderImageScaleType="fitXY" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     auto:cardCornerRadius="@dimen/_2sdp">
-
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -71,8 +70,23 @@
                 android:fontFamily="@font/roboto_slab_bold"
                 android:maxLines="2"
                 android:text="Youtube Title"
-                android:textColor="@color/black"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/_12ssp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_slab_regular"
+                android:singleLine="true"
+                android:text="Channel"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/_11ssp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/info"

@@ -45,14 +45,13 @@ class VideoItem(
         bind.thumb.setUrl(input.thumbnail)
         bind.duration.text = input.duration
         bind.title.text = input.title
+        bind.channel.text = input.channelTitle
         bind.info.text = bind.context.getString(
             R.string.video_info_format,
-            input.channelTitle,
             input.viewCount.count,
             input.publishedAt.publishTime
         )
-
-        bind.duration.visible(input.isLive.not())
+        bind.duration.visible(input.duration.isNullOrEmpty().not())
     }
 
     override fun unbindView(binding: VideoItemBinding) {

@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.crypto.activity
+package com.dreampany.tube.ui.home.activity
 
 import android.os.Bundle
 import android.view.View
@@ -11,38 +11,35 @@ import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
-import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
-import com.dreampany.tools.databinding.RecyclerActivityBinding
-import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
-import com.dreampany.tools.ui.crypto.model.CoinItem
-import com.dreampany.tools.ui.crypto.vm.CoinViewModel
+import com.dreampany.tube.databinding.RecyclerActivityBinding
+import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
+import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.R
+import com.dreampany.tube.data.enums.Action
+import com.dreampany.tube.data.enums.State
+import com.dreampany.tube.data.enums.Subtype
+import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.manager.AdManager
+import com.dreampany.tube.ui.home.model.VideoItem
+import com.dreampany.tube.ui.player.VideoPlayerActivity
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Created by roman on 21/3/20
+ * Created by roman on 11/9/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FavoriteCoinsActivity : InjectActivity() {
+class FavoriteVideosActivity : InjectActivity() {
 
     @Inject
     internal lateinit var ad: AdManager
 
-    @Inject
-    internal lateinit var cryptoPref: CryptoPref
-
     private lateinit var bind: RecyclerActivityBinding
-    private lateinit var vm: CoinViewModel
-    private lateinit var adapter: FastCoinAdapter
+    private lateinit var vm: VideoViewModel
+    private lateinit var adapter: FastVideoAdapter
 
     override val homeUp: Boolean = true
 
@@ -50,7 +47,7 @@ class FavoriteCoinsActivity : InjectActivity() {
 
     override val toolbarId: Int = R.id.toolbar
 
-    override val menuRes: Int = R.menu.menu_search
+    override val menuRes: Int = R.menu.search_menu
 
     override val searchMenuItemId: Int = R.id.item_search
 
@@ -59,11 +56,10 @@ class FavoriteCoinsActivity : InjectActivity() {
         initUi()
         initRecycler(state)
         onRefresh()
-        ad.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
-        adapter.destroy()
+
     }
 
     override fun onResume() {
@@ -88,15 +84,28 @@ class FavoriteCoinsActivity : InjectActivity() {
     }
 
     override fun onRefresh() {
-        loadCoins()
+        loadVideos()
     }
 
-    private fun loadCoins() {
+    private fun onItemPressed(view: View, item: VideoItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+                openPlayerUi(item)
+            }
+            else -> {
+
+            }
+        }
+    }
+
+    private fun loadVideos() {
         if (adapter.isEmpty)
-            vm.loadFavoriteCoins()
+            vm.loadFavoriteVideos()
         else
             bind.swipe.refresh(false)
     }
+
 
     private fun initAd() {
         ad.initAd(
@@ -112,38 +121,29 @@ class FavoriteCoinsActivity : InjectActivity() {
         if (::bind.isInitialized) return
         bind = getBinding()
         bind.swipe.init(this)
-        bind.stateful.setStateView(
-            StatefulLayout.State.EMPTY,
-            R.layout.content_empty_favorite_coins
-        )
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_favorite_videos)
 
-        vm = createVm(CoinViewModel::class)
+        vm = createVm(VideoViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
         if (::adapter.isInitialized) return
-        adapter = FastCoinAdapter(
+        adapter = FastVideoAdapter(
             { currentPage ->
                 Timber.v("CurrentPage: %d", currentPage)
                 //onRefresh()
             }, this::onItemPressed
         )
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
-        )
+        adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, List<VideoItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<VideoItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -166,7 +166,7 @@ class FavoriteCoinsActivity : InjectActivity() {
         )
     }
 
-    private fun processResults(result: List<CoinItem>?) {
+    private fun processResults(result: List<VideoItem>?) {
         if (result != null) {
             adapter.addItems(result)
         }
@@ -178,29 +178,14 @@ class FavoriteCoinsActivity : InjectActivity() {
         }
     }
 
-    private fun onItemPressed(view: View, item: CoinItem) {
-        Timber.v("Pressed $view")
-        when (view.id) {
-            R.id.layout -> {
-                openCoinUi(item)
-            }
-            R.id.button_favorite -> {
-
-            }
-            else -> {
-
-            }
-        }
-    }
-
-    private fun openCoinUi(item: CoinItem) {
+    private fun openPlayerUi(item: VideoItem) {
         val task = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.VIEW,
-            item.item
+            Type.VIDEO,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
+            item.input
         )
-        open(CoinActivity::class, task)
+        open(VideoPlayerActivity::class, task)
     }
 }

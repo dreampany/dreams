@@ -1,6 +1,7 @@
 package com.dreampany.tube.ui.home.fragment
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
@@ -20,6 +21,7 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.databinding.VideosFragmentBinding
+import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.home.vm.VideoViewModel
@@ -44,7 +46,7 @@ class VideosFragment
     private lateinit var input: Category
 
     override val layoutRes: Int = R.layout.videos_fragment
-    override val menuRes: Int = R.menu.menu_search
+    override val menuRes: Int = R.menu.videos_menu
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
@@ -56,6 +58,15 @@ class VideosFragment
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_favorites -> {
+                openFavoritesUi()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
@@ -79,6 +90,9 @@ class VideosFragment
             R.id.layout -> {
                 openPlayerUi(item)
             }
+            R.id.favorite -> {
+                onFavoriteClicked(item)
+            }
             else -> {
 
             }
@@ -91,7 +105,8 @@ class VideosFragment
             bind.swipe.init(this)
             bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_videos)
             vm = createVm(VideoViewModel::class)
-            vm.subscribes(this, Observer { this.processResponse(it) })
+            vm.subscribe(this, Observer { this.processResponse(it) })
+            vm.subscribes(this, Observer { this.processResponses(it) })
         }
     }
 
@@ -107,7 +122,7 @@ class VideosFragment
         }
     }
 
-    private fun processResponse(response: Response<Type, Subtype, State, Action, List<VideoItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<VideoItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
@@ -115,6 +130,17 @@ class VideosFragment
         } else if (response is Response.Result<Type, Subtype, State, Action, List<VideoItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
+        }
+    }
+
+    private fun processResponse(response: Response<Type, Subtype, State, Action, VideoItem>) {
+        if (response is Response.Progress) {
+            bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<Type, Subtype, State, Action, VideoItem>) {
+            Timber.v("Result [%s]", response.result)
+            processResult(response.result)
         }
     }
 
@@ -147,6 +173,12 @@ class VideosFragment
         }
     }
 
+    private fun processResult(result: VideoItem?) {
+        if (result != null) {
+            adapter.addItem(result)
+        }
+    }
+
     private fun openPlayerUi(item: VideoItem) {
         val task = UiTask(
             Type.VIDEO,
@@ -156,5 +188,13 @@ class VideosFragment
             item.input
         )
         open(VideoPlayerActivity::class, task)
+    }
+
+    private fun openFavoritesUi() {
+        open(FavoriteVideosActivity::class)
+    }
+
+    private fun onFavoriteClicked(item: VideoItem) {
+        vm.toggleFavorite(item.input)
     }
 }

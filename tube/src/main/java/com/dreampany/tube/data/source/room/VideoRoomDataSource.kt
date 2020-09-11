@@ -30,9 +30,8 @@ class VideoRoomDataSource(
         return favorite.not()
     }
 
-    override suspend fun getFavorites(): List<Video>? {
-        TODO("Not yet implemented")
-    }
+    @Throws
+    override suspend fun getFavorites(): List<Video>? = mapper.getFavorites(this)
 
     @Throws
     override suspend fun put(input: Video): Long {
@@ -69,9 +68,8 @@ class VideoRoomDataSource(
     @Throws
     override suspend fun isExists(id: String): Boolean = dao.getCount(id) > 0
 
-    override suspend fun get(id: String): Video? {
-        TODO("Not yet implemented")
-    }
+    @Throws
+    override suspend fun get(id: String): Video? = dao.get(id)
 
     @Throws
     override suspend fun gets(): List<Video>? {

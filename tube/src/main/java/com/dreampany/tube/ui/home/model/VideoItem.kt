@@ -52,6 +52,7 @@ class VideoItem(
             input.publishedAt.publishTime
         )
         bind.duration.visible(input.duration.isNullOrEmpty().not())
+        bind.favorite.isLiked = favorite
     }
 
     override fun unbindView(binding: VideoItemBinding) {

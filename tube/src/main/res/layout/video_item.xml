@@ -25,7 +25,7 @@
                     android:id="@+id/thumb"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_124sdp"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:cropToPadding="true"
                     auto:actualImageScaleType="fitXY"
@@ -88,20 +88,42 @@
                 android:textColor="@color/textColorSecondary"
                 android:textSize="@dimen/_11ssp" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/info"
-                android:layout_width="wrap_content"
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
+
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_slab_regular"
-                android:singleLine="true"
-                android:text="Youtube Info"
-                android:textColor="@color/material_grey600"
-                android:textSize="@dimen/_10ssp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_slab_regular"
+                    android:singleLine="true"
+                    android:text="Youtube Info"
+                    android:textColor="@color/material_grey600"
+                    android:textSize="@dimen/_10ssp" />
+
+                <com.like.LikeButton
+                    android:id="@+id/favorite"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    auto:icon_size="@dimen/_20sdp"
+                    auto:icon_type="heart"
+                    auto:like_drawable="@drawable/ic_baseline_favorite_24"
+                    auto:unlike_drawable="@drawable/ic_baseline_favorite_border_24" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -41,8 +41,9 @@ class VideoRepo
         room.toggleFavorite(input)
     }
 
-    override suspend fun getFavorites(): List<Video>? {
-        TODO("Not yet implemented")
+    @kotlin.jvm.Throws
+    override suspend fun getFavorites() = withContext(Dispatchers.IO) {
+        room.getFavorites()
     }
 
     override suspend fun put(input: Video): Long {

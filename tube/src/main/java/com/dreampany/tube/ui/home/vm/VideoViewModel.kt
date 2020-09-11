@@ -97,6 +97,46 @@ class VideoViewModel
         }
     }
 
+    fun loadFavoriteVideos() {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Video>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.getFavorites()
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun toggleFavorite(input: Video) {
+        uiScope.launch {
+            postProgressSingle(true)
+            var result: Video? = null
+            var errors: SmartError? = null
+            var favorite: Boolean = false
+            try {
+                favorite = repo.toggleFavorite(input)
+                result = input
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItem(favorite), state = State.FAVORITE)
+            }
+        }
+    }
+
     /*fun loadVideosOfRegionCode(regionCode : String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
@@ -124,6 +164,13 @@ class VideoViewModel
                 val favorite = repo.isFavorite(input)
                 VideoItem(input, favorite)
             }
+        }
+    }
+
+    private suspend fun Video.toItem(favorite: Boolean): VideoItem {
+        val input = this
+        return withContext(Dispatchers.IO) {
+            VideoItem(input, favorite)
         }
     }
 

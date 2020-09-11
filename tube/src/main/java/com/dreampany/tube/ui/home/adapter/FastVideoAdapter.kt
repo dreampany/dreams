@@ -95,15 +95,14 @@ class FastVideoAdapter(
                 false
             }*/
             fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
-                { bind -> bind.root }, { bind -> arrayListOf(bind.root) }
+                { bind -> bind.root }, { bind -> arrayListOf(bind.favorite) }
             )
             { view, position, adapter, item ->
                 if (item is VideoItem) {
                     listener(view, item)
                 }
             }
-
-            fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
+            /*fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
                 { bind -> bind.root },
                 { bind -> arrayListOf(bind.root) }
             )
@@ -111,7 +110,7 @@ class FastVideoAdapter(
                 if (item is VideoItem) {
                     listener(view, item)
                 }
-            }
+            }*/
         }
     }
 

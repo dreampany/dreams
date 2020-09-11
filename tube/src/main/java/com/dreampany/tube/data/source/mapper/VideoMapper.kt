@@ -176,19 +176,18 @@ class VideoMapper
     suspend fun getFavorites(
         source: VideoDataSource
     ): List<Video>? {
-        /* updateCache(source)
+         //updateCache(source)
          val stores = storeRepo.getStores(
              Type.VIDEO.value,
              Subtype.DEFAULT.value,
              State.FAVORITE.value
          )
-         val outputs = stores?.mapNotNull { input -> videos.get(input.id) }
+         val outputs = stores?.mapNotNull { input -> source.get(input.id) }
          var result: List<Video>? = null
          outputs?.let {
              result = this.sort(it)
          }
-         return result*/
-        return null
+         return result
     }
 
     @Synchronized

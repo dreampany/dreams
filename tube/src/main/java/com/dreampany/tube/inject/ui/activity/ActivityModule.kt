@@ -3,6 +3,7 @@ package com.dreampany.tube.inject.ui.activity
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.tube.inject.ui.home.HomeModule
 import com.dreampany.tube.inject.ui.settings.SettingsModule
+import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import com.dreampany.tube.ui.settings.activity.CategoriesActivity
@@ -21,6 +22,9 @@ abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun splash(): SplashActivity
 
+    @ContributesAndroidInjector
+    abstract fun categories(): CategoriesActivity
+
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, SettingsModule::class])
     abstract fun home(): HomeActivity
@@ -29,5 +33,5 @@ abstract class ActivityModule {
     abstract fun videoPlayer(): VideoPlayerActivity
 
     @ContributesAndroidInjector
-    abstract fun categories(): CategoriesActivity
+    abstract fun favorites(): FavoriteVideosActivity
 }

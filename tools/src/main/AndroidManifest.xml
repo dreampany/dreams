@@ -157,17 +157,7 @@
             android:name=".ui.note.activity.NoteActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:label="@string/title_feature_note"
-            android:windowSoftInputMode="adjustResize">
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".ui.note.activity.FavoriteNotesActivity"

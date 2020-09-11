@@ -88,9 +88,9 @@ class NoteActivity : InjectActivity() {
     }
 
     override fun onMenuCreated(menu: Menu) {
-        val favItem = findMenuItemById(R.id.item_favorite).toTint(this, R.color.material_white)
-        val editItem = findMenuItemById(R.id.item_edit).toTint(this, R.color.material_white)
-        val doneItem = findMenuItemById(R.id.item_done).toTint(this, R.color.material_white)
+        val favItem = findMenuItemById(R.id.item_favorite)
+        val editItem = findMenuItemById(R.id.item_edit)
+        val doneItem = findMenuItemById(R.id.item_done)
         //resolveTask()
         favItem?.isVisible = action != NoteAction.ADD
         editItem?.isVisible = !isEdit

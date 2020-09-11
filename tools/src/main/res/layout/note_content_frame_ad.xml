@@ -59,6 +59,8 @@
                     android:id="@+id/layout_input_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textColorSecondary"
+                    auto:hintTextColor="@color/colorAccent"
                     auto:layout_constraintEnd_toEndOf="parent"
                     auto:layout_constraintStart_toStartOf="parent"
                     auto:layout_constraintTop_toTopOf="parent">
@@ -75,6 +77,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textColorSecondary"
+                    auto:hintTextColor="@color/colorAccent"
                     android:layout_marginTop="@dimen/_10sdp"
                     auto:layout_constraintEnd_toEndOf="parent"
                     auto:layout_constraintStart_toStartOf="parent"

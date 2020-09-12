@@ -27,6 +27,7 @@ class VideoRoomDataSource(
         } else {
             mapper.insertFavorite(input)
         }
+        put(input)
         return favorite.not()
     }
 
@@ -86,6 +87,11 @@ class VideoRoomDataSource(
     }
 
     override suspend fun getsOfQuery(query: String): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun getsOfQuery(query: String, offset: Long, limit: Long): List<Video>? {
         TODO("Not yet implemented")
     }
 

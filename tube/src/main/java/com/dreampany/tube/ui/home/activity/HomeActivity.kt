@@ -6,6 +6,7 @@ import com.dreampany.tube.R
 import com.dreampany.tube.databinding.HomeActivityBinding
 import com.dreampany.tube.manager.AdManager
 import com.dreampany.tube.ui.home.fragment.HomeFragment
+import com.dreampany.tube.ui.home.fragment.SearchFragment
 import com.dreampany.tube.ui.settings.fragment.SettingsFragment
 import dagger.Lazy
 import javax.inject.Inject
@@ -23,6 +24,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     @Inject
     internal lateinit var home: Lazy<HomeFragment>
+
+    @Inject
+    internal lateinit var search: Lazy<SearchFragment>
 
     @Inject
     internal lateinit var settings: Lazy<SettingsFragment>
@@ -45,6 +49,10 @@ class HomeActivity : InjectBottomNavigationActivity() {
                 setTitle(R.string.home)
                 commitFragment(HomeFragment::class, home, R.id.layout)
             }
+            R.id.navigation_search -> {
+                setTitle(R.string.search)
+                commitFragment(SearchFragment::class, search, R.id.layout)
+            }
             R.id.navigation_settings -> {
                 setTitle(R.string.settings)
                 commitFragment(SettingsFragment::class, settings, R.id.layout)
@@ -53,8 +61,8 @@ class HomeActivity : InjectBottomNavigationActivity() {
     }
 
     override fun onStartUi(state: Bundle?) {
-        initUi()
         initAd()
+        initUi()
         ad.loadBanner(this.javaClass.simpleName)
     }
 

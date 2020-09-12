@@ -27,7 +27,10 @@ interface YoutubeService {
     fun getSearchResultOfQuery(
         @Query("key") key: String,
         @Query("part") part: String,
-        @Query("q") query: String
+        @Query("type") type: String,
+        @Query("q") query: String,
+        @Query("order") order: String,
+        @Query("maxResults") limit: Long
     ): Call<SearchListResponse>
 
     @GET(ApiConstants.Youtube.SEARCH)

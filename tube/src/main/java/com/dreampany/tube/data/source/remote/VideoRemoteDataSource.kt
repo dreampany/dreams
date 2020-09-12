@@ -103,7 +103,7 @@ class VideoRemoteDataSource(
                 val key = keys.nextKey ?: continue
                 val part = "snippet,contentDetails,statistics"
                 val id = ids.joinToString(Constants.Sep.COMMA.toString())
-                val response : Response<VideoListResponse> = service.getVideosOfId(
+                val response: Response<VideoListResponse> = service.getVideosOfId(
                     key,
                     part,
                     id
@@ -137,8 +137,50 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun getsOfQuery(query: String): List<Video>? {
         TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun getsOfQuery(query: String, offset: Long, limit: Long): List<Video>? {
+        for (index in 0..keys.indexLength) {
+            try {
+                val key = keys.nextKey ?: continue
+                val part = "snippet"
+                val type = "video"
+                val order = "viewCount"
+                val response: Response<SearchListResponse> = service.getSearchResultOfQuery(
+                    key,
+                    part,
+                    type,
+                    query,
+                    order,
+                    limit
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.items ?: return null
+                    return mapper.getsOfSearch(data)
+                } else {
+                    val error = parser.parseError(response, SearchListResponse::class)
+                    throw SmartError(
+                        message = error?.error?.message,
+                        code = error?.error?.code.value
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) {
+                    if (!error.isForbidden)
+                        throw error
+                }
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
     }
 
     override suspend fun getsOfCategoryId(categoryId: String): List<Video>? {
@@ -157,7 +199,7 @@ class VideoRemoteDataSource(
                 val part = "snippet"
                 val type = "video"
                 val order = "viewCount"
-                val response : Response<SearchListResponse> = service.getSearchResultOfCategoryId(
+                val response: Response<SearchListResponse> = service.getSearchResultOfCategoryId(
                     key,
                     part,
                     type,
@@ -202,7 +244,7 @@ class VideoRemoteDataSource(
                 val part = "snippet"
                 val type = "video"
                 val order = "viewCount"
-                val response : Response<SearchListResponse> = service.getSearchResultOfRegionCode(
+                val response: Response<SearchListResponse> = service.getSearchResultOfRegionCode(
                     key,
                     part,
                     type,
@@ -236,14 +278,14 @@ class VideoRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getsOfEvent(eventType : String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue
                 val part = "snippet"
                 val type = "video"
                 val order = "viewCount"
-                val response : Response<SearchListResponse> = service.getSearchResultOfEvent(
+                val response: Response<SearchListResponse> = service.getSearchResultOfEvent(
                     key,
                     part,
                     type,

@@ -176,18 +176,18 @@ class VideoMapper
     suspend fun getFavorites(
         source: VideoDataSource
     ): List<Video>? {
-         //updateCache(source)
-         val stores = storeRepo.getStores(
-             Type.VIDEO.value,
-             Subtype.DEFAULT.value,
-             State.FAVORITE.value
-         )
-         val outputs = stores?.mapNotNull { input -> source.get(input.id) }
-         var result: List<Video>? = null
-         outputs?.let {
-             result = this.sort(it)
-         }
-         return result
+        //updateCache(source)
+        val stores = storeRepo.getStores(
+            Type.VIDEO.value,
+            Subtype.DEFAULT.value,
+            State.FAVORITE.value
+        )
+        val outputs = stores?.mapNotNull { input -> source.get(input.id) }
+        var result: List<Video>? = null
+        outputs?.let {
+            result = this.sort(it)
+        }
+        return result
     }
 
     @Synchronized
@@ -195,6 +195,15 @@ class VideoMapper
         val result = arrayListOf<Video>()
         inputs.forEach { input ->
             result.add(get(categoryId, input))
+        }
+        return result
+    }
+
+    @Synchronized
+    fun getsOfSearch(inputs: List<SearchResult>): List<Video> {
+        val result = arrayListOf<Video>()
+        inputs.forEach { input ->
+            result.add(get(input))
         }
         return result
     }
@@ -218,6 +227,20 @@ class VideoMapper
             add(output)
         }
         output.categoryId = categoryId
+        bindSnippet(input.snippet, output)
+        return output
+    }
+
+    @Synchronized
+    fun get(input: SearchResult): Video {
+        Timber.v("Resolved Video: %s", input.id)
+        val id = input.id.videoId
+        var output: Video? = null
+        if (output == null) {
+            output = Video(id)
+            add(output)
+        }
+        //output.categoryId = categoryId
         bindSnippet(input.snippet, output)
         return output
     }

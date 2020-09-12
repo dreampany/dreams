@@ -91,6 +91,12 @@ class VideoRepo
         TODO("Not yet implemented")
     }
 
+    @Throws
+    override suspend fun getsOfQuery(query: String, offset: Long, limit: Long) =
+        withContext(Dispatchers.IO) {
+            remote.getsOfQuery(query, offset, limit)
+        }
+
     override suspend fun getsOfCategoryId(categoryId: String): List<Video>? {
         TODO("Not yet implemented")
     }

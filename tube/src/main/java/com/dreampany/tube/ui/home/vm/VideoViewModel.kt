@@ -18,6 +18,7 @@ import com.dreampany.tube.ui.home.model.VideoItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.http.Query
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -85,6 +86,25 @@ class VideoViewModel
             var errors: SmartError? = null
             try {
                 result = repo.getsOfCategoryId(categoryId, offset, AppConstants.Limits.VIDEOS)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun loadSearch(query: String) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Video>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.getsOfQuery(query, 0, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

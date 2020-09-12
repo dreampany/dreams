@@ -117,6 +117,10 @@ class FastVideoAdapter(
     fun destroy() {
     }
 
+    fun clearAll() {
+        fastAdapter.clear()
+    }
+
     fun saveInstanceState(outState: Bundle): Bundle {
         return fastAdapter.saveInstanceState(outState)
     }

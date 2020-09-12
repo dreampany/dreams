@@ -1,15 +1,14 @@
 package com.dreampany.tube.ui.home.fragment
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.inject.annote.FragmentScope
+import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.init
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -19,9 +18,7 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.databinding.VideosFragmentBinding
-import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.home.vm.VideoViewModel
@@ -31,30 +28,27 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Created by roman on 30/6/20
+ * Created by roman on 12/9/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@FragmentScope
-class VideosFragment
+@ActivityScope
+class SearchFragment
 @Inject constructor() : InjectFragment() {
 
     private lateinit var bind: VideosFragmentBinding
     private lateinit var vm: VideoViewModel
     private lateinit var adapter: FastVideoAdapter
-    private lateinit var input: Category
 
     override val layoutRes: Int = R.layout.videos_fragment
-    override val menuRes: Int = R.menu.videos_menu
+    override val menuRes: Int = R.menu.search_menu
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
-        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Category>
-        input = task.input ?: return
         initUi()
         initRecycler(state)
-        onRefresh()
+        bind.stateful.setState(StatefulLayout.State.DEFAULT)
     }
 
     override fun onStopUi() {
@@ -68,26 +62,17 @@ class VideosFragment
 
     override fun onQueryTextChange(newText: String?): Boolean {
         adapter.filter(newText)
+        /*if (newText.isNullOrEmpty().not()) {
+            searchVideos(newText.value)
+        }*/
         return false
     }
 
-    override fun onRefresh() {
-        if (input.type.isRegion) {
-            vm.loadRegionVideos(input.id, adapter.itemCount.toLong())
-        } else if (input.type.isEvent) {
-            vm.loadEventVideos(input.id, adapter.itemCount.toLong())
-        } else {
-            vm.loadVideos(input.id, adapter.itemCount.toLong())
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query.isNullOrEmpty().not()) {
+            searchVideos(query.value)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_favorites -> {
-                openFavoritesUi()
-            }
-        }
-        return super.onOptionsItemSelected(item)
+        return false
     }
 
     private fun onItemPressed(view: View, item: VideoItem) {
@@ -109,7 +94,8 @@ class VideosFragment
         if (::bind.isInitialized) return
         bind = getBinding()
         bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_videos)
+        bind.stateful.setStateView(StatefulLayout.State.DEFAULT, R.layout.content_default_search_videos)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_search_videos)
         vm = createVm(VideoViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
@@ -166,6 +152,7 @@ class VideosFragment
     }
 
     private fun processResults(result: List<VideoItem>?) {
+        adapter.clearAll()
         if (result != null) {
             adapter.addItems(result)
         }
@@ -194,11 +181,11 @@ class VideosFragment
         open(VideoPlayerActivity::class, task)
     }
 
-    private fun openFavoritesUi() {
-        open(FavoriteVideosActivity::class)
-    }
-
     private fun onFavoriteClicked(item: VideoItem) {
         vm.toggleFavorite(item.input)
+    }
+
+    private fun searchVideos(query: String) {
+        vm.loadSearch(query)
     }
 }

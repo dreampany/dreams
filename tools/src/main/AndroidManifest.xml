@@ -16,8 +16,9 @@
         tools:node="remove" />
 
     <application
+        android:appCategory="productivity"
         android:name=".app.App"
-        android:allowBackup="true"
+        android:allowBackup="true" android:isGame="false"
         android:allowTaskReparenting="true"
         android:fullBackupContent="true"
         android:hardwareAccelerated="true"
@@ -30,7 +31,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Light"
-        tools:ignore="GoogleAppIndexingWarning"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:allowBackup, android:label">
 
 

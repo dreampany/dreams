@@ -29,9 +29,7 @@ class SplashActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        ex.postToUi(Runnable {
-            nextScreen()
-        }, 1000L)
+        ex.postToUi(Runnable { nextScreen() })
     }
 
     override fun onStopUi() {
@@ -39,14 +37,6 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        //vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
-
-        val data = ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL.encodeBase64
-        val real = data.decodeBase64
-
-        Timber.v("Main %s", ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL)
-        Timber.v("Encoded %s", data)
-        Timber.v("Decoded %s", real)
     }
 
     private fun nextScreen() {

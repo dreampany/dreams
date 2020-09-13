@@ -59,6 +59,7 @@ abstract class InjectNavigationActivity : InjectActivity(),
         }
 
         //setSelectedItem(selectedNavigationItemId)
+        params?.let { app.logEvent(it) }
         onStartUi(savedInstanceState)
     }
 

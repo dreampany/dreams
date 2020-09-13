@@ -54,6 +54,10 @@ abstract class InjectApp : DaggerApplication()/*, Application.ActivityLifecycleC
         super.onTerminate()
     }
 
+    open fun logEvent(params: Map<String, Map<String, Any>?>?) {
+
+    }
+
     /*override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
         //onActivityOpen(activity)
         refs = WeakReference(activity)

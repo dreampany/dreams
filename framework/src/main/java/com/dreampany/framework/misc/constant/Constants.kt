@@ -32,7 +32,7 @@ class Constants {
         }
 
         fun lastAppId(context: Context?): String =
-            context.lastApplicationId() ?: Constants.Default.STRING
+            context.lastApplicationId ?: Constants.Default.STRING
 
         fun more(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
         fun about(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT

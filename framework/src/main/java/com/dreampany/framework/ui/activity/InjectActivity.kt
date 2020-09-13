@@ -40,8 +40,10 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
             binding.setLifecycleOwner(this)
             initToolbar()
         }
-        if (startByInject)
+        if (startByInject) {
+            params?.let { app.logEvent(it) }
             onStartUi(savedInstanceState)
+        }
     }
 
     protected fun <T : ViewDataBinding> getBinding(): T = binding as T

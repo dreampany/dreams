@@ -178,6 +178,16 @@ fun ApplicationInfo.isValid(pm: PackageManager): Boolean {
     return (pm.getLaunchIntentForPackage(packageName) != null)
 }
 
+val Context?.versionCode: Long
+    get() {
+        return versionCode(this?.packageName)
+    }
+
+val Context?.versionName: String
+    get() {
+        return versionName(this?.packageName)
+    }
+
 fun Context?.versionCode(pkg: String?): Long {
     var result = 0L
     try {
@@ -191,7 +201,7 @@ fun Context?.versionCode(pkg: String?): Long {
     return result
 }
 
-fun Context?.versionName(pkg: String?): String? {
+fun Context?.versionName(pkg: String?): String {
     try {
         val info = packageInfo(pkg, 0)
         if (info != null) {
@@ -200,7 +210,7 @@ fun Context?.versionName(pkg: String?): String? {
     } catch (error: PackageManager.NameNotFoundException) {
         Timber.e(error)
     }
-    return null
+    return Constants.Default.STRING
 }
 
 fun Context?.appIconUri(pkg: String?): Uri? {
@@ -238,11 +248,11 @@ fun Context?.kill(pkg: String?) {
     activityManager?.killBackgroundProcesses(pkg)
 }
 
-fun Context?.lastApplicationId(): String? {
-    val applicationId = this.packageName ?: return Constants.Default.NULL
-
-    return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId))
-}
+val Context?.lastApplicationId: String?
+    get() {
+        val applicationId = this.packageName ?: return Constants.Default.NULL
+        return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId))
+    }
 
 fun Context.formatString(@StringRes formatRes: Int, vararg values: Any): String =
     String.format(getString(formatRes), *values)

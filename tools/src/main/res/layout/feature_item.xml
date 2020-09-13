@@ -26,14 +26,14 @@
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent"
                 auto:srcCompat="@drawable/ic_android_black_24dp"
-                auto:tint="@color/textColorSecondary" />
+                auto:tint="@color/textColorPrimary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
                 auto:fontFamily="@font/roboto_slab_bold"

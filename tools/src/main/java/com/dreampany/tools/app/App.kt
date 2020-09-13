@@ -1,7 +1,6 @@
 package com.dreampany.tools.app
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.exts.isDebug
@@ -13,6 +12,7 @@ import com.dreampany.tools.worker.CryptoWorker
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.appindexing.Action
 import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
@@ -34,6 +34,7 @@ class App : InjectApp() {
     @Inject
     internal lateinit var ad: AdManager
 
+    private var analytics: FirebaseAnalytics? = null
     private var action: Action? = null
     private var indexable: Indexable? = null
 
@@ -53,6 +54,16 @@ class App : InjectApp() {
         stopAppIndex()
     }
 
+    override fun logEvent(params: Map<String, Map<String, Any>?>?) {
+        params?.let {
+            val key = it.keys.first()
+            val param = it.values.first()
+            val bundle = Bundle()
+            param?.entries?.forEach { bundle.putString(it.key, it.value.toString()) }
+            analytics?.logEvent(key, bundle)
+        }
+    }
+
     private fun initIndexing() {
         if (isDebug) return
         val name = getString(R.string.app_name)
@@ -63,7 +74,9 @@ class App : InjectApp() {
     }
 
     private fun initFirebase() {
+        if (isDebug) return
         FirebaseApp.initializeApp(this)
+        analytics = FirebaseAnalytics.getInstance(this)
     }
 
     @SuppressLint("MissingPermission")

@@ -15,6 +15,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
+import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.fragment
@@ -83,6 +84,8 @@ abstract class BaseActivity : AppCompatActivity(),
     @get:StringRes
     open val subtitleRes: Int = 0
 
+    open val params: Map<String, Map<String, Any>?>? = null
+
     open fun onMenuCreated(menu: Menu) {}
 
     protected abstract fun onStartUi(state: Bundle?)
@@ -99,8 +102,10 @@ abstract class BaseActivity : AppCompatActivity(),
             setContentView(layoutRes)
             initToolbar()
         }
-        if (startByBase)
+        if (startByBase) {
+            params?.let { app.logEvent(it) }
             onStartUi(savedInstanceState)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -181,6 +186,9 @@ abstract class BaseActivity : AppCompatActivity(),
 
     val toolbarRef: Toolbar?
         get() = toolbar
+
+    val app : InjectApp
+        get() = application as InjectApp
 
     protected fun setSubtitle(@StringRes subtitleRes: Int) {
         if (subtitleRes != 0) {

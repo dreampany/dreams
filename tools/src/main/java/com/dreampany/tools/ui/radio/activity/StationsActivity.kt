@@ -1,6 +1,9 @@
 package com.dreampany.tools.ui.radio.activity
 
 import android.os.Bundle
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.exts.versionCode
+import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.StationsActivityBinding
@@ -29,6 +32,20 @@ class StationsActivity : InjectActivity() {
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.stations_activity
     override val toolbarId: Int = R.id.toolbar
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, packageName)
+            param.put(Constants.Param.VERSION_CODE, versionCode)
+            param.put(Constants.Param.VERSION_NAME, versionName)
+            param.put(Constants.Param.SCREEN, "StationsActivity")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         initAd()

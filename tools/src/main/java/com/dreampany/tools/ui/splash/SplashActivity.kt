@@ -19,9 +19,7 @@ class SplashActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        ex.postToUi(Runnable {
-            nextScreen()
-        }, 500L)
+        ex.postToUi(Runnable { nextScreen() })
     }
 
     override fun onStopUi() {

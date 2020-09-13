@@ -31,6 +31,7 @@ abstract class InjectBottomNavigationActivity : InjectActivity(),
         val navigationView = findViewById<BottomNavigationView>(navigationViewId)
         navigationView?.setOnNavigationItemSelectedListener(this)
         setSelectedItem(selectedNavigationItemId)
+        params?.let { app.logEvent(it) }
         onStartUi(savedInstanceState)
         //getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
     }

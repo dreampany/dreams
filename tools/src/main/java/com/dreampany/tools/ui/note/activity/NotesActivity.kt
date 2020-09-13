@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
@@ -54,6 +55,20 @@ class NotesActivity : InjectActivity() {
     override val menuRes: Int = R.menu.menu_notes
     override val toolbarId: Int = R.id.toolbar
     override val searchMenuItemId: Int = R.id.item_search
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, packageName)
+            param.put(Constants.Param.VERSION_CODE, versionCode)
+            param.put(Constants.Param.VERSION_NAME, versionName)
+            param.put(Constants.Param.SCREEN, "NotesActivity")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         initUi()

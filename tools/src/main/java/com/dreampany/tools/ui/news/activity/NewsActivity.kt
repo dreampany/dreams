@@ -3,7 +3,10 @@ package com.dreampany.tools.ui.news.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.toTint
+import com.dreampany.framework.misc.exts.versionCode
+import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.NewsActivityBinding
@@ -32,6 +35,20 @@ class NewsActivity : InjectActivity() {
     override val menuRes: Int = R.menu.menu_news
     override val toolbarId: Int = R.id.toolbar
     override val searchMenuItemId: Int = R.id.item_search
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, packageName)
+            param.put(Constants.Param.VERSION_CODE, versionCode)
+            param.put(Constants.Param.VERSION_NAME, versionName)
+            param.put(Constants.Param.SCREEN, "NewsActivity")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         initAd()

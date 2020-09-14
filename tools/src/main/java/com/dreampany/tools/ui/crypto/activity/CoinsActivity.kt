@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
@@ -228,7 +227,7 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
+        vm.toggleFavorite(item.input, CoinItem.ItemType.ITEM)
     }
 
 
@@ -238,7 +237,7 @@ class CoinsActivity : InjectActivity() {
             CryptoSubtype.DEFAULT,
             CryptoState.DEFAULT,
             CryptoAction.VIEW,
-            item.item
+            item.input
         )
         open(CoinActivity::class, task)
     }

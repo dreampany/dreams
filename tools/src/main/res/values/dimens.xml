@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="textSizePrimary">@dimen/_14ssp</dimen>
+    <dimen name="textSizeSecondary">@dimen/_12ssp</dimen>
+
     <dimen name="text_size_h1">22dp</dimen>
     <dimen name="text_size_h2">20dp</dimen>
     <dimen name="text_size_h3">18dp</dimen>

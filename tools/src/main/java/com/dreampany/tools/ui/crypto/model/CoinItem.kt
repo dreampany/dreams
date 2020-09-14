@@ -20,7 +20,6 @@ import com.dreampany.tools.databinding.CoinQuoteItemBinding
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
-import kotlinx.android.synthetic.main.coin_pair_item.view.*
 import java.util.*
 
 /**
@@ -32,13 +31,13 @@ import java.util.*
 class CoinItem
 private constructor(
     val itemType: ItemType,
-    val item: Coin,
+    val input: Coin,
     val formatter: CurrencyFormatter,
     val currency: Currency,
     val sort: CoinSort,
     val order: Order,
     var favorite: Boolean
-) : ModelAbstractBindingItem<Coin, ViewBinding>(item) {
+) : ModelAbstractBindingItem<Coin, ViewBinding>(input) {
 
     enum class ItemType {
         ITEM, INFO, QUOTE
@@ -89,13 +88,13 @@ private constructor(
         negativeRatio = R.string.negative_ratio_format
     }
 
-    override fun hashCode(): Int = Objects.hashCode(itemType, item.id)
+    override fun hashCode(): Int = Objects.hashCode(itemType, input.id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as CoinItem
-        return item.itemType == itemType && Objects.equal(this.item.id, item.item.id)
+        return item.itemType == itemType && Objects.equal(this.input.id, item.input.id)
     }
 
     override var identifier: Long = hashCode().toLong()
@@ -133,11 +132,12 @@ private constructor(
     }
 
     private fun bindItem(bind: CoinItemBinding) {
+        bind.rank.text = input.rank.toString()
         bind.layoutSimple.icon.setUrl(
             String.format(
                 Locale.ENGLISH,
                 CryptoConstants.CoinMarketCap.IMAGE_URL,
-                item.id
+                input.id
             )
         )
 
@@ -145,12 +145,12 @@ private constructor(
             String.format(
                 Locale.ENGLISH,
                 bind.root.context.getString(R.string.crypto_symbol_name),
-                item.symbol,
-                item.name
+                input.symbol,
+                input.name
             )
         bind.layoutSimple.textName.text = nameText
 
-        val quote = item.getQuote(currency)
+        val quote = input.getQuote(currency)
 
         var price = 0.0
         var change1h = 0.0
@@ -199,7 +199,7 @@ private constructor(
         // bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
-            item.getLastUpdated(),
+            input.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
         ) as String
@@ -210,7 +210,7 @@ private constructor(
 
     private fun bindItem(bind: CoinInfoItemBinding) {
 
-        val quote = item.getQuote(currency)
+        val quote = input.getQuote(currency)
         var change1h = 0.0
         var change24h = 0.0
         var change7d = 0.0
@@ -248,7 +248,7 @@ private constructor(
         bind.textChange7d.setTextColor(bind.color(weekChangeColor))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
-            item.getLastUpdated(),
+            input.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
         ) as String
@@ -264,21 +264,21 @@ private constructor(
     }
 
     private fun bindItem(bind: CoinQuoteItemBinding) {
-        val symbol = item.symbol
+        val symbol = input.symbol
         val circulating = bind.context.getString(
             R.string.join_text,
-            formatter.roundPrice(item.getCirculatingSupply()),
+            formatter.roundPrice(input.getCirculatingSupply()),
             symbol
         )
 
         val total = bind.context.getString(
             R.string.join_text,
-            formatter.roundPrice(item.getTotalSupply()),
+            formatter.roundPrice(input.getTotalSupply()),
             symbol
         )
         val max = bind.context.getString(
             R.string.join_text,
-            formatter.roundPrice(item.getMaxSupply()),
+            formatter.roundPrice(input.getMaxSupply()),
             symbol
         )
 
@@ -291,7 +291,7 @@ private constructor(
         bind.layoutMax.value.text = max
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
-            item.getLastUpdated(),
+            input.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
         ) as String

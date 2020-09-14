@@ -1,8 +1,11 @@
 package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.exts.value
+import com.dreampany.framework.misc.exts.versionCode
+import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
@@ -47,10 +50,22 @@ class CoinActivity : InjectActivity() {
     private lateinit var input: Coin
 
     override val homeUp: Boolean = true
-
     override val layoutRes: Int = R.layout.coin_activity
-
     override val toolbarId: Int = R.id.toolbar
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, packageName)
+            param.put(Constants.Param.VERSION_CODE, versionCode)
+            param.put(Constants.Param.VERSION_NAME, versionName)
+            param.put(Constants.Param.SCREEN, "CoinActivity")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         val task: UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> =

@@ -3,7 +3,6 @@ package com.dreampany.tools.ui.wifi.activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
@@ -254,7 +253,7 @@ class WifisActivity : InjectActivity() {
             CryptoSubtype.DEFAULT,
             CryptoState.DEFAULT,
             CryptoAction.VIEW,
-            item.item
+            item.input
         )
         //open(CoinActivity::class, task)
     }

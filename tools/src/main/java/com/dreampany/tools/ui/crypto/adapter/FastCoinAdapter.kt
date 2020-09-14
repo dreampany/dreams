@@ -63,7 +63,7 @@ class FastCoinAdapter(
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is CoinItem)
-                item.item.name.toString().contains(constraint.toString(), ignoreCase = true)
+                item.input.name.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }
@@ -179,8 +179,8 @@ class FastCoinAdapter(
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is CoinItem && right is CoinItem) {
                 if (sort == CoinSort.MARKET_CAP) {
-                    val leftCap = left.item.getQuote(currency)
-                    val rightCap = right.item.getQuote(currency)
+                    val leftCap = left.input.getQuote(currency)
+                    val rightCap = right.input.getQuote(currency)
                     if (leftCap != null && rightCap != null) {
                         if (order == Order.ASCENDING) {
                             return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
@@ -197,7 +197,7 @@ class FastCoinAdapter(
     class RankComparator : Comparator<GenericItem> {
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is CoinItem && right is CoinItem) {
-                return left.item.rank - right.item.rank
+                return left.input.rank - right.input.rank
             }
             return 0
         }

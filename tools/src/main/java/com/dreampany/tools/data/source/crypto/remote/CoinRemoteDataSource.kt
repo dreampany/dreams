@@ -39,17 +39,18 @@ constructor(
 ) : CoinDataSource {
 
     init {
-        if (context.isDebug) {
+        /*if (context.isDebug) {
             keys.setKeys(CryptoConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT)
         } else {
-            keys.setKeys(
-                CryptoConstants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
-                CryptoConstants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
-                CryptoConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
-                CryptoConstants.CoinMarketCap.CMC_PRO_IFTE_NET,
-                CryptoConstants.CoinMarketCap.CMC_PRO_DREAMPANY
-            )
-        }
+
+        }*/
+        keys.setKeys(
+            CryptoConstants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
+            CryptoConstants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
+            CryptoConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
+            CryptoConstants.CoinMarketCap.CMC_PRO_IFTE_NET,
+            CryptoConstants.CoinMarketCap.CMC_PRO_DREAMPANY
+        )
     }
 
     private fun getHeader(key: String): Map<String, String> {

@@ -8,7 +8,7 @@
     <style name="Base.LightActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@style/Theme.Animation</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationStyle.Light</item>
-        <!--<item name="bottomSheetDialogTheme">@style/Theme.BottomSheetDialog.Light</item>-->
+        <item name="bottomSheetDialogTheme">@style/Theme.BottomSheetDialog.Light</item>
     </style>
 
     <style name="Base.Transparent" parent="Theme.MaterialComponents.Light.NoActionBar">

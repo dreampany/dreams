@@ -23,6 +23,7 @@ import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.ui.crypto.model.TickerItem
+import kotlinx.android.synthetic.main.content_recycler.view.*
 
 /**
  * Created by roman on 27/4/20
@@ -74,13 +75,12 @@ class TickersFragment
     }
 
     private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            bind.swipe.init(this)
-            bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_tickers)
-            vm = createVm(TickerViewModel::class)
-            vm.subscribes(this, Observer { this.processResponses(it) })
-        }
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_tickers)
+        vm = createVm(TickerViewModel::class)
+        vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {

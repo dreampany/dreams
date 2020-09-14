@@ -14,8 +14,11 @@ import com.dreampany.crypto.data.enums.Action
 import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
+import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.manager.AdManager
 import com.dreampany.crypto.misc.exts.setUrl
+import com.dreampany.crypto.misc.func.CurrencyFormatter
+import com.dreampany.framework.misc.exts.value
 import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import java.util.*
 import javax.inject.Inject
@@ -30,6 +33,12 @@ class CoinActivity : InjectActivity() {
 
     @Inject
     internal lateinit var ad: AdManager
+
+    @Inject
+    internal lateinit var pref: AppPref
+
+    @Inject
+    internal lateinit var formatter: CurrencyFormatter
 
     private lateinit var bind: CoinActivityBinding
     private lateinit var adapter: CoinPagerAdapter
@@ -67,6 +76,7 @@ class CoinActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
         bind.icon.setUrl(
             String.format(
@@ -75,8 +85,22 @@ class CoinActivity : InjectActivity() {
                 input.id
             )
         )
-        bind.textName.text = input.name
-        bind.textSymbol.text = input.symbol
+
+        val title =
+            String.format(
+                Locale.ENGLISH,
+                getString(R.string.crypto_symbol_name),
+                input.symbol,
+                input.name
+            )
+
+        val currency = pref.getCurrency()
+        val quote = input.getQuote(currency)
+        val price = quote?.price.value
+        val subtitle = formatter.formatPrice(price, currency)
+
+        bind.title.text = title
+        bind.subtitle.text = subtitle
     }
 
     private fun initPager() {

@@ -78,7 +78,8 @@ class CoinViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem(CoinItem.ItemType.ITEM, favorite))
+                postResult(result?.toItems(favorite))
+                //postResult(result?.toItem(CoinItem.ItemType.ITEM, favorite))
             }
         }
     }

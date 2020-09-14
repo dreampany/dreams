@@ -41,9 +41,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     protected var currentView: View? = null
 
-    //protected var task: Task<*, *, *, *, *>? = null
-    //protected var childTask: Task<*, *, *, *, *>? = null
-
     protected var activityCallback: Callback? = null
     protected var fragmentCallback: Callback? = null
 
@@ -147,31 +144,15 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         super.onDestroyView()
     }
 
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                has
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
-
-    override fun onRefresh() {
-
-    }
+    override fun onRefresh() {}
 
     override fun onQueryTextChange(newText: String?): Boolean = false
 
     override fun onQueryTextSubmit(query: String?): Boolean = false
 
-    override fun onTask(task: Task<*, *, *, *, *>) {
+    override fun onTask(task: Task<*, *, *, *, *>) {}
 
-    }
-
-    override fun <T> onItem(item: T) {
-
-    }
+    override fun <T> onItem(item: T) {}
 
     val parentRef: BaseActivity?
         get() {
@@ -286,26 +267,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     }
 
     protected fun hideDialog() {
-        sheetDialog?.run {
-            dismiss()
-        }
+        sheetDialog?.run { dismiss() }
         sheetDialog = null
     }
-
-    /* private fun initLayout(
-         @LayoutRes layoutId: Int,
-         inflater: LayoutInflater,
-         container: ViewGroup?,
-         savedInstanceState: Bundle?
-     ): View? {
-         if (hasBinding) {
-             binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-             binding.setLifecycleOwner(this)
-             return binding.root
-         } else {
-             return inflater.inflate(layoutId, container, false)
-         }
-     }*/
 
     private fun initSearch() {
         val searchView = getSearchView()
@@ -320,16 +284,4 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
             isIconified = false
         }
     }
-
-    /*protected fun <F : Fragment, T : Task<*, *, *, *, *>> createFragment(clazz: KClass<F>, task: T): F {
-        val instance = clazz.java.newInstance()
-        if (instance.arguments == null) {
-            val bundle = Bundle()
-            bundle.putParcelable(Constants.Keys.TASK, task)
-            instance.arguments = bundle
-        } else {
-            instance.arguments?.putParcelable(Constants.Keys.TASK, task)
-        }
-        return instance
-    }*/
 }

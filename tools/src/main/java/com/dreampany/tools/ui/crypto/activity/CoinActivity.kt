@@ -93,6 +93,7 @@ class CoinActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
         bind.icon.setUrl(
             String.format(

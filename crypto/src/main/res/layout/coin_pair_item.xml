@@ -15,19 +15,19 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_grey700"
-            android:textSize="@dimen/_14ssp"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/_12ssp"
             auto:fontFamily="@font/roboto_slab_regular"
             tools:text="@string/title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_value"
+            android:id="@+id/value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:textColor="@color/material_grey700"
-            android:textSize="@dimen/_14ssp"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/_12ssp"
             auto:fontFamily="@font/roboto_slab_regular"
             tools:text="@string/title" />
     </androidx.appcompat.widget.LinearLayoutCompat>

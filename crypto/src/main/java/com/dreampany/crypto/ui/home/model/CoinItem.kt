@@ -134,9 +134,177 @@ private constructor(
 
     }
 
-    val quote : Quote? get() = input.getQuote(currency)
-
     private fun bindItem(bind: CoinItemBinding) {
+        bind.rank.text = input.rank.toString()
+        bind.layoutSimple.icon.setUrl(
+            String.format(
+                Locale.ENGLISH,
+                ApiConstants.CoinMarketCap.IMAGE_URL,
+                input.id
+            )
+        )
+
+        val nameText =
+            String.format(
+                Locale.ENGLISH,
+                bind.root.context.getString(R.string.crypto_symbol_name),
+                input.symbol,
+                input.name
+            )
+        bind.layoutSimple.textName.text = nameText
+
+        val quote = input.getQuote(currency)
+
+        var price = 0.0
+        var change1h = 0.0
+        var change24h = 0.0
+        var change7d = 0.0
+        var marketCap = 0.0
+        var volume24h = 0.0
+        if (quote != null) {
+            price = quote.price
+            change1h = quote.getChange1h()
+            change24h = quote.getChange24h()
+            change7d = quote.getChange7d()
+            marketCap = quote.getMarketCap()
+            volume24h = quote.getVolume24h()
+        }
+
+        bind.layoutSimple.textPrice.text = formatter.formatPrice(price, currency)
+        bind.layoutPrice.textMarketCap.text = formatter.roundPrice(marketCap, currency)
+        bind.layoutPrice.textVolume24h.text = formatter.roundPrice(volume24h, currency)
+
+        val change1hFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
+        val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
+        val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
+
+        // bind.layoutPrice.textChange1h.text = bind.context.formatString(change1hFormat, change1h)
+        bind.layoutPrice.textChange24h.text =
+            bind.context.formatString(change24hFormat, change24h)
+        // bind.layoutPrice.textChange7d.text = bind.context.formatString(change7dFormat, change7d)
+
+        val startColor = R.color.material_grey400
+        val endColor =
+            if (change1h >= 0.0f || change24h >= 0.0f || change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
+
+        bind.layoutSimple.textPrice.blink(startColor, endColor)
+
+        val hourChangeColor =
+            if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
+        //bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))
+
+        val dayChangeColor =
+            if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
+        bind.layoutPrice.textChange24h.setTextColor(bind.color(dayChangeColor))
+
+        val weekChangeColor =
+            if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
+        // bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
+
+        val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+            input.getLastUpdated(),
+            Util.currentMillis(),
+            DateUtils.MINUTE_IN_MILLIS
+        ) as String
+        //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+
+        //bind.layoutOptions.buttonFavorite.isLiked = favorite
+    }
+
+    private fun bindItem(bind: CoinInfoItemBinding) {
+
+        val quote = input.getQuote(currency)
+        var change1h = 0.0
+        var change24h = 0.0
+        var change7d = 0.0
+        var marketCap = 0.0
+        var volume24h = 0.0
+        if (quote != null) {
+            change1h = quote.getChange1h()
+            change24h = quote.getChange24h()
+            change7d = quote.getChange7d()
+            marketCap = quote.getMarketCap()
+            volume24h = quote.getVolume24h()
+        }
+
+        val change1hFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
+        val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
+        val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
+
+        bind.textChange1h.text =
+            bind.context.formatString(change1hFormat, change1h)
+        bind.textChange24h.text =
+            bind.context.formatString(change24hFormat, change24h)
+        bind.textChange7d.text =
+            bind.context.formatString(change7dFormat, change7d)
+
+        val hourChangeColor =
+            if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
+        bind.textChange1h.setTextColor(bind.color(hourChangeColor))
+
+        val dayChangeColor =
+            if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
+        bind.textChange24h.setTextColor(bind.color(dayChangeColor))
+
+        val weekChangeColor =
+            if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
+        bind.textChange7d.setTextColor(bind.color(weekChangeColor))
+
+        val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+            input.getLastUpdated(),
+            Util.currentMillis(),
+            DateUtils.MINUTE_IN_MILLIS
+        ) as String
+
+        bind.layoutMarketCap.title.setText(R.string.market_cap)
+        bind.layoutMarketCap.value.text = formatter.formatPrice(marketCap, currency)
+
+        bind.layoutVolume.title.setText(R.string.volume_24h)
+        bind.layoutVolume.value.text = formatter.formatPrice(volume24h, currency)
+
+        //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+        //bind.buttonFavorite.isLiked = favorite
+    }
+
+    private fun bindItem(bind: CoinQuoteItemBinding) {
+        val symbol = input.symbol
+        val circulating = bind.context.getString(
+            R.string.join_text,
+            formatter.roundPrice(input.getCirculatingSupply()),
+            symbol
+        )
+
+        val total = bind.context.getString(
+            R.string.join_text,
+            formatter.roundPrice(input.getTotalSupply()),
+            symbol
+        )
+        val max = bind.context.getString(
+            R.string.join_text,
+            formatter.roundPrice(input.getMaxSupply()),
+            symbol
+        )
+
+        bind.layoutCirculating.title.setText(R.string.circulating_supply)
+        bind.layoutTotal.title.setText(R.string.total_supply)
+        bind.layoutMax.title.setText(R.string.max_supply)
+
+        bind.layoutCirculating.value.text = circulating
+        bind.layoutTotal.value.text = total
+        bind.layoutMax.value.text = max
+
+        val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+            input.getLastUpdated(),
+            Util.currentMillis(),
+            DateUtils.MINUTE_IN_MILLIS
+        ) as String
+
+        //bind.textLastUpdated.text = lastUpdatedTime
+    }
+
+    //val quote : Quote? get() = input.getQuote(currency)
+
+    /*private fun bindItem(bind: CoinItemBinding) {
         bind.rank.text = input.rank.toString()
         bind.layoutSimple.icon.setUrl(
             String.format(
@@ -180,12 +348,12 @@ private constructor(
         val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
         //val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
-        /*bind.layoutPrice.textChange1h.text =
-            bind.context.formatString(change1hFormat, change1h)*/
+        *//*bind.layoutPrice.textChange1h.text =
+            bind.context.formatString(change1hFormat, change1h)*//*
         bind.layoutPrice.textChange24h.text =
             bind.context.formatString(change24hFormat, change24h)
-        /*bind.layoutPrice.textChange7d.text =
-            bind.context.formatString(change7dFormat, change7d)*/
+        *//*bind.layoutPrice.textChange7d.text =
+            bind.context.formatString(change7dFormat, change7d)*//*
 
         val startColor = R.color.material_grey400
         val endColor =
@@ -193,23 +361,23 @@ private constructor(
 
         bind.layoutSimple.textPrice.blink(startColor, endColor)
 
-        /*val hourChangeColor =
+        *//*val hourChangeColor =
             if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))*/
+        bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))*//*
 
         val dayChangeColor =
             if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
         bind.layoutPrice.textChange24h.setTextColor(bind.color(dayChangeColor))
 
-        /*val weekChangeColor =
+        *//*val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))*/
+        bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))*//*
 
-        /*val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+        *//*val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
-        ) as String*/
+        ) as String*//*
         //bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
 
         //bind.layoutOptions.buttonFavorite.isLiked = favorite
@@ -306,5 +474,5 @@ private constructor(
         ) as String
 
         bind.textLastUpdated.text = lastUpdatedTime
-    }
+    }*/
 }

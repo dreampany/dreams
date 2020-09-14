@@ -74,6 +74,13 @@ class FastCoinAdapter(
         recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
+            addItemDecoration(
+                SpacingItemDecoration(
+                    1,
+                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
+                    true
+                )
+            )
 
             scrollListener?.let {
                 scroller = object : EndlessRecyclerOnScrollListener(footerAdapter) {
@@ -105,7 +112,7 @@ class FastCoinAdapter(
 
             fastAdapter.addClickListener<CoinInfoItemBinding, GenericItem>(
                 { bind -> bind.root },
-                { bind -> arrayListOf(bind.buttonFavorite) }
+                { bind -> arrayListOf(bind.root) }
             )
             { view, position, adapter, item ->
                 if (item is CoinItem) {
@@ -116,7 +123,6 @@ class FastCoinAdapter(
     }
 
     fun destroy() {
-        fastAdapter.clear()
     }
 
     fun saveInstanceState(outState: Bundle): Bundle {

@@ -13,6 +13,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            auto:elevation="0dp"
             android:fitsSystemWindows="true"
             android:theme="@style/AppBarOverlay">
 
@@ -46,6 +47,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="top"
                     android:theme="@style/Theme.Toolbar.Light"
                     auto:contentInsetLeft="0dp"
                     auto:contentInsetStart="0dp"
@@ -79,7 +81,7 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/text_name"
+                                android:id="@+id/title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
@@ -89,7 +91,7 @@
                                 tools:text="@string/title" />
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/text_symbol"
+                                android:id="@+id/subtitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"

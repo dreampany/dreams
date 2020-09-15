@@ -68,7 +68,7 @@ class CoinActivity : InjectActivity() {
         }
 
     override fun onStartUi(state: Bundle?) {
-        val task: UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> =
+        val task =
             (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
         input = task.input ?: return
         initUi()
@@ -126,7 +126,7 @@ class CoinActivity : InjectActivity() {
         TabLayoutMediator(
             bind.tabs,
             bind.layoutPager.pager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
     }

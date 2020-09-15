@@ -45,7 +45,7 @@ class NewsFragment
     private lateinit var adapter: FastArticleAdapter
 
     override val layoutRes: Int = R.layout.news_fragment
-    override val menuRes: Int = R.menu.menu_search
+    override val menuRes: Int = R.menu.search_menu
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
@@ -64,11 +64,6 @@ class NewsFragment
         var outState = outState
         outState = adapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(context, R.color.material_white)
-        //findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

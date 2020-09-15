@@ -1,7 +1,6 @@
 package com.dreampany.crypto.ui.home.fragment
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
@@ -46,7 +45,7 @@ class HomeFragment
     private lateinit var adapter: FastCoinAdapter
 
     override val layoutRes: Int = R.layout.recycler_fragment
-    override val menuRes: Int = R.menu.menu_home
+    override val menuRes: Int = R.menu.home_menu
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
@@ -66,10 +65,10 @@ class HomeFragment
         super.onSaveInstanceState(outState)
     }
 
-    override fun onMenuCreated(menu: Menu) {
+    /*override fun onMenuCreated(menu: Menu) {
         getSearchMenuItem().toTint(context, R.color.material_white)
         findMenuItemById(R.id.item_favorites).toTint(context, R.color.material_white)
-    }
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

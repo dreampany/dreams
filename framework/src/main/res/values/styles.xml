@@ -60,14 +60,15 @@
         <item name="itemBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="Theme.BottomSheetDialog.Light" parent="@style/Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/textColorPrimary</item>
+    <style name="Theme.BottomSheetDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Light.BottomSheetDialog">
+        <!--<item name="colorPrimary">@color/textColorPrimary</item>
         <item name="colorPrimaryDark">@color/textColorSecondary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>-->
         <item name="bottomSheetStyle">@style/Theme.BottomSheet.Light</item>
     </style>
 
-    <style name="Theme.BottomSheet.Light" parent="Widget.MaterialComponents.BottomSheet">
+    <style name="Theme.BottomSheet.Light" parent="Widget.MaterialComponents.BottomSheet.Modal">
+
     </style>
 
 <!--    <style name="SearchView.Light" parent="Widget.MaterialComponents.">

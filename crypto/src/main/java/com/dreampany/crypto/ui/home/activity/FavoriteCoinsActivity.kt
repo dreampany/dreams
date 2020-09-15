@@ -9,10 +9,6 @@ import com.dreampany.crypto.databinding.RecyclerActivityBinding
 import com.dreampany.crypto.ui.home.adapter.FastCoinAdapter
 import com.dreampany.crypto.ui.home.vm.CoinViewModel
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.exts.init
-import com.dreampany.framework.misc.exts.open
-import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
@@ -23,6 +19,9 @@ import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.ui.home.model.CoinItem
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.exts.*
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -44,12 +43,23 @@ class FavoriteCoinsActivity : InjectActivity() {
     override val homeUp: Boolean = true
 
     override val layoutRes: Int = R.layout.recycler_activity
-
     override val toolbarId: Int = R.id.toolbar
-
-    override val menuRes: Int = R.menu.menu_search
-
+    override val menuRes: Int = R.menu.search_menu
     override val searchMenuItemId: Int = R.id.item_search
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, packageName)
+            param.put(Constants.Param.VERSION_CODE, versionCode)
+            param.put(Constants.Param.VERSION_NAME, versionName)
+            param.put(Constants.Param.SCREEN, "FavoriteCoinsActivity")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -65,10 +75,6 @@ class FavoriteCoinsActivity : InjectActivity() {
         var outState = outState
         outState = adapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onMenuCreated(menu: Menu) {
-        getSearchMenuItem().toTint(this, R.color.material_white)
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {

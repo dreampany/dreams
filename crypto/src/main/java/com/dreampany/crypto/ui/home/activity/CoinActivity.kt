@@ -18,7 +18,10 @@ import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.manager.AdManager
 import com.dreampany.crypto.misc.exts.setUrl
 import com.dreampany.crypto.misc.func.CurrencyFormatter
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.value
+import com.dreampany.framework.misc.exts.versionCode
+import com.dreampany.framework.misc.exts.versionName
 import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import java.util.*
 import javax.inject.Inject
@@ -42,14 +45,25 @@ class CoinActivity : InjectActivity() {
 
     private lateinit var bind: CoinActivityBinding
     private lateinit var adapter: CoinPagerAdapter
-
     private lateinit var input: Coin
 
     override val homeUp: Boolean = true
-
     override val layoutRes: Int = R.layout.coin_activity
-
     override val toolbarId: Int = R.id.toolbar
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, packageName)
+            param.put(Constants.Param.VERSION_CODE, versionCode)
+            param.put(Constants.Param.VERSION_NAME, versionName)
+            param.put(Constants.Param.SCREEN, "CoinActivity")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>

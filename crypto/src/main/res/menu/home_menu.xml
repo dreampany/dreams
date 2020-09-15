@@ -8,13 +8,11 @@
         auto:showAsAction="collapseActionView|always"
         android:animateLayoutChanges="true"
         android:icon="@drawable/ic_search_black_24dp"
-        android:iconTint="@color/material_white"
         android:title="@string/search" />
 
     <item
         android:id="@+id/item_favorites"
         auto:showAsAction="ifRoom"
         android:icon="@drawable/ic_favorite_black_24dp"
-        android:iconTint="@color/material_white"
         android:title="@string/favorites" />
 </menu>

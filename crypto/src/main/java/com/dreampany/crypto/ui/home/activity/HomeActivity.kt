@@ -8,6 +8,9 @@ import com.dreampany.crypto.manager.AdManager
 import com.dreampany.crypto.ui.home.fragment.HomeFragment
 import com.dreampany.crypto.ui.news.NewsFragment
 import com.dreampany.crypto.ui.settings.SettingsFragment
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.exts.versionCode
+import com.dreampany.framework.misc.exts.versionName
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -36,29 +39,23 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override val doubleBackPressed: Boolean = true
 
     override val layoutRes: Int = R.layout.home_activity
-
     override val toolbarId: Int = R.id.toolbar
-
     override val navigationViewId: Int get() = R.id.navigation_view
-
     override val selectedNavigationItemId: Int get() = R.id.navigation_home
 
-    override fun onNavigationItem(navigationItemId: Int) {
-        when (navigationItemId) {
-            R.id.navigation_home -> {
-                setTitle(R.string.home)
-                commitFragment(HomeFragment::class, home, R.id.layout)
-            }
-            R.id.navigation_news -> {
-                setTitle(R.string.title_crypto_news)
-                commitFragment(NewsFragment::class, news, R.id.layout)
-            }
-            R.id.navigation_settings -> {
-                setTitle(R.string.settings)
-                commitFragment(SettingsFragment::class, settings, R.id.layout)
-            }
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, packageName)
+            param.put(Constants.Param.VERSION_CODE, versionCode)
+            param.put(Constants.Param.VERSION_NAME, versionName)
+            param.put(Constants.Param.SCREEN, "CryptoHomeActivity")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
         }
-    }
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -77,6 +74,23 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override fun onPause() {
         ad.pauseBanner(this.javaClass.simpleName)
         super.onPause()
+    }
+
+    override fun onNavigationItem(navigationItemId: Int) {
+        when (navigationItemId) {
+            R.id.navigation_home -> {
+                setTitle(R.string.home)
+                commitFragment(HomeFragment::class, home, R.id.layout)
+            }
+            R.id.navigation_news -> {
+                setTitle(R.string.title_crypto_news)
+                commitFragment(NewsFragment::class, news, R.id.layout)
+            }
+            R.id.navigation_settings -> {
+                setTitle(R.string.settings)
+                commitFragment(SettingsFragment::class, settings, R.id.layout)
+            }
+        }
     }
 
     private fun initUi() {

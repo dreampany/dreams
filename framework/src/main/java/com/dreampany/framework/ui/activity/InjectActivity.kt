@@ -41,8 +41,8 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
             initToolbar()
         }
         if (startByInject) {
-            params?.let { app.logEvent(it) }
             onStartUi(savedInstanceState)
+            params?.let { app.logEvent(it) }
         }
     }
 

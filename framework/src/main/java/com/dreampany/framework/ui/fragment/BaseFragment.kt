@@ -15,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
+import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.func.Executors
 import com.dreampany.framework.ui.activity.BaseActivity
@@ -67,6 +68,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     @get:StringRes
     open val subtitleRes: Int = 0
 
+    open val params: Map<String, Map<String, Any>?>? = null
+
     open fun onMenuCreated(menu: Menu) {}
 
     protected abstract fun onStartUi(state: Bundle?)
@@ -117,6 +120,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
             setTitle(titleRes)
         }
         onStartUi(savedInstanceState)
+        params?.let { app?.logEvent(it) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -163,6 +167,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     val toolbarRef: Toolbar?
         get() = parentRef?.toolbarRef
 
+    val app : InjectApp?
+        get() = parentRef?.app
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
 

@@ -103,8 +103,8 @@ abstract class BaseActivity : AppCompatActivity(),
             initToolbar()
         }
         if (startByBase) {
-            params?.let { app.logEvent(it) }
             onStartUi(savedInstanceState)
+            params?.let { app.logEvent(it) }
         }
     }
 

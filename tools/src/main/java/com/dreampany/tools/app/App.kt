@@ -13,11 +13,13 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.appindexing.Action
 import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
 import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
+import com.google.firebase.ktx.Firebase
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import java.util.concurrent.TimeUnit
@@ -34,7 +36,7 @@ class App : InjectApp() {
     @Inject
     internal lateinit var ad: AdManager
 
-    private var analytics: FirebaseAnalytics? = null
+    private lateinit var analytics: FirebaseAnalytics
     private var action: Action? = null
     private var indexable: Indexable? = null
 
@@ -42,8 +44,8 @@ class App : InjectApp() {
         DaggerAppComponent.builder().application(this).build()
 
     override fun onOpen() {
-        initIndexing()
         initFirebase()
+        initIndexing()
         initAd()
         initFresco()
         startAppIndex()
@@ -55,12 +57,13 @@ class App : InjectApp() {
     }
 
     override fun logEvent(params: Map<String, Map<String, Any>?>?) {
+        if (isDebug) return
         params?.let {
             val key = it.keys.first()
             val param = it.values.first()
             val bundle = Bundle()
             param?.entries?.forEach { bundle.putString(it.key, it.value.toString()) }
-            analytics?.logEvent(key, bundle)
+            analytics.logEvent(key, bundle)
         }
     }
 
@@ -76,7 +79,7 @@ class App : InjectApp() {
     private fun initFirebase() {
         if (isDebug) return
         FirebaseApp.initializeApp(this)
-        analytics = FirebaseAnalytics.getInstance(this)
+        analytics = Firebase.analytics
     }
 
     @SuppressLint("MissingPermission")

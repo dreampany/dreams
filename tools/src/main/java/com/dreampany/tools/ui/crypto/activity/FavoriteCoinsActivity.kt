@@ -16,14 +16,14 @@ import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
-import com.dreampany.tools.databinding.RecyclerActivityBinding
+import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
-import java.util.HashMap
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -40,12 +40,12 @@ class FavoriteCoinsActivity : InjectActivity() {
     @Inject
     internal lateinit var cryptoPref: CryptoPref
 
-    private lateinit var bind: RecyclerActivityBinding
+    private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var vm: CoinViewModel
     private lateinit var adapter: FastCoinAdapter
 
     override val homeUp: Boolean = true
-    override val layoutRes: Int = R.layout.recycler_activity
+    override val layoutRes: Int = R.layout.recycler_activity_ad
     override val toolbarId: Int = R.id.toolbar
     override val menuRes: Int = R.menu.menu_search
     override val searchMenuItemId: Int = R.id.item_search
@@ -58,7 +58,7 @@ class FavoriteCoinsActivity : InjectActivity() {
             param.put(Constants.Param.PACKAGE_NAME, packageName)
             param.put(Constants.Param.VERSION_CODE, versionCode)
             param.put(Constants.Param.VERSION_NAME, versionName)
-            param.put(Constants.Param.SCREEN, "FavoriteCoinsActivity")
+            param.put(Constants.Param.SCREEN, "Tools.FavoriteCoinsActivity")
 
             params.put(Constants.Event.ACTIVITY, param)
             return params

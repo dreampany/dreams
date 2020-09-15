@@ -150,7 +150,7 @@ val Context?.activityManager: ActivityManager?
     get() = this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
 
 
-val Context?.packageName: String? get() = appContext?.packageName
+val Context?.packageName: String get() = appContext?.packageName ?: Constants.Default.STRING
 
 fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
     try {

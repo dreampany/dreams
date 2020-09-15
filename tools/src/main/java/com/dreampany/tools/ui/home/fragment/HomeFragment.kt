@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.disable
-import com.dreampany.framework.misc.exts.open
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tools.R
@@ -44,6 +44,20 @@ class HomeFragment
     private lateinit var vm: FeatureViewModel
 
     override val layoutRes: Int = R.layout.home_fragment
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constants.Param.PACKAGE_NAME, parentRef.packageName)
+            param.put(Constants.Param.VERSION_CODE, parentRef.versionCode)
+            param.put(Constants.Param.VERSION_NAME, parentRef.versionName)
+            param.put(Constants.Param.SCREEN, "Tools.HomeFragment")
+
+            params.put(Constants.Event.ACTIVITY, param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         initUi()

@@ -59,8 +59,8 @@ abstract class InjectNavigationActivity : InjectActivity(),
         }
 
         //setSelectedItem(selectedNavigationItemId)
-        params?.let { app.logEvent(it) }
         onStartUi(savedInstanceState)
+        params?.let { app.logEvent(it) }
     }
 
     /* override fun onPostCreate(savedInstanceState: Bundle?) {

@@ -138,7 +138,7 @@ class VideoViewModel
 
     fun toggleFavorite(input: Video) {
         uiScope.launch {
-            postProgressSingle(true)
+            //postProgressSingle(true)
             var result: Video? = null
             var errors: SmartError? = null
             var favorite: Boolean = false

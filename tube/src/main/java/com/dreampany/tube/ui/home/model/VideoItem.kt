@@ -2,16 +2,14 @@ package com.dreampany.tube.ui.home.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.exts.context
-import com.dreampany.framework.misc.exts.count
-import com.dreampany.framework.misc.exts.publishTime
-import com.dreampany.framework.misc.exts.visible
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.databinding.VideoItemBinding
 import com.dreampany.tube.misc.setUrl
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
+import java.util.*
 
 /**
  * Created by roman on 1/7/20
@@ -43,15 +41,19 @@ class VideoItem(
 
     override fun bindView(bind: VideoItemBinding, payloads: List<Any>) {
         bind.thumb.setUrl(input.thumbnail)
-        bind.duration.text = input.duration
+        bind.definition.text = input.definition
         bind.title.text = input.title
-        bind.channel.text = input.channelTitle
         bind.info.text = bind.context.getString(
             R.string.video_info_format,
+            input.channelTitle,
             input.viewCount.count,
-            input.publishedAt.publishTime
+            input.publishedAt.time
         )
-        bind.duration.visible(input.duration.isNullOrEmpty().not())
+        if (input.isLive || input.duration.isNullOrEmpty()) {
+            bind.duration.text = input.liveBroadcastContent?.toUpperCase(Locale.getDefault())
+        } else {
+            bind.duration.text = input.duration
+        }
         bind.favorite.isLiked = favorite
     }
 

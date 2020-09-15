@@ -51,7 +51,6 @@ class VideoPlayerActivity : InjectActivity() {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Video>
         video = task.input ?: return
         initUi()
-
     }
 
     override fun onStopUi() {

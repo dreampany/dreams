@@ -4,7 +4,11 @@ import android.graphics.Color
 import androidx.annotation.ColorInt
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
+import kotlin.math.ln
+import kotlin.math.pow
 
 /**
  * Created by roman on 15/3/20
@@ -68,8 +72,23 @@ val ByteArray?.isEmpty: Boolean
         if (this.size == 0) return true
         return false
     }
+
 val ByteArray?.length: Int
     get() = this?.size ?: 0
 
+/*val Long.count: String
+    get() = String.format(Locale.getDefault(), "%,d", this)*/
+
 val Long.count: String
-    get() = String.format(Locale.getDefault(), "%,d", this)
+    get() {
+        val suffixChars = "KMGTPE"
+        val formatter = DecimalFormat("###.#")
+        formatter.roundingMode = RoundingMode.DOWN
+        return if (this < 1000.0) {
+            formatter.format(this)
+        } else {
+            val exp = (ln(this.toDouble()) / ln(1000.0)).toInt()
+            formatter.format(this / 1000.0.pow(exp.toDouble())) + suffixChars[exp - 1]
+        }
+    }
+

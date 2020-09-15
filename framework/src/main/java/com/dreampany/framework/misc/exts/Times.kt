@@ -95,11 +95,18 @@ fun String.getDay(pattern: String): Int = calendar(pattern)?.day ?: 0
 
 fun String.getMonth(pattern: String): Int = calendar(pattern)?.month ?: 0
 
-val Long.publishTime: String
-    get() = DateUtils.getRelativeTimeSpanString(
-        this,
-        currentMillis,
-        DateUtils.MINUTE_IN_MILLIS
-    ).toString()
+val Long.time: String
+    get() {
+        val now = currentMillis
+        var input = this
+        if (now - input < 1000) {
+            input = input + 1000
+        }
+        return DateUtils.getRelativeTimeSpanString(
+            input,
+            now,
+            DateUtils.MINUTE_IN_MILLIS
+        ).toString()
+    }
 
 

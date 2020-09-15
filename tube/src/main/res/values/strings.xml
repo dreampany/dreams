@@ -12,7 +12,7 @@
     <string name="title_empty_favorite_videos" translatable="false">No Favorite Videos</string>
     <string name="message_empty_favorite_videos" translatable="false">It seems you have not made any favorite video yet.</string>
 
-    <string name="video_info_format" translatable="false">%s views . %s</string>
+    <string name="video_info_format" translatable="false">%s . %s views . %s</string>
     <string name="title_categories" translatable="false">Categories</string>
     <string name="title_favorites" translatable="false">Favorite Videos</string>
     <string name="subtitle_categories" translatable="false">%d / %d</string>

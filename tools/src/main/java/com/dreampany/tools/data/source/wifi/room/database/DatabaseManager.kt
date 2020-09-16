@@ -17,7 +17,7 @@ import com.dreampany.tools.misc.constants.WifiConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Wifi::class], version = 3, exportSchema = false)
+@Database(entities = [Wifi::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -43,11 +43,7 @@ abstract class DatabaseManager : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): DatabaseManager {
             if (instance == null) {
-                instance =
-                    newInstance(
-                        context,
-                        false
-                    )
+                instance = newInstance(context, false)
             }
             return instance!!
         }

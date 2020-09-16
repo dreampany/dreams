@@ -19,7 +19,7 @@ import androidx.core.location.LocationManagerCompat
  * Last modified $file.lastModified
  */
 
-val isMinLollipop: Boolean
+val isMinL: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
 val isMinM: Boolean
@@ -58,7 +58,7 @@ val Context?.hasOverlayPermission: Boolean
 
 val Context?.hasUsagePermission: Boolean
     get() {
-        if (isMinLollipop) {
+        if (isMinL) {
             val appOps =
                 this?.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager? ?: return false
             val pkg = packageName ?: return false

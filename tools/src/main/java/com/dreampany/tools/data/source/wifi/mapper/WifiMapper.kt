@@ -5,6 +5,8 @@ import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.sub
 import com.dreampany.framework.misc.exts.value
+import com.dreampany.network.misc.centerFreq0
+import com.dreampany.tools.data.enums.wifi.Width
 import com.dreampany.tools.data.model.wifi.Signal
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
@@ -15,6 +17,7 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 /**
  * Created by roman on 24/5/20
@@ -73,7 +76,9 @@ class WifiMapper
         out.bssid = input.BSSID
         out.ssid = input.SSID
         out.capabilities = input.capabilities
-        out.signal = Signal(input.frequency, input.level, false)
+        val width = Width.find(input)
+        val centerFrequency = centerFrequency(input, width)
+        out.signal = Signal(input.frequency, centerFrequency, width, input.level, false)
         return out
     }
 
@@ -96,6 +101,28 @@ class WifiMapper
         val comparator = WifiComparator()
         temp.sortWith(comparator)
         return temp
+    }
+
+    private fun centerFrequency(input: ScanResult, width: Width): Int {
+        try {
+            var centerFrequency = centerFreq0(input)
+            if (centerFrequency == 0) {
+                centerFrequency = input.frequency
+            } else if (isExtensionFrequency(input, width, centerFrequency)) {
+                centerFrequency = (centerFrequency + input.frequency) / 2
+            }
+            return centerFrequency
+        } catch (error: Throwable) {
+            return input.frequency
+        }
+    }
+
+    private fun isExtensionFrequency(
+        input: ScanResult,
+        width: Width,
+        centerFrequency: Int
+    ): Boolean {
+        return width == Width.MHZ_40 && abs(input.frequency - centerFrequency) >= Width.MHZ_40.frequencyHalf
     }
 
     class WifiComparator : Comparator<Wifi> {

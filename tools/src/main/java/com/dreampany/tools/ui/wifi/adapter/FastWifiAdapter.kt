@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.wifi.adapter
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
@@ -35,6 +36,7 @@ class FastWifiAdapter(
     private lateinit var itemAdapter: GenericItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
 
+    private lateinit var signalComparator: Comparator<GenericItem>
     private lateinit var timeBssidComparator: Comparator<GenericItem>
     private lateinit var bssidComparator: Comparator<GenericItem>
     //private val rankComparator: Comparator<GenericItem>
@@ -52,8 +54,8 @@ class FastWifiAdapter(
         state: Bundle?,
         recycler: RecyclerView
     ) {
-        timeBssidComparator = TimeBssidComparator()
-        val list = ComparableItemListImpl(comparator = timeBssidComparator)
+        signalComparator = SignalComparator()
+        val list = ComparableItemListImpl(comparator = signalComparator)
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is WifiItem)
@@ -66,12 +68,12 @@ class FastWifiAdapter(
         fastAdapter.addAdapter(1, footerAdapter)
 
         recycler.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context, 2)
             adapter = fastAdapter
             addItemDecoration(
                 SpacingItemDecoration(
-                    1,
-                    context.dimension(R.dimen.recycler_spacing).toInt(),
+                    2,
+                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
                     true
                 )
             )
@@ -170,6 +172,17 @@ class FastWifiAdapter(
         var position = fastAdapter.getAdapterPosition(item)
         position = fastAdapter.getGlobalPosition(position)
         return position
+    }
+
+    class SignalComparator : Comparator<GenericItem> {
+        override fun compare(left: GenericItem, right: GenericItem): Int {
+            if (left is WifiItem && right is WifiItem) {
+                return CompareToBuilder()
+                    .append(right.input.signal?.level, left.input.signal?.level)
+                    .toComparison()
+            }
+            return 0
+        }
     }
 
     class TimeBssidComparator : Comparator<GenericItem> {

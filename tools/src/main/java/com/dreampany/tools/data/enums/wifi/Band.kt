@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.enums.wifi
 
+import android.os.Parcelable
 import com.dreampany.framework.data.enums.BaseType
 import kotlinx.android.parcel.Parcelize
 
@@ -9,10 +10,9 @@ import kotlinx.android.parcel.Parcelize
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-/*
 @Parcelize
-enum class Band : BaseType {
-    
-    
-    override val value: String get() = name
-}*/
+enum class Band : Parcelable {
+
+
+    //override val value: String get() = name
+}

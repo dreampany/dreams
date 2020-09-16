@@ -162,15 +162,14 @@ class WifisActivity : InjectActivity() {
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastWifiAdapter(
-                { currentPage ->
-                    Timber.v("CurrentPage: %d", currentPage)
-                    //onRefresh()
-                }, this::onItemPressed
-            )
-            adapter.initRecycler(state, bind.layoutRecycler.recycler)
-        }
+        if (::adapter.isInitialized) return
+        adapter = FastWifiAdapter(
+            { currentPage ->
+                Timber.v("CurrentPage: %d", currentPage)
+                //onRefresh()
+            }, this::onItemPressed
+        )
+        adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
     private fun loadWifis() {

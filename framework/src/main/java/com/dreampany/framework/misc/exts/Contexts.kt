@@ -84,7 +84,7 @@ val Context?.mediaDir: File?
     get() {
         val context: Context = appContext ?: return null
         var mediaDir: File? = null
-        if (isMinLollipop) {
+        if (isMinL) {
             mediaDir = context.externalMediaDirs?.firstOrNull()
                 ?.let { File(it, context.getString(R.string.app_name)).apply { mkdirs() } }
         }

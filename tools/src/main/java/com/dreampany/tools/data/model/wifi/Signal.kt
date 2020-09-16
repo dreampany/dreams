@@ -2,8 +2,10 @@ package com.dreampany.tools.data.model.wifi
 
 import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.tools.data.enums.wifi.Strength
+import com.dreampany.tools.data.enums.wifi.Width
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
+import org.apache.commons.lang3.builder.ToStringBuilder
 
 /**
  * Created by roman on 23/5/20
@@ -14,24 +16,34 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Signal(
     val primaryFrequency: Int,
-    //val centerFrequency: Int,
-    //val width: WifiWidth,
+    val centerFrequency: Int,
+    val width: Width,
     //val band: Band,
     val level: Int,
     val is80211mc: Boolean
 ) : BaseParcel() {
 
-    override fun hashCode(): Int = Objects.hashCode(primaryFrequency)
+    override fun hashCode(): Int = Objects.hashCode(primaryFrequency, width)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as Signal
         return Objects.equal(this.primaryFrequency, item.primaryFrequency)
+                && Objects.equal(this.width, item.width)
     }
 
-    override fun toString(): String = "Signal ($primaryFrequency) == $primaryFrequency"
+    override fun toString(): String = ToStringBuilder.reflectionToString(this)
 
     val strength: Strength
         get() = Strength.calculate(level)
+
+    /*val channelDisplay : String
+        get() {
+
+        }*/
+
+    companion object {
+        const val FREQUENCY_UNITS = "MHz"
+    }
 }

@@ -10,7 +10,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class Channel(val channel : Int = 0, val frequency : Int = 0) : Comparable<Channel> {
+class Channel(val channel: Int = 0, val frequency: Int = 0) : Comparable<Channel> {
+
+    companion object {
+        val EMPTY = Channel()
+    }
 
     override fun hashCode(): Int = Objects.hashCode(channel, frequency)
 

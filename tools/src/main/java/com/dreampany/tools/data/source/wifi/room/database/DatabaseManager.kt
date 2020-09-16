@@ -17,7 +17,7 @@ import com.dreampany.tools.misc.constants.WifiConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Wifi::class], version = 5, exportSchema = false)
+@Database(entities = [Wifi::class], version = 6, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 

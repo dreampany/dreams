@@ -23,6 +23,10 @@ data class Signal(
     val is80211mc: Boolean
 ) : BaseParcel() {
 
+    companion object {
+        const val FREQUENCY_UNITS = "MHz"
+    }
+
     override fun hashCode(): Int = Objects.hashCode(primaryFrequency, width)
 
     override fun equals(other: Any?): Boolean {
@@ -42,8 +46,4 @@ data class Signal(
         get() {
 
         }*/
-
-    companion object {
-        const val FREQUENCY_UNITS = "MHz"
-    }
 }

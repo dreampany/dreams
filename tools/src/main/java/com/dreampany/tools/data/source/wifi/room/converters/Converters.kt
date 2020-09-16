@@ -2,6 +2,7 @@ package com.dreampany.tools.data.source.wifi.room.converters
 
 import androidx.room.TypeConverter
 import com.dreampany.framework.data.source.room.converter.Converter
+import com.dreampany.tools.data.enums.wifi.Band
 import com.dreampany.tools.data.enums.wifi.Width
 
 /**
@@ -22,5 +23,17 @@ class Converters : Converter() {
     @TypeConverter
     fun toWidth(input: String?): Width? {
         return if (input.isNullOrEmpty()) null else Width.valueOf(input)
+    }
+
+    @Synchronized
+    @TypeConverter
+    fun toString(input: Band?): String? {
+        return if (input == null) null else input.name
+    }
+
+    @Synchronized
+    @TypeConverter
+    fun toBand(input: String?): Band? {
+        return if (input.isNullOrEmpty()) null else Band.valueOf(input)
     }
 }

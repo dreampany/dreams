@@ -1,7 +1,8 @@
 package com.dreampany.tools.data.enums.wifi
 
-import android.os.Parcelable
+import androidx.annotation.StringRes
 import com.dreampany.framework.data.enums.BaseType
+import com.dreampany.tools.R
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -11,8 +12,9 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class Band : Parcelable {
+enum class Band(@StringRes val resId : Int, val band : BandGHZ) : BaseType {
+    GHZ2(R.string.title_wifi_band_2ghz, BandGHZ2()),
+    GHZ5(R.string.title_wifi_band_2ghz, BandGHZ5());
 
-
-    //override val value: String get() = name
+    override val value: String get() = name
 }

@@ -23,4 +23,8 @@
     <string name="format_wifi_level">%ddBm</string>
     <string name="format_wifi_frequency">%d%s</string>
 
+    <string name="title_wifi_band" translatable="false">"2.4/5 GHz"</string>
+    <string name="title_wifi_band_2ghz" translatable="false">"2.4 GHz"</string>
+    <string name="title_wifi_band_5ghz" translatable="false">"5 GHz"</string>
+
 </resources>

@@ -8,11 +8,11 @@ import com.dreampany.tools.inject.ui.more.MoreModule
 import com.dreampany.tools.inject.ui.news.NewsModule
 import com.dreampany.tools.inject.ui.note.NoteModule
 import com.dreampany.tools.inject.ui.radio.RadioModule
+import com.dreampany.tools.inject.ui.settings.SettingsModule
 import com.dreampany.tools.inject.ui.wifi.WifiModule
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import com.dreampany.tools.ui.splash.SplashActivity
 import com.dreampany.tools.ui.web.WebActivity
-import com.dreampany.tube.inject.ui.settings.SettingsModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

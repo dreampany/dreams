@@ -1,6 +1,6 @@
-package com.dreampany.tools.inject.ui.settings
+package com.dreampany.demo.inject.ui.settings
 
-import com.dreampany.tools.ui.settings.SettingsFragment
+import com.dreampany.demo.ui.settings.SettingsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

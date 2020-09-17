@@ -4,6 +4,7 @@ import com.dreampany.demo.ui.web.WebActivity
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.demo.inject.ui.home.HomeModule
 import com.dreampany.demo.inject.ui.more.MoreModule
+import com.dreampany.demo.inject.ui.settings.SettingsModule
 import com.dreampany.demo.ui.home.activity.HomeActivity
 import com.dreampany.demo.ui.splash.SplashActivity
 import dagger.Module
@@ -21,7 +22,7 @@ abstract class ActivityModule {
     abstract fun splash(): SplashActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
+    @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class, SettingsModule::class])
     abstract fun home(): HomeActivity
 
     @ContributesAndroidInjector

@@ -1,11 +1,15 @@
 package com.dreampany.tools.data.model.wifi
 
 import com.dreampany.framework.data.model.BaseParcel
+import com.dreampany.tools.data.enums.wifi.Band
+import com.dreampany.tools.data.enums.wifi.Channel
 import com.dreampany.tools.data.enums.wifi.Strength
 import com.dreampany.tools.data.enums.wifi.Width
+import com.dreampany.tools.misc.utils.WifiUtils
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 import org.apache.commons.lang3.builder.ToStringBuilder
+import java.util.*
 
 /**
  * Created by roman on 23/5/20
@@ -18,7 +22,7 @@ data class Signal(
     val primaryFrequency: Int,
     val centerFrequency: Int,
     val width: Width,
-    //val band: Band,
+    val band: Band,
     val level: Int,
     val is80211mc: Boolean
 ) : BaseParcel() {
@@ -42,8 +46,23 @@ data class Signal(
     val strength: Strength
         get() = Strength.calculate(level)
 
-    /*val channelDisplay : String
-        get() {
+    val distance: Double
+        get() = WifiUtils.calculateDistance(primaryFrequency, level)
 
-        }*/
+    val channelDisplay: String
+        get() {
+            val primaryChannel = this.primaryChannel.channel
+            val centerChannel = this.centerChannel.channel
+            var channel = primaryChannel.toString()
+            if (primaryChannel != centerChannel) {
+                channel += "($centerChannel)"
+            }
+            return channel
+        }
+
+    val primaryChannel: Channel
+        get() = band.band.channelByFrequency(primaryFrequency)
+
+    val centerChannel: Channel
+        get() = band.band.channelByFrequency(centerFrequency)
 }

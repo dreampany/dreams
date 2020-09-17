@@ -21,6 +21,8 @@
 
     <string name="format_ssid_bssid">%s (%s)</string>
     <string name="format_wifi_level">%ddBm</string>
+    <string name="format_wifi_distance">~%.1fm</string>
+    <string name="format_wifi_channel">CH.%s</string>
     <string name="format_wifi_frequency">%d%s</string>
 
     <string name="title_wifi_band" translatable="false">"2.4/5 GHz"</string>

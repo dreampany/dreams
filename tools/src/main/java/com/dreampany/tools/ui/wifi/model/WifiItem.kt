@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.wifi.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.color
+import com.dreampany.framework.misc.exts.context
 import com.dreampany.framework.misc.exts.string
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
@@ -57,9 +58,16 @@ private constructor(
         bind.securityIcon.setImageResource(security.res)
         bind.securityIcon.setColorFilter(bind.color(strength?.colorRes.value))
 
-        bind.ssid.text = String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
-        bind.level.text = String.format(bind.string(R.string.format_wifi_level), input.signal?.level)
+        bind.ssid.text =
+            String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
+        bind.level.text =
+            String.format(bind.string(R.string.format_wifi_level), input.signal?.level)
         bind.level.setTextColor(bind.color(strength?.colorRes.value))
+
+        bind.channel.text =
+            bind.context.getString(R.string.format_wifi_channel, input.signal?.channelDisplay.value)
+        bind.distance.text =
+            bind.context.getString(R.string.format_wifi_distance, input.signal?.distance.value)
     }
 
     override fun unbindView(binding: WifiItemBinding) {

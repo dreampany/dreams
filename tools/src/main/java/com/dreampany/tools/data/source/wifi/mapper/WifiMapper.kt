@@ -6,6 +6,7 @@ import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.sub
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.network.misc.centerFreq0
+import com.dreampany.tools.data.enums.wifi.Band
 import com.dreampany.tools.data.enums.wifi.Width
 import com.dreampany.tools.data.model.wifi.Signal
 import com.dreampany.tools.data.model.wifi.Wifi
@@ -78,7 +79,8 @@ class WifiMapper
         out.capabilities = input.capabilities
         val width = Width.find(input)
         val centerFrequency = centerFrequency(input, width)
-        out.signal = Signal(input.frequency, centerFrequency, width, input.level, false)
+        val band = Band.values().find { it.band.inRange(input.frequency) } ?: Band.GHZ2
+        out.signal = Signal(input.frequency, centerFrequency, width, band, input.level, false)
         return out
     }
 

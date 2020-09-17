@@ -2,10 +2,7 @@ package com.dreampany.tube.ui.player
 
 import android.os.Bundle
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.exts.task
-import com.dreampany.framework.misc.exts.value
-import com.dreampany.framework.misc.exts.versionCode
-import com.dreampany.framework.misc.exts.versionName
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tube.R
@@ -29,7 +26,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrC
 class VideoPlayerActivity : InjectActivity() {
 
     private lateinit var bind: VideoPlayerActivityBinding
-    private lateinit var video: Video
+    private lateinit var input: Video
 
     override val layoutRes: Int = R.layout.video_player_activity
 
@@ -41,7 +38,7 @@ class VideoPlayerActivity : InjectActivity() {
             param.put(Constants.Param.PACKAGE_NAME, packageName)
             param.put(Constants.Param.VERSION_CODE, versionCode)
             param.put(Constants.Param.VERSION_NAME, versionName)
-            param.put(Constants.Param.SCREEN, "VideoPlayerActivity")
+            param.put(Constants.Param.SCREEN, "Tube.VideoPlayerActivity")
 
             params.put(Constants.Event.ACTIVITY, param)
             return params
@@ -49,7 +46,7 @@ class VideoPlayerActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Video>
-        video = task.input ?: return
+        input = task.input ?: return
         initUi()
     }
 
@@ -57,67 +54,76 @@ class VideoPlayerActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            lifecycle.addObserver(bind.player)
-            bind.player.getPlayerUiController().apply {
-                enableLiveVideoUi(video.isLive)
-                setVideoTitle(video.title.value)
-                showBufferingProgress(true)
-                showMenuButton(true)
-            }
-            bind.player.enableBackgroundPlayback(true)
-            //bind.player.getPlayerUiController().enableLiveVideoUi(video.isLive)
-            bind.player.addYouTubePlayerListener(object : YouTubePlayerListener {
-                override fun onApiChange(youTubePlayer: YouTubePlayer) {
+        if (::bind.isInitialized) return
+        bind = getBinding()
 
-                }
+        bind.title.text = input.title
+        bind.info.text = getString(
+            R.string.video_info_format,
+            input.channelTitle,
+            input.viewCount.count,
+            input.publishedAt.time
+        )
+        bind.favorite.hide()
 
-                override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
-                }
-
-                override fun onError(
-                    youTubePlayer: YouTubePlayer,
-                    error: PlayerConstants.PlayerError
-                ) {
-                }
-
-                override fun onPlaybackQualityChange(
-                    youTubePlayer: YouTubePlayer,
-                    playbackQuality: PlayerConstants.PlaybackQuality
-                ) {
-                }
-
-                override fun onPlaybackRateChange(
-                    player: YouTubePlayer,
-                    playbackRate: PlayerConstants.PlaybackRate
-                ) {
-                }
-
-                override fun onReady(player: YouTubePlayer) {
-                    player.loadOrCueVideo(lifecycle, video.id, 0f)
-                }
-
-                override fun onStateChange(
-                    youTubePlayer: YouTubePlayer,
-                    state: PlayerConstants.PlayerState
-                ) {
-                }
-
-                override fun onVideoDuration(player: YouTubePlayer, duration: Float) {
-                }
-
-                override fun onVideoId(player: YouTubePlayer, videoId: String) {
-                }
-
-                override fun onVideoLoadedFraction(
-                    youTubePlayer: YouTubePlayer,
-                    loadedFraction: Float
-                ) {
-
-                }
-
-            })
+        lifecycle.addObserver(bind.player)
+        bind.player.getPlayerUiController().apply {
+            enableLiveVideoUi(input.isLive)
+            setVideoTitle(input.title.value)
+            showBufferingProgress(true)
+            showMenuButton(true)
         }
+        bind.player.enableBackgroundPlayback(true)
+        //bind.player.getPlayerUiController().enableLiveVideoUi(video.isLive)
+        bind.player.addYouTubePlayerListener(object : YouTubePlayerListener {
+            override fun onApiChange(youTubePlayer: YouTubePlayer) {
+
+            }
+
+            override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+            }
+
+            override fun onError(
+                youTubePlayer: YouTubePlayer,
+                error: PlayerConstants.PlayerError
+            ) {
+            }
+
+            override fun onPlaybackQualityChange(
+                youTubePlayer: YouTubePlayer,
+                playbackQuality: PlayerConstants.PlaybackQuality
+            ) {
+            }
+
+            override fun onPlaybackRateChange(
+                player: YouTubePlayer,
+                playbackRate: PlayerConstants.PlaybackRate
+            ) {
+            }
+
+            override fun onReady(player: YouTubePlayer) {
+                player.loadOrCueVideo(lifecycle, input.id, 0f)
+            }
+
+            override fun onStateChange(
+                youTubePlayer: YouTubePlayer,
+                state: PlayerConstants.PlayerState
+            ) {
+            }
+
+            override fun onVideoDuration(player: YouTubePlayer, duration: Float) {
+            }
+
+            override fun onVideoId(player: YouTubePlayer, videoId: String) {
+            }
+
+            override fun onVideoLoadedFraction(
+                youTubePlayer: YouTubePlayer,
+                loadedFraction: Float
+            ) {
+
+            }
+
+        })
     }
 }

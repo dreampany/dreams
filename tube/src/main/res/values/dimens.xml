@@ -1,4 +1,10 @@
 <resources>
+
+    <dimen name="textSizePrimary">@dimen/_14ssp</dimen>
+    <dimen name="textSizeSecondary">@dimen/_12ssp</dimen>
+    <dimen name="textSizeHeader">@dimen/_16ssp</dimen>
+
+    <dimen name="align_margin">@dimen/_8sdp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="margin_xxsmall">8dp</dimen>

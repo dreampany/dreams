@@ -37,6 +37,10 @@ fun View?.visible() {
     this?.visibility = View.VISIBLE
 }
 
+fun View?.show() {
+    this?.visible()
+}
+
 fun View?.visible(visible: Boolean) {
     if (visible) visible()
     else gone()
@@ -48,6 +52,10 @@ fun View?.invisible() {
 
 fun View?.gone() {
     this?.visibility = View.GONE
+}
+
+fun View?.hide() {
+    this?.gone()
 }
 
 fun View?.enable() {

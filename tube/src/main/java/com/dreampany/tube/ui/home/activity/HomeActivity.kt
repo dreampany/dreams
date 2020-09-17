@@ -34,31 +34,10 @@ class HomeActivity : InjectBottomNavigationActivity() {
     private lateinit var bind: HomeActivityBinding
 
     override val doubleBackPressed: Boolean = true
-
     override val layoutRes: Int = R.layout.home_activity
-
     override val toolbarId: Int = R.id.toolbar
-
     override val navigationViewId: Int get() = R.id.navigation_view
-
     override val selectedNavigationItemId: Int get() = R.id.navigation_home
-
-    override fun onNavigationItem(navigationItemId: Int) {
-        when (navigationItemId) {
-            R.id.navigation_home -> {
-                setTitle(R.string.home)
-                commitFragment(HomeFragment::class, home, R.id.layout)
-            }
-            R.id.navigation_search -> {
-                setTitle(R.string.search)
-                commitFragment(SearchFragment::class, search, R.id.layout)
-            }
-            R.id.navigation_settings -> {
-                setTitle(R.string.settings)
-                commitFragment(SettingsFragment::class, settings, R.id.layout)
-            }
-        }
-    }
 
     override fun onStartUi(state: Bundle?) {
         initAd()
@@ -79,8 +58,21 @@ class HomeActivity : InjectBottomNavigationActivity() {
         super.onPause()
     }
 
-    private fun initUi() {
-        bind = getBinding()
+    override fun onNavigationItem(navigationItemId: Int) {
+        when (navigationItemId) {
+            R.id.navigation_home -> {
+                setTitle(R.string.home)
+                commitFragment(HomeFragment::class, home, R.id.layout)
+            }
+            R.id.navigation_search -> {
+                setTitle(R.string.search)
+                commitFragment(SearchFragment::class, search, R.id.layout)
+            }
+            R.id.navigation_settings -> {
+                setTitle(R.string.settings)
+                commitFragment(SettingsFragment::class, settings, R.id.layout)
+            }
+        }
     }
 
     private fun initAd() {
@@ -91,5 +83,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
         )
+    }
+
+    private fun initUi() {
+        bind = getBinding()
     }
 }

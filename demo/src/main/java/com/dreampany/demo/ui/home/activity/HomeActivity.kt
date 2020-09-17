@@ -36,8 +36,8 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override val selectedNavigationItemId: Int get() = R.id.navigation_home
 
     override fun onStartUi(state: Bundle?) {
-        initUi()
         initAd()
+        initUi()
         ad.loadBanner(this.javaClass.simpleName)
     }
 

@@ -123,7 +123,12 @@ fun MenuItem?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): Menu
 }
 
 fun ImageView?.toTint(@ColorRes colorRes: Int): ImageView? {
-    this?.setColorFilter(this.context.color(colorRes))
+    this?.setColorFilter(context.color(colorRes))
+    return this
+}
+
+fun ImageView?.toTintByColor(color: Int): ImageView? {
+    this?.setColorFilter(color)
     return this
 }
 

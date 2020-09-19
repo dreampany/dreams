@@ -2,6 +2,7 @@ package com.dreampany.tube.ui.home.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.dreampany.framework.misc.exts.toTintByColor
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.databinding.CategoryItemBinding
@@ -43,10 +44,13 @@ class CategoryItem(
 
     override fun bindView(bind: CategoryItemBinding, payloads: List<Any>) {
         //bind.layout.setCardBackgroundColor(color)
+        bind.letter.text = input.title?.first()?.toTitleCase().toString()
+        bind.letter.setTextColor(color)
         bind.title.text = input.title
+        bind.title.setBackgroundColor(color)
         val selectRes = if (select) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
-
         bind.selection.setImageResource(selectRes)
+        bind.selection.toTintByColor(color)
     }
 
     override fun unbindView(binding: CategoryItemBinding) {

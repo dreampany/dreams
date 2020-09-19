@@ -18,15 +18,29 @@
             android:minHeight="@dimen/_80sdp">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/letter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="A"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSizeHighlight"
+                auto:fontFamily="@font/roboto_slab_bold" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@color/textColorSecondary"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:singleLine="false"
+                android:padding="@dimen/_2sdp"
+                android:singleLine="true"
                 android:textColor="@color/white"
-                auto:fontFamily="@font/roboto_slab_bold" />
+                android:textSize="@dimen/textSizeSecondary"
+                auto:fontFamily="@font/roboto_slab_regular" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/selection"
@@ -36,8 +50,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                auto:tint="@color/textColorPrimary"
-                auto:srcCompat="@drawable/ic_baseline_radio_button_unchecked_24" />
+                auto:srcCompat="@drawable/ic_baseline_radio_button_unchecked_24"
+                auto:tint="@color/textColorPrimary" />
 
         </RelativeLayout>
 

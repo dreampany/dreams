@@ -136,6 +136,27 @@ class VideoViewModel
         }
     }
 
+    fun loadVideo(input: Video) {
+        uiScope.launch {
+            //postProgressSingle(true)
+            var result: Video? = null
+            var errors: SmartError? = null
+            var favorite: Boolean = false
+            try {
+                favorite = repo.isFavorite(input)
+                result = input
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItem(favorite), state = State.DEFAULT)
+            }
+        }
+    }
+
     fun toggleFavorite(input: Video) {
         uiScope.launch {
             //postProgressSingle(true)

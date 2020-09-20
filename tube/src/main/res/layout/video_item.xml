@@ -58,8 +58,8 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10ssp"
                     auto:backgroundTint="@color/colorAccent"
-                    auto:cornerRadius="@dimen/_4sdp"
-                    auto:elevation="@dimen/_4sdp" />
+                    auto:cornerRadius="@dimen/_2sdp"
+                    auto:elevation="@dimen/_2sdp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/definition"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|top"
                     android:layout_marginEnd="@dimen/_8sdp"
-                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:paddingStart="@dimen/_4sdp"
@@ -78,8 +78,8 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10ssp"
                     auto:backgroundTint="@color/colorAccent"
-                    auto:cornerRadius="@dimen/_4sdp"
-                    auto:elevation="@dimen/_4sdp" />
+                    auto:cornerRadius="@dimen/_2sdp"
+                    auto:elevation="@dimen/_2sdp" />
 
             </FrameLayout>
 

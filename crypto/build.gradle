@@ -157,10 +157,6 @@ dependencies {
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.3.0'
 
-    /* about */
-    implementation "com.mikepenz:aboutlibraries-core:$about"
-    implementation "com.mikepenz:aboutlibraries:$about"
-
     /* misc */
     //implementation 'me.relex:circleindicator:2.1.4'
     implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'

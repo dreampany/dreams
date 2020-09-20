@@ -39,6 +39,8 @@
         <item name="android:textColorPrimary">@color/material_black</item>
         <item name="android:textColorSecondary">@color/material_grey500</item>
         <item name="android:windowBackground">@color/windowBackground</item>
+
+        <item name="colorControlNormal">@color/colorControlNormal</item>
     </style>
 
 </resources>

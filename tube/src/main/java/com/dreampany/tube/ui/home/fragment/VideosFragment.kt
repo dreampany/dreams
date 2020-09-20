@@ -20,6 +20,7 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.databinding.VideosFragmentBinding
 import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
@@ -94,10 +95,10 @@ class VideosFragment
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openPlayerUi(item)
+                openPlayerUi(item.input)
             }
             R.id.favorite -> {
-                onFavoriteClicked(item)
+                onFavoriteClicked(item.input)
             }
             else -> {
 
@@ -105,14 +106,34 @@ class VideosFragment
         }
     }
 
+    private fun openPlayerUi(input: Video) {
+        val task = UiTask(
+            Type.VIDEO,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
+            input
+        )
+        open(VideoPlayerActivity::class, task)
+    }
+
+    private fun openFavoritesUi() {
+        open(FavoriteVideosActivity::class)
+    }
+
+    private fun onFavoriteClicked(input: Video) {
+        vm.toggleFavorite(input)
+    }
+
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_videos)
         vm = createVm(VideoViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
+
+        bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_videos)
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -181,24 +202,5 @@ class VideosFragment
         if (result != null) {
             adapter.addItem(result)
         }
-    }
-
-    private fun openPlayerUi(item: VideoItem) {
-        val task = UiTask(
-            Type.VIDEO,
-            Subtype.DEFAULT,
-            State.DEFAULT,
-            Action.VIEW,
-            item.input
-        )
-        open(VideoPlayerActivity::class, task)
-    }
-
-    private fun openFavoritesUi() {
-        open(FavoriteVideosActivity::class)
-    }
-
-    private fun onFavoriteClicked(item: VideoItem) {
-        vm.toggleFavorite(item.input)
     }
 }

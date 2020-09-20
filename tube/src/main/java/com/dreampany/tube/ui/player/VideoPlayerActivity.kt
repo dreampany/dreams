@@ -75,7 +75,7 @@ class VideoPlayerActivity : InjectActivity() {
         vm.subscribes(this, Observer { this.processResponses(it) })
 
         bind.swipe.init(this)
-
+        bind.swipe.disable()
         bind.title.text = input.title
         bind.info.text = getString(
             R.string.video_info_format,

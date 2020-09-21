@@ -24,6 +24,11 @@ class AppConstants {
         object Room {
             const val TYPE_TUBE = "tube"
         }
+
+        object Related {
+            const val LEFTER = "lefter"
+            const val RIGHTER = "righter"
+        }
     }
 
     object Limits {

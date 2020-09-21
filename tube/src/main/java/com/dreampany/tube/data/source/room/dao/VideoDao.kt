@@ -25,6 +25,9 @@ interface VideoDao : BaseDao<Video> {
     @Query("select * from video where id = :id")
     fun get(id: String): Video?
 
+    @Query("select * from video where id in (:ids)")
+    fun gets(ids: List<String>): List<Video>?
+
     @Query("select * from video where categoryId = :categoryId")
     fun getsOfCategoryId(categoryId: String): List<Video>?
 }

@@ -47,7 +47,7 @@ data class Time(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Store
+        val item = other as Time
         return Objects.equal(item.id, id) &&
                 Objects.equal(item.type, type) &&
                 Objects.equal(item.subtype, subtype) &&

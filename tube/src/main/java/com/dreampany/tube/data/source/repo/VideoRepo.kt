@@ -184,6 +184,35 @@ class VideoRepo
             room.getsOfEvent(eventType, offset, limit)
         }
 
+    @Throws
+    override suspend fun getsOfRelated(id: String, offset: Long, limit: Long) =
+        withContext(Dispatchers.IO) {
+            var result: List<Video>? = null
+            if (mapper.isExpiredOfRelated(id)) {
+                result = remote.getsOfRelated(id, offset, limit)
+                if (!result.isNullOrEmpty()) {
+                    room.putIf(result)
+                    mapper.commitExpireOfRelated(id)
+                    result.expiredIds()?.let {
+                        if (it.isNotEmpty()) {
+                            result = remote.gets(it)
+                            result?.let {
+                                val puts = room.put(it)
+                                Timber.v("")
+                            }
+                            result?.forEach {
+                                mapper.commitExpire(it.id)
+                            }
+                        }
+                    }
+                }
+            }
+            if (result.isNullOrEmpty()) {
+                result = room.getsOfRelated(id, offset, limit)
+            }
+            result
+        }
+
 
     suspend fun List<Video>.expiredIds(): List<String>? =
         this.filter { mapper.isExpired(it.id) }.map { it.id }

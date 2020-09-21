@@ -66,4 +66,7 @@ interface VideoDataSource {
 
     @Throws
     suspend fun getsOfEvent(eventType : String, offset: Long, limit: Long): List<Video>?
+
+    @Throws
+    suspend fun getsOfRelated(id: String, offset: Long, limit: Long): List<Video>?
 }

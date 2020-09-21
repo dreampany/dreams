@@ -58,6 +58,7 @@ class VideoPlayerActivity : InjectActivity() {
         input = task.input ?: return
         initUi()
         vm.loadVideo(input)
+        vm.loadRelated(input.id)
     }
 
     override fun onStopUi() {

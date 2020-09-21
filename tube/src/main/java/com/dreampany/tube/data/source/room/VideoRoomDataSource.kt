@@ -3,6 +3,7 @@ package com.dreampany.tube.data.source.room
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.mapper.VideoMapper
+import com.dreampany.tube.data.source.room.dao.RelatedDao
 import com.dreampany.tube.data.source.room.dao.VideoDao
 
 /**
@@ -13,7 +14,8 @@ import com.dreampany.tube.data.source.room.dao.VideoDao
  */
 class VideoRoomDataSource(
     private val mapper: VideoMapper,
-    private val dao: VideoDao
+    private val dao: VideoDao,
+    private val relatedDao : RelatedDao
 ) : VideoDataSource {
 
     @Throws
@@ -78,9 +80,8 @@ class VideoRoomDataSource(
         return result
     }
 
-    override suspend fun gets(ids: List<String>): List<Video>? {
-        TODO("Not yet implemented")
-    }
+    @Throws
+    override suspend fun gets(ids: List<String>): List<Video>? = dao.gets(ids)
 
     override suspend fun gets(offset: Long, limit: Long): List<Video>? {
         TODO("Not yet implemented")
@@ -118,4 +119,10 @@ class VideoRoomDataSource(
     @Throws
     override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long): List<Video>? =
         mapper.getEventVideos(eventType)
+
+    @Throws
+    override suspend fun getsOfRelated(id: String, offset: Long, limit: Long): List<Video>? {
+        val ids = relatedDao.getItems(id).map { it.other(id) }
+        return gets(ids)
+    }
 }

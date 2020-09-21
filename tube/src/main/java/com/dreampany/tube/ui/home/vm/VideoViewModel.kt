@@ -117,6 +117,25 @@ class VideoViewModel
         }
     }
 
+    fun loadRelated(id: String) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Video>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.getsOfRelated(id, 0, AppConstants.Limits.VIDEOS)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
     fun loadFavoriteVideos() {
         uiScope.launch {
             postProgressMultiple(true)

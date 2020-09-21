@@ -68,6 +68,18 @@ class VideoMapper
         return time.isExpired(AppConstants.Times.VIDEOS)
     }
 
+    @Throws
+    suspend fun commitExpireOfRelated(id: String) {
+        val time = Time(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.RELATED.value)
+        timeRepo.insert(time)
+    }
+
+    suspend fun isExpiredOfRelated(id: String): Boolean {
+        val time =
+            timeRepo.getTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.RELATED.value)
+        return time.isExpired(AppConstants.Times.VIDEOS)
+    }
+
     fun setRegionVideos(regionCode: String, videos: List<Video>) {
         val json = videos.toJson
         pref.setPrivately(AppConstants.Keys.Pref.VIDEOS.plus(regionCode), json)

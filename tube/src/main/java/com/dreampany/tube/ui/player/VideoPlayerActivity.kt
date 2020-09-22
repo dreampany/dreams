@@ -1,6 +1,7 @@
 package com.dreampany.tube.ui.player
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constants
@@ -15,12 +16,14 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.databinding.VideoPlayerActivityBinding
+import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.home.vm.VideoViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 
 /**
@@ -33,7 +36,9 @@ class VideoPlayerActivity : InjectActivity() {
 
     private lateinit var bind: VideoPlayerActivityBinding
     private lateinit var vm: VideoViewModel
+    private lateinit var adapter: FastVideoAdapter
     private lateinit var input: Video
+    private lateinit var player : YouTubePlayer
 
     override val layoutRes: Int = R.layout.video_player_activity
     override val menuRes: Int = R.menu.videos_menu
@@ -57,6 +62,8 @@ class VideoPlayerActivity : InjectActivity() {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Video>
         input = task.input ?: return
         initUi()
+        initRecycler(state)
+        updateUi()
         vm.loadVideo(input)
         vm.loadRelated(input.id)
     }
@@ -64,8 +71,40 @@ class VideoPlayerActivity : InjectActivity() {
     override fun onStopUi() {
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        var outState = outState
+        outState = adapter.saveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.filter(newText)
+        return false
+    }
+
+    private fun onItemPressed(view: View, item: VideoItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+                reInit(item)
+            }
+            R.id.favorite -> {
+                onFavoriteClicked(item.input)
+            }
+            else -> {
+
+            }
+        }
+    }
+
     private fun onFavoriteClicked(input: Video) {
         vm.toggleFavorite(input)
+    }
+
+    private fun reInit(item : VideoItem) {
+        input = item.input
+        updateUi()
+        player.loadOrCueVideo(lifecycle, input.id, 0f)
     }
 
     private fun initUi() {
@@ -77,26 +116,17 @@ class VideoPlayerActivity : InjectActivity() {
 
         bind.swipe.init(this)
         bind.swipe.disable()
-        bind.title.text = input.title
-        bind.info.text = getString(
-            R.string.video_info_format,
-            input.channelTitle,
-            input.viewCount.count,
-            input.publishedAt.time
-        )
+
         bind.favorite.setOnSafeClickListener {
             onFavoriteClicked(input)
         }
 
         lifecycle.addObserver(bind.player)
         bind.player.getPlayerUiController().apply {
-            enableLiveVideoUi(input.isLive)
-            setVideoTitle(input.title.value)
             showBufferingProgress(true)
             showMenuButton(true)
         }
         bind.player.enableBackgroundPlayback(true)
-        //bind.player.getPlayerUiController().enableLiveVideoUi(video.isLive)
         bind.player.addYouTubePlayerListener(object : YouTubePlayerListener {
             override fun onApiChange(youTubePlayer: YouTubePlayer) {
 
@@ -124,6 +154,7 @@ class VideoPlayerActivity : InjectActivity() {
             }
 
             override fun onReady(player: YouTubePlayer) {
+                this@VideoPlayerActivity.player = player
                 player.loadOrCueVideo(lifecycle, input.id, 0f)
             }
 
@@ -147,6 +178,31 @@ class VideoPlayerActivity : InjectActivity() {
             }
 
         })
+    }
+
+    private fun initRecycler(state: Bundle?) {
+        if (::adapter.isInitialized) return
+        adapter = FastVideoAdapter(
+            { currentPage: Int ->
+                Timber.v("CurrentPage: %d", currentPage)
+                onRefresh()
+            }, this::onItemPressed
+        )
+        adapter.initRecycler(state, bind.layoutRecycler.recycler)
+    }
+
+    private fun updateUi() {
+        bind.title.text = input.title
+        bind.info.text = getString(
+            R.string.video_info_format,
+            input.channelTitle,
+            input.viewCount.count,
+            input.publishedAt.time
+        )
+        bind.player.getPlayerUiController().apply {
+            enableLiveVideoUi(input.isLive)
+            setVideoTitle(input.title.value)
+        }
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, VideoItem>) {
@@ -189,7 +245,10 @@ class VideoPlayerActivity : InjectActivity() {
     }
 
     private fun processResults(result: List<VideoItem>?) {
-
+        if (result != null) {
+            adapter.clearAll()
+            adapter.addItems(result)
+        }
     }
 
     private fun processResult(result: VideoItem?) {

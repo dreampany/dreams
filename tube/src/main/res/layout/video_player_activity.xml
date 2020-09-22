@@ -78,6 +78,13 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
+                        <!-- related videos -->
+                        <include
+                            android:id="@+id/layout_recycler"
+                            layout="@layout/content_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.core.widget.NestedScrollView>

@@ -19,6 +19,7 @@ import com.dreampany.tube.data.source.remote.VideoRemoteDataSource
 import com.dreampany.tube.data.source.room.CategoryRoomDataSource
 import com.dreampany.tube.data.source.room.VideoRoomDataSource
 import com.dreampany.tube.data.source.room.dao.CategoryDao
+import com.dreampany.tube.data.source.room.dao.RelatedDao
 import com.dreampany.tube.data.source.room.dao.VideoDao
 import com.dreampany.tube.data.source.room.database.DatabaseManager
 import dagger.Module
@@ -52,6 +53,10 @@ class DataModule {
     @Singleton
     fun provideVideoDao(database: DatabaseManager): VideoDao = database.videoDao()
 
+    @Provides
+    @Singleton
+    fun provideRelatedDao(database: DatabaseManager): RelatedDao = database.relatedDao()
+
     @Singleton
     @Provides
     @Room
@@ -78,8 +83,9 @@ class DataModule {
     @Room
     fun provideVideoRoomDataSource(
         mapper: VideoMapper,
-        dao: VideoDao
-    ): VideoDataSource = VideoRoomDataSource(mapper, dao)
+        dao: VideoDao,
+        relatedDao: RelatedDao
+    ): VideoDataSource = VideoRoomDataSource(mapper, dao, relatedDao)
 
     @Singleton
     @Provides

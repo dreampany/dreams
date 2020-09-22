@@ -253,7 +253,11 @@ class VideoPlayerActivity : InjectActivity() {
 
     private fun processResult(result: VideoItem?) {
         if (result != null) {
-            bind.favorite.isLiked = result.favorite
+            if (input.id == result.input.id) {
+                bind.favorite.isLiked = result.favorite
+            } else {
+                adapter.addItem(result)
+            }
         }
     }
 }

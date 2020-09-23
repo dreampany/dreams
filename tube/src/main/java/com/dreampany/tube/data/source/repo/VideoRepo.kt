@@ -159,6 +159,16 @@ class VideoRepo
     }
 
     @Throws
+    override suspend fun getsOfLocation(
+        location: String,
+        radius: String,
+        offset: Long,
+        limit: Long
+    ) = withContext(Dispatchers.IO) {
+        remote.getsOfLocation(location, radius, offset, limit)
+    }
+
+    @Throws
     override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long) =
         withContext(Dispatchers.IO) {
             if (mapper.isExpired(eventType, offset)) {

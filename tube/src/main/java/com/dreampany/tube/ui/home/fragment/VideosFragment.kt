@@ -1,9 +1,13 @@
 package com.dreampany.tube.ui.home.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
+import com.afollestad.assent.Permission
+import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.FragmentScope
 import com.dreampany.framework.misc.exts.init
@@ -27,7 +31,10 @@ import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.home.vm.VideoViewModel
 import com.dreampany.tube.ui.player.VideoPlayerActivity
+import com.google.android.gms.location.LocationRequest
+import com.patloew.colocation.CoLocation
 import kotlinx.android.synthetic.main.content_recycler.view.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -74,7 +81,7 @@ class VideosFragment
 
     override fun onRefresh() {
         if (input.type.isRegion) {
-            vm.loadRegionVideos(input.id, adapter.itemCount.toLong())
+            loadRegionVideos()
         } else if (input.type.isEvent) {
             vm.loadEventVideos(input.id, adapter.itemCount.toLong())
         } else {
@@ -103,6 +110,29 @@ class VideosFragment
             else -> {
 
             }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun loadRegionVideos() {
+        runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
+            val location = CoLocation.from(requireContext())
+            val request = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            vm.viewModelScope.launch {
+               /* val result = location.checkLocationSettings(request)
+                when (request) {
+
+                }*/
+                val data = location.getLastLocation()
+                if (data == null) {
+                    vm.loadRegionVideos(input.id, 0)
+                } else {
+                   vm.loadLocationVideos(data, 0)
+                }
+            }
+
+
         }
     }
 

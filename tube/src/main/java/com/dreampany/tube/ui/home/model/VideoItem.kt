@@ -42,6 +42,7 @@ class VideoItem(
     override fun bindView(bind: VideoItemBinding, payloads: List<Any>) {
         bind.thumb.setUrl(input.thumbnail)
         bind.definition.text = input.definition
+        bind.definition.visible(input.definition.isNullOrEmpty().not())
         bind.title.text = input.title
         bind.info.text = bind.context.getString(
             R.string.video_info_format,

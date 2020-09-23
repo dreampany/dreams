@@ -278,6 +278,53 @@ class VideoRemoteDataSource(
     }
 
     @Throws
+    override suspend fun getsOfLocation(
+        location: String,
+        radius: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
+        for (index in 0..keys.indexLength) {
+            try {
+                val key = keys.nextKey ?: continue
+                val part = "snippet"
+                val type = "video"
+                val order = "viewCount"
+                val response: Response<SearchListResponse> = service.getSearchResultOfLocation(
+                    key,
+                    part,
+                    type,
+                    location,
+                    radius,
+                    order,
+                    limit
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.items ?: return null
+                    return mapper.getsOfSearch(data)
+                } else {
+                    val error = parser.parseError(response, SearchListResponse::class)
+                    throw SmartError(
+                        message = error?.error?.message,
+                        code = error?.error?.code.value
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) {
+                    if (!error.isForbidden)
+                        throw error
+                }
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
+
+    @Throws
     override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {

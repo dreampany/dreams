@@ -65,6 +65,9 @@ interface VideoDataSource {
     suspend fun getsOfRegionCode(regionCode: String, offset: Long, limit: Long): List<Video>?
 
     @Throws
+    suspend fun getsOfLocation(location: String, radius : String, offset: Long, limit: Long): List<Video>?
+
+    @Throws
     suspend fun getsOfEvent(eventType : String, offset: Long, limit: Long): List<Video>?
 
     @Throws

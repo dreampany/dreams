@@ -1,6 +1,7 @@
 package com.dreampany.tube.ui.home.vm
 
 import android.app.Application
+import android.location.Location
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
@@ -48,6 +49,27 @@ class VideoViewModel
             var errors: SmartError? = null
             try {
                 result = repo.getsOfRegionCode(regionCode, offset, AppConstants.Limits.VIDEOS)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun loadLocationVideos(location: Location, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Video>? = null
+            var errors: SmartError? = null
+            try {
+                val loc = "${location.latitude},${location.longitude}"
+                val radius = "10mi"
+                result = repo.getsOfLocation(loc, radius, offset, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

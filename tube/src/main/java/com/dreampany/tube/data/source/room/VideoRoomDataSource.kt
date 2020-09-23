@@ -116,6 +116,15 @@ class VideoRoomDataSource(
         limit: Long
     ): List<Video>? = mapper.getRegionVideos(regionCode)
 
+    override suspend fun getsOfLocation(
+        location: String,
+        radius: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
     @Throws
     override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long): List<Video>? =
         mapper.getEventVideos(eventType)

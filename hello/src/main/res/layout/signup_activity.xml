@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppBarOverlay">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/Theme.Toolbar.Light"
+                auto:popupTheme="@style/PopupOverlay" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/align_margin"
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/google"
+                    android:layout_width="@dimen/buttonSizePrimary"
+                    android:layout_height="@dimen/buttonSizePrimary"
+                    android:text="G"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/textSizeHighlight"
+                    android:textStyle="bold"
+                    auto:backgroundTint="@color/white"
+                    auto:cornerRadius="@dimen/cornerRadius"
+                    auto:elevation="@dimen/cornerRadius" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/buttons"
+                android:layout_marginBottom="@dimen/align_margin"
+                android:text="Log in with the following account"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/textSizeSecondary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|left"
+                    android:hint="mailaddres@example.com"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_email"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent"
+                auto:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|left"
+                    android:hint="mailaddres@example.com"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_password"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent"
+                auto:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|left"
+                    android:hint="mailaddres@example.com"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/register"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonSizePrimary"
+                android:layout_below="@id/layout_confirm_password"
+                android:text="Register"
+                android:textAllCaps="false"
+                android:textSize="@dimen/textSizePrimary"
+                auto:backgroundTint="@color/colorAccent"
+                auto:cornerRadius="@dimen/cornerRadius"
+                auto:elevation="@dimen/cornerRadius" />
+
+
+            <!-- <androidx.appcompat.widget.LinearLayoutCompat
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_above="@id/buttons"
+                 android:layout_marginBottom="@dimen/para_margin"
+                 android:orientation="horizontal">
+
+                 <com.google.android.material.button.MaterialButton
+                     android:id="@+id/signup"
+                     android:layout_width="0dp"
+                     android:layout_height="@dimen/buttonSizePrimary"
+                     android:layout_alignParentBottom="true"
+                     android:layout_weight="1"
+                     android:text="Sing up"
+                     android:textAllCaps="false"
+                     android:textColor="@color/textColorPrimary"
+                     android:textSize="@dimen/textSizePrimary"
+                     auto:backgroundTint="@color/white"
+                     auto:cornerRadius="@dimen/cornerRadius"
+                     auto:elevation="@dimen/cornerRadius" />
+
+                 <View
+                     android:layout_width="@dimen/align_margin"
+                     android:layout_height="0dp" />
+
+                 <com.google.android.material.button.MaterialButton
+                     android:id="@+id/login"
+                     android:layout_width="0dp"
+                     android:layout_height="@dimen/buttonSizePrimary"
+                     android:layout_alignParentBottom="true"
+                     android:layout_weight="1"
+                     android:text="Log in"
+                     android:textAllCaps="false"
+                     android:textColor="@color/textColorPrimary"
+                     android:textSize="@dimen/textSizePrimary"
+                     auto:backgroundTint="@color/white"
+                     auto:cornerRadius="@dimen/cornerRadius"
+                     auto:elevation="@dimen/cornerRadius" />
+             </androidx.appcompat.widget.LinearLayoutCompat>
+
+             <com.facebook.drawee.view.SimpleDraweeView
+                 android:layout_width="match_parent"
+                 android:layout_height="@dimen/_220sdp"
+                 auto:placeholderImage="@color/colorAccent"
+                 auto:roundedCornerRadius="@dimen/cornerRadius" />-->
+
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

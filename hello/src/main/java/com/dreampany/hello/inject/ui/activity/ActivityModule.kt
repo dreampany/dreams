@@ -6,6 +6,8 @@ import com.dreampany.hello.inject.ui.home.HomeModule
 import com.dreampany.hello.inject.ui.more.MoreModule
 import com.dreampany.hello.inject.ui.settings.SettingsModule
 import com.dreampany.hello.ui.auth.AuthActivity
+import com.dreampany.hello.ui.auth.LoginActivity
+import com.dreampany.hello.ui.auth.SignupActivity
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.splash.SplashActivity
 import dagger.Module
@@ -24,6 +26,12 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun auth(): AuthActivity
+
+    @ContributesAndroidInjector
+    abstract fun singup(): SignupActivity
+
+    @ContributesAndroidInjector
+    abstract fun login(): LoginActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class, SettingsModule::class])

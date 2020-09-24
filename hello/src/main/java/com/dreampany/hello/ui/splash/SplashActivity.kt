@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.hello.R
+import com.dreampany.hello.ui.auth.AuthActivity
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import kotlinx.coroutines.Runnable
 
@@ -31,7 +32,7 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun nextScreen() {
-        open(HomeActivity::class, true)
+        open(AuthActivity::class, true)
 /*        if (vm.isJoinPressed()) {
             if (vm.isLoggedIn()) {
                 open(HomeActivity::class, true)

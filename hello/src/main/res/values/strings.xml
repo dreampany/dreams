@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">demo</string>
+    <string name="app_name">Hello</string>
     <string name="action_settings">Settings</string>
+
+    <string name="title_auth">Settings</string>
 
 </resources>

@@ -19,7 +19,6 @@ import com.dreampany.tube.ui.home.model.VideoItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.http.Query
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -42,13 +41,15 @@ class VideoViewModel
 ) {
 
 
-    fun loadRegionVideos(regionCode: String, offset: Long) {
+    fun loadRegionVideos(regionCode: String, order: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfRegionCode(regionCode, offset, AppConstants.Limits.VIDEOS)
+
+                result =
+                    repo.getsOfRegionCode(regionCode, order, offset, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -61,7 +62,7 @@ class VideoViewModel
         }
     }
 
-    fun loadLocationVideos(location: Location, offset: Long) {
+    fun loadLocationVideos(location: Location, order: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
@@ -69,7 +70,7 @@ class VideoViewModel
             try {
                 val loc = "${location.latitude},${location.longitude}"
                 val radius = "10mi"
-                result = repo.getsOfLocation(loc, radius, offset, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfLocation(loc, radius, order, offset, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -82,13 +83,13 @@ class VideoViewModel
         }
     }
 
-    fun loadEventVideos(eventType: String, offset: Long) {
+    fun loadEventVideos(eventType: String, order: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfEvent(eventType, offset, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfEvent(eventType, order, offset, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -120,13 +121,13 @@ class VideoViewModel
         }
     }
 
-    fun loadSearch(query: String) {
+    fun loadSearch(query: String, order: String) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfQuery(query, 0, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfQuery(query, order, 0, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -139,13 +140,13 @@ class VideoViewModel
         }
     }
 
-    fun loadRelated(id: String) {
+    fun loadRelated(id: String,order : String) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfRelated(id, 0, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfRelated(id, order,0, AppConstants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

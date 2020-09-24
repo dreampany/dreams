@@ -25,6 +25,7 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.model.Video
+import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.databinding.VideosFragmentBinding
 import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
@@ -48,6 +49,9 @@ import javax.inject.Inject
 class VideosFragment
 @Inject constructor() : InjectFragment() {
 
+    @Inject
+    internal lateinit var pref: AppPref
+
     private lateinit var bind: VideosFragmentBinding
     private lateinit var vm: VideoViewModel
     private lateinit var adapter: FastVideoAdapter
@@ -62,10 +66,14 @@ class VideosFragment
         input = task.input ?: return
         initUi()
         initRecycler(state)
-        onRefresh()
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onRefresh()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -80,12 +88,15 @@ class VideosFragment
     }
 
     override fun onRefresh() {
-        if (input.type.isRegion) {
-            loadRegionVideos()
-        } else if (input.type.isEvent) {
-            vm.loadEventVideos(input.id, adapter.itemCount.toLong())
-        } else {
-            vm.loadVideos(input.id, adapter.itemCount.toLong())
+        val order = pref.order
+        if (adapter.isEmpty || adapter.order.equals(order).not()) {
+            if (input.type.isRegion) {
+                loadRegionVideos()
+            } else if (input.type.isEvent) {
+                vm.loadEventVideos(input.id, order, adapter.itemCount.toLong())
+            } else {
+                vm.loadVideos(input.id, adapter.itemCount.toLong())
+            }
         }
     }
 
@@ -120,15 +131,16 @@ class VideosFragment
             val request = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
             vm.viewModelScope.launch {
-               /* val result = location.checkLocationSettings(request)
-                when (request) {
+                /* val result = location.checkLocationSettings(request)
+                 when (request) {
 
-                }*/
+                 }*/
+                val order = pref.order
                 val data = location.getLastLocation()
                 if (data == null) {
-                    vm.loadRegionVideos(input.id, 0)
+                    vm.loadRegionVideos(input.id, order, 0)
                 } else {
-                   vm.loadLocationVideos(data, 0)
+                    vm.loadLocationVideos(data, order, 0)
                 }
             }
 
@@ -217,6 +229,8 @@ class VideosFragment
     }
 
     private fun processResults(result: List<VideoItem>?) {
+        adapter.order = pref.order
+        adapter.clearAll()
         if (result != null) {
             adapter.addItems(result)
         }

@@ -10,6 +10,15 @@
             android:key="@string/key_settings_categories"
             android:title="@string/title_settings_categories"
             auto:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="@string/key_settings_order"
+            android:title="@string/title_settings_order"
+            auto:defaultValue="@string/key_settings_order_value_relevance"
+            auto:entries="@array/array_order_labels"
+            auto:entryValues="@array/array_order_values"
+            auto:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -1,6 +1,29 @@
 <resources>
 
-    <string name="title_settings_categories">Select categories</string>
-    <string name="key_settings_categories">select_categories</string>
+    <string name="title_settings_categories">Select Categories</string>
+    <string name="key_settings_categories">categories</string>
+
+    <string name="title_settings_order">Order Videos</string>
+    <string name="key_settings_order">order</string>
+
+    <string name="key_settings_order_value_relevance">relevance</string>
+
+
+
+    <array name="array_order_labels">
+        <item>Relevance</item>
+        <item>Title</item>
+        <item>Date</item>
+        <item>Rating</item>
+        <item>View Count</item>
+     </array>
+
+    <array name="array_order_values">
+         <item>@string/key_settings_order_value_relevance</item>
+         <item>title</item>
+         <item>date</item>
+         <item>rating</item>
+         <item>viewCount</item>
+    </array>
 
 </resources>

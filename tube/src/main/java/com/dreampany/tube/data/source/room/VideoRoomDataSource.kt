@@ -15,7 +15,7 @@ import com.dreampany.tube.data.source.room.dao.VideoDao
 class VideoRoomDataSource(
     private val mapper: VideoMapper,
     private val dao: VideoDao,
-    private val relatedDao : RelatedDao
+    private val relatedDao: RelatedDao
 ) : VideoDataSource {
 
     @Throws
@@ -92,7 +92,12 @@ class VideoRoomDataSource(
     }
 
     @Throws
-    override suspend fun getsOfQuery(query: String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfQuery(
+        query: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
         TODO("Not yet implemented")
     }
 
@@ -111,14 +116,14 @@ class VideoRoomDataSource(
 
     @Throws
     override suspend fun getsOfRegionCode(
-        regionCode: String,
+        regionCode: String, order: String,
         offset: Long,
         limit: Long
     ): List<Video>? = mapper.getRegionVideos(regionCode)
 
     override suspend fun getsOfLocation(
         location: String,
-        radius: String,
+        radius: String, order: String,
         offset: Long,
         limit: Long
     ): List<Video>? {
@@ -126,11 +131,21 @@ class VideoRoomDataSource(
     }
 
     @Throws
-    override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long): List<Video>? =
+    override suspend fun getsOfEvent(
+        eventType: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? =
         mapper.getEventVideos(eventType)
 
     @Throws
-    override suspend fun getsOfRelated(id: String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfRelated(
+        id: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
         val ids = relatedDao.getItems(id).map { it.other(id) }
         return gets(ids)
     }

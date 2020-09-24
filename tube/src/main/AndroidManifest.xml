@@ -37,6 +37,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
 
+        <!-- splash -->
         <activity
             android:name=".ui.splash.SplashActivity"
             android:clearTaskOnLaunch="true"

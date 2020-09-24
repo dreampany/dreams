@@ -18,6 +18,7 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.databinding.VideosFragmentBinding
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
@@ -36,6 +37,9 @@ import javax.inject.Inject
 @ActivityScope
 class SearchFragment
 @Inject constructor() : InjectFragment() {
+
+    @Inject
+    internal lateinit var pref : AppPref
 
     private lateinit var bind: VideosFragmentBinding
     private lateinit var vm: VideoViewModel
@@ -112,6 +116,25 @@ class SearchFragment
         adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
+    private fun openPlayerUi(item: VideoItem) {
+        val task = UiTask(
+            Type.VIDEO,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
+            item.input
+        )
+        open(VideoPlayerActivity::class, task)
+    }
+
+    private fun onFavoriteClicked(item: VideoItem) {
+        vm.toggleFavorite(item.input)
+    }
+
+    private fun searchVideos(query: String) {
+        vm.loadSearch(query, pref.order)
+    }
+
     private fun processResponses(response: Response<Type, Subtype, State, Action, List<VideoItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
@@ -168,24 +191,5 @@ class SearchFragment
         if (result != null) {
             adapter.addItem(result)
         }
-    }
-
-    private fun openPlayerUi(item: VideoItem) {
-        val task = UiTask(
-            Type.VIDEO,
-            Subtype.DEFAULT,
-            State.DEFAULT,
-            Action.VIEW,
-            item.input
-        )
-        open(VideoPlayerActivity::class, task)
-    }
-
-    private fun onFavoriteClicked(item: VideoItem) {
-        vm.toggleFavorite(item.input)
-    }
-
-    private fun searchVideos(query: String) {
-        vm.loadSearch(query)
     }
 }

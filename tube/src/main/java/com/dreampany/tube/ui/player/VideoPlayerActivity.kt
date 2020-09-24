@@ -15,6 +15,7 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
+import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.databinding.VideoPlayerActivityBinding
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
@@ -25,6 +26,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.You
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by roman on 7/7/20
@@ -34,11 +36,14 @@ import timber.log.Timber
  */
 class VideoPlayerActivity : InjectActivity() {
 
+    @Inject
+    internal lateinit var pref: AppPref
+
     private lateinit var bind: VideoPlayerActivityBinding
     private lateinit var vm: VideoViewModel
     private lateinit var adapter: FastVideoAdapter
     private lateinit var input: Video
-    private lateinit var player : YouTubePlayer
+    private lateinit var player: YouTubePlayer
 
     override val layoutRes: Int = R.layout.video_player_activity
     override val menuRes: Int = R.menu.videos_menu
@@ -65,7 +70,7 @@ class VideoPlayerActivity : InjectActivity() {
         initRecycler(state)
         updateUi()
         vm.loadVideo(input)
-        vm.loadRelated(input.id)
+        vm.loadRelated(input.id, pref.order)
     }
 
     override fun onStopUi() {
@@ -101,7 +106,7 @@ class VideoPlayerActivity : InjectActivity() {
         vm.toggleFavorite(input)
     }
 
-    private fun reInit(item : VideoItem) {
+    private fun reInit(item: VideoItem) {
         input = item.input
         updateUi()
         player.loadOrCueVideo(lifecycle, input.id, 0f)
@@ -245,8 +250,9 @@ class VideoPlayerActivity : InjectActivity() {
     }
 
     private fun processResults(result: List<VideoItem>?) {
+        adapter.order = pref.order
+        adapter.clearAll()
         if (result != null) {
-            adapter.clearAll()
             adapter.addItems(result)
         }
     }

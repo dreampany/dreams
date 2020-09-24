@@ -53,7 +53,7 @@ interface VideoDataSource {
     suspend fun getsOfQuery(query: String): List<Video>?
 
     @Throws
-    suspend fun getsOfQuery(query: String, offset: Long, limit: Long): List<Video>?
+    suspend fun getsOfQuery(query: String, order : String,offset: Long, limit: Long): List<Video>?
 
     @Throws
     suspend fun getsOfCategoryId(categoryId: String): List<Video>?
@@ -62,14 +62,25 @@ interface VideoDataSource {
     suspend fun getsOfCategoryId(categoryId: String, offset: Long, limit: Long): List<Video>?
 
     @Throws
-    suspend fun getsOfRegionCode(regionCode: String, offset: Long, limit: Long): List<Video>?
+    suspend fun getsOfRegionCode(
+        regionCode: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>?
 
     @Throws
-    suspend fun getsOfLocation(location: String, radius : String, offset: Long, limit: Long): List<Video>?
+    suspend fun getsOfLocation(
+        location: String,
+        order: String,
+        radius: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>?
 
     @Throws
-    suspend fun getsOfEvent(eventType : String, offset: Long, limit: Long): List<Video>?
+    suspend fun getsOfEvent(eventType: String,order : String, offset: Long, limit: Long): List<Video>?
 
     @Throws
-    suspend fun getsOfRelated(id: String, offset: Long, limit: Long): List<Video>?
+    suspend fun getsOfRelated(id: String, order: String, offset: Long, limit: Long): List<Video>?
 }

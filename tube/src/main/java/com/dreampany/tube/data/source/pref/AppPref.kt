@@ -4,6 +4,7 @@ import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.exts.currentMillis
+import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.misc.AppConstants
 import com.google.gson.Gson
@@ -24,6 +25,12 @@ class AppPref
 ) : BasePref(context) {
 
     override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.PREF
+
+    val order: String
+        get() = getPublicly(
+            context.getString(R.string.key_settings_order),
+            context.getString(R.string.key_settings_order_value_relevance)
+        )
 
     @Synchronized
     fun commitCategoriesSelection() {

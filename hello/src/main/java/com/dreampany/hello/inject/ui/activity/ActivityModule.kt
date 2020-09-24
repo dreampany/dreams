@@ -5,6 +5,7 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.hello.inject.ui.home.HomeModule
 import com.dreampany.hello.inject.ui.more.MoreModule
 import com.dreampany.hello.inject.ui.settings.SettingsModule
+import com.dreampany.hello.ui.auth.AuthActivity
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.splash.SplashActivity
 import dagger.Module
@@ -20,6 +21,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun splash(): SplashActivity
+
+    @ContributesAndroidInjector
+    abstract fun auth(): AuthActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class, SettingsModule::class])

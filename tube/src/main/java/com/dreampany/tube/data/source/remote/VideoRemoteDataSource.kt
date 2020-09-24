@@ -143,13 +143,12 @@ class VideoRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getsOfQuery(query: String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfQuery(query: String,order : String, offset: Long, limit: Long): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue
                 val part = "snippet"
                 val type = "video"
-                val order = "viewCount"
                 val response: Response<SearchListResponse> = service.getSearchResultOfQuery(
                     key,
                     part,
@@ -234,7 +233,7 @@ class VideoRemoteDataSource(
 
     @Throws
     override suspend fun getsOfRegionCode(
-        regionCode: String,
+        regionCode: String,order : String,
         offset: Long,
         limit: Long
     ): List<Video>? {
@@ -243,7 +242,6 @@ class VideoRemoteDataSource(
                 val key = keys.nextKey ?: continue
                 val part = "snippet"
                 val type = "video"
-                val order = "viewCount"
                 val response: Response<SearchListResponse> = service.getSearchResultOfRegionCode(
                     key,
                     part,
@@ -280,7 +278,7 @@ class VideoRemoteDataSource(
     @Throws
     override suspend fun getsOfLocation(
         location: String,
-        radius: String,
+        radius: String,order : String,
         offset: Long,
         limit: Long
     ): List<Video>? {
@@ -289,7 +287,6 @@ class VideoRemoteDataSource(
                 val key = keys.nextKey ?: continue
                 val part = "snippet"
                 val type = "video"
-                val order = "viewCount"
                 val response: Response<SearchListResponse> = service.getSearchResultOfLocation(
                     key,
                     part,
@@ -325,7 +322,7 @@ class VideoRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getsOfEvent(eventType: String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfEvent(eventType: String,order : String, offset: Long, limit: Long): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue
@@ -366,7 +363,7 @@ class VideoRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getsOfRelated(id: String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfRelated(id: String,order : String, offset: Long, limit: Long): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue

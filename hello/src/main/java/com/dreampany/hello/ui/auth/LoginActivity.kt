@@ -3,6 +3,8 @@ package com.dreampany.hello.ui.auth
 import android.os.Bundle
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.hello.R
+import com.dreampany.hello.databinding.LoginActivityBinding
+import com.dreampany.hello.databinding.SignupActivityBinding
 
 /**
  * Created by roman on 24/9/20
@@ -12,13 +14,22 @@ import com.dreampany.hello.R
  */
 class LoginActivity : InjectActivity() {
 
-    override val layoutRes: Int = R.layout.auth_activity
+    private lateinit var bind: LoginActivityBinding
+
+    override val layoutRes: Int = R.layout.login_activity
     override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
+        initUi()
 
     }
 
     override fun onStopUi() {
+    }
+
+    private fun initUi() {
+        if (::bind.isInitialized) return
+        bind = getBinding()
+
     }
 }

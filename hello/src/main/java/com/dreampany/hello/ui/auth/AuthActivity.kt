@@ -29,8 +29,13 @@ class AuthActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
+        bind = getBinding()
         bind.signup.setOnSafeClickListener {
             open(SignupActivity::class)
+        }
+
+        bind.login.setOnSafeClickListener {
+            open(LoginActivity::class)
         }
     }
 }

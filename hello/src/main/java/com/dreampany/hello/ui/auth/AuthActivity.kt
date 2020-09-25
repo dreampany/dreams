@@ -6,6 +6,7 @@ import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.hello.R
 import com.dreampany.hello.databinding.AuthActivityBinding
+import com.dreampany.hello.ui.home.activity.HomeActivity
 
 /**
  * Created by roman on 24/9/20
@@ -36,6 +37,10 @@ class AuthActivity : InjectActivity() {
 
         bind.login.setOnSafeClickListener {
             open(LoginActivity::class)
+        }
+
+        bind.start.setOnClickListener {
+            open(HomeActivity::class, true)
         }
     }
 }

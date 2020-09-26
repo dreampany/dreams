@@ -26,67 +26,115 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/align_margin"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/start"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/buttonSizePrimary"
-                android:layout_alignParentBottom="true"
-                android:text="Start now"
-                android:textAllCaps="false"
-                android:textSize="@dimen/textSizePrimary"
-                auto:backgroundTint="@color/colorAccent"
-                auto:cornerRadius="@dimen/cornerRadius"
-                auto:elevation="@dimen/cornerRadius" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/start"
-                android:layout_marginBottom="@dimen/para_margin"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/signup"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/buttonSizePrimary"
-                    android:layout_alignParentBottom="true"
-                    android:layout_weight="1"
-                    android:text="Sing up"
-                    android:textAllCaps="false"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/textSizePrimary"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/google"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/align_margin"
+                    android:layout_marginBottom="@dimen/align_margin"
+                    android:src="@drawable/ic_google"
                     auto:backgroundTint="@color/white"
-                    auto:cornerRadius="@dimen/cornerRadius"
-                    auto:elevation="@dimen/cornerRadius" />
+                    auto:elevation="@dimen/align_margin"
+                    auto:fabSize="normal"
+                    auto:tint="#F36256" />
 
                 <View
-                    android:layout_width="@dimen/align_margin"
+                    android:layout_width="@dimen/para_margin"
                     android:layout_height="0dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/login"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/buttonSizePrimary"
-                    android:layout_alignParentBottom="true"
-                    android:layout_weight="1"
-                    android:text="Log in"
-                    android:textAllCaps="false"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/textSizePrimary"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/align_margin"
+                    android:layout_marginBottom="@dimen/align_margin"
+                    android:src="@drawable/ic_facebook"
                     auto:backgroundTint="@color/white"
-                    auto:cornerRadius="@dimen/cornerRadius"
-                    auto:elevation="@dimen/cornerRadius" />
+                    auto:elevation="@dimen/align_margin"
+                    auto:fabSize="normal"
+                    auto:tint="#4178EB" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_220sdp"
-                auto:placeholderImage="@color/colorAccent"
-                auto:roundedCornerRadius="@dimen/cornerRadius" />
+                android:layout_height="wrap_content"
+                android:layout_above="@id/buttons"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:layout_marginBottom="@dimen/para_margin"
+                android:text="Log in with the following account"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/textSizeSecondary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|start"
+                    android:hint="mailaddres@example.com"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_email"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent"
+                auto:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|start"
+                    android:hint="Enter password"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonSizePrimary"
+                android:layout_below="@id/layout_password"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textSize="@dimen/textSizePrimary"
+                auto:backgroundTint="@color/textColorSecondary"
+                auto:cornerRadius="@dimen/buttonRadius"
+                auto:elevation="@dimen/buttonRadius" />
 
         </RelativeLayout>
 

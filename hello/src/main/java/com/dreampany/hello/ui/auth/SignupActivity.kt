@@ -58,6 +58,7 @@ class SignupActivity : InjectActivity() {
     private lateinit var client: GoogleSignInClient
     private lateinit var manager: CallbackManager
 
+    override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.signup_activity
     override val toolbarId: Int = R.id.toolbar
 

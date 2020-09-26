@@ -3,8 +3,6 @@ package com.dreampany.tools.data.source.crypto.repo
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.inject.annote.Remote
 import com.dreampany.framework.inject.annote.Room
-import com.dreampany.framework.misc.func.ResponseMapper
-import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
@@ -25,13 +23,12 @@ import javax.inject.Singleton
 @Singleton
 class CoinRepo
 @Inject constructor(
-    rx: RxMapper,
-    rm: ResponseMapper,
     private val pref: CryptoPref,
     private val mapper: CoinMapper,
     @Room private val room: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : CoinDataSource {
+
     @Throws
     override suspend fun isFavorite(input: Coin) = withContext(Dispatchers.IO) {
         room.isFavorite(input)

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.hello.ui.more.vm.MoreViewModel
+import com.dreampany.hello.ui.vm.UserViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -27,4 +28,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MoreViewModel::class)
     abstract fun bindMore(vm: MoreViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserViewModel::class)
+    abstract fun bindUser(vm: UserViewModel): ViewModel
 }

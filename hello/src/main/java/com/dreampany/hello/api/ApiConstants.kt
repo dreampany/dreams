@@ -9,6 +9,9 @@ package com.dreampany.hello.api
 class ApiConstants {
     object Api {
         const val GOOGLE_CLIENT_ID_DREAMPANY_MAIL = "Mzg3MTgwMDk4NzI4LXVrMjIyOXA5dDJlMHI5ZmwzODRkNHY3ZzlkNDdhMDJvLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29t"
+    }
 
+    object Keys {
+        const val USERS = "users"
     }
 }

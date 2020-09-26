@@ -4,6 +4,7 @@ import android.app.Application
 import com.dreampany.framework.inject.app.AppModule
 import com.dreampany.framework.inject.property.PropertyModule
 import com.dreampany.hello.app.App
+import com.dreampany.hello.inject.data.DataModule
 import com.dreampany.hello.inject.ui.activity.ActivityModule
 import com.dreampany.hello.inject.ui.vm.ViewModelModule
 import com.dreampany.hello.inject.worker.WorkerModule
@@ -27,10 +28,12 @@ import javax.inject.Singleton
         PropertyModule::class,
         ActivityModule::class,
         ViewModelModule::class,
-        WorkerModule::class
+        WorkerModule::class,
+        DataModule::class
     ]
 )
 interface AppComponent : AndroidInjector<App> {
+
     @Component.Builder
     interface Builder {
         @BindsInstance

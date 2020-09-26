@@ -68,7 +68,7 @@ annotation class Fireauth
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Firedatabase
+annotation class Database
 
 @Qualifier
 @MustBeDocumented

@@ -5,6 +5,8 @@ import com.dreampany.hello.inject.app.DaggerAppComponent
 import com.dreampany.hello.manager.AdManager
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.exts.isDebug
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
@@ -38,8 +40,10 @@ class App : InjectApp() {
     override fun onOpen() {
         initIndexing()
         initFirebase()
-        initAd()
         initFresco()
+        initFacebook()
+        initAd()
+
         startAppIndex()
     }
 
@@ -96,5 +100,10 @@ class App : InjectApp() {
     private fun stopAppIndex() {
         if (isDebug) return
         FirebaseUserActions.getInstance().end(action)
+    }
+
+    private fun initFacebook() {
+        FacebookSdk.sdkInitialize(this)
+        AppEventsLogger.activateApp(this)
     }
 }

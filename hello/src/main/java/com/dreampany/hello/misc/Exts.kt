@@ -15,5 +15,6 @@ val FirebaseUser.user : User
         user.name = displayName
         user.photo = photoUrl.toString()
         user.email = email
+        user.phone = phoneNumber
         return user
     }

@@ -18,17 +18,26 @@ import com.dreampany.hello.data.model.User
 import com.dreampany.hello.databinding.SignupActivityBinding
 import com.dreampany.hello.misc.user
 import com.dreampany.hello.ui.vm.UserViewModel
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
+import java.util.*
 
 /**
  * Created by roman on 24/9/20
@@ -43,10 +52,11 @@ class SignupActivity : InjectActivity() {
     }
 
     private lateinit var bind: SignupActivityBinding
-    private lateinit var vm : UserViewModel
+    private lateinit var vm: UserViewModel
 
     private lateinit var auth: FirebaseAuth
     private lateinit var client: GoogleSignInClient
+    private lateinit var manager: CallbackManager
 
     override val layoutRes: Int = R.layout.signup_activity
     override val toolbarId: Int = R.id.toolbar
@@ -61,6 +71,8 @@ class SignupActivity : InjectActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val result = manager.onActivityResult(requestCode, resultCode, data)
+        if (result) return
         if (requestCode == RC_GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleResult(task)
@@ -76,24 +88,49 @@ class SignupActivity : InjectActivity() {
         bind.google.setOnSafeClickListener {
             loginGoogle()
         }
+
+        bind.facebook.setOnSafeClickListener {
+            loginFacebook()
+        }
     }
 
     private fun initAuth() {
+        if (::auth.isInitialized) return
         auth = Firebase.auth
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(ApiConstants.Api.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
             .requestEmail()
             .build()
         client = GoogleSignIn.getClient(this, gso)
+
+        manager = CallbackManager.Factory.create()
+        LoginManager.getInstance()
+            .registerCallback(manager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult) {
+                    loginCredential(result.accessToken)
+                }
+
+                override fun onCancel() {
+                    Timber.w("facebook login cancelled")
+                }
+
+                override fun onError(error: FacebookException) {
+                    Timber.e(error)
+                }
+
+            })
     }
 
     private fun loginGoogle() {
         startActivityForResult(client.signInIntent, RC_GOOGLE_SIGN_IN)
     }
 
-    private fun loginCredential(idToken: String?) {
-        Timber.v("idToken: %s", idToken)
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
+    private fun loginFacebook() {
+        LoginManager.getInstance()
+            .logInWithReadPermissions(this, Arrays.asList("email", "public_profile"))
+    }
+
+    private fun loginCredential(credential: AuthCredential) {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -103,6 +140,18 @@ class SignupActivity : InjectActivity() {
 
                 }
             }
+    }
+
+    private fun loginCredential(token: String?) {
+        Timber.v("google token: %s", token)
+        val credential = GoogleAuthProvider.getCredential(token, null)
+        loginCredential(credential)
+    }
+
+    private fun loginCredential(token: AccessToken) {
+        Timber.v("facebook token: %s", token.token)
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        loginCredential(credential)
     }
 
     private fun handleResult(task: Task<GoogleSignInAccount>) {

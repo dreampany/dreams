@@ -31,6 +31,7 @@ data class User(
     var name: String? = Constants.Default.NULL,
     var photo : String? = Constants.Default.NULL,
     var email : String? = Constants.Default.NULL,
+    var phone : String? = Constants.Default.NULL,
     var age : Int = Constants.Default.INT
 ) : Base() {
 

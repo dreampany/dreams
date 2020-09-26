@@ -127,7 +127,10 @@ class SignupActivity : InjectActivity() {
 
     private fun loginFacebook() {
         LoginManager.getInstance()
-            .logInWithReadPermissions(this, Arrays.asList("email", "public_profile"))
+            .logInWithReadPermissions(
+                this,
+                Arrays.asList("public_profile", "email")
+            )
     }
 
     private fun loginCredential(credential: AuthCredential) {

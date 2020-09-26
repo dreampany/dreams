@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.radio
 
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.parseInt
 import com.dreampany.tools.misc.constants.RadioConstants
 import okhttp3.Response
@@ -59,7 +59,7 @@ class Mapper {
             if (meta != null && meta.containsKey(RadioConstants.Keys.Stream.TITLE)) {
                 stream.title = meta.get(RadioConstants.Keys.Stream.TITLE)
                 stream.title?.let {
-                    val parts = it.split(Constants.Sep.SPACE_HYPHEN_SPACE.toRegex(), 2)
+                    val parts = it.split(Constant.Sep.SPACE_HYPHEN_SPACE.toRegex(), 2)
                     stream.artist = parts.first()
                     stream.track = parts.last()
                 }
@@ -70,9 +70,9 @@ class Mapper {
 
         fun decodeShoutCastMetadata(meta: String): Map<String, String> {
             val data = hashMapOf<String, String>()
-            val parts = meta.split(Constants.Sep.SEMI_COLON)
+            val parts = meta.split(Constant.Sep.SEMI_COLON)
             for (part in parts) {
-                val dx = part.indexOf(Constants.Sep.EQUAL)
+                val dx = part.indexOf(Constant.Sep.EQUAL)
                 if (dx < 1) continue
 
                 val isString = (dx + 1 < part.length
@@ -85,7 +85,7 @@ class Mapper {
                 else if (dx + 1 < part.length)
                     part.substring(dx + 1)
                 else
-                    Constants.Default.STRING
+                    Constant.Default.STRING
 
                 data.put(key, value)
             }
@@ -94,9 +94,9 @@ class Mapper {
 
         private fun getAudioParams(info: String): Map<String, String> {
             val params = linkedMapOf<String, String>()
-            val pairs = info.split(Constants.Sep.SEMI_COLON)
+            val pairs = info.split(Constant.Sep.SEMI_COLON)
             pairs.forEach {
-                val idx = it.indexOf(Constants.Sep.EQUAL)
+                val idx = it.indexOf(Constant.Sep.EQUAL)
                 params[it.substring(0, idx)] = it.substring(idx + 1)
             }
             return params

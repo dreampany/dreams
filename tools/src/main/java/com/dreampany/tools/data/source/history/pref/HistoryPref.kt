@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.history.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.join
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.history.HistorySource
@@ -41,7 +41,7 @@ class HistoryPref
             month.toString(),
             day.toString()
         )
-        return getPrivately(key, Constants.Default.LONG)
+        return getPrivately(key, Constant.Default.LONG)
     }
 
     @Synchronized

@@ -2,7 +2,7 @@ package com.dreampany.framework.misc.exts
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -38,7 +38,7 @@ val Long?.value: Long get() = this ?: 0L
 
 val Double?.value: Double get() = this ?: 0.toDouble()
 
-val String?.value: String get() = this ?: Constants.Default.STRING
+val String?.value: String get() = this ?: Constant.Default.STRING
 
 val Int.isZeroOrLess: Boolean get() = this <= 0
 

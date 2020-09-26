@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.radio.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.StationOrder
@@ -96,7 +96,7 @@ class RadioPref
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
             append(state.value)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -112,7 +112,7 @@ class RadioPref
             append(reverse)
             append(offset)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -127,6 +127,6 @@ class RadioPref
             append(reverse)
             append(offset)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 }

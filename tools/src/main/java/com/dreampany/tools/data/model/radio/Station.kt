@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.misc.constants.RadioConstants
 import com.google.common.base.Objects
@@ -30,60 +30,60 @@ import kotlinx.android.parcel.Parcelize
     primaryKeys = [RadioConstants.Keys.Station.ID]
 )
 data class Station(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CHANGE_UUID)
     @ColumnInfo(name = RadioConstants.Keys.Station.CHANGE_UUID)
-    private var changeUuid: String? = Constants.Default.NULL,
-    var name: String? = Constants.Default.NULL,
-    var url: String? = Constants.Default.NULL,
-    var homepage: String? = Constants.Default.NULL,
-    var favicon: String? = Constants.Default.NULL,
-    var ip: String? = Constants.Default.NULL,
-    var codec: String? = Constants.Default.NULL,
-    var bitrate: Int = Constants.Default.INT,
-    var tags: String? = Constants.Default.NULL,
-    var country: String? = Constants.Default.NULL,
+    private var changeUuid: String? = Constant.Default.NULL,
+    var name: String? = Constant.Default.NULL,
+    var url: String? = Constant.Default.NULL,
+    var homepage: String? = Constant.Default.NULL,
+    var favicon: String? = Constant.Default.NULL,
+    var ip: String? = Constant.Default.NULL,
+    var codec: String? = Constant.Default.NULL,
+    var bitrate: Int = Constant.Default.INT,
+    var tags: String? = Constant.Default.NULL,
+    var country: String? = Constant.Default.NULL,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.COUNTRY_CODE)
     @ColumnInfo(name = RadioConstants.Keys.Station.COUNTRY_CODE)
-    private var countryCode: String? = Constants.Default.NULL,
-    var state: String? = Constants.Default.NULL,
-    var language: String? = Constants.Default.NULL,
-    var votes: Int = Constants.Default.INT,
+    private var countryCode: String? = Constant.Default.NULL,
+    var state: String? = Constant.Default.NULL,
+    var language: String? = Constant.Default.NULL,
+    var votes: Int = Constant.Default.INT,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.NEGATIVE_VOTES)
     @ColumnInfo(name = RadioConstants.Keys.Station.NEGATIVE_VOTES)
-    private var negativeVotes: Int = Constants.Default.INT,
+    private var negativeVotes: Int = Constant.Default.INT,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_COUNT)
     @ColumnInfo(name = RadioConstants.Keys.Station.CLICK_COUNT)
-    private var clickCount: Int = Constants.Default.INT,
+    private var clickCount: Int = Constant.Default.INT,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TREND)
     @ColumnInfo(name = RadioConstants.Keys.Station.CLICK_TREND)
-    private var clickTrend: Int = Constants.Default.INT,
-    var hls: Boolean = Constants.Default.BOOLEAN,
+    private var clickTrend: Int = Constant.Default.INT,
+    var hls: Boolean = Constant.Default.BOOLEAN,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK)
     @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHECK_OK)
-    private var lastCheckOk: Boolean = Constants.Default.BOOLEAN,
+    private var lastCheckOk: Boolean = Constant.Default.BOOLEAN,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHANGE_TIME)
     @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHANGE_TIME)
-    private var lastChangeTime: Long = Constants.Default.LONG,
+    private var lastChangeTime: Long = Constant.Default.LONG,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_TIME)
     @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHECK_TIME)
-    private var lastCheckTime: Long = Constants.Default.LONG,
+    private var lastCheckTime: Long = Constant.Default.LONG,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK_TIME)
     @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHECK_OK_TIME)
-    private var lastCheckOkTime: Long = Constants.Default.LONG,
+    private var lastCheckOkTime: Long = Constant.Default.LONG,
 
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TIMESTAMP)
     @ColumnInfo(name = RadioConstants.Keys.Station.CLICK_TIMESTAMP)
-    private var clickTimestamp: Long = Constants.Default.LONG
+    private var clickTimestamp: Long = Constant.Default.LONG
 
 
 ) : Base() {

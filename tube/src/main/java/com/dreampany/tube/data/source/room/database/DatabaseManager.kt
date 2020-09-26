@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.model.Related
 import com.dreampany.tube.data.model.Video
@@ -35,7 +35,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constants.database(context, AppConstants.Keys.Room.TYPE_TUBE)
+                val DATABASE = Constant.database(context, AppConstants.Keys.Room.TYPE_TUBE)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

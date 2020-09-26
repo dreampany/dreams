@@ -10,7 +10,7 @@ import com.dreampany.framework.data.model.Time
 import com.dreampany.framework.data.source.room.converter.Converter
 import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.data.source.room.dao.TimeDao
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 
 /**
  * Created by roman on 1/5/20
@@ -32,7 +32,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constants.database(context, Constants.Room.TYPE_FRAMEWORK)
+                val DATABASE = Constant.database(context, Constant.Room.TYPE_FRAMEWORK)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

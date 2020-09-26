@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import com.dreampany.framework.R
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.isMinO
 import com.dreampany.framework.misc.util.NotifyUtil
 import javax.inject.Inject
@@ -36,13 +36,13 @@ class NotifyManager
         task: Task<*, *, *, *, *>?
     ) {
         showNotification(
-            Constants.Notify.DEFAULT_ID,
+            Constant.Notify.DEFAULT_ID,
             title,
             contentText,
             icon,
             targetClass,
             task,
-            Constants.Notify.DEFAULT_CHANNEL_ID,
+            Constant.Notify.DEFAULT_CHANNEL_ID,
             context.getString(R.string.app_name),
             context.getString(R.string.description)
         )
@@ -56,7 +56,7 @@ class NotifyManager
         task: Task<*, *, *, *, *>?
     ) {
         showNotification(
-            Constants.Notify.DEFAULT_ID,
+            Constant.Notify.DEFAULT_ID,
             context.getString(R.string.app_name),
             contentText,
             icon,

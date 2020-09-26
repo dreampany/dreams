@@ -2,7 +2,7 @@ package com.dreampany.tools.api.radio
 
 import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.misc.constants.RadioConstants
 import com.google.common.base.Objects
@@ -17,44 +17,44 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class RadioStation(
-    override var time: Long = Constants.Default.LONG,
+    override var time: Long = Constant.Default.LONG,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
-    override var id: String = Constants.Default.STRING,
+    override var id: String = Constant.Default.STRING,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CHANGE_UUID)
-    var changeUuid: String? = Constants.Default.NULL,
+    var changeUuid: String? = Constant.Default.NULL,
     /*@SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
     var stationUuid: String = Constants.Default.STRING,*/
-    var name: String? = Constants.Default.NULL,
-    var url: String? = Constants.Default.NULL,
-    var homepage: String? = Constants.Default.NULL,
-    var favicon: String? = Constants.Default.NULL,
-    var ip: String? = Constants.Default.NULL,
-    var codec: String? = Constants.Default.NULL,
-    var bitrate: Int = Constants.Default.INT,
-    var tags: String? = Constants.Default.NULL,
-    var country: String? = Constants.Default.NULL,
+    var name: String? = Constant.Default.NULL,
+    var url: String? = Constant.Default.NULL,
+    var homepage: String? = Constant.Default.NULL,
+    var favicon: String? = Constant.Default.NULL,
+    var ip: String? = Constant.Default.NULL,
+    var codec: String? = Constant.Default.NULL,
+    var bitrate: Int = Constant.Default.INT,
+    var tags: String? = Constant.Default.NULL,
+    var country: String? = Constant.Default.NULL,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.COUNTRY_CODE)
-    var countryCode: String? = Constants.Default.NULL,
-    var state: String? = Constants.Default.NULL,
-    var language: String? = Constants.Default.NULL,
-    var votes: Int = Constants.Default.INT,
+    var countryCode: String? = Constant.Default.NULL,
+    var state: String? = Constant.Default.NULL,
+    var language: String? = Constant.Default.NULL,
+    var votes: Int = Constant.Default.INT,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.NEGATIVE_VOTES)
-    var negativeVotes: Int = Constants.Default.INT,
+    var negativeVotes: Int = Constant.Default.INT,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_COUNT)
-    var clickCount: Int = Constants.Default.INT,
+    var clickCount: Int = Constant.Default.INT,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TREND)
-    var clickTrend: Int = Constants.Default.INT,
-    var hls: Int = Constants.Default.INT,
+    var clickTrend: Int = Constant.Default.INT,
+    var hls: Int = Constant.Default.INT,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK)
-    var lastCheckOk: Int = Constants.Default.INT,
+    var lastCheckOk: Int = Constant.Default.INT,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHANGE_TIME)
-    var lastChangeTime: String? = Constants.Default.NULL,
+    var lastChangeTime: String? = Constant.Default.NULL,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_TIME)
-    var lastCheckTime: String? = Constants.Default.NULL,
+    var lastCheckTime: String? = Constant.Default.NULL,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK_TIME)
-    var lastCheckOkTime: String? = Constants.Default.NULL,
+    var lastCheckOkTime: String? = Constant.Default.NULL,
     @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TIMESTAMP)
-    var clickTimestamp: String? = Constants.Default.NULL
+    var clickTimestamp: String? = Constant.Default.NULL
 ) : Base() {
 
     @Ignore

@@ -3,7 +3,7 @@ package com.dreampany.framework.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -17,18 +17,18 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID, Constants.Keys.TYPE, Constants.Keys.SUBTYPE, Constants.Keys.STATE],
+        value = [Constant.Keys.ID, Constant.Keys.TYPE, Constant.Keys.SUBTYPE, Constant.Keys.STATE],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID, Constants.Keys.TYPE, Constants.Keys.SUBTYPE, Constants.Keys.STATE]
+    primaryKeys = [Constant.Keys.ID, Constant.Keys.TYPE, Constant.Keys.SUBTYPE, Constant.Keys.STATE]
 )
 data class Store(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    val type: String = Constants.Default.STRING,
-    val subtype: String = Constants.Default.STRING,
-    val state: String = Constants.Default.STRING,
-    val extra: String? = Constants.Default.NULL
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    val type: String = Constant.Default.STRING,
+    val subtype: String = Constant.Default.STRING,
+    val state: String = Constant.Default.STRING,
+    val extra: String? = Constant.Default.NULL
 ) : Base() {
 
     @Ignore

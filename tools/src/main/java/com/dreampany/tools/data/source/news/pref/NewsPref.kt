@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.news.pref
 
 import android.content.Context
  import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.misc.constants.NewsConstants
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class NewsPref
             append(language)
             append(offset)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized

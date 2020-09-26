@@ -4,7 +4,7 @@ import com.dreampany.framework.data.model.Time
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.data.source.repo.TimeRepo
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.tube.api.model.*
 import com.dreampany.tube.data.enums.State
@@ -88,7 +88,7 @@ class VideoMapper
     fun getRegionVideos(regionCode: String): List<Video>? {
         val json = pref.getPrivately(
             AppConstants.Keys.Pref.VIDEOS.plus(regionCode),
-            Constants.Default.STRING
+            Constant.Default.STRING
         )
         return if (json.isNullOrEmpty()) null else json.toItems
     }
@@ -101,7 +101,7 @@ class VideoMapper
     fun getEventVideos(eventType: String): List<Video>? {
         val json = pref.getPrivately(
             AppConstants.Keys.Pref.VIDEOS.plus(eventType),
-            Constants.Default.STRING
+            Constant.Default.STRING
         )
         return if (json.isNullOrEmpty()) null else json.toItems
     }

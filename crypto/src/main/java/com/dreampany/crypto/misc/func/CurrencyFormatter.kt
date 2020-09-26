@@ -2,11 +2,10 @@ package com.dreampany.crypto.misc.func
 
 import android.content.Context
 import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.dreampany.crypto.R
 import com.dreampany.crypto.data.enums.Currency
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.color
 import com.google.common.collect.Maps
 import com.google.common.collect.Sets
@@ -153,7 +152,7 @@ class CurrencyFormatter
     fun roundPrice(price: Double, currency: Currency): String {
         val symbol = getSymbol(currency)
         val amount = roundPrice(price)
-        return symbol + Constants.Sep.SPACE + amount
+        return symbol + Constant.Sep.SPACE + amount
     }
 
     fun roundPrice(@StringRes formatRes : Int, price: Double, currency: Currency): String {
@@ -180,8 +179,8 @@ class CurrencyFormatter
         val change =
             getText(R.string.with_change, getText(R.string.positive_ratio_format, dayChange) as Any)
         val format = StringBuilder(coin)
-        format.append(Constants.Sep.SPACE_HYPHEN_SPACE).append(priceValue)
-        format.append(Constants.Sep.COMMA_SPACE).append(change)
+        format.append(Constant.Sep.SPACE_HYPHEN_SPACE).append(priceValue)
+        format.append(Constant.Sep.COMMA_SPACE).append(change)
         return format.toString()
     }
 

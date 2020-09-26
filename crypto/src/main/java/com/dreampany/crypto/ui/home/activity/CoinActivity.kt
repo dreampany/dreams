@@ -18,7 +18,7 @@ import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.manager.AdManager
 import com.dreampany.crypto.misc.exts.setUrl
 import com.dreampany.crypto.misc.func.CurrencyFormatter
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.exts.versionCode
 import com.dreampany.framework.misc.exts.versionName
@@ -56,12 +56,12 @@ class CoinActivity : InjectActivity() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
             val param = HashMap<String, Any>()
-            param.put(Constants.Param.PACKAGE_NAME, packageName)
-            param.put(Constants.Param.VERSION_CODE, versionCode)
-            param.put(Constants.Param.VERSION_NAME, versionName)
-            param.put(Constants.Param.SCREEN, "CoinActivity")
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, "CoinActivity")
 
-            params.put(Constants.Event.ACTIVITY, param)
+            params.put(Constant.Event.ACTIVITY, param)
             return params
         }
 

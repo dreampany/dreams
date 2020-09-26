@@ -2,7 +2,7 @@ package com.dreampany.framework.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.data.enums.ServiceState
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,14 +19,14 @@ class ServicePref
 ) : BasePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constants.Keys.PrefKeys.SERVICE
+        return Constant.Keys.PrefKeys.SERVICE
     }
 
     fun setState(ref: String, state: ServiceState) {
-        setPublicly(ref + Constants.Keys.PrefKeys.SERVICE_STATE, state)
+        setPublicly(ref + Constant.Keys.PrefKeys.SERVICE_STATE, state)
     }
 
     fun getState(ref: String, state: ServiceState): ServiceState {
-        return getPublicly(ref + Constants.Keys.PrefKeys.SERVICE_STATE, ServiceState::class.java, state)
+        return getPublicly(ref + Constant.Keys.PrefKeys.SERVICE_STATE, ServiceState::class.java, state)
     }
 }

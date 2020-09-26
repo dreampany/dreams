@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.history.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
@@ -26,13 +26,13 @@ class HistoryPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
     }
 
     override fun getTitle(position : Int) : String {
-        val fragment = getItem(position) ?: return Constants.Default.STRING
-        val task = fragment.task ?: return Constants.Default.STRING
+        val fragment = getItem(position) ?: return Constant.Default.STRING
+        val task = fragment.task ?: return Constant.Default.STRING
         if (task.state is HistoryState) {
             val state : HistoryState = task.state as HistoryState
             return state.title
         }
-        return Constants.Default.STRING
+        return Constant.Default.STRING
     }
 
     private fun addItems() {

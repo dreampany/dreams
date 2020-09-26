@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.util.ViewInfo
 import com.dreampany.adapter.SpacingItemDecoration
-import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tube.R
 import com.dreampany.tube.databinding.VideoItemBinding
@@ -39,7 +37,7 @@ class FastVideoAdapter(
     private lateinit var footerAdapter: GenericItemAdapter
 
     private val viewComparator: Comparator<GenericItem>
-    var order: String = Constants.Default.STRING
+    var order: String = Constant.Default.STRING
 
     init {
         viewComparator = ViewComparator()

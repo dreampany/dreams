@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.room.converters.Converters
 import com.dreampany.tools.data.source.history.room.dao.HistoryDao
@@ -31,7 +31,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constants.database(context, HistoryConstants.Keys.Room.TYPE_HISTORY)
+                val DATABASE = Constant.database(context, HistoryConstants.Keys.Room.TYPE_HISTORY)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

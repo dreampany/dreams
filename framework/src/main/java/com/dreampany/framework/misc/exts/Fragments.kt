@@ -9,7 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import kotlin.reflect.KClass
 
 /**
@@ -35,7 +35,7 @@ fun <T : Any> Fragment?.open(
 ) {
     this?.run {
         val intent = Intent(activity, target.java)
-        intent.putExtra(Constants.Keys.TASK, task as Parcelable)
+        intent.putExtra(Constant.Keys.TASK, task as Parcelable)
         startActivity(intent)
         if (finishCurrent) {
             activity?.finish()
@@ -51,7 +51,7 @@ fun <T : Any> Fragment?.open(
 ) {
     this?.run {
         val intent = Intent(activity, target.java)
-        intent.putExtra(Constants.Keys.TASK, task as Parcelable)
+        intent.putExtra(Constant.Keys.TASK, task as Parcelable)
         startActivityForResult(intent, requestCode)
         if (finishCurrent) {
             activity?.finish()
@@ -63,10 +63,10 @@ fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*, *, *, *, *>): 
     val instance = clazz.java.newInstance()
     if (instance.arguments == null) {
         val bundle = Bundle()
-        bundle.putParcelable(Constants.Keys.TASK, task)
+        bundle.putParcelable(Constant.Keys.TASK, task)
         instance.arguments = bundle
     } else {
-        instance.arguments?.putParcelable(Constants.Keys.TASK, task)
+        instance.arguments?.putParcelable(Constant.Keys.TASK, task)
     }
     return instance
 }
@@ -77,7 +77,7 @@ val Fragment?.bundle: Bundle?
 val Fragment?.task: Task<*, *, *, *, *>?
     get() {
         val bundle = this.bundle ?: return null
-        return bundle.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
+        return bundle.getParcelable<Parcelable>(Constant.Keys.TASK) as Task<*, *, *, *, *>?
     }
 
 fun <T : View> Fragment?.findViewById(@IdRes id: Int): T? = this?.view?.findViewById(id)

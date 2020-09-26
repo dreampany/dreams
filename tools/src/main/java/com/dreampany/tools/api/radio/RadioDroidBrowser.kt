@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.radio
 
-import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.constant.Constants.Sep.LEAF_SEPARATOR
+import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.constant.Constant.Sep.LEAF_SEPARATOR
 
 
 /**
@@ -13,7 +13,7 @@ import com.dreampany.framework.misc.constant.Constants.Sep.LEAF_SEPARATOR
 class RadioDroidBrowser {
     companion object {
         fun getStationIdOfMediaId(mediaId: String?): String {
-            if (mediaId.isNullOrEmpty()) return Constants.Default.STRING
+            if (mediaId.isNullOrEmpty()) return Constant.Default.STRING
             val separatorIdx = mediaId.indexOf(LEAF_SEPARATOR)
 
             return if (separatorIdx <= 0) mediaId else mediaId.substring(separatorIdx + 1)

@@ -2,7 +2,7 @@ package com.dreampany.framework.misc.func
 
 import android.os.Handler
 import android.os.Looper
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.isOnUiThread
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -99,7 +99,7 @@ private constructor(
 
     /* Network Executor */
     class NetworkThreadExecutor : Executor {
-        private val THREAD_COUNT = Constants.Count.THREAD_NETWORK
+        private val THREAD_COUNT = Constant.Count.THREAD_NETWORK
         private val network: Executor
 
         init {

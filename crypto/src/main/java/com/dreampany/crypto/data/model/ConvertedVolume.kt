@@ -1,7 +1,7 @@
 package com.dreampany.crypto.data.model
 
 import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -18,9 +18,9 @@ data class ConvertedVolume(
 ) : BaseParcel() {
     companion object {
         val DEFAULT = ConvertedVolume(
-            Constants.Default.DOUBLE,
-            Constants.Default.DOUBLE,
-            Constants.Default.DOUBLE
+            Constant.Default.DOUBLE,
+            Constant.Default.DOUBLE,
+            Constant.Default.DOUBLE
         )
     }
 }

@@ -1,8 +1,7 @@
 package com.dreampany.framework.inject.http
 
 import android.content.Context
-import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.exts.isDebug
+import com.dreampany.framework.misc.constant.Constant
 import dagger.Module
 import dagger.Provides
 import okhttp3.ConnectionPool
@@ -34,8 +33,8 @@ class HttpModule {
             interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val client = OkHttpClient.Builder()
-            .readTimeout(Constants.Http.READ_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(Constants.Http.WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(Constant.Http.READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(Constant.Http.WRITE_TIMEOUT, TimeUnit.SECONDS)
             .connectionPool(pool)
             .addInterceptor(interceptor)
             .build()

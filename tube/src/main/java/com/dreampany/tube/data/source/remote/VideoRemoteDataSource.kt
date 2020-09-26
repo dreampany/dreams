@@ -1,7 +1,7 @@
 package com.dreampany.tube.data.source.remote
 
 import android.content.Context
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.decodeBase64
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
@@ -102,7 +102,7 @@ class VideoRemoteDataSource(
             try {
                 val key = keys.nextKey ?: continue
                 val part = "snippet,contentDetails,statistics"
-                val id = ids.joinToString(Constants.Sep.COMMA.toString())
+                val id = ids.joinToString(Constant.Sep.COMMA.toString())
                 val response: Response<VideoListResponse> = service.getVideosOfId(
                     key,
                     part,

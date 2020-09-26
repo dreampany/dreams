@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Parcelable
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import java.util.*
 
 /**
@@ -39,7 +39,7 @@ object Util {
     fun <T : Context> createIntent(source: T, target: Class<*>, task: Task<*,*,*, *, *>?): Intent {
         val intent = Intent(source, target)
         if (task != null) {
-            intent.putExtra(Constants.Keys.TASK, task as Parcelable?)
+            intent.putExtra(Constant.Keys.TASK, task as Parcelable?)
         }
         return intent
     }

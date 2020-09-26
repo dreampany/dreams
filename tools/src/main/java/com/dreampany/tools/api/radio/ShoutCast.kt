@@ -2,7 +2,7 @@ package com.dreampany.tools.api.radio
 
 import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -15,22 +15,22 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class ShoutCast(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var metadataOffset: Int = Constants.Default.INT,
-    var bitrate: Int = Constants.Default.INT,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var metadataOffset: Int = Constant.Default.INT,
+    var bitrate: Int = Constant.Default.INT,
 
-    var audioInfo: String? = Constants.Default.NULL,  // e.g.: ice-audio-info: ice-samplerate=44100;ice-bitrate=128;ice-channels=2
-    var desc: String? = Constants.Default.NULL,
-    var genre: String? = Constants.Default.NULL, // e.g.: icy-genre:Pop / Rock
-    var name: String? = Constants.Default.NULL,
-    var url: String? = Constants.Default.NULL,
+    var audioInfo: String? = Constant.Default.NULL,  // e.g.: ice-audio-info: ice-samplerate=44100;ice-bitrate=128;ice-channels=2
+    var desc: String? = Constant.Default.NULL,
+    var genre: String? = Constant.Default.NULL, // e.g.: icy-genre:Pop / Rock
+    var name: String? = Constant.Default.NULL,
+    var url: String? = Constant.Default.NULL,
 
-    var server: String? = Constants.Default.NULL,  // e.g.: Server: Icecast 2.3.2
-    var public: Boolean = Constants.Default.BOOLEAN,
+    var server: String? = Constant.Default.NULL,  // e.g.: Server: Icecast 2.3.2
+    var public: Boolean = Constant.Default.BOOLEAN,
 
-    var channels: Int = Constants.Default.INT,
-    var sampleRate: Int = Constants.Default.INT
+    var channels: Int = Constant.Default.INT,
+    var sampleRate: Int = Constant.Default.INT
 
 ) : Base() {
 

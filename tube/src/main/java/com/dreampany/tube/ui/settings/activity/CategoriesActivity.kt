@@ -5,7 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.exts.versionCode
@@ -52,12 +52,12 @@ class CategoriesActivity : InjectActivity() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
             val param = HashMap<String, Any>()
-            param.put(Constants.Param.PACKAGE_NAME, packageName)
-            param.put(Constants.Param.VERSION_CODE, versionCode)
-            param.put(Constants.Param.VERSION_NAME, versionName)
-            param.put(Constants.Param.SCREEN, "Tube.CategoriesActivity")
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, "Tube.CategoriesActivity")
 
-            params.put(Constants.Event.ACTIVITY, param)
+            params.put(Constant.Event.ACTIVITY, param)
             return params
         }
 

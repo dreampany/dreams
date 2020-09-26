@@ -1,6 +1,6 @@
 package com.dreampany.tools.misc.constants
 
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 
 /**
  * Created by roman on 15/4/20
@@ -53,7 +53,7 @@ class RadioConstants {
         }
 
         object Station {
-            const val ID = Constants.Keys.ID
+            const val ID = Constant.Keys.ID
             const val CHANGE_UUID = "change_uuid"
             const val STATION_UUID = "station_uuid"
             const val COUNTRY_CODE = "country_code"

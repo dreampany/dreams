@@ -17,7 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.fragment
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.func.Executors
@@ -296,7 +296,7 @@ abstract class BaseActivity : AppCompatActivity(),
                 .setTitle(getString(titleRes))
                 .setMessage(
                     message
-                        ?: if (messageRes != 0) getString(messageRes) else Constants.Default.STRING
+                        ?: if (messageRes != 0) getString(messageRes) else Constant.Default.STRING
                 )
                 .setCancelable(cancellable)
                 .setPositiveButton(

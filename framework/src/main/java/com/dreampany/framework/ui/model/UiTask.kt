@@ -1,13 +1,12 @@
 package com.dreampany.framework.ui.model
 
-import android.os.Parcelable
 import com.dreampany.framework.data.enums.BaseAction
 import com.dreampany.framework.data.enums.BaseState
 import com.dreampany.framework.data.enums.BaseSubtype
 import com.dreampany.framework.data.enums.BaseType
 import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -27,16 +26,16 @@ data class UiTask<
     override var subtype: S,
     override var state: ST,
     override var action: A,
-    override var input: I? = Constants.Default.NULL,
-    override var inputs: List<I>? = Constants.Default.NULL,
-    override var id: String? = Constants.Default.NULL,
-    override var ids: List<String>? = Constants.Default.NULL,
-    override var extra: String? = Constants.Default.NULL,
-    override var extras: List<String>? = Constants.Default.NULL,
-    override var url: String? = Constants.Default.NULL,
-    override var notify: Boolean = Constants.Default.BOOLEAN,
-    override var fullscreen: Boolean = Constants.Default.BOOLEAN,
-    override var collapseToolbar: Boolean = Constants.Default.BOOLEAN
+    override var input: I? = Constant.Default.NULL,
+    override var inputs: List<I>? = Constant.Default.NULL,
+    override var id: String? = Constant.Default.NULL,
+    override var ids: List<String>? = Constant.Default.NULL,
+    override var extra: String? = Constant.Default.NULL,
+    override var extras: List<String>? = Constant.Default.NULL,
+    override var url: String? = Constant.Default.NULL,
+    override var notify: Boolean = Constant.Default.BOOLEAN,
+    override var fullscreen: Boolean = Constant.Default.BOOLEAN,
+    override var collapseToolbar: Boolean = Constant.Default.BOOLEAN
 ) : Task<T, S, ST, A, I>(
     type,
     subtype,

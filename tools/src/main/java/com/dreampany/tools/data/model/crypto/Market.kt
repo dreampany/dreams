@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.model.crypto
 
 import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -17,6 +17,6 @@ data class Market(
     val image: String?
 ) : BaseParcel() {
     companion object {
-        val DEFAULT = Market(Constants.Default.STRING, Constants.Default.STRING, Constants.Default.NULL)
+        val DEFAULT = Market(Constant.Default.STRING, Constant.Default.STRING, Constant.Default.NULL)
     }
 }

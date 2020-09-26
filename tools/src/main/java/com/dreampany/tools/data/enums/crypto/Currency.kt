@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.enums.crypto
 
 import android.os.Parcelable
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -13,8 +13,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 enum class Currency(
     val type: Type,
-    val symbol: String = Constants.Default.STRING,
-    val value: String = Constants.Default.STRING
+    val symbol: String = Constant.Default.STRING,
+    val value: String = Constant.Default.STRING
 ) : Parcelable {
 
     AED(),

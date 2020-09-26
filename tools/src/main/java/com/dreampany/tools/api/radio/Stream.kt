@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.radio
 
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -12,12 +12,12 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Stream(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var title: String? = Constants.Default.NULL,
-    var artist: String? = Constants.Default.NULL,
-    var track: String? = Constants.Default.NULL,
-    var meta: Map<String, String>? = Constants.Default.NULL
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var title: String? = Constant.Default.NULL,
+    var artist: String? = Constant.Default.NULL,
+    var track: String? = Constant.Default.NULL,
+    var meta: Map<String, String>? = Constant.Default.NULL
 ) : Base() {
 
     fun hasArtistAndTrack(): Boolean {

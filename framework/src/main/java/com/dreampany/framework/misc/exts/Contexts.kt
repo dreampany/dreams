@@ -19,7 +19,7 @@ import android.view.WindowManager
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.dreampany.framework.R
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
 import timber.log.Timber
@@ -37,7 +37,7 @@ val Context?.appContext: Context?
     get() = this?.applicationContext
 
 val Context?.deviceId: String
-    get() = if (this == null) Constants.Default.STRING
+    get() = if (this == null) Constant.Default.STRING
     else Settings.Secure.getString(
         contentResolver,
         Settings.Secure.ANDROID_ID
@@ -150,7 +150,7 @@ val Context?.activityManager: ActivityManager?
     get() = this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
 
 
-val Context?.packageName: String get() = appContext?.packageName ?: Constants.Default.STRING
+val Context?.packageName: String get() = appContext?.packageName ?: Constant.Default.STRING
 
 fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
     try {
@@ -210,7 +210,7 @@ fun Context?.versionName(pkg: String?): String {
     } catch (error: PackageManager.NameNotFoundException) {
         Timber.e(error)
     }
-    return Constants.Default.STRING
+    return Constant.Default.STRING
 }
 
 fun Context?.appIconUri(pkg: String?): Uri? {
@@ -250,8 +250,8 @@ fun Context?.kill(pkg: String?) {
 
 val Context?.lastApplicationId: String?
     get() {
-        val applicationId = this.packageName ?: return Constants.Default.NULL
-        return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId))
+        val applicationId = this.packageName ?: return Constant.Default.NULL
+        return Iterables.getLast(Splitter.on(Constant.Sep.DOT).trimResults().split(applicationId))
     }
 
 fun Context.formatString(@StringRes formatRes: Int, vararg values: Any): String =

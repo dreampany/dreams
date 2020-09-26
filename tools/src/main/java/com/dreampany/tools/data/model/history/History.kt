@@ -5,7 +5,7 @@ import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Link
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.history.HistorySource
 import com.dreampany.tools.data.enums.history.HistoryState
@@ -24,23 +24,23 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class History(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
     var source: HistorySource = HistorySource.DEFAULT,
     var state: HistoryState = HistoryState.DEFAULT,
-    var day: Int = Constants.Default.INT,
-    var month: Int = Constants.Default.INT,
-    var year: Int = Constants.Default.INT,
-    var text: String? = Constants.Default.NULL,
-    var html: String? = Constants.Default.NULL,
-    var url: String? = Constants.Default.NULL,
-    var links : List<Link>? = Constants.Default.NULL
+    var day: Int = Constant.Default.INT,
+    var month: Int = Constant.Default.INT,
+    var year: Int = Constant.Default.INT,
+    var text: String? = Constant.Default.NULL,
+    var html: String? = Constant.Default.NULL,
+    var url: String? = Constant.Default.NULL,
+    var links : List<Link>? = Constant.Default.NULL
 ) : Base() {
 
     @Ignore

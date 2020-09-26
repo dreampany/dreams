@@ -2,7 +2,7 @@ package com.dreampany.tube.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Category
@@ -38,7 +38,7 @@ class AppPref
     }
 
     val isCategoriesSelected: Boolean
-        get() = getPrivately(AppConstants.Keys.Pref.CATEGORY, Constants.Default.BOOLEAN)
+        get() = getPrivately(AppConstants.Keys.Pref.CATEGORY, Constant.Default.BOOLEAN)
 
     @Synchronized
     fun commitExpireTimeOfCategory() {
@@ -53,7 +53,7 @@ class AppPref
         val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
             append(AppConstants.Keys.Pref.CATEGORY)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -70,7 +70,7 @@ class AppPref
             append(AppConstants.Keys.Pref.SEARCH)
             append(query)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -90,7 +90,7 @@ class AppPref
             append(categoryId)
             append(offset)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -108,7 +108,7 @@ class AppPref
             append(AppConstants.Keys.Pref.VIDEO)
             append(id)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -120,7 +120,7 @@ class AppPref
     val categories: List<Category>?
         get() {
             val json =
-                getPrivately(AppConstants.Keys.Pref.CATEGORIES, Constants.Default.NULL as String?)
+                getPrivately(AppConstants.Keys.Pref.CATEGORIES, Constant.Default.NULL as String?)
             if (json.isNullOrEmpty()) {
                 return null
             } else {

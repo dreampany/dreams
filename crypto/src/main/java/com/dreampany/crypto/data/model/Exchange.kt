@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
@@ -21,26 +21,26 @@ import kotlinx.android.parcel.Parcelize
 //@IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Exchange(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var market: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var market: String = Constant.Default.STRING,
     @ColumnInfo(name = AppConstants.Keys.Exchange.FROM_SYMBOL)
-    private var fromSymbol: String = Constants.Default.STRING,
+    private var fromSymbol: String = Constant.Default.STRING,
     @ColumnInfo(name = AppConstants.Keys.Exchange.TO_SYMBOL)
-    private var toSymbol: String = Constants.Default.STRING,
-    var price: Double = Constants.Default.DOUBLE,
+    private var toSymbol: String = Constant.Default.STRING,
+    var price: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Exchange.VOLUME_24H)
-    private var volume24h: Double = Constants.Default.DOUBLE,
+    private var volume24h: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Exchange.CHANGE_24H)
-    private var change24h: Double = Constants.Default.DOUBLE,
+    private var change24h: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Exchange.CHANGE_PCT_24H)
-    private var changePct24h: Double = Constants.Default.DOUBLE
+    private var changePct24h: Double = Constant.Default.DOUBLE
 ) : Base() {
 
     @Ignore

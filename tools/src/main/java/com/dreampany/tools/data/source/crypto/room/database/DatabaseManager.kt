@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.room.converters.Converters
@@ -33,7 +33,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constants.database(context, CryptoConstants.Keys.Room.TYPE_CRYPTO)
+                val DATABASE = Constant.database(context, CryptoConstants.Keys.Room.TYPE_CRYPTO)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

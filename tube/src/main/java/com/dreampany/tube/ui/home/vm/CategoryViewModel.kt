@@ -1,7 +1,7 @@
 package com.dreampany.tube.ui.home.vm
 
 import android.app.Application
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.countryCode
 import com.dreampany.framework.misc.exts.toTitle
 import com.dreampany.framework.misc.func.ResponseMapper
@@ -96,7 +96,7 @@ class CategoryViewModel
 
     private fun regionCategory() : Category {
         val regionCode = getApplication<App>().countryCode
-        val name = Locale(Constants.Default.STRING, regionCode).displayName
+        val name = Locale(Constant.Default.STRING, regionCode).displayName
         val category = Category(regionCode)
         category.title = name
         category.type = CategoryType.REGION

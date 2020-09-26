@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.history.mapper
 import com.dreampany.framework.data.model.Link
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.tools.api.history.WikiHistory
 import com.dreampany.tools.api.history.WikiHistoryData
@@ -183,7 +183,7 @@ class HistoryMapper
         Timber.v("Resolved History: %s", input.text.substring(0, 10))
         val day = date.getDay(HistoryConstants.Date.FORMAT_MONTH_DAY)
         val month = date.getMonth(HistoryConstants.Date.FORMAT_MONTH_DAY)
-        val year = input.year.firstPart(Constants.Sep.SPACE)?.toIntOrNull() ?: Constants.Default.INT
+        val year = input.year.firstPart(Constant.Sep.SPACE)?.toIntOrNull() ?: Constant.Default.INT
         val id = state.value.append(year.toString(), month.toString(), day.toString())
         var out: History? = histories.get(id)
         if (out == null) {

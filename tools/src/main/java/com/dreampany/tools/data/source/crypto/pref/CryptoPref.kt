@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.crypto.pref
 import android.content.Context
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
@@ -61,7 +61,7 @@ class CryptoPref
             append(order.name)
             append(offset)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -81,7 +81,7 @@ class CryptoPref
             append(id)
             append(currency.name)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized

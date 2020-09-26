@@ -166,13 +166,13 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger"
 
     /* firebase */
-    implementation 'com.google.firebase:firebase-core:17.5.0'
+    //implementation 'com.google.firebase:firebase-core:17.5.0'
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     //implementation 'com.google.firebase:firebase-crashlytics-ndk:17.0.0'
     implementation 'com.google.firebase:firebase-perf:19.0.8'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
-    implementation 'com.google.firebase:firebase-ads:19.3.0'
+    implementation 'com.google.firebase:firebase-ads:19.4.0'
 
     /* google */
     implementation 'com.google.android.gms:play-services-location:17.0.0'

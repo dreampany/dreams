@@ -4,7 +4,7 @@ import androidx.room.*
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -18,23 +18,23 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Article(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
     @Embedded
-    var source: Source? = Constants.Default.NULL,
-    var author: String? = Constants.Default.NULL,
-    var title: String = Constants.Default.STRING,
-    var description: String? = Constants.Default.NULL,
-    var content: String? = Constants.Default.NULL,
-    var url: String = Constants.Default.STRING,
-    var imageUrl: String? = Constants.Default.NULL,
-    var publishedAt: Long = Constants.Default.LONG
+    var source: Source? = Constant.Default.NULL,
+    var author: String? = Constant.Default.NULL,
+    var title: String = Constant.Default.STRING,
+    var description: String? = Constant.Default.NULL,
+    var content: String? = Constant.Default.NULL,
+    var url: String = Constant.Default.STRING,
+    var imageUrl: String? = Constant.Default.NULL,
+    var publishedAt: Long = Constant.Default.LONG
 ) : Base() {
 
     @Ignore

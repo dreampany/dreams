@@ -1,7 +1,7 @@
 package com.dreampany.framework.data.source.pref
 
 import android.content.Context
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.github.pwittchen.prefser.library.rx2.Prefser
 
 /**
@@ -23,7 +23,7 @@ abstract class BasePref(val context: Context) {
     }
 
     open fun getPrivateName(context: Context): String {
-        return Constants.Keys.PrefKeys.DEFAULT
+        return Constant.Keys.PrefKeys.DEFAULT
     }
 
     fun hasPublic(key: String): Boolean {

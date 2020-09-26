@@ -1,7 +1,7 @@
 package com.dreampany.framework.data.enums
 
 import android.os.Parcelable
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -14,6 +14,6 @@ import kotlinx.android.parcel.Parcelize
 enum class Order(
     val value: String
 ) : Parcelable {
-    ASCENDING(Constants.Values.Order.ASCENDING),
-    DESCENDING(Constants.Values.Order.DESCENDING)
+    ASCENDING(Constant.Values.Order.ASCENDING),
+    DESCENDING(Constant.Values.Order.DESCENDING)
 }

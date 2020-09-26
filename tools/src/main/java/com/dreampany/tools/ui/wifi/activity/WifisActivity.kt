@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
@@ -31,7 +31,6 @@ import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.wifi.adapter.FastWifiAdapter
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import com.dreampany.tools.ui.wifi.vm.WifiViewModel
-import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -64,12 +63,12 @@ class WifisActivity : InjectActivity() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
             val param = HashMap<String, Any>()
-            param.put(Constants.Param.PACKAGE_NAME, packageName)
-            param.put(Constants.Param.VERSION_CODE, versionCode)
-            param.put(Constants.Param.VERSION_NAME, versionName)
-            param.put(Constants.Param.SCREEN, "WifisActivity")
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, "WifisActivity")
 
-            params.put(Constants.Event.ACTIVITY, param)
+            params.put(Constant.Event.ACTIVITY, param)
             return params
         }
 

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tube.data.enums.CategoryType
 import com.google.common.base.Objects
@@ -19,18 +19,18 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Category(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
     var type : CategoryType = CategoryType.DEFAULT,
-    var title: String? = Constants.Default.NULL,
-    var channelId: String? = Constants.Default.NULL,
-    var assignable: Boolean = Constants.Default.BOOLEAN
+    var title: String? = Constant.Default.NULL,
+    var channelId: String? = Constant.Default.NULL,
+    var assignable: Boolean = Constant.Default.BOOLEAN
 ) : Base() {
 
     @Ignore

@@ -1,7 +1,7 @@
 package com.dreampany.tools.misc.constants
 
 import android.content.Intent
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import java.util.concurrent.TimeUnit
 
 /**
@@ -63,10 +63,10 @@ class AppConstants {
     }
 
     object Notify {
-        const val FOREGROUND_ID = Constants.Notify.FOREGROUND_ID
+        const val FOREGROUND_ID = Constant.Notify.FOREGROUND_ID
         const val PLAYER_FOREGROUND_ID = 104
-        const val FOREGROUND_CHANNEL_ID = Constants.Notify.FOREGROUND_CHANNEL_ID
-        const val PLAYER_FOREGROUND_CHANNEL_ID = "player_" + Constants.Notify.FOREGROUND_CHANNEL_ID
+        const val FOREGROUND_CHANNEL_ID = Constant.Notify.FOREGROUND_CHANNEL_ID
+        const val PLAYER_FOREGROUND_CHANNEL_ID = "player_" + Constant.Notify.FOREGROUND_CHANNEL_ID
     }
 
     object Times {

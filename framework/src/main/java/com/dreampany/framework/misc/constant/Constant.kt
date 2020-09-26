@@ -11,7 +11,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class Constants {
+class Constant {
     companion object {
         fun database(context: Context?): String {
             return lastAppId(context).plus(Sep.DOT).plus(Room.POST_FIX_DB)
@@ -32,7 +32,7 @@ class Constants {
         }
 
         fun lastAppId(context: Context?): String =
-            context.lastApplicationId ?: Constants.Default.STRING
+            context.lastApplicationId ?: Constant.Default.STRING
 
         fun more(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
         fun about(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
@@ -15,7 +15,6 @@ import com.dreampany.tools.data.enums.home.Subtype
 import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.home.Feature
 import com.dreampany.tools.databinding.HomeFragmentBinding
-import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import com.dreampany.tools.ui.history.activity.HistoriesActivity
 import com.dreampany.tools.ui.home.adapter.FastFeatureAdapter
@@ -50,12 +49,12 @@ class HomeFragment
             val params = HashMap<String, HashMap<String, Any>?>()
 
             val param = HashMap<String, Any>()
-            param.put(Constants.Param.PACKAGE_NAME, parentRef.packageName)
-            param.put(Constants.Param.VERSION_CODE, parentRef.versionCode)
-            param.put(Constants.Param.VERSION_NAME, parentRef.versionName)
-            param.put(Constants.Param.SCREEN, "Tools.HomeFragment")
+            param.put(Constant.Param.PACKAGE_NAME, parentRef.packageName)
+            param.put(Constant.Param.VERSION_CODE, parentRef.versionCode)
+            param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
+            param.put(Constant.Param.SCREEN, "Tools.HomeFragment")
 
-            params.put(Constants.Event.ACTIVITY, param)
+            params.put(Constant.Event.ACTIVITY, param)
             return params
         }
 

@@ -3,7 +3,7 @@ package com.dreampany.framework.misc.exts
 import android.text.Spanned
 import android.util.Patterns
 import androidx.core.text.HtmlCompat
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.google.common.io.BaseEncoding
 
 /**
@@ -15,7 +15,7 @@ import com.google.common.io.BaseEncoding
 /*fun String.hash256(): String = Hashing.sha256().newHasher()
     .putString(this, Charsets.UTF_8).hash().toString()*/
 
-fun String?.string(): String = this ?: Constants.Default.STRING
+fun String?.string(): String = this ?: Constant.Default.STRING
 
 fun String?.isEquals(value: String?): Boolean = this == value
 
@@ -57,10 +57,10 @@ fun String.toTitle(): String {
 }
 
 val CharSequence?.value: String
-    get() = if (this == null) Constants.Default.STRING else this.toString()
+    get() = if (this == null) Constant.Default.STRING else this.toString()
 
 val CharSequence?.trimValue: String
-    get() = if (this == null) Constants.Default.STRING else this.trim().toString()
+    get() = if (this == null) Constant.Default.STRING else this.trim().toString()
 
 val String?.html: Spanned get() = HtmlCompat.fromHtml(this.string(), HtmlCompat.FROM_HTML_MODE_COMPACT)
 

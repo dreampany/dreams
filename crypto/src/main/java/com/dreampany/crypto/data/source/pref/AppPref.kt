@@ -6,7 +6,7 @@ import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -60,7 +60,7 @@ class AppPref
             append(order.name)
             append(offset)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
@@ -80,7 +80,7 @@ class AppPref
             append(id)
             append(currency.name)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized

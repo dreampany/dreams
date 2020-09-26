@@ -13,7 +13,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.func.Executors
 import kotlinx.coroutines.Runnable
 import timber.log.Timber
@@ -55,7 +55,7 @@ fun <T : Any> Activity?.open(
 ) {
     this?.run {
         val intent = Intent(this, target.java)
-        intent.putExtra(Constants.Keys.TASK, task as Parcelable)
+        intent.putExtra(Constant.Keys.TASK, task as Parcelable)
         startActivity(intent)
         if (finishCurrent) {
             finish()
@@ -66,7 +66,7 @@ fun <T : Any> Activity?.open(
 fun <T : Any> Activity?.open(target: KClass<T>, task: Task<*, *, *, *, *>, requestCode: Int) {
     this?.run {
         val intent = Intent(this, target.java)
-        intent.putExtra(Constants.Keys.TASK, task as Parcelable)
+        intent.putExtra(Constant.Keys.TASK, task as Parcelable)
         startActivityForResult(intent, requestCode)
     }
 }
@@ -83,7 +83,7 @@ fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: 
 fun Activity?.close(task: Task<*, *, *, *, *>? = null) {
     this?.run {
         val intent = Intent()
-        task?.let { intent.putExtra(Constants.Keys.TASK, it as Parcelable) }
+        task?.let { intent.putExtra(Constant.Keys.TASK, it as Parcelable) }
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -116,13 +116,13 @@ val Intent?.bundle: Bundle? get() = this?.extras
 val Activity?.bundle: Bundle? get() = this?.intent?.bundle
 
 val Bundle?.task: Task<*, *, *, *, *>?
-    get() = this?.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
+    get() = this?.getParcelable<Parcelable>(Constant.Keys.TASK) as Task<*, *, *, *, *>?
 
 val Intent?.task: Task<*, *, *, *, *>?
     get() = this.bundle.task
 
 val Activity?.task: Task<*, *, *, *, *>?
-    get() = this.bundle?.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
+    get() = this.bundle?.getParcelable<Parcelable>(Constant.Keys.TASK) as Task<*, *, *, *, *>?
 
 fun Activity?.moreApps(devId: String) {
     if (this == null) return

@@ -1,7 +1,6 @@
 package com.dreampany.crypto.ui.home.activity
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.crypto.data.source.pref.AppPref
@@ -19,9 +18,8 @@ import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.ui.home.model.CoinItem
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
-import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,12 +50,12 @@ class FavoriteCoinsActivity : InjectActivity() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
             val param = HashMap<String, Any>()
-            param.put(Constants.Param.PACKAGE_NAME, packageName)
-            param.put(Constants.Param.VERSION_CODE, versionCode)
-            param.put(Constants.Param.VERSION_NAME, versionName)
-            param.put(Constants.Param.SCREEN, "FavoriteCoinsActivity")
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, "FavoriteCoinsActivity")
 
-            params.put(Constants.Event.ACTIVITY, param)
+            params.put(Constant.Event.ACTIVITY, param)
             return params
         }
 

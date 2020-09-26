@@ -3,7 +3,7 @@ package com.dreampany.crypto.data.source.pref
 import android.content.Context
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.dreampany.framework.data.source.pref.BasePref
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +29,7 @@ class NewsPref
             append(language)
             append(offset)
         }
-        return getPrivately(key.toString(), Constants.Default.LONG)
+        return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.misc.constants.AppConstants
@@ -22,28 +22,28 @@ import kotlinx.android.parcel.Parcelize
 //@IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID, AppConstants.Keys.Quote.CURRENCY],
+        value = [Constant.Keys.ID, AppConstants.Keys.Quote.CURRENCY],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID, AppConstants.Keys.Quote.CURRENCY]
+    primaryKeys = [Constant.Keys.ID, AppConstants.Keys.Quote.CURRENCY]
 )
 data class Quote(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
     var currency: Currency = Currency.USD,
-    var price: Double = Constants.Default.DOUBLE,
+    var price: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Quote.VOLUME_24H)
-    private var volume24h: Double = Constants.Default.DOUBLE,
+    private var volume24h: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Quote.MARKET_CAP)
-    private var marketCap: Double = Constants.Default.DOUBLE,
+    private var marketCap: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_1H)
-    private var change1h: Double = Constants.Default.DOUBLE,
+    private var change1h: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_24H)
-    private var change24h: Double = Constants.Default.DOUBLE,
+    private var change24h: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_7D)
-    private var change7d: Double = Constants.Default.DOUBLE,
+    private var change7d: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Quote.LAST_UPDATED)
-    private var lastUpdated: Long = Constants.Default.LONG
+    private var lastUpdated: Long = Constant.Default.LONG
 ) : Base() {
 
     @Ignore

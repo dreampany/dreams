@@ -2,7 +2,7 @@ package com.dreampany.tools.data.model.crypto
 
 import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -15,18 +15,18 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Ticker(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var base: String = Constants.Default.STRING,
-    var target: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var base: String = Constant.Default.STRING,
+    var target: String = Constant.Default.STRING,
     var market: Market = Market.DEFAULT,
-    var last: Double = Constants.Default.DOUBLE,
-    var volume: Double = Constants.Default.DOUBLE,
+    var last: Double = Constant.Default.DOUBLE,
+    var volume: Double = Constant.Default.DOUBLE,
     var convertedLast: ConvertedLast = ConvertedLast.DEFAULT,
     var convertedVolume: ConvertedVolume = ConvertedVolume.DEFAULT,
-    var timestamp: Long = Constants.Default.LONG,
-    var lastTradedAt: Long = Constants.Default.LONG,
-    var lastFetchAt: Long = Constants.Default.LONG
+    var timestamp: Long = Constant.Default.LONG,
+    var lastTradedAt: Long = Constant.Default.LONG,
+    var lastFetchAt: Long = Constant.Default.LONG
 ) : Base() {
 
     @Ignore

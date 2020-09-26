@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -18,17 +18,17 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Note(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var title: String = Constants.Default.STRING,
-    var description: String? = Constants.Default.NULL,
-    var tags: List<String>? = Constants.Default.NULL
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var title: String = Constant.Default.STRING,
+    var description: String? = Constant.Default.NULL,
+    var tags: List<String>? = Constant.Default.NULL
 ) : Base() {
 
     @Ignore

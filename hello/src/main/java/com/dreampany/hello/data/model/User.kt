@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -20,19 +20,19 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class User(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var name: String? = Constants.Default.NULL,
-    var photo : String? = Constants.Default.NULL,
-    var email : String? = Constants.Default.NULL,
-    var phone : String? = Constants.Default.NULL,
-    var age : Int = Constants.Default.INT
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var name: String? = Constant.Default.NULL,
+    var photo : String? = Constant.Default.NULL,
+    var email : String? = Constant.Default.NULL,
+    var phone : String? = Constant.Default.NULL,
+    var age : Int = Constant.Default.INT
 ) : Base() {
 
     @Ignore

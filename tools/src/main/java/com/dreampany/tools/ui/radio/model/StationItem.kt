@@ -3,7 +3,7 @@ package com.dreampany.tools.ui.radio.model
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.context
 import com.dreampany.framework.misc.exts.gone
 import com.dreampany.tools.R
@@ -76,6 +76,6 @@ class StationItem(
         station.state?.run {
             subtitle.add(this)
         }
-        return subtitle.joinToString(separator = Constants.Sep.SPACE.toString())
+        return subtitle.joinToString(separator = Constant.Sep.SPACE.toString())
     }
 }

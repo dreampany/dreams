@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 
 /**
  * Created by roman on 16/4/20
@@ -31,7 +31,7 @@ abstract class BasePagerAdapter<T : Fragment>(val activity: AppCompatActivity) :
 
     open fun getTitle(position: Int): String {
         val item = items.get(position)
-        val title = titles.get(item) ?: return Constants.Default.STRING
+        val title = titles.get(item) ?: return Constant.Default.STRING
         return title
     }
 

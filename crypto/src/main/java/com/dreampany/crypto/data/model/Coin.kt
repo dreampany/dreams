@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.data.enums.Currency
@@ -25,34 +25,34 @@ import java.util.*
 //@IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Coin(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var name: String = Constants.Default.STRING,
-    var symbol: String = Constants.Default.STRING,
-    var slug: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var name: String = Constant.Default.STRING,
+    var symbol: String = Constant.Default.STRING,
+    var slug: String = Constant.Default.STRING,
     @ColumnInfo(name = AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
-    private var circulatingSupply: Double = Constants.Default.DOUBLE,
+    private var circulatingSupply: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Coin.MAX_SUPPLY)
-    private var maxSupply: Double = Constants.Default.DOUBLE,
+    private var maxSupply: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Coin.TOTAL_SUPPLY)
-    private var totalSupply: Double = Constants.Default.DOUBLE,
+    private var totalSupply: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Coin.MARKET_PAIRS)
-    private var marketPairs: Int = Constants.Default.INT,
-    var rank: Int = Constants.Default.INT,
+    private var marketPairs: Int = Constant.Default.INT,
+    var rank: Int = Constant.Default.INT,
     @Ignore
     //@Exclude
     var quotes: HashMap<Currency, Quote> = Maps.newHashMap(),
-    var tags: List<String>? = Constants.Default.NULL,
+    var tags: List<String>? = Constant.Default.NULL,
     @ColumnInfo(name = AppConstants.Keys.Coin.DATE_ADDED)
-    private var dateAdded: Long = Constants.Default.LONG,
+    private var dateAdded: Long = Constant.Default.LONG,
     @ColumnInfo(name = AppConstants.Keys.Coin.LAST_UPDATED)
-    private var lastUpdated: Long = Constants.Default.LONG
+    private var lastUpdated: Long = Constant.Default.LONG
 ) : Base() {
 
     @Ignore

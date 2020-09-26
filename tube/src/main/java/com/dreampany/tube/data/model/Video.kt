@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -18,32 +18,32 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Video(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var title: String? = Constants.Default.NULL,
-    var description: String? = Constants.Default.NULL,
-    var thumbnail: String? = Constants.Default.NULL,
-    var channelId: String? = Constants.Default.NULL,
-    var channelTitle: String? = Constants.Default.NULL,
-    var categoryId: String? = Constants.Default.NULL,
-    var tags: List<String>? = Constants.Default.NULL,
-    var liveBroadcastContent: String? = Constants.Default.NULL,
-    var duration: String? = Constants.Default.NULL,
-    var dimension: String? = Constants.Default.NULL,
-    var definition: String? = Constants.Default.NULL,
-    var licensedContent: Boolean = Constants.Default.BOOLEAN,
-    var viewCount: Long = Constants.Default.LONG,
-    var likeCount: Long = Constants.Default.LONG,
-    var dislikeCount: Long = Constants.Default.LONG,
-    var favoriteCount: Long = Constants.Default.LONG,
-    var commentCount: Long = Constants.Default.LONG,
-    var publishedAt: Long = Constants.Default.LONG
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var title: String? = Constant.Default.NULL,
+    var description: String? = Constant.Default.NULL,
+    var thumbnail: String? = Constant.Default.NULL,
+    var channelId: String? = Constant.Default.NULL,
+    var channelTitle: String? = Constant.Default.NULL,
+    var categoryId: String? = Constant.Default.NULL,
+    var tags: List<String>? = Constant.Default.NULL,
+    var liveBroadcastContent: String? = Constant.Default.NULL,
+    var duration: String? = Constant.Default.NULL,
+    var dimension: String? = Constant.Default.NULL,
+    var definition: String? = Constant.Default.NULL,
+    var licensedContent: Boolean = Constant.Default.BOOLEAN,
+    var viewCount: Long = Constant.Default.LONG,
+    var likeCount: Long = Constant.Default.LONG,
+    var dislikeCount: Long = Constant.Default.LONG,
+    var favoriteCount: Long = Constant.Default.LONG,
+    var commentCount: Long = Constant.Default.LONG,
+    var publishedAt: Long = Constant.Default.LONG
 ) : Base() {
 
     @Ignore

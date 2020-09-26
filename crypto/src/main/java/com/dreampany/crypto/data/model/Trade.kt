@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.misc.constants.AppConstants
 import com.google.common.base.Objects
@@ -20,23 +20,23 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Trade(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var exchange: String = Constants.Default.STRING,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var exchange: String = Constant.Default.STRING,
     @ColumnInfo(name = AppConstants.Keys.Trade.FROM_SYMBOL)
-    private var fromSymbol: String = Constants.Default.STRING,
+    private var fromSymbol: String = Constant.Default.STRING,
     @ColumnInfo(name = AppConstants.Keys.Trade.TO_SYMBOL)
-    private var toSymbol: String = Constants.Default.STRING,
+    private var toSymbol: String = Constant.Default.STRING,
     @ColumnInfo(name = AppConstants.Keys.Trade.VOLUME_24H)
-    private var volume24h: Double = Constants.Default.DOUBLE,
+    private var volume24h: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = AppConstants.Keys.Trade.VOLUME_24H_TO)
-    private var volume24hTo: Double = Constants.Default.DOUBLE
+    private var volume24hTo: Double = Constant.Default.DOUBLE
 ) : Base() {
 
     @Ignore

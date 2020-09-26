@@ -6,7 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.func.TextChangeListener
@@ -49,8 +49,8 @@ class NoteActivity : InjectActivity() {
     private var changed: Boolean = false
     private var state: NoteState = NoteState.DEFAULT
 
-    private var noteTitle: String = Constants.Default.STRING
-    private var noteDescription: String = Constants.Default.STRING
+    private var noteTitle: String = Constant.Default.STRING
+    private var noteDescription: String = Constant.Default.STRING
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.note_activity

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.wifi.Security
 import com.google.common.base.Objects
@@ -20,19 +20,19 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Keys.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Keys.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Wifi(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING,
-    var ssid: String = Constants.Default.STRING,
-    var bssid: String = Constants.Default.STRING,
-    var capabilities: String? = Constants.Default.NULL,
+    override var time: Long = Constant.Default.LONG,
+    override var id: String = Constant.Default.STRING,
+    var ssid: String = Constant.Default.STRING,
+    var bssid: String = Constant.Default.STRING,
+    var capabilities: String? = Constant.Default.NULL,
     @Embedded
-    var signal: Signal? = Constants.Default.NULL
+    var signal: Signal? = Constant.Default.NULL
     /*,
     var level : Int = Constants.Default.INT,
     var frequency : Int = Constants.Default.INT,

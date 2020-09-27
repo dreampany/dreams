@@ -6,7 +6,7 @@ package com.dreampany.hello.misc
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AppConstants {
+class Constants {
     object Keys {
         const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
         const val PHOTO_EXTENSION = ".jpg"

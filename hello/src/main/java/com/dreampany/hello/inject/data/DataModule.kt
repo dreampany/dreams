@@ -1,5 +1,6 @@
 package com.dreampany.hello.inject.data
 
+import com.dreampany.framework.inject.data.DatabaseModule
 import dagger.Module
 
 /**
@@ -8,6 +9,11 @@ import dagger.Module
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Module(includes = [UserModule::class])
+@Module(
+    includes = [
+        DatabaseModule::class,
+        UserModule::class
+    ]
+)
 class DataModule {
 }

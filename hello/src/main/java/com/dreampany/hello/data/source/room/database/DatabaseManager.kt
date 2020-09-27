@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.room.convert.Converters
 import com.dreampany.hello.data.source.room.dao.UserDao
-import com.dreampany.hello.misc.AppConstants
+import com.dreampany.hello.misc.Constants
 
 /**
  * Created by roman on 26/9/20
@@ -31,7 +31,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, AppConstants.Keys.Room.TYPE_USER)
+                val DATABASE = Constant.database(context, Constants.Keys.Room.TYPE_USER)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

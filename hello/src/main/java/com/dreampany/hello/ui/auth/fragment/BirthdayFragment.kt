@@ -7,10 +7,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import com.dreampany.framework.R
 import com.dreampany.framework.misc.exts.dayOfMonth
 import com.dreampany.framework.misc.exts.month
 import com.dreampany.framework.misc.exts.year
+import com.dreampany.hello.R
 import java.util.*
 
 /**
@@ -34,7 +34,7 @@ class BirthdayFragment : DialogFragment() {
         val activity = requireActivity()
         return DatePickerDialog(
             activity,
-            R.style.Theme_DatePicker,
+           R.style.Theme_DatePicker,
             activity as DatePickerDialog.OnDateSetListener,
             year,
             month,

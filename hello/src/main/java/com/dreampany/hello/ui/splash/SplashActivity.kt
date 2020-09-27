@@ -1,15 +1,11 @@
 package com.dreampany.hello.ui.splash
 
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.encodeBase64
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.hello.R
-import com.dreampany.hello.api.ApiConstants
-import com.dreampany.hello.ui.auth.AuthActivity
-import com.dreampany.hello.ui.home.activity.HomeActivity
+import com.dreampany.hello.ui.auth.activity.AuthActivity
 import kotlinx.coroutines.Runnable
-import timber.log.Timber
 
 /**
  * Created by roman on 3/10/20

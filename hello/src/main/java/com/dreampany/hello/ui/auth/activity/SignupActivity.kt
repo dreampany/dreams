@@ -1,13 +1,15 @@
-package com.dreampany.hello.ui.auth
+package com.dreampany.hello.ui.auth.activity
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.exts.decodeBase64
+import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.hello.R
 import com.dreampany.hello.api.ApiConstants
 import com.dreampany.hello.data.enums.Action
@@ -15,7 +17,7 @@ import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.User
-import com.dreampany.hello.databinding.LoginActivityBinding
+import com.dreampany.hello.databinding.SignupActivityBinding
 import com.dreampany.hello.misc.user
 import com.dreampany.hello.ui.vm.UserViewModel
 import com.facebook.AccessToken
@@ -45,13 +47,13 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class LoginActivity : InjectActivity() {
+class SignupActivity : InjectActivity() {
 
     companion object {
         const val RC_GOOGLE_SIGN_IN = 101
     }
 
-    private lateinit var bind: LoginActivityBinding
+    private lateinit var bind: SignupActivityBinding
     private lateinit var vm: UserViewModel
 
     private lateinit var auth: FirebaseAuth
@@ -59,7 +61,7 @@ class LoginActivity : InjectActivity() {
     private lateinit var manager: CallbackManager
 
     override val homeUp: Boolean = true
-    override val layoutRes: Int = R.layout.login_activity
+    override val layoutRes: Int = R.layout.signup_activity
     override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
@@ -74,7 +76,7 @@ class LoginActivity : InjectActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val result = manager.onActivityResult(requestCode, resultCode, data)
         if (result) return
-        if (requestCode == SignupActivity.RC_GOOGLE_SIGN_IN) {
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleResult(task)
         }
@@ -101,6 +103,7 @@ class LoginActivity : InjectActivity() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(ApiConstants.Api.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
             .requestEmail()
+            .requestProfile()
             .build()
         client = GoogleSignIn.getClient(this, gso)
 
@@ -123,7 +126,7 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun loginGoogle() {
-        startActivityForResult(client.signInIntent, SignupActivity.RC_GOOGLE_SIGN_IN)
+        startActivityForResult(client.signInIntent, RC_GOOGLE_SIGN_IN)
     }
 
     private fun loginFacebook() {
@@ -139,7 +142,7 @@ class LoginActivity : InjectActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser?.user ?: return@addOnCompleteListener
-                    vm.write(user)
+                    processResult(user)
                 } else {
 
                 }
@@ -197,7 +200,14 @@ class LoginActivity : InjectActivity() {
 
     private fun processResult(result: User?) {
         if (result != null) {
-
+            val task = UiTask(
+                Type.USER,
+                Subtype.DEFAULT,
+                State.DEFAULT,
+                Action.DEFAULT,
+                result
+            )
+            open(AuthInfoActivity::class, task)
         }
     }
 }

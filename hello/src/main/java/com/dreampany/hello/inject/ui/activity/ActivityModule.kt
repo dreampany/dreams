@@ -1,15 +1,13 @@
 package com.dreampany.hello.inject.ui.activity
 
-import com.dreampany.hello.ui.web.WebActivity
 import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.hello.inject.ui.auth.AuthModule
 import com.dreampany.hello.inject.ui.home.HomeModule
 import com.dreampany.hello.inject.ui.more.MoreModule
 import com.dreampany.hello.inject.ui.settings.SettingsModule
-import com.dreampany.hello.ui.auth.AuthActivity
-import com.dreampany.hello.ui.auth.LoginActivity
-import com.dreampany.hello.ui.auth.SignupActivity
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.splash.SplashActivity
+import com.dreampany.hello.ui.web.WebActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -19,19 +17,15 @@ import dagger.android.ContributesAndroidInjector
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Module
+@Module(
+    includes = [
+        AuthModule::class
+    ]
+)
 abstract class ActivityModule {
+
     @ContributesAndroidInjector
     abstract fun splash(): SplashActivity
-
-    @ContributesAndroidInjector
-    abstract fun auth(): AuthActivity
-
-    @ContributesAndroidInjector
-    abstract fun singup(): SignupActivity
-
-    @ContributesAndroidInjector
-    abstract fun login(): LoginActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class, SettingsModule::class])

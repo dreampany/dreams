@@ -1,4 +1,4 @@
-package com.dreampany.hello.ui.auth
+package com.dreampany.hello.ui.auth.activity
 
 import android.os.Bundle
 import com.dreampany.framework.misc.exts.open

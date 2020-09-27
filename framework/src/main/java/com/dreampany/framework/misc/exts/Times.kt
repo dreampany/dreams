@@ -4,7 +4,6 @@ import android.text.format.DateUtils
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.Duration
 import java.util.*
 
 /**
@@ -16,12 +15,12 @@ import java.util.*
 private val UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 private val SIMPLE_UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 
-val Calendar.day: Int get() = this.get(Calendar.DAY_OF_MONTH)
+val Calendar.dayOfMonth: Int get() = this.get(Calendar.DAY_OF_MONTH)
 val Calendar.month: Int get() = this.get(Calendar.MONTH).inc()
 val Calendar.year: Int get() = this.get(Calendar.YEAR)
 
 val currentMillis: Long get() = System.currentTimeMillis()
-fun currentDay(): Int = Calendar.getInstance().day
+fun currentDay(): Int = Calendar.getInstance().dayOfMonth
 fun currentMonth(): Int = Calendar.getInstance().month
 fun currentYear(): Int = Calendar.getInstance().year
 
@@ -91,7 +90,7 @@ fun String.calendar(pattern: String): Calendar? {
     return null
 }
 
-fun String.getDay(pattern: String): Int = calendar(pattern)?.day ?: 0
+fun String.getDay(pattern: String): Int = calendar(pattern)?.dayOfMonth ?: 0
 
 fun String.getMonth(pattern: String): Int = calendar(pattern)?.month ?: 0
 

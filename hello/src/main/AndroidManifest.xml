@@ -52,7 +52,7 @@
 
         <!-- auth -->
         <activity
-            android:name=".ui.auth.AuthActivity"
+            android:name=".ui.auth.activity.AuthActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
             android:label="@string/title_auth"
             android:windowSoftInputMode="adjustResize">
@@ -62,7 +62,7 @@
         </activity>
 
         <activity
-            android:name=".ui.auth.SignupActivity"
+            android:name=".ui.auth.activity.SignupActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
             android:label="@string/title_auth"
             android:windowSoftInputMode="adjustResize">
@@ -72,7 +72,17 @@
         </activity>
 
         <activity
-            android:name=".ui.auth.LoginActivity"
+            android:name=".ui.auth.activity.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
+            android:label="@string/title_auth"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.auth.activity.AuthInfoActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
             android:label="@string/title_auth"
             android:windowSoftInputMode="adjustResize">

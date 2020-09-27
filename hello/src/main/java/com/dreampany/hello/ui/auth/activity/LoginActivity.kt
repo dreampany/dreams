@@ -1,4 +1,4 @@
-package com.dreampany.hello.ui.auth
+package com.dreampany.hello.ui.auth.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,7 @@ import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.User
-import com.dreampany.hello.databinding.SignupActivityBinding
+import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.misc.user
 import com.dreampany.hello.ui.vm.UserViewModel
 import com.facebook.AccessToken
@@ -45,13 +45,13 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SignupActivity : InjectActivity() {
+class LoginActivity : InjectActivity() {
 
     companion object {
         const val RC_GOOGLE_SIGN_IN = 101
     }
 
-    private lateinit var bind: SignupActivityBinding
+    private lateinit var bind: LoginActivityBinding
     private lateinit var vm: UserViewModel
 
     private lateinit var auth: FirebaseAuth
@@ -59,7 +59,7 @@ class SignupActivity : InjectActivity() {
     private lateinit var manager: CallbackManager
 
     override val homeUp: Boolean = true
-    override val layoutRes: Int = R.layout.signup_activity
+    override val layoutRes: Int = R.layout.login_activity
     override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
@@ -74,7 +74,7 @@ class SignupActivity : InjectActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val result = manager.onActivityResult(requestCode, resultCode, data)
         if (result) return
-        if (requestCode == RC_GOOGLE_SIGN_IN) {
+        if (requestCode == SignupActivity.RC_GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleResult(task)
         }
@@ -123,7 +123,7 @@ class SignupActivity : InjectActivity() {
     }
 
     private fun loginGoogle() {
-        startActivityForResult(client.signInIntent, RC_GOOGLE_SIGN_IN)
+        startActivityForResult(client.signInIntent, SignupActivity.RC_GOOGLE_SIGN_IN)
     }
 
     private fun loginFacebook() {

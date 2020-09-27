@@ -34,4 +34,13 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <!-- activity -->
+    <style name="Theme.DatePicker" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/darker_gray</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:textColorPrimary">@color/white</item>-->
+        <!--<item name="android:textColorSecondary">@color/white</item>-->
+    </style>
+
 </resources>

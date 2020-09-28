@@ -157,4 +157,9 @@ class Constant {
             const val DESCENDING = "desc"
         }
     }
+
+    object Regex {
+        const val NAME = "^[a-zA-Zぁ-ゔゞ゛゜ー ]*\$"
+        const val PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{10,}$"
+    }
 }

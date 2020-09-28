@@ -1,6 +1,9 @@
 package com.dreampany.hello.misc
 
+import com.dreampany.framework.misc.exts.color
+import com.dreampany.hello.R
 import com.dreampany.hello.data.model.User
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseUser
 
 /**
@@ -18,3 +21,18 @@ val FirebaseUser.user : User
         user.phone = phoneNumber
         return user
     }
+
+fun MaterialButton.active() {
+    this.setBackgroundColor(context.color(R.color.textColorPrimary))
+    this.isEnabled = true
+}
+
+fun MaterialButton.inactive() {
+    this.setBackgroundColor(context.color(R.color.textColorSecondary))
+    this.isEnabled = false
+}
+
+fun MaterialButton.active(active: Boolean) {
+    if (active) active()
+    else inactive()
+}

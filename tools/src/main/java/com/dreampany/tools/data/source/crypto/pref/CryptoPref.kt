@@ -31,8 +31,8 @@ class CryptoPref
         return getPrivately(
             CryptoConstants.Keys.PrefKeys.Crypto.CURRENCY,
             Currency::class.java,
-            Currency.USD
-        )
+            null
+        ) ?: Currency.USD
     }
 
     @Synchronized
@@ -40,8 +40,8 @@ class CryptoPref
         return getPrivately(
             CryptoConstants.Keys.PrefKeys.Crypto.SORT,
             CoinSort::class.java,
-            CoinSort.MARKET_CAP
-        )
+            null
+        ) ?: CoinSort.MARKET_CAP
     }
 
     @Synchronized
@@ -49,8 +49,8 @@ class CryptoPref
         return getPrivately(
             CryptoConstants.Keys.PrefKeys.Crypto.ORDER,
             Order::class.java,
-            Order.DESCENDING
-        )
+            null
+        ) ?: Order.DESCENDING
     }
 
     @Synchronized

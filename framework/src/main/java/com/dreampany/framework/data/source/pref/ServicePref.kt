@@ -27,6 +27,6 @@ class ServicePref
     }
 
     fun getState(ref: String, state: ServiceState): ServiceState {
-        return getPublicly(ref + Constant.Keys.PrefKeys.SERVICE_STATE, ServiceState::class.java, state)
+        return getPublicly(ref + Constant.Keys.PrefKeys.SERVICE_STATE, ServiceState::class.java, state) ?: state
     }
 }

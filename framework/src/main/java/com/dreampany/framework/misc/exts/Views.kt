@@ -142,13 +142,13 @@ fun Drawable?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): Draw
     return this
 }
 
-fun TextInputEditText.isEmpty(): Boolean {
+/*fun TextInputEditText.isEmpty(): Boolean {
     return this.text.isNullOrEmpty()
-}
+}*/
 
-fun TextInputEditText.string(): String {
+/*fun TextInputEditText.string(): String {
     return this.text?.trim().toString()
-}
+}*/
 
 fun RecyclerView.addDecoration(offset: Int) {
     val decoration = FlexibleItemDecoration(context).withOffset(offset).withEdge(true)
@@ -250,5 +250,23 @@ inline fun View.afterMeasured(crossinline block: () -> Unit) {
     })
 }
 
-fun Context?.spanHeight(spans: Int, offset: Int): Int =
-    (screenWidth / spans) - (dpToPx(offset.toFloat()) * spans)
+val TextView?.value : String
+    get() = this?.text.value
+
+val TextView?.trimValue : String
+    get() = value.trimValue
+
+val TextView?.isEmpty : Boolean
+    get() = trimValue.isEmpty()
+
+val TextView?.length : Int
+    get() = trimValue.length
+
+val TextView?.isPassword : Boolean
+    get() = trimValue.isPassword
+
+val List<TextView>.isAnyEmpty : Boolean
+    get() = find { it.isEmpty } != null
+
+val List<TextView>.isEmpty : Boolean
+    get() = find { it.isEmpty.not() } == null

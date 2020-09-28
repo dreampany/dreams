@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.core.text.HtmlCompat
 import com.dreampany.framework.misc.constant.Constant
 import com.google.common.io.BaseEncoding
+import java.util.regex.Pattern
 
 /**
  * Created by roman on 3/4/20
@@ -23,7 +24,7 @@ fun String?.lastPart(denim: Char): String? = this?.split(denim)?.last()
 
 fun String?.firstPart(denim: Char): String? = this?.split(denim)?.first()
 
-fun String?.isEmail(): Boolean = this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
+//fun String?.isEmail(): Boolean = this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
 
 fun String.append(vararg suffixes : String) : String {
     val builder = StringBuilder(this)
@@ -85,3 +86,12 @@ val String.encodeBase64 : String
 
 val String.decodeBase64 : String
     get() = BaseEncoding.base64().decode(this).toString(Charsets.UTF_8)
+
+val String?.isEmail: Boolean
+    get() = this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
+
+val String?.isPassword: Boolean
+    get() = this?.let { Pattern.compile(Constant.Regex.PASSWORD).matcher(it).matches() } ?: false
+
+val String?.isName: Boolean
+    get() = this?.let { Pattern.compile(Constant.Regex.NAME).matcher(this).matches() } ?: false

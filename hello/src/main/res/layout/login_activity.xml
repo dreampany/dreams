@@ -129,6 +129,7 @@
                 android:layout_marginStart="@dimen/align_margin"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/align_margin"
+                android:enabled="false"
                 android:text="Login"
                 android:textAllCaps="false"
                 android:textSize="@dimen/textSizePrimary"

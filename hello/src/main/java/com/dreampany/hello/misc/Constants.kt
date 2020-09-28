@@ -14,7 +14,11 @@ class Constants {
         const val RATIO_16_9_VALUE = 16.0 / 9.0
 
         object Pref {
-
+            const val PREF = "pref"
+            const val STARTED = "started"
+            const val LOGGED_IN = "logged_in"
+            const val SiGN_UP_IN = "sign_up_in"
+            const val USER = "user"
         }
 
         object Room {

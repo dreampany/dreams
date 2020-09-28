@@ -12,94 +12,93 @@ import com.github.pwittchen.prefser.library.rx2.Prefser
  */
 abstract class BasePref(val context: Context) {
 
-    private val publicPref: Prefser
-    private val privatePref: Prefser
+    private val public: Prefser
+    private val private: Prefser
 
     init {
-        publicPref = Prefser(context)
+        public = Prefser(context)
         val prefName = getPrivateName(context)
         val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
-        privatePref = Prefser(pref)
+        private = Prefser(pref)
     }
 
-    open fun getPrivateName(context: Context): String {
-        return Constant.Keys.PrefKeys.DEFAULT
-    }
+    open fun getPrivateName(context: Context): String = Constant.Keys.PrefKeys.DEFAULT
 
-    fun hasPublic(key: String): Boolean {
-        return publicPref.contains(key)
-    }
+    /* check */
+    fun hasPublic(key: String): Boolean = public.contains(key)
 
-    fun hasPrivate(key: String): Boolean {
-        return privatePref.contains(key)
-    }
+    fun hasPrivate(key: String): Boolean = private.contains(key)
+
+    /* check */
+    fun removePublic(key: String) = public.remove(key)
+    fun removePrivate(key: String) = private.remove(key)
 
     /* boolean */
     fun setPublicly(key: String, value: Boolean) {
-        publicPref.put(key, value)
+        public.put(key, value)
     }
 
     fun getPublicly(key: String, defaultValue: Boolean): Boolean {
-        return publicPref.preferences.getBoolean(key, defaultValue)
+        return public.preferences.getBoolean(key, defaultValue)
     }
 
     fun setPrivately(key: String, value: Boolean) {
-        privatePref.put(key, value)
+        private.put(key, value)
     }
 
     fun getPrivately(key: String, defaultValue: Boolean): Boolean {
-        return privatePref.preferences.getBoolean(key, defaultValue)
+        return private.preferences.getBoolean(key, defaultValue)
     }
 
     /* int */
     fun setPublicly(key: String, value: Int) {
-        publicPref.put(key, value)
+        public.put(key, value)
     }
 
     fun getPublicly(key: String, defaultValue: Int): Int {
-        return publicPref.preferences.getInt(key, defaultValue)
+        return public.preferences.getInt(key, defaultValue)
     }
 
     /* long */
     fun setPrivately(key: String, value: Long) {
-        privatePref.put(key, value)
+        private.put(key, value)
     }
 
     fun getPrivately(key: String, defaultValue: Long): Long {
-        return privatePref.preferences.getLong(key, defaultValue)
+        return private.preferences.getLong(key, defaultValue)
     }
 
     /* string */
     fun setPublicly(key: String, value: String) {
-        publicPref.put(key, value)
+        public.put(key, value)
     }
 
     fun getPublicly(key: String, defaultValue: String): String {
-        return publicPref.get(key, String::class.java, defaultValue)
+        return public.get(key, String::class.java, defaultValue)
     }
 
     fun setPrivately(key: String, value: String) {
-        privatePref.put(key, value)
+        private.put(key, value)
     }
 
     fun getPrivately(key: String, defaultValue: String?): String? {
-        return privatePref.get(key, String::class.java, defaultValue)
+        return private.get(key, String::class.java, defaultValue)
     }
 
     /* custom */
     fun <T> setPublicly(key: String, value: T) {
-        publicPref.put(key, value)
+        public.put(key, value)
     }
 
-    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T): T {
-        return publicPref.get(key, classOfT, defaultValue)
+    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T?): T? {
+        return public.get(key, classOfT, defaultValue)
     }
 
     fun <T> setPrivately(key: String, value: T) {
-        privatePref.put(key, value)
+        private.put(key, value)
     }
 
-    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T): T {
-        return privatePref.get(key, classOfT, defaultValue)
+    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T?): T? {
+        return private.get(key, classOfT, defaultValue)
     }
 }

@@ -331,4 +331,5 @@ fun getCDMACountryIso(): String? {
 val Context?.locationManager: LocationManager?
     get() = this?.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
 
-
+fun Context?.spanHeight(spans: Int, offset: Int): Int =
+    (screenWidth / spans) - (dpToPx(offset.toFloat()) * spans)

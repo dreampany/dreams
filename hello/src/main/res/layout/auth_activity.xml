@@ -50,12 +50,12 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/signup"
+                    android:id="@+id/login"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/buttonSizePrimary"
                     android:layout_alignParentBottom="true"
                     android:layout_weight="1"
-                    android:text="Sing up"
+                    android:text="Log in"
                     android:textAllCaps="false"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/textSizePrimary"
@@ -68,12 +68,12 @@
                     android:layout_height="0dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/login"
+                    android:id="@+id/signup"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/buttonSizePrimary"
                     android:layout_alignParentBottom="true"
                     android:layout_weight="1"
-                    android:text="Log in"
+                    android:text="Sign up"
                     android:textAllCaps="false"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/textSizePrimary"

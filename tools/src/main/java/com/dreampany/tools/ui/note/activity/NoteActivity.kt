@@ -9,7 +9,7 @@ import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
-import com.dreampany.framework.misc.func.TextChangeListener
+import com.dreampany.framework.misc.func.SimpleTextWatcher
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
@@ -185,7 +185,7 @@ class NoteActivity : InjectActivity() {
         input?.title?.let { noteTitle = it }
         input?.description?.let { noteDescription = it }
 
-        bind.layoutNote.inputEditTitle.addTextChangedListener(object : TextChangeListener() {
+        bind.layoutNote.inputEditTitle.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (noteTitle != s.trimValue) {
                     changed = true
@@ -194,7 +194,7 @@ class NoteActivity : InjectActivity() {
             }
 
         })
-        bind.layoutNote.inputEditDescription.addTextChangedListener(object : TextChangeListener() {
+        bind.layoutNote.inputEditDescription.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (noteDescription != s.trimValue) {
                     changed = true

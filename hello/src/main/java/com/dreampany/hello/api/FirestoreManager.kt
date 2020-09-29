@@ -31,10 +31,23 @@ class FirestoreManager
     }
 
     @Synchronized
-    fun <T : Any> write(collection: String, id: String, input: T) {
+    fun <T : Any> write(collection: String, document: String, input: T) {
         val colRef = firestore.collection(collection)
-        val docRef = colRef.document(id)
+        val docRef = colRef.document(document)
         Tasks.await(docRef.set(input, SetOptions.merge()))
+    }
+
+    @Synchronized
+    fun <T : Any> read(collection: String, document: String, clazz: KClass<T>): T? {
+        val ref = firestore.collection(collection).document(document)
+        return read(ref, clazz)
+    }
+
+    @Synchronized
+    fun <T : Any> read(collection: String, equalTo: Pair<String, Any>, clazz: KClass<T>): T? {
+        val ref = firestore.collection(collection)
+        val query: Query = ref.whereEqualTo(equalTo.first, equalTo.second)
+        return read(query, clazz)
     }
 
     @Synchronized
@@ -42,6 +55,11 @@ class FirestoreManager
         val snapshot: DocumentSnapshot = Tasks.await(ref.get())
         if (!snapshot.exists()) return null
         return snapshot.toObject(clazz.java)
+    }
+
+    @Synchronized
+    fun <T : Any> read(ref: Query, clazz: KClass<T>): T? {
+        return reads(ref, clazz)?.firstOrNull()
     }
 
     @Synchronized

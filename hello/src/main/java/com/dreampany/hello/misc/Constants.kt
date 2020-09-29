@@ -16,8 +16,8 @@ class Constants {
         object Pref {
             const val PREF = "pref"
             const val STARTED = "started"
-            const val LOGGED_IN = "logged_in"
-            const val SiGN_UP_IN = "sign_up_in"
+            const val LOGGED = "logged"
+            const val SiGN_IN = "sign_in"
             const val USER = "user"
         }
 

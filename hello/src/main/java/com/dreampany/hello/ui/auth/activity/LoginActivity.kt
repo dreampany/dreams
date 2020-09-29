@@ -15,11 +15,13 @@ import com.dreampany.hello.data.enums.Action
 import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
+import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.misc.active
 import com.dreampany.hello.misc.inactive
 import com.dreampany.hello.misc.user
+import com.dreampany.hello.ui.vm.AuthViewModel
 import com.dreampany.hello.ui.vm.UserViewModel
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -55,7 +57,8 @@ class LoginActivity : InjectActivity() {
     }
 
     private lateinit var bind: LoginActivityBinding
-    private lateinit var vm: UserViewModel
+    private lateinit var authVm: AuthViewModel
+    private lateinit var userVm: UserViewModel
 
     private lateinit var auth: FirebaseAuth
     private lateinit var client: GoogleSignInClient
@@ -77,7 +80,7 @@ class LoginActivity : InjectActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val result = manager.onActivityResult(requestCode, resultCode, data)
         if (result) return
-        if (requestCode == SignupActivity.RC_GOOGLE_SIGN_IN) {
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleResult(task)
         }
@@ -86,8 +89,10 @@ class LoginActivity : InjectActivity() {
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        vm = createVm(UserViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
+        authVm = createVm(AuthViewModel::class)
+        userVm = createVm(UserViewModel::class)
+        authVm.subscribe(this, Observer { this.processAuthResponse(it) })
+        userVm.subscribe(this, Observer { this.processUserResponse(it) })
 
         bind.inputEmail.addTextChangedListener(object : SimpleTextWatcher() {
             override fun afterTextChanged(text: Editable?) {
@@ -100,6 +105,10 @@ class LoginActivity : InjectActivity() {
                 updateUi()
             }
         })
+
+        bind.login.setOnSafeClickListener {
+            login()
+        }
 
         bind.google.setOnSafeClickListener {
             loginGoogle()
@@ -143,10 +152,28 @@ class LoginActivity : InjectActivity() {
         } else {
             bind.login.inactive()
         }
+        bind.layoutEmail.error = null
+        bind.layoutPassword.error = null
+    }
+
+    private fun login() {
+        val email = bind.inputEmail.trimValue
+        val password = bind.inputPassword.trimValue
+        var valid = true
+        if (!email.isEmail) {
+            valid = false
+            bind.layoutEmail.error = getString(R.string.error_email)
+        }
+        if (!password.isPassword) {
+            valid = false
+            bind.layoutPassword.error = getString(R.string.error_password)
+        }
+        if (valid.not()) return
+        authVm.readByEmail(email)
     }
 
     private fun loginGoogle() {
-        startActivityForResult(client.signInIntent, SignupActivity.RC_GOOGLE_SIGN_IN)
+        startActivityForResult(client.signInIntent, RC_GOOGLE_SIGN_IN)
     }
 
     private fun loginFacebook() {
@@ -162,7 +189,7 @@ class LoginActivity : InjectActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser?.user ?: return@addOnCompleteListener
-                    vm.write(user)
+                    //vm.write(user)
                 } else {
 
                 }
@@ -190,7 +217,18 @@ class LoginActivity : InjectActivity() {
         }
     }
 
-    private fun processResponse(response: Response<Type, Subtype, State, Action, User>) {
+    private fun processAuthResponse(response: Response<Type, Subtype, State, Action, Auth>) {
+        if (response is Response.Progress) {
+            //bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<Type, Subtype, State, Action, Auth>) {
+            Timber.v("Result [%s]", response.result)
+            processResult(response.result)
+        }
+    }
+
+    private fun processUserResponse(response: Response<Type, Subtype, State, Action, User>) {
         if (response is Response.Progress) {
             //bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
@@ -216,6 +254,12 @@ class LoginActivity : InjectActivity() {
 
             }
         )
+    }
+
+    private fun processResult(result: Auth?) {
+        if (result != null) {
+
+        }
     }
 
     private fun processResult(result: User?) {

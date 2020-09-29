@@ -24,11 +24,11 @@ class Pref
     val isStarted: Boolean
         get() = getPrivately(Constants.Keys.Pref.STARTED, false)
 
-    val isLoggedIn: Boolean
-        get() = getPrivately(Constants.Keys.Pref.LOGGED_IN, false)
+    val isLogged: Boolean
+        get() = getPrivately(Constants.Keys.Pref.LOGGED, false)
 
-    val isSignUpIn: Boolean
-        get() = getPrivately(Constants.Keys.Pref.SiGN_UP_IN, false)
+    val isSignIn: Boolean
+        get() = getPrivately(Constants.Keys.Pref.SiGN_IN, false)
 
     val user: User?
         get() = getPrivately(Constants.Keys.Pref.USER, User::class.java, null)
@@ -42,19 +42,19 @@ class Pref
     }
 
     fun login() {
-        setPrivately(Constants.Keys.Pref.LOGGED_IN, true)
+        setPrivately(Constants.Keys.Pref.LOGGED, true)
     }
 
     fun logout() {
-        setPrivately(Constants.Keys.Pref.LOGGED_IN, false)
+        setPrivately(Constants.Keys.Pref.LOGGED, false)
     }
 
-    fun signUpIn() {
-        setPrivately(Constants.Keys.Pref.SiGN_UP_IN, true)
+    fun signIn() {
+        setPrivately(Constants.Keys.Pref.SiGN_IN, true)
     }
 
-    fun signUpOut() {
-        setPrivately(Constants.Keys.Pref.SiGN_UP_IN, false)
+    fun signOut() {
+        setPrivately(Constants.Keys.Pref.SiGN_IN, false)
     }
 
     fun write(input : User) {

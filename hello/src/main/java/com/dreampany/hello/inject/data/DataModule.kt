@@ -12,6 +12,7 @@ import dagger.Module
 @Module(
     includes = [
         DatabaseModule::class,
+        AuthModule::class,
         UserModule::class
     ]
 )

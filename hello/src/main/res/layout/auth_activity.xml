@@ -38,7 +38,8 @@
                 android:text="Start now"
                 android:textAllCaps="false"
                 android:textSize="@dimen/textSizePrimary"
-                auto:backgroundTint="@color/colorAccent"
+                android:textColor="@color/white"
+                auto:backgroundTint="@color/textColorPrimary"
                 auto:cornerRadius="@dimen/cornerRadius"
                 auto:elevation="@dimen/cornerRadius" />
 

@@ -4,4 +4,9 @@
 
     <string name="title_auth">@string/app_name</string>
 
+
+    <string name="error_email">Please enter your valid email address</string>
+    <string name="error_password">The password must be at least 10 characters and use large and small alphanumeric characters.</string>
+
+
 </resources>

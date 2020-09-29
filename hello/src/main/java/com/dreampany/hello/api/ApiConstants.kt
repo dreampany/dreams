@@ -12,6 +12,11 @@ class ApiConstants {
     }
 
     object Keys {
+        // firestore collection
+        const val AUTHS = "hello.auths"
         const val USERS = "users"
+
+        // auth keys
+        const val EMAIL = "email"
     }
 }

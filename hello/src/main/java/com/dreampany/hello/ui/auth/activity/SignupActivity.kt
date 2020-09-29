@@ -2,11 +2,11 @@ package com.dreampany.hello.ui.auth.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.exts.decodeBase64
-import com.dreampany.framework.misc.exts.open
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
+import com.dreampany.framework.misc.exts.*
+import com.dreampany.framework.misc.func.SimpleTextWatcher
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
@@ -18,6 +18,8 @@ import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.databinding.SignupActivityBinding
+import com.dreampany.hello.misc.active
+import com.dreampany.hello.misc.inactive
 import com.dreampany.hello.misc.user
 import com.dreampany.hello.ui.vm.UserViewModel
 import com.facebook.AccessToken
@@ -88,6 +90,22 @@ class SignupActivity : InjectActivity() {
         vm = createVm(UserViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
 
+        bind.inputEmail.addTextChangedListener(object : SimpleTextWatcher() {
+            override fun afterTextChanged(text: Editable?) {
+                updateUi()
+            }
+        })
+
+        bind.inputPassword.addTextChangedListener(object : SimpleTextWatcher() {
+            override fun afterTextChanged(text: Editable?) {
+                updateUi()
+            }
+        })
+
+        bind.register.setOnSafeClickListener {
+            register()
+        }
+
         bind.google.setOnSafeClickListener {
             loginGoogle()
         }
@@ -123,6 +141,31 @@ class SignupActivity : InjectActivity() {
                 }
 
             })
+    }
+
+    private fun updateUi() {
+        if (bind.inputEmail.isEmpty.not() || bind.inputPassword.isEmpty.not()) {
+            bind.register.active()
+        } else {
+            bind.register.inactive()
+        }
+    }
+
+    private fun register() {
+        val email = bind.inputEmail.trimValue
+        val password = bind.inputPassword.trimValue
+        val confirmPassword = bind.inputConfirmPassword.trimValue
+        var valid = true
+        if (!email.isEmail) {
+            valid = false
+            bind.layoutEmail.error = getString(R.string.error_email)
+        }
+        if (!password.isPassword) {
+            valid = false
+            bind.layoutPassword.error = getString(R.string.error_password)
+        }
+        if (valid.not()) return
+        //todo call to firestore
     }
 
     private fun loginGoogle() {

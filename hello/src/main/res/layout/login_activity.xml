@@ -132,10 +132,11 @@
                 android:enabled="false"
                 android:text="Login"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textSize="@dimen/textSizePrimary"
                 auto:backgroundTint="@color/textColorSecondary"
-                auto:cornerRadius="@dimen/buttonRadius"
-                auto:elevation="@dimen/buttonRadius" />
+                auto:cornerRadius="@dimen/cornerRadius"
+                auto:elevation="@dimen/cornerRadius" />
 
         </RelativeLayout>
 

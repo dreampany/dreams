@@ -17,6 +17,7 @@ import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
+import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.misc.active
 import com.dreampany.hello.misc.inactive
@@ -43,6 +44,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by roman on 24/9/20
@@ -55,6 +57,9 @@ class LoginActivity : InjectActivity() {
     companion object {
         const val RC_GOOGLE_SIGN_IN = 101
     }
+
+    @Inject
+    internal lateinit var pref : Pref
 
     private lateinit var bind: LoginActivityBinding
     private lateinit var authVm: AuthViewModel
@@ -169,7 +174,7 @@ class LoginActivity : InjectActivity() {
             bind.layoutPassword.error = getString(R.string.error_password)
         }
         if (valid.not()) return
-        authVm.readByEmail(email)
+        authVm.read(email, password)
     }
 
     private fun loginGoogle() {
@@ -257,14 +262,17 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun processResult(result: Auth?) {
-        if (result != null) {
-
+        if (result == null) {
+            bind.error.show()
+            return
         }
+        //successful login
+        pref.login()
     }
 
     private fun processResult(result: User?) {
-        if (result != null) {
-
+        if (result == null) {
+            return
         }
     }
 }

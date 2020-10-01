@@ -18,5 +18,6 @@ class ApiConstants {
 
         // auth keys
         const val EMAIL = "email"
+        const val PASSWORD = "password"
     }
 }

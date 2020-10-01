@@ -31,6 +31,11 @@ class AuthRepo
     }
 
     @Throws
+    override suspend fun read(email: String, password: String) = withContext(Dispatchers.IO) {
+        firestore.read(email, password)
+    }
+
+    @Throws
     override suspend fun readByEmail(email: String) = withContext(Dispatchers.IO) {
         firestore.readByEmail(email)
     }

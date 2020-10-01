@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/align_margin"
                 android:layout_marginEnd="@dimen/align_margin"
                 android:textColorHint="@color/textColorSecondary"
                 auto:hintTextColor="@color/colorAccent">
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_email"
                 android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/align_margin"
                 android:layout_marginEnd="@dimen/align_margin"
                 android:textColorHint="@color/textColorSecondary"
                 auto:hintTextColor="@color/colorAccent"
@@ -121,16 +121,27 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/align_margin"
+                android:text="@string/error_auth"
+                android:textColor="@color/error"
+                android:textSize="@dimen/textSizePrimary"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/buttonSizePrimary"
                 android:layout_below="@id/layout_password"
                 android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/para_margin"
                 android:layout_marginEnd="@dimen/align_margin"
                 android:enabled="false"
-                android:text="Login"
+                android:text="@string/login"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textSizePrimary"

@@ -6,6 +6,7 @@ import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.source.api.AuthDataSource
 import com.dreampany.hello.data.source.mapper.AuthMapper
 import timber.log.Timber
+import java.util.*
 
 /**
  * Created by roman on 26/9/20
@@ -42,10 +43,25 @@ class AuthFirestoreDataSource(
     }
 
     @Throws
+    override suspend fun read(email: String, password: String): Auth? {
+        try {
+            val col = ApiConstants.Keys.AUTHS
+            val equalTo = TreeMap<String, Any>()
+            equalTo.put(ApiConstants.Keys.EMAIL, email)
+            equalTo.put(ApiConstants.Keys.PASSWORD, password)
+            return firestore.read(col, equalTo, Auth::class)
+        } catch (error: Throwable) {
+            Timber.e(error)
+            return null
+        }
+    }
+
+    @Throws
     override suspend fun readByEmail(email: String): Auth? {
         try {
             val col = ApiConstants.Keys.AUTHS
-            val equalTo = Pair(ApiConstants.Keys.EMAIL, email)
+            val equalTo = TreeMap<String, Any>()
+            equalTo.put(ApiConstants.Keys.EMAIL, email)
             return firestore.read(col, equalTo, Auth::class)
         } catch (error: Throwable) {
             Timber.e(error)

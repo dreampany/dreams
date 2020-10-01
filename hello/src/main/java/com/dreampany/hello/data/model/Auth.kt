@@ -25,7 +25,8 @@ import kotlinx.android.parcel.Parcelize
 )
 data class Auth(
     var id: String = Constant.Default.STRING,
-    var email: String? = Constant.Default.NULL
+    var email: String? = Constant.Default.NULL,
+    var password: String? = Constant.Default.NULL
 ) : BaseParcel() {
 
     constructor(id: String) : this(id = id, email = null) {

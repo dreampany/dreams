@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.reflect.KClass
@@ -44,9 +45,10 @@ class FirestoreManager
     }
 
     @Synchronized
-    fun <T : Any> read(collection: String, equalTo: Pair<String, Any>, clazz: KClass<T>): T? {
+    fun <T : Any> read(collection: String, equalTo: TreeMap<String, Any>, clazz: KClass<T>): T? {
         val ref = firestore.collection(collection)
-        val query: Query = ref.whereEqualTo(equalTo.first, equalTo.second)
+        var query: Query = ref
+        equalTo.forEach { entry -> query = query.whereEqualTo(entry.key, entry.value) }
         return read(query, clazz)
     }
 

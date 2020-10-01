@@ -69,6 +69,25 @@ class AuthViewModel
         }
     }
 
+    fun read(email: String, password: String) {
+        uiScope.launch {
+            progressSingle(true)
+            var result: Auth? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.read(email, password)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result)
+            }
+        }
+    }
+
     fun readByEmail(email: String) {
         uiScope.launch {
             progressSingle(true)

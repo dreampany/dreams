@@ -17,5 +17,8 @@ interface AuthDataSource {
     suspend fun read(id: String): Auth?
 
     @Throws
+    suspend fun read(email: String, password : String): Auth?
+
+    @Throws
     suspend fun readByEmail(email: String): Auth?
 }

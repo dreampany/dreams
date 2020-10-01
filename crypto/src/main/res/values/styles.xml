@@ -40,4 +40,9 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <!-- inputs -->
+    <style name="Widget.MaterialComponents.TextInputEditText.Dense" parent="Widget.MaterialComponents.TextInputEditText.FilledBox.Dense">
+        <item name="colorPrimary">@color/colorAccent</item>
+    </style>
+
 </resources>

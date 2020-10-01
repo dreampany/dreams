@@ -3,12 +3,12 @@ package com.dreampany.hello.ui.auth.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SimpleTextWatcher
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.hello.R
 import com.dreampany.hello.api.ApiConstants
 import com.dreampany.hello.data.enums.Action
@@ -22,8 +22,8 @@ import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.misc.active
 import com.dreampany.hello.misc.inactive
 import com.dreampany.hello.misc.user
+import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.vm.AuthViewModel
-import com.dreampany.hello.ui.vm.UserViewModel
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -59,15 +59,16 @@ class LoginActivity : InjectActivity() {
     }
 
     @Inject
-    internal lateinit var pref : Pref
+    internal lateinit var pref: Pref
 
     private lateinit var bind: LoginActivityBinding
-    private lateinit var authVm: AuthViewModel
-    private lateinit var userVm: UserViewModel
+    private lateinit var vm: AuthViewModel
 
     private lateinit var auth: FirebaseAuth
     private lateinit var client: GoogleSignInClient
     private lateinit var manager: CallbackManager
+
+    private lateinit var user : User
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.login_activity
@@ -94,10 +95,8 @@ class LoginActivity : InjectActivity() {
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        authVm = createVm(AuthViewModel::class)
-        userVm = createVm(UserViewModel::class)
-        authVm.subscribe(this, Observer { this.processAuthResponse(it) })
-        userVm.subscribe(this, Observer { this.processUserResponse(it) })
+        vm = createVm(AuthViewModel::class)
+        vm.subscribe(this, { this.processAuthResponse(it) })
 
         bind.inputEmail.addTextChangedListener(object : SimpleTextWatcher() {
             override fun afterTextChanged(text: Editable?) {
@@ -174,7 +173,12 @@ class LoginActivity : InjectActivity() {
             bind.layoutPassword.error = getString(R.string.error_password)
         }
         if (valid.not()) return
-        authVm.read(email, password)
+        vm.read(email, password)
+    }
+
+    private fun login(user: User) {
+        this.user = user
+        vm.read(user.id)
     }
 
     private fun loginGoogle() {
@@ -194,9 +198,9 @@ class LoginActivity : InjectActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser?.user ?: return@addOnCompleteListener
-                    //vm.write(user)
+                    login(user)
                 } else {
-
+                    Timber.e("Failed in login")
                 }
             }
     }
@@ -229,18 +233,7 @@ class LoginActivity : InjectActivity() {
             processError(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, Auth>) {
             Timber.v("Result [%s]", response.result)
-            processResult(response.result)
-        }
-    }
-
-    private fun processUserResponse(response: Response<Type, Subtype, State, Action, User>) {
-        if (response is Response.Progress) {
-            //bind.swipe.refresh(response.progress)
-        } else if (response is Response.Error) {
-            processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, User>) {
-            Timber.v("Result [%s]", response.result)
-            processResult(response.result)
+            processResult(response.result, response.state)
         }
     }
 
@@ -261,18 +254,29 @@ class LoginActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: Auth?) {
+    private fun processResult(result: Auth?, state: State) {
         if (result == null) {
-            bind.error.show()
+            if (state == State.ID) {
+                openAuthInfoUi()
+            } else {
+                bind.error.show()
+            }
+
             return
         }
         //successful login
         pref.login()
+        open(HomeActivity::class, true)
     }
 
-    private fun processResult(result: User?) {
-        if (result == null) {
-            return
-        }
+    private fun openAuthInfoUi() {
+        val task = UiTask(
+            Type.USER,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            user
+        )
+        open(AuthInfoActivity::class, task)
     }
 }

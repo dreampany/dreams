@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="title_auth">@string/app_name</string>
+    <string name="title_auth_info">Basic Information</string>
 
     <string name="login">Login</string>
 

@@ -64,7 +64,7 @@ class AuthViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result)
+                postResult(result, State.ID)
             }
         }
     }

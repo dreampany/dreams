@@ -39,10 +39,10 @@ fun Activity?.open(action: String, requestCode: Int) {
     }
 }
 
-fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) {
+fun <T : Any> Activity?.open(target: KClass<T>, finish: Boolean = false) {
     this?.run {
         startActivity(Intent(this, target.java))
-        if (finishCurrent) {
+        if (finish) {
             finish()
         }
     }
@@ -51,13 +51,13 @@ fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) 
 fun <T : Any> Activity?.open(
     target: KClass<T>,
     task: Task<*, *, *, *, *>,
-    finishCurrent: Boolean = false
+    finish: Boolean = false
 ) {
     this?.run {
         val intent = Intent(this, target.java)
         intent.putExtra(Constant.Keys.TASK, task as Parcelable)
         startActivity(intent)
-        if (finishCurrent) {
+        if (finish) {
             finish()
         }
     }
@@ -71,10 +71,10 @@ fun <T : Any> Activity?.open(target: KClass<T>, task: Task<*, *, *, *, *>, reque
     }
 }
 
-fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: Boolean = false) {
+fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finish: Boolean = false) {
     this?.run {
         startActivity(Intent(this, target.java).addFlags(flags))
-        if (finishCurrent) {
+        if (finish) {
             finish()
         }
     }

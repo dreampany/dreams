@@ -6,6 +6,7 @@
     <string name="title_auth_info">Basic Information</string>
 
     <string name="login">Login</string>
+    <string name="register">Register</string>
 
     <string name="male">Male</string>
     <string name="female">Female</string>

@@ -190,6 +190,22 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/register"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/buttonSizePrimary"
+                    android:layout_below="@id/error"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/para_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:enabled="false"
+                    android:text="@string/register"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSizePrimary"
+                    auto:backgroundTint="@color/textColorSecondary"
+                    auto:cornerRadius="@dimen/cornerRadius"
+                    auto:elevation="@dimen/cornerRadius" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -5,23 +5,21 @@ import android.os.Bundle
 import android.widget.DatePicker
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
-import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.hello.R
-import com.dreampany.hello.data.enums.Action
-import com.dreampany.hello.data.enums.State
-import com.dreampany.hello.data.enums.Subtype
-import com.dreampany.hello.data.enums.Type
+import com.dreampany.hello.data.enums.*
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.databinding.AuthInfoActivityBinding
+import com.dreampany.hello.misc.Constants
 import com.dreampany.hello.ui.auth.fragment.BirthdayFragment
 import com.dreampany.hello.ui.vm.AuthViewModel
 import com.dreampany.hello.ui.vm.UserViewModel
 import timber.log.Timber
+import java.util.*
 
 /**
  * Created by roman on 27/9/20
@@ -35,6 +33,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var authVm: AuthViewModel
     private lateinit var userVm: UserViewModel
     private lateinit var input: User
+    private lateinit var calendar: Calendar
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.auth_info_activity
@@ -50,7 +49,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(picker: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
-
+        updateUi(year, month, dayOfMonth)
     }
 
     private fun initUi() {
@@ -61,10 +60,22 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         authVm.subscribe(this, { this.processAuthResponse(it) })
         userVm.subscribe(this, { this.processUserResponse(it) })
 
-
+        bind.inputEmail.setText(input.email)
 
         bind.layoutBirthday.setOnSafeClickListener {
             openBirthdayPicker()
+        }
+
+        bind.male.setOnSafeClickListener {
+            updateUi(Gender.MALE)
+        }
+
+        bind.female.setOnSafeClickListener {
+            updateUi(Gender.FEMALE)
+        }
+
+        bind.other.setOnSafeClickListener {
+            updateUi(Gender.OTHER)
         }
     }
 
@@ -118,5 +129,38 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
 
     private fun processResult(result: User?) {
 
+    }
+
+    private fun updateUi(year: Int, month: Int, dayOfMonth: Int) {
+        if (::calendar.isInitialized.not()) {
+            calendar = Calendar.getInstance()
+        }
+        calendar.update(year, month, dayOfMonth)
+        val date = calendar.format(Constants.Pattern.YY_MM_DD)
+        bind.birthday.text = date
+    }
+
+    private fun updateUi(gender: Gender) {
+        bind.male.setBackgroundColor(color(R.color.colorTransparent))
+        bind.male.setTextColor(color(R.color.textColorPrimary))
+        bind.female.setBackgroundColor(color(R.color.colorTransparent))
+        bind.female.setTextColor(color(R.color.textColorPrimary))
+        bind.other.setBackgroundColor(color(R.color.colorTransparent))
+        bind.other.setTextColor(color(R.color.textColorPrimary))
+
+        when (gender) {
+            Gender.MALE -> {
+                bind.male.setBackgroundColor(color(R.color.colorAccent))
+                bind.male.setTextColor(color(R.color.white))
+            }
+            Gender.FEMALE -> {
+                bind.female.setBackgroundColor(color(R.color.colorAccent))
+                bind.female.setTextColor(color(R.color.white))
+            }
+            Gender.OTHER -> {
+                bind.other.setBackgroundColor(color(R.color.colorAccent))
+                bind.other.setTextColor(color(R.color.white))
+            }
+        }
     }
 }

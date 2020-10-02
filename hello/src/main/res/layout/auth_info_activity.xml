@@ -26,20 +26,22 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/windowBackground"
             android:scrollbars="none"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="@dimen/para_margin"
+                android:paddingBottom="@dimen/para_margin">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/align_margin"
-                    android:layout_marginTop="@dimen/align_margin"
                     android:layout_marginEnd="@dimen/align_margin"
                     android:textColorHint="@color/textColorSecondary"
                     auto:hintTextColor="@color/colorAccent">
@@ -51,11 +53,12 @@
                         android:background="@android:color/transparent"
                         android:gravity="top|start"
                         android:hint="mailaddres@example.com"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textEmailAddress"
+                        android:textSize="@dimen/textSizePrimary" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!--<com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,35 +77,118 @@
                         android:hint="Enter your nickname"
                         android:inputType="textEmailAddress" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/layout_birthday"
+                <!-- birthday -->
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:text="Birthday"
+                    android:layout_marginTop="@dimen/para_margin"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/textSizeHeader" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/buttonSizePrimary"
+                    android:layout_marginStart="@dimen/align_margin"
                     android:layout_marginTop="@dimen/align_margin"
                     android:layout_marginEnd="@dimen/align_margin"
-                    android:gravity="center_vertical"
-                    android:minHeight="@dimen/buttonSizePrimary"
-                    android:orientation="horizontal">
+                    auto:cardCornerRadius="@dimen/cornerRadius"
+                    auto:cardElevation="@dimen/cornerRadius">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/birthday"
-                        android:layout_width="0dp"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/layout_birthday"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="YY/MM/DD"
-                        android:text=""
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/textSizePrimary" />
+                        android:layout_marginStart="@dimen/align_margin"
+                        android:layout_marginEnd="@dimen/align_margin"
+                        android:gravity="center_vertical"
+                        android:minHeight="@dimen/buttonSizePrimary"
+                        android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        auto:srcCompat="@drawable/ic_baseline_expand_more_24" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/birthday"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/align_margin"
+                            android:layout_weight="1"
+                            android:hint="YY/MM/DD"
+                            android:text=""
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/textSizePrimary" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            auto:srcCompat="@drawable/ic_baseline_expand_more_24" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <!-- gender -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:text="Gender"
+                    android:layout_marginTop="@dimen/para_margin"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/textSizeHeader" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/buttonSizePrimary"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/align_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    auto:cardCornerRadius="@dimen/cornerRadius"
+                    auto:cardElevation="@dimen/cornerRadius">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp" android:id="@+id/male"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/male"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/textSizePrimary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/female"
+                            android:id="@+id/female"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/textSizePrimary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:id="@+id/other"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/other"
+                            android:textAllCaps="false"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/textSizePrimary" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </com.google.android.material.card.MaterialCardView>
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

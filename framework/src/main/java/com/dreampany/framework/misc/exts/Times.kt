@@ -12,6 +12,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+
 private val UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 private val SIMPLE_UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 
@@ -23,6 +24,11 @@ val currentMillis: Long get() = System.currentTimeMillis()
 fun currentDay(): Int = Calendar.getInstance().dayOfMonth
 fun currentMonth(): Int = Calendar.getInstance().month
 fun currentYear(): Int = Calendar.getInstance().year
+
+fun Calendar.format(pattern: String): String {
+    val format = SimpleDateFormat(pattern, Locale.getDefault())
+    return format.format(this.time)
+}
 
 val String.utc: Long
     get() {

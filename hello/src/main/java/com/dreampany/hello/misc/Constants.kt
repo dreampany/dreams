@@ -25,4 +25,14 @@ class Constants {
             const val TYPE_USER = "user"
         }
     }
+
+    object Pattern {
+        const val YY_MM_DD: String = "yy/MM/dd"
+    }
+
+    object Gender {
+        const val MALE = "male"
+        const val FEMALE = "female"
+        const val OTHER = "other"
+    }
 }

@@ -6,6 +6,7 @@ import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
+import com.dreampany.hello.data.enums.Gender
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
@@ -32,7 +33,8 @@ data class User(
     var photo : String? = Constant.Default.NULL,
     var email : String? = Constant.Default.NULL,
     var phone : String? = Constant.Default.NULL,
-    var age : Int = Constant.Default.INT
+    var birthday : Long = Constant.Default.LONG,
+    var gender : Gender? = Constant.Default.NULL
 ) : Base() {
 
     @Ignore

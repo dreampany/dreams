@@ -33,7 +33,8 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var authVm: AuthViewModel
     private lateinit var userVm: UserViewModel
     private lateinit var input: User
-    private lateinit var calendar: Calendar
+    private lateinit var birthdayCalendar: Calendar
+    private lateinit var gender: Gender
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.auth_info_activity
@@ -76,6 +77,10 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
 
         bind.other.setOnSafeClickListener {
             updateUi(Gender.OTHER)
+        }
+
+        bind.register.setOnSafeClickListener {
+            register()
         }
     }
 
@@ -132,15 +137,17 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun updateUi(year: Int, month: Int, dayOfMonth: Int) {
-        if (::calendar.isInitialized.not()) {
-            calendar = Calendar.getInstance()
+        if (::birthdayCalendar.isInitialized.not()) {
+            birthdayCalendar = Calendar.getInstance()
         }
-        calendar.update(year, month, dayOfMonth)
-        val date = calendar.format(Constants.Pattern.YY_MM_DD)
+        birthdayCalendar.update(year, month, dayOfMonth)
+        val date = birthdayCalendar.format(Constants.Pattern.YY_MM_DD)
         bind.birthday.text = date
     }
 
     private fun updateUi(gender: Gender) {
+        this.gender = gender
+
         bind.male.setBackgroundColor(color(R.color.colorTransparent))
         bind.male.setTextColor(color(R.color.textColorPrimary))
         bind.female.setBackgroundColor(color(R.color.colorTransparent))
@@ -162,5 +169,20 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
                 bind.other.setTextColor(color(R.color.white))
             }
         }
+    }
+
+    private fun register() {
+        val email = bind.inputEmail.trimValue
+        var valid = true
+        if (!email.isEmail) {
+            valid = false
+            bind.layoutEmail.error = getString(R.string.error_email)
+        }
+        if (::birthdayCalendar.isInitialized.not()) {
+            valid = false
+
+        }
+        if (valid.not()) return
+        //vm.read(email, password)
     }
 }

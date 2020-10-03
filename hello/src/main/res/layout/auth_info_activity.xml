@@ -84,11 +84,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/para_margin"
                     android:layout_marginEnd="@dimen/align_margin"
                     android:text="Birthday"
-                    android:layout_marginTop="@dimen/para_margin"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/textSizeHeader" />
+                    android:textSize="@dimen/textSizePrimary" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -134,11 +134,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/para_margin"
                     android:layout_marginEnd="@dimen/align_margin"
                     android:text="Gender"
-                    android:layout_marginTop="@dimen/para_margin"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/textSizeHeader" />
+                    android:textSize="@dimen/textSizePrimary" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -154,35 +154,33 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="0dp" android:id="@+id/male"
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/male"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="@string/male"
-                            android:textAllCaps="false"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/textSizePrimary" />
 
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="@string/female"
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/female"
-                            android:textAllCaps="false"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/female"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/textSizePrimary" />
 
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="0dp"
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/other"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="@string/other"
-                            android:textAllCaps="false"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/textSizePrimary" />
 
@@ -190,6 +188,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- register -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/register"
                     android:layout_width="match_parent"

@@ -10,10 +10,7 @@ import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.FragmentScope
-import com.dreampany.framework.misc.exts.init
-import com.dreampany.framework.misc.exts.open
-import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -77,8 +74,12 @@ class VideosFragment
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -126,25 +127,33 @@ class VideosFragment
 
     @SuppressLint("MissingPermission")
     private fun loadRegionVideos() {
-        runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
-            val location = CoLocation.from(requireContext())
-            val request = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            vm.viewModelScope.launch {
-                /* val result = location.checkLocationSettings(request)
-                 when (request) {
-
-                 }*/
-                val order = pref.order
-                val data = location.getLastLocation()
-                if (data == null) {
-                    vm.loadRegionVideos(input.id, order, 0)
-                } else {
-                    vm.loadLocationVideos(data, order, 0)
-                }
+        if (context.hasLocationPermission) {
+            readRegionVideosSafe()
+        } else {
+            runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
+                readRegionVideosSafe()
             }
+        }
 
+    }
 
+    @SuppressLint("MissingPermission")
+    private fun readRegionVideosSafe() {
+        val location = CoLocation.from(requireContext())
+        val request = LocationRequest.create()
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        vm.viewModelScope.launch {
+            /* val result = location.checkLocationSettings(request)
+             when (request) {
+
+             }*/
+            val order = pref.order
+            val data = location.getLastLocation()
+            if (data == null) {
+                vm.loadRegionVideos(input.id, order, 0)
+            } else {
+                vm.loadLocationVideos(data, order, 0)
+            }
         }
     }
 
@@ -170,12 +179,14 @@ class VideosFragment
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
+
         vm = createVm(VideoViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
 
         bind.swipe.init(this)
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_videos)
+        bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_videos)
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -212,6 +223,14 @@ class VideosFragment
     }
 
     private fun processError(error: SmartError) {
+        if (error.hostError) {
+            if (adapter.isEmpty) {
+                bind.stateful.setState(StatefulLayout.State.OFFLINE)
+            } else {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+            }
+        }
+
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
         val message =
             if (error.hostError) getString(R.string.message_no_internet) else error.message

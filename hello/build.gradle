@@ -163,7 +163,7 @@ dependencies {
 
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.3.0'
-    implementation 'com.facebook.android:facebook-login:7.1.0'
+    implementation 'com.facebook.android:facebook-login:8.0.0'
 
     /* misc */
     implementation 'me.relex:circleindicator:2.1.4'

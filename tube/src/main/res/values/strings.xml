@@ -2,8 +2,11 @@
     <string name="app_name">Super Tube</string>
     <string name="action_settings">Settings</string>
 
-    <string name="title_empty_videos" translatable="false">No Videos</string>
-    <string name="message_empty_videos" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
+    <string name="title_empty_videos" translatable="false">No Videos!</string>
+    <string name="message_empty_videos" translatable="false">There is not videos at this moment. Please try later.</string>
+
+    <string name="title_offline_videos" translatable="false">No Internet!</string>
+    <string name="message_offline_videos" translatable="false">Please connect to internet and reload videos again.</string>
 
     <string name="title_default_search_videos" translatable="false">Search Videos</string>
     <string name="message_default_search_videos" translatable="false">Enter your query to search videos.</string>

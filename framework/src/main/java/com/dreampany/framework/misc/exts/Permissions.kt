@@ -1,5 +1,6 @@
 package com.dreampany.framework.misc.exts
 
+import android.Manifest
 import android.Manifest.permission.*
 import android.app.AppOpsManager
 import android.app.AppOpsManager.MODE_ALLOWED

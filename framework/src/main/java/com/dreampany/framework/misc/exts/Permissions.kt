@@ -11,7 +11,6 @@ import android.os.Process
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.location.LocationManagerCompat
 
 /**
  * Created by roman on 3/3/20
@@ -78,6 +77,9 @@ val Context?.hasUsagePermission: Boolean
     }
 
 val Context?.hasLocationPermission: Boolean
+    get() = hasPermission(ACCESS_FINE_LOCATION)
+
+/*val Context?.hasLocationPermission: Boolean
     get() {
         if (isMinM) {
             val location = locationManager ?: return false
@@ -85,5 +87,4 @@ val Context?.hasLocationPermission: Boolean
         } else {
            return hasManifest(ACCESS_FINE_LOCATION) || hasManifest(ACCESS_COARSE_LOCATION)
         }
-    }
-
+    }*/

@@ -32,8 +32,8 @@ class RadioPref
         return getPrivately(
             RadioConstants.Keys.PrefKeys.Station.ORDER,
             StationOrder::class.java,
-            StationOrder.NAME
-        )
+            null
+        ) ?: StationOrder.NAME
     }
 
     @Synchronized
@@ -46,8 +46,8 @@ class RadioPref
         return getPrivately(
             RadioConstants.Keys.Radio.STATION_STATE,
             RadioState::class.java,
-            defaultState
-        )
+            null
+        ) ?: defaultState
     }
 
     @Synchronized

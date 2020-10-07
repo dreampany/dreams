@@ -12,7 +12,7 @@
         android:minHeight="@dimen/_100sdp"
         auto:cardCornerRadius="@dimen/cornerRadius"
         auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/cornerRadius">
+        auto:cardElevation="@dimen/cornerRadius">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -23,17 +23,17 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_empty_coins"
+                android:text="@string/title_offline_coins"
                 android:textColor="@color/material_grey800"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/textSizePrimary"
                 auto:fontFamily="@font/roboto_slab_bold" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/message_empty_coins"
+                android:text="@string/message_offline_coins"
                 android:textColor="@color/material_grey800"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/textSizeSecondary"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

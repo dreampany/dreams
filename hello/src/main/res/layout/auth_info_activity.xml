@@ -80,15 +80,30 @@
                 </com.google.android.material.textfield.TextInputLayout>-->
 
                 <!-- birthday -->
-                <com.google.android.material.textview.MaterialTextView
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/align_margin"
                     android:layout_marginTop="@dimen/para_margin"
                     android:layout_marginEnd="@dimen/align_margin"
-                    android:text="Birthday"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/textSizePrimary" />
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Birthday"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/textSizePrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/align_margin"
+                        android:text="*"
+                        android:textColor="@color/error"
+                        android:textSize="@dimen/textSizePrimary" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -128,17 +143,42 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </com.google.android.material.card.MaterialCardView>
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/error_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/align_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:text="error"
+                    android:textColor="@color/error"
+                    android:textSize="@dimen/textSizePrimary" />
 
                 <!-- gender -->
-                <com.google.android.material.textview.MaterialTextView
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/align_margin"
                     android:layout_marginTop="@dimen/para_margin"
                     android:layout_marginEnd="@dimen/align_margin"
-                    android:text="Gender"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/textSizePrimary" />
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gender"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/textSizePrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/align_margin"
+                        android:text="*"
+                        android:textColor="@color/error"
+                        android:textSize="@dimen/textSizePrimary" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -187,6 +227,17 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/error_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/align_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:text="error"
+                    android:textColor="@color/error"
+                    android:textSize="@dimen/textSizePrimary" />
 
                 <!-- register -->
                 <com.google.android.material.button.MaterialButton

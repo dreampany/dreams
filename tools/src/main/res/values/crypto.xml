@@ -51,7 +51,10 @@
     <string name="title_favorite_coins">Favorite Coins</string>
 
     <string name="title_empty_coins" translatable="false">No Coins</string>
-    <string name="message_empty_coins" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
+    <string name="message_empty_coins" translatable="false">There is not videos at this moment. Please try later.</string>
+
+    <string name="title_offline_coins" translatable="false">No Internet!</string>
+    <string name="message_offline_coins" translatable="false">Please connect to internet and reload crypto currencies again.</string>
 
     <string name="title_empty_tickers" translatable="false">No Exchanges Found</string>
     <string name="message_empty_tickers" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>

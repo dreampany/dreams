@@ -57,7 +57,7 @@ class CoinsActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "CoinsActivity")
+            param.put(Constant.Param.SCREEN, "Tools.CoinsActivity")
 
             params.put(Constant.Event.ACTIVITY, param)
             return params
@@ -87,8 +87,12 @@ class CoinsActivity : InjectActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -137,12 +141,16 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
-        bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
         vm = createVm(CoinViewModel::class)
+
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
+
+        bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
+        bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_coins)
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -191,6 +199,14 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun processError(error: SmartError) {
+        if (error.hostError) {
+            if (adapter.isEmpty) {
+                bind.stateful.setState(StatefulLayout.State.OFFLINE)
+            } else {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+            }
+        }
+
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
         val message =
             if (error.hostError) getString(R.string.message_no_internet) else error.message

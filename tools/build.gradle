@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.firebase.firebase-perf'
+//apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 
@@ -16,8 +16,8 @@ android {
         applicationId 'com.dreampany.tools'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 142
-        versionName '1.4.2'
+        versionCode 143
+        versionName '1.4.3'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -144,12 +144,12 @@ dependencies {
     //implementation 'com.google.firebase:firebase-core:17.5.0'
     //implementation 'com.google.firebase:firebase-analytics:17.4.3'
     implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     //implementation 'com.google.firebase:firebase-crashlytics-ndk:17.0.0'
-    implementation 'com.google.firebase:firebase-perf:19.0.8'
+    //implementation 'com.google.firebase:firebase-perf:19.0.8'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
     implementation 'com.google.firebase:firebase-ads:19.4.0'
-    implementation 'com.google.firebase:firebase-database:19.4.0'
+    implementation 'com.google.firebase:firebase-database:19.5.0'
     implementation 'com.google.firebase:firebase-firestore:21.5.0'
     implementation 'com.google.firebase:firebase-messaging:20.2.4'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'

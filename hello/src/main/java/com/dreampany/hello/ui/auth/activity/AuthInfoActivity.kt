@@ -180,7 +180,16 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         }
         if (::birthdayCalendar.isInitialized.not()) {
             valid = false
-
+            //todo birthday error
+        }
+        val birth = Date().compareTo(birthdayCalendar.time)
+        if (birth < 0) {
+            valid = false
+            //todo birthday error
+        }
+        if (::gender.isInitialized.not()) {
+            valid = false
+            //todo gender error
         }
         if (valid.not()) return
         //vm.read(email, password)

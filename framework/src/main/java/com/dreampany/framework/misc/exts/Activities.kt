@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -77,6 +78,26 @@ fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finish: Boolean
         if (finish) {
             finish()
         }
+    }
+}
+
+fun <T : Any> Activity?.open(
+    target: KClass<T>,
+    finishCurrent: Boolean = false,
+    clearTask: Boolean = false
+) {
+    this?.run {
+        if (clearTask) {
+            val intent = Intent(this, target.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        } else {
+            startActivity(Intent(this, target.java))
+            if (finishCurrent) {
+                finish()
+            }
+        }
+
     }
 }
 
@@ -155,6 +176,19 @@ fun Activity?.hideKeyboard() {
             ?: return@Runnable) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }.run()
+}
+
+fun Activity?.openAppSettings(finishCurrent: Boolean = false) {
+    this?.run {
+        val intent = Intent()
+        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        val uri: Uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivity(intent)
+        if (finishCurrent) {
+            finish()
+        }
+    }
 }
 
 

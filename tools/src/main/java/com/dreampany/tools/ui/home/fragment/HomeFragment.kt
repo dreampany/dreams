@@ -69,24 +69,23 @@ class HomeFragment
     }
 
     private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            vm = createVm(FeatureViewModel::class)
-            vm.subscribes(this, Observer { this.processResponse(it) })
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(FeatureViewModel::class)
 
-            bind.swipe.disable()
-        }
+        vm.subscribes(this, Observer { this.processResponse(it) })
+
+        bind.swipe.disable()
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
-                Timber.v("StationItem: %s", item.item.toString())
-                openUi(item.item)
-            })
+        if (::adapter.isInitialized) return
+        adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
+            Timber.v("StationItem: %s", item.item.toString())
+            openUi(item.item)
+        })
 
-            adapter.initRecycler(state, bind.layoutRecycler.recycler)
-        }
+        adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {

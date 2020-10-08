@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.4.10'
     ext.nav_version = '2.3.0'
-    ext.lifecycle_version = '2.3.0-alpha07'
+    ext.lifecycle_version = '2.3.0-beta01'
     ext.arch_version = '2.1.0'
     ext.room_version = '2.2.5'
     ext.dagger = '2.29.1'

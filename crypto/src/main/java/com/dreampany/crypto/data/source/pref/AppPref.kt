@@ -30,8 +30,8 @@ class AppPref
         return getPrivately(
             AppConstants.Keys.Pref.CURRENCY,
             Currency::class.java,
-            Currency.USD
-        )
+            null
+        ) ?: Currency.USD
     }
 
     @Synchronized
@@ -39,8 +39,8 @@ class AppPref
         return getPrivately(
             AppConstants.Keys.Pref.SORT,
             Sort::class.java,
-            Sort.MARKET_CAP
-        )
+            null
+        ) ?: Sort.MARKET_CAP
     }
 
     @Synchronized
@@ -48,8 +48,8 @@ class AppPref
         return getPrivately(
             AppConstants.Keys.Pref.ORDER,
             Order::class.java,
-            Order.DESCENDING
-        )
+            null
+        ) ?: Order.DESCENDING
     }
 
     @Synchronized

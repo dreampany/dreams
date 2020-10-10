@@ -179,8 +179,8 @@ class VideosFragment
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-
         vm = createVm(VideoViewModel::class)
+
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
 

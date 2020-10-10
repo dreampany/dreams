@@ -3,6 +3,8 @@ package com.dreampany.tools.ui.home.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.context
+import com.dreampany.framework.misc.exts.toTint
+import com.dreampany.framework.misc.exts.toTintByColor
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.home.Feature
 import com.dreampany.tools.databinding.FeatureItemBinding
@@ -32,6 +34,9 @@ class FeatureItem(
         //bind.card.setCardBackgroundColor(item.color)
         bind.icon.setImageResource(item.iconRes)
         bind.title.text = bind.context.getText(item.titleRes)
+
+        bind.icon.toTintByColor(item.color)
+        bind.title.setTextColor(item.color)
     }
 
     override fun unbindView(binding: FeatureItemBinding) {

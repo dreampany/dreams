@@ -52,7 +52,7 @@ class ArticlesFragment
 
     override fun onStartUi(state: Bundle?) {
         val task = (task ?: return) as UiTask<NewsType, NewsSubtype, NewsState, NewsAction, Article>
-        subtype = task.subtype ?: return
+        subtype = task.subtype
         initUi()
         initRecycler(state)
         onRefresh()
@@ -63,8 +63,12 @@ class ArticlesFragment
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -88,24 +92,26 @@ class ArticlesFragment
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
-        bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_articles)
         vm = createVm(ArticleViewModel::class)
+
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
+
+        bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_articles)
+        bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_articles)
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastArticleAdapter(
-                { currentPage ->
-                    Timber.v("CurrentPage: %d", currentPage)
-                    onRefresh()
-                }, this::onItemPressed
-            )
-        }
-
+        if (::adapter.isInitialized) return
+        adapter = FastArticleAdapter(
+            { currentPage ->
+                Timber.v("CurrentPage: %d", currentPage)
+                onRefresh()
+            }, this::onItemPressed
+        )
         adapter.initRecycler(
             state,
             bind.layoutRecycler.recycler
@@ -135,6 +141,14 @@ class ArticlesFragment
     }
 
     private fun processError(error: SmartError) {
+        if (error.hostError) {
+            if (adapter.isEmpty) {
+                bind.stateful.setState(StatefulLayout.State.OFFLINE)
+            } else {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+            }
+        }
+
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
         val message =
             if (error.hostError) getString(R.string.message_no_internet) else error.message

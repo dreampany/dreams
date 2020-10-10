@@ -42,7 +42,7 @@ class NewsActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "NewsActivity")
+            param.put(Constant.Param.SCREEN, "Tools.NewsActivity")
 
             params.put(Constant.Event.ACTIVITY, param)
             return params
@@ -104,7 +104,7 @@ class NewsActivity : InjectActivity() {
         TabLayoutMediator(
             bind.tabs,
             bind.layoutPager.pager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
     }

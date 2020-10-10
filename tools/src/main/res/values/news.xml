@@ -3,8 +3,12 @@
     <string name="title_favorite_articles">Favorite Articles</string>
     <string name="subtitle_favorite_articles" translatable="false">Total: %d</string>
 
-    <string name="title_empty_articles" translatable="false">No Articles</string>
-    <string name="message_empty_articles" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
+    <string name="title_empty_articles" translatable="false">No Articles!</string>
+    <string name="message_empty_articles" translatable="false">There is no news articles at this moment. Please try later.</string>
+
+    <string name="title_offline_articles" translatable="false">No Internet!</string>
+    <string name="message_offline_articles" translatable="false">Please connect to internet and reload news articles again.</string>
+
 
     <string name="title_empty_favorite_articles" translatable="false">No Favorite Articles</string>
     <string name="message_empty_favorite_articles" translatable="false">It seems you have not made any favorite article yet.</string>

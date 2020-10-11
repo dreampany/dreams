@@ -2,10 +2,7 @@ package com.dreampany.tools.ui.wifi.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.exts.color
-import com.dreampany.framework.misc.exts.context
-import com.dreampany.framework.misc.exts.string
-import com.dreampany.framework.misc.exts.value
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.databinding.WifiItemBinding
@@ -68,6 +65,8 @@ private constructor(
             bind.context.getString(R.string.format_wifi_channel, input.signal?.channelDisplay.value)
         bind.distance.text =
             bind.context.getString(R.string.format_wifi_distance, input.signal?.distance.value)
+
+        bind.connection.visible(input.speed > 0)
     }
 
     override fun unbindView(binding: WifiItemBinding) {

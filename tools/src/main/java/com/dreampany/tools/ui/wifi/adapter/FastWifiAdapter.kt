@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.framework.misc.exts.value
@@ -68,7 +69,7 @@ class FastWifiAdapter(
         fastAdapter.addAdapter(1, footerAdapter)
 
         recycler.apply {
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = fastAdapter
             addItemDecoration(
                 SpacingItemDecoration(

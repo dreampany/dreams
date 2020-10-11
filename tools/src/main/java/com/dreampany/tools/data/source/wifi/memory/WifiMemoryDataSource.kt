@@ -28,14 +28,14 @@ class WifiMemoryDataSource(
     @Throws
     override suspend fun gets(): List<Wifi>? {
         provider.startScan
-        return mapper.gets(provider.scanResults)
+        return mapper.gets(provider.scanResults, provider.wifiInfo)
     }
 
     @Throws
     override suspend fun gets(callback: () -> Unit): List<Wifi>? {
         provider.enable(callback)
         provider.startScan
-        return mapper.gets(provider.scanResults)
+        return mapper.gets(provider.scanResults, provider.wifiInfo)
     }
 
 

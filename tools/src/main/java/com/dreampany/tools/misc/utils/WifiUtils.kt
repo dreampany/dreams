@@ -1,5 +1,6 @@
 package com.dreampany.tools.misc.utils
 
+import org.apache.commons.lang3.StringUtils
 import kotlin.math.abs
 
 /**
@@ -27,5 +28,10 @@ class WifiUtils {
             if (rssi >= MAX_RSSI) return levels.dec()
             return (rssi - MIN_RSSI) * levels.dec() / (MAX_RSSI - MIN_RSSI)
         }
+
+        fun convertSsid(ssid: String): String {
+            return StringUtils.removeEnd(StringUtils.removeStart(ssid, QUOTE), QUOTE)
+        }
+
     }
 }

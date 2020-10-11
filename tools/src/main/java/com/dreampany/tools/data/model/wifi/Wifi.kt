@@ -32,7 +32,8 @@ data class Wifi(
     var bssid: String = Constant.Default.STRING,
     var capabilities: String? = Constant.Default.NULL,
     @Embedded
-    var signal: Signal? = Constant.Default.NULL
+    var signal: Signal? = Constant.Default.NULL,
+    var speed : Int = Constant.Default.INT
     /*,
     var level : Int = Constants.Default.INT,
     var frequency : Int = Constants.Default.INT,

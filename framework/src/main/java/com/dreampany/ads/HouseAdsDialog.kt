@@ -24,6 +24,7 @@ import com.dreampany.ads.HouseAdsHelper.getDrawableUriAsString
 import com.dreampany.framework.R
 import com.dreampany.framework.misc.exts.hasDrawableSign
 import com.dreampany.framework.misc.exts.hasHttpSign
+import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
@@ -216,9 +217,9 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
             val cardView = view.findViewById<CardView>(R.id.houseAds_card_view)
             cardView.radius = cardCorner.toFloat()
 
-            val callToActionButton = view.findViewById<Button>(R.id.houseAds_cta)
-            val gradientDrawable = callToActionButton.background as GradientDrawable
-            gradientDrawable.cornerRadius = callToActionButtonCorner.toFloat()
+            val callToActionButton = view.findViewById<MaterialButton>(R.id.houseAds_cta)
+            /*val gradientDrawable = callToActionButton.background as GradientDrawable
+            gradientDrawable.cornerRadius = callToActionButtonCorner.toFloat()*/
 
             val icon = view.findViewById<ImageView>(R.id.houseAds_app_icon)
             val headerImage = view.findViewById<ImageView>(R.id.houseAds_header_image)
@@ -249,8 +250,8 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
                         )
                     }
 
-                    val drawable = callToActionButton.background as GradientDrawable
-                    drawable.setColor(dominantColor)
+                    /*val drawable = callToActionButton.background as GradientDrawable
+                    drawable.setColor(dominantColor)*/
 
                     if (dialogModal.getRating() > 0) {
                         ratings.rating = dialogModal.getRating()
@@ -292,7 +293,7 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
             title.text = dialogModal.appTitle
             description.text = dialogModal.appDesc
             callToActionButton.text = dialogModal.callToActionButtonText
-            if (dialogModal.price!!.trim().isEmpty()) price.visibility = View.GONE
+            if (dialogModal.price?.trim().isNullOrEmpty()) price.visibility = View.GONE
             else price.text =
                 String.format(context.getString(R.string.price_format), dialogModal.price)
 

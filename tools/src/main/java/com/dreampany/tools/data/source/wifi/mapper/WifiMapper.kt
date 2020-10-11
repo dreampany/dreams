@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.wifi.mapper
 
 import android.net.wifi.ScanResult
+import android.net.wifi.WifiInfo
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.sub
@@ -12,6 +13,7 @@ import com.dreampany.tools.data.model.wifi.Signal
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
+import com.dreampany.tools.misc.utils.WifiUtils
 import com.google.common.collect.Maps
 import timber.log.Timber
 import java.util.*
@@ -57,17 +59,22 @@ class WifiMapper
     }
 
     @Synchronized
-    fun gets(inputs: List<ScanResult>): List<Wifi> {
+    fun gets(inputs: List<ScanResult>, info: WifiInfo?): List<Wifi> {
         val result = arrayListOf<Wifi>()
+        val active = if (info == null) null else get(info)
         inputs.forEach { input ->
-            result.add(get(input))
+            val wifi = get(input)
+            if (wifi == active) {
+                wifi.speed = active.speed
+            }
+            result.add(wifi)
         }
         return result
     }
 
     @Synchronized
     fun get(input: ScanResult): Wifi {
-        Timber.v("Resolved Wifi: %s", input.BSSID);
+        Timber.v("Resolved Wifi: %s", input.BSSID)
         val id = input.BSSID + input.SSID
         var out: Wifi? = wifis.get(id)
         if (out == null) {
@@ -81,6 +88,27 @@ class WifiMapper
         val centerFrequency = centerFrequency(input, width)
         val band = Band.values().find { it.band.inRange(input.frequency) } ?: Band.GHZ2
         out.signal = Signal(input.frequency, centerFrequency, width, band, input.level, false)
+        return out
+    }
+
+    @Synchronized
+    fun get(input: WifiInfo): Wifi {
+        Timber.v("Resolved Wifi: %s", input.bssid)
+        val ssid = WifiUtils.convertSsid(input.ssid)
+        val id = input.bssid + ssid
+        var out: Wifi? = wifis.get(id)
+        if (out == null) {
+            out = Wifi(id)
+            wifis.put(id, out)
+        }
+        out.bssid = input.bssid
+        out.ssid = ssid
+        out.speed = input.linkSpeed
+        //out.capabilities = input.capabilities
+        //val width = Width.find(input)
+        //val centerFrequency = centerFrequency(input, width)
+        //val band = Band.values().find { it.band.inRange(input.frequency) } ?: Band.GHZ2
+        //out.signal = Signal(input.frequency, centerFrequency, width, band, input.level, false)
         return out
     }
 

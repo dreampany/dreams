@@ -8,8 +8,8 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_4sdp"
-        auto:cardElevation="@dimen/_4sdp"
+        auto:cardCornerRadius="@dimen/cornerRadius"
+        auto:cardElevation="@dimen/cornerRadius"
         auto:cardPreventCornerOverlap="false">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -63,7 +63,6 @@
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -98,6 +97,19 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:text="Connected"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textSizeSecondary"
+                auto:fontFamily="@font/roboto_slab_bold"
+                tools:text="@string/title" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>

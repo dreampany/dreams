@@ -17,7 +17,7 @@ import com.dreampany.tools.misc.constants.WifiConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Wifi::class], version = 7, exportSchema = false)
+@Database(entities = [Wifi::class], version = 8, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -26,7 +26,7 @@ abstract class DatabaseManager : RoomDatabase() {
 
         @Synchronized
         fun newInstance(context: Context, memoryOnly: Boolean): DatabaseManager {
-            val builder: RoomDatabase.Builder<DatabaseManager>
+            val builder: Builder<DatabaseManager>
 
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)

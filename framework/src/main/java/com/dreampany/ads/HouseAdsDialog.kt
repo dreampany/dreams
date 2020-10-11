@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -51,7 +50,7 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
     private var isAdLoaded = false
     private var isUsingRawRes = false
 
-    private var mAdListener: AdListener? = null
+    private var adListener: AdListener? = null
     private var dialog: AlertDialog? = null
 
     constructor(context: Context, @RawRes rawFile: Int) : this(context, "") {
@@ -75,7 +74,7 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
     }
 
     fun setAdListener(listener: AdListener): HouseAdsDialog {
-        this.mAdListener = listener
+        this.adListener = listener
         return this
     }
 
@@ -105,7 +104,7 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
                             jsonRawResponse = result
                             configureAds(result)
                         } else {
-                            mAdListener?.onAdLoadFailed(Exception(context.getString(R.string.error_null_response)))
+                            adListener?.onAdLoadFailed(Exception(context.getString(R.string.error_null_response)))
                         }
                     }
 
@@ -235,7 +234,7 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
             Picasso.get().load(iconUrlToLoad).into(icon, object : Callback {
                 override fun onSuccess() {
                     isAdLoaded = true
-                    mAdListener?.onAdLoaded()
+                    adListener?.onAdLoaded()
 
                     if (icon.visibility == View.GONE) icon.visibility = View.VISIBLE
                     var dominantColor = ContextCompat.getColor(context, R.color.colorAccent)
@@ -262,7 +261,7 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
 
                 override fun onError(exception: Exception) {
                     isAdLoaded = false
-                    mAdListener?.onAdLoadFailed(exception)
+                    adListener?.onAdLoadFailed(exception)
                     icon.visibility = View.GONE
                 }
             })
@@ -300,17 +299,17 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
 
             builder.setView(view)
             dialog = builder.create()
-            dialog!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog!!.setOnShowListener { mAdListener?.onAdShown() }
-            dialog!!.setOnCancelListener { mAdListener?.onAdClosed() }
-            dialog!!.setOnDismissListener { mAdListener?.onAdClosed() }
+            dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog?.setOnShowListener { adListener?.onAdShown() }
+            dialog?.setOnCancelListener { adListener?.onAdClosed() }
+            dialog?.setOnDismissListener { adListener?.onAdClosed() }
 
             callToActionButton.setOnClickListener {
                 dialog!!.dismiss()
                 val packageOrUrl = dialogModal.packageOrUrl
                 if (packageOrUrl!!.trim().startsWith("http")) {
                     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(packageOrUrl)))
-                    mAdListener?.onApplicationLeft()
+                    adListener?.onApplicationLeft()
                 } else {
                     try {
                         context.startActivity(
@@ -319,9 +318,9 @@ class HouseAdsDialog(private val context: Context, private val jsonUrl: String) 
                                 Uri.parse("market://details?id=$packageOrUrl")
                             )
                         )
-                        mAdListener?.onApplicationLeft()
+                        adListener?.onApplicationLeft()
                     } catch (e: ActivityNotFoundException) {
-                        mAdListener?.onApplicationLeft()
+                        adListener?.onApplicationLeft()
                         context.startActivity(
                             Intent(
                                 Intent.ACTION_VIEW,

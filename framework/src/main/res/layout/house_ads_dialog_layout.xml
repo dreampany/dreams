@@ -1,104 +1,102 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/houseAds_card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_margin="10dp"
-    app:cardPreventCornerOverlap="false">
+    android:orientation="vertical"
+    auto:cardPreventCornerOverlap="false">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
 
-
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/houseAds_header_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
             android:layout_marginBottom="5dp"
-            android:visibility="gone"
-            android:contentDescription="@string/header_image" />
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/header_image"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
 
-        <LinearLayout
-            android:layout_below="@id/houseAds_header_image"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/houseAds_ad_asset_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/houseAds_header_image"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/houseAds_app_icon"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 tools:ignore="ContentDescription" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/houseAds_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/houseAds_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/houseAds_rating"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:stepSize="0.1"
                         android:isIndicator="true"
-                        style="@style/Widget.AppCompat.RatingBar.Small"/>
+                        android:numStars="5"
+                        android:stepSize="0.1" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/houseAds_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+                        android:layout_marginStart="10dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        <Button
-            android:layout_below="@id/houseAds_ad_asset_holder"
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/houseAds_cta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="20dp"
+            android:layout_below="@id/houseAds_ad_asset_holder"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:textColor="#ffffff"
-            android:background="@drawable/dialog_cta_button_background"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            auto:backgroundTint="@color/colorAccent"
+            auto:cornerRadius="@dimen/_4sdp" />
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

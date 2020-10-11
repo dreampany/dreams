@@ -32,7 +32,7 @@ class Constant {
         }
 
         fun lastAppId(context: Context?): String =
-            context.lastApplicationId ?: Constant.Default.STRING
+            context.lastApplicationId ?: Default.STRING
 
         fun more(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
         fun about(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT
@@ -50,6 +50,8 @@ class Constant {
         const val ACTIVITY = "activity"
         const val FRAGMENT = "fragment"
         const val NOTIFICATION = "notification"
+
+        fun activity(context: Context?) : String = lastAppId(context).plus(Sep.DOT).plus(ACTIVITY)
     }
 
     object Param {

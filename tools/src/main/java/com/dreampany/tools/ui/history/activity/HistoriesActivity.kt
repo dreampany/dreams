@@ -42,7 +42,7 @@ class HistoriesActivity : InjectActivity() {
             param.put(Constant.Param.VERSION_NAME, versionName)
             param.put(Constant.Param.SCREEN, "HistoriesActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 

@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/material_grey300"
-    android:padding="@dimen/_4sdp">
+    android:padding="@dimen/margin">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/_100sdp"
-        auto:cardCornerRadius="3dp"
-        auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/_2sdp">
+        auto:cardCornerRadius="@dimen/cornerRadius"
+        auto:cardElevation="@dimen/cornerRadius"
+        auto:cardPreventCornerOverlap="false">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

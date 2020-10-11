@@ -11,7 +11,6 @@ import com.dreampany.tools.databinding.NewsActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.news.adapter.ArticlePagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import javax.inject.Inject
 
 /**
@@ -42,9 +41,9 @@ class NewsActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "Tools.NewsActivity")
+            param.put(Constant.Param.SCREEN, "NewsActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 

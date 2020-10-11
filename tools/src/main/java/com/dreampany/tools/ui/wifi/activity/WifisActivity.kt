@@ -68,7 +68,7 @@ class WifisActivity : InjectActivity() {
             param.put(Constant.Param.VERSION_NAME, versionName)
             param.put(Constant.Param.SCREEN, "WifisActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 

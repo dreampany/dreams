@@ -64,7 +64,7 @@ class NotesActivity : InjectActivity() {
             param.put(Constant.Param.VERSION_NAME, versionName)
             param.put(Constant.Param.SCREEN, "NotesActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 
@@ -291,6 +291,6 @@ class NotesActivity : InjectActivity() {
     }
 
     private fun openFavoritesUi() {
-         open(FavoriteNotesActivity::class)
+        open(FavoriteNotesActivity::class)
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="recycler_horizontal_spacing">4dp</dimen>
-    <dimen name="recycler_vertical_spacing">4dp</dimen>
-    <dimen name="recycler_spacing">2dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="list_item_spacing">16dp</dimen>
-    <dimen name="list_item_spacing_half">8dp</dimen>
+    <dimen name="recycler_horizontal_spacing">@dimen/_4sdp</dimen>
+    <dimen name="recycler_vertical_spacing">@dimen/_4sdp</dimen>
+    <dimen name="recycler_spacing">@dimen/_2sdp</dimen>
+    <dimen name="fab_margin">@dimen/_16sdp</dimen>
+    <dimen name="list_item_spacing">@dimen/_16sdp</dimen>
+    <dimen name="list_item_spacing_half">@dimen/_8sdp</dimen>
 </resources>

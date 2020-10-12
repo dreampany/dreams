@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.wifi.Strength
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.databinding.WifiItemBinding
 import com.google.common.base.Objects
@@ -46,20 +47,20 @@ private constructor(
 
 
     override fun bindView(bind: WifiItemBinding, payloads: List<Any>) {
-        val strength = input.signal?.strength
+        val strength = input.signal?.strength ?: Strength.ZERO
         val security = input.security
 
-        bind.icon.setImageResource(strength?.imageRes.value)
-        bind.icon.setColorFilter(bind.color(strength?.colorRes.value))
+        bind.icon.setImageResource(strength.imageRes.value)
+        bind.icon.setColorFilter(bind.color(strength.colorRes.value))
 
         bind.securityIcon.setImageResource(security.res)
-        bind.securityIcon.setColorFilter(bind.color(strength?.colorRes.value))
+        bind.securityIcon.setColorFilter(bind.color(strength.colorRes.value))
 
         bind.ssid.text =
             String.format(bind.string(R.string.format_ssid_bssid), input.ssid, input.bssid)
         bind.level.text =
             String.format(bind.string(R.string.format_wifi_level), input.signal?.level)
-        bind.level.setTextColor(bind.color(strength?.colorRes.value))
+        bind.level.setTextColor(bind.color(strength.colorRes.value))
 
         bind.channel.text =
             bind.context.getString(R.string.format_wifi_channel, input.signal?.channelDisplay.value)

@@ -14,14 +14,15 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
+            android:paddingBottom="@dimen/_8sdp"
+            android:paddingTop="@dimen/_8sdp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_8sdp">
+                android:layout_gravity="center_horizontal" >
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/icon"
@@ -103,7 +104,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="Connected"
                 android:textColor="@color/colorAccent"

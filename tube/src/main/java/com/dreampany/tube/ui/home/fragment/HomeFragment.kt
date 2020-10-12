@@ -1,15 +1,10 @@
 package com.dreampany.tube.ui.home.fragment
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
-import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
-import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tube.R
 import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
@@ -17,12 +12,10 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.databinding.HomeFragmentBinding
-import com.dreampany.tube.databinding.RecyclerFragmentBinding
 import com.dreampany.tube.ui.home.adapter.CategoryPagerAdapter
 import com.dreampany.tube.ui.home.model.CategoryItem
 import com.dreampany.tube.ui.home.vm.CategoryViewModel
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,7 +30,7 @@ class HomeFragment
 @Inject constructor() : InjectFragment() {
 
     @Inject
-    internal lateinit var pref : AppPref
+    internal lateinit var pref: AppPref
 
     private lateinit var bind: HomeFragmentBinding
     private lateinit var vm: CategoryViewModel
@@ -67,14 +60,11 @@ class HomeFragment
     }
 
     private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
-            /*bind.fab.visible()
-            bind.fab.setOnSafeClickListener { openScanUi() }*/
-            vm = createVm(CategoryViewModel::class)
-            vm.subscribes(this, Observer { this.processResponses(it) })
-        }
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(CategoryViewModel::class)
+
+        vm.subscribes(this, { this.processResponses(it) })
     }
 
     private fun initPager() {
@@ -83,7 +73,7 @@ class HomeFragment
         TabLayoutMediator(
             bind.tabs,
             bind.pager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
     }

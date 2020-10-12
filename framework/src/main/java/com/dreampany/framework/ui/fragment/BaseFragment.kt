@@ -38,8 +38,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     @Inject
     protected lateinit var ex: Executors
 
-    private lateinit var menu: Menu
-
+    protected var savedInstanceState = false
+    protected lateinit var menu: Menu
     protected var currentView: View? = null
 
     protected var activityCallback: Callback? = null
@@ -146,6 +146,16 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
             }
         }
         super.onDestroyView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        savedInstanceState = true
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(inState: Bundle?) {
+        super.onViewStateRestored(inState)
+        savedInstanceState = false
     }
 
     override fun onRefresh() {}

@@ -32,8 +32,8 @@
                 auto:layout_scrollFlags="exitUntilCollapsed"
                 auto:tabGravity="fill"
                 auto:tabIndicator="@drawable/tab_indicator"
-                auto:tabIndicatorColor="@color/textColorPrimary"
-                auto:tabIndicatorHeight="@dimen/_4sdp"
+                auto:tabIndicatorColor="@color/colorAccent"
+                auto:tabIndicatorHeight="@dimen/tabSize"
                 auto:tabMode="scrollable"
                 auto:tabSelectedTextColor="@color/textColorPrimary"
                 auto:tabTextAppearance="@style/TabTextLight" />

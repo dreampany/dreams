@@ -3,7 +3,6 @@ package com.dreampany.hello.ui.auth.activity
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.DatePicker
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
@@ -15,6 +14,8 @@ import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.databinding.AuthInfoActivityBinding
 import com.dreampany.hello.misc.Constants
+import com.dreampany.hello.misc.active
+import com.dreampany.hello.misc.inactive
 import com.dreampany.hello.ui.auth.fragment.BirthdayFragment
 import com.dreampany.hello.ui.vm.AuthViewModel
 import com.dreampany.hello.ui.vm.UserViewModel
@@ -51,6 +52,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
 
     override fun onDateSet(picker: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
         updateUi(year, month, dayOfMonth)
+        updateUi()
     }
 
     private fun initUi() {
@@ -69,14 +71,17 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
 
         bind.male.setOnSafeClickListener {
             updateUi(Gender.MALE)
+            updateUi()
         }
 
         bind.female.setOnSafeClickListener {
             updateUi(Gender.FEMALE)
+            updateUi()
         }
 
         bind.other.setOnSafeClickListener {
             updateUi(Gender.OTHER)
+            updateUi()
         }
 
         bind.register.setOnSafeClickListener {
@@ -169,6 +174,22 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
                 bind.other.setTextColor(color(R.color.white))
             }
         }
+    }
+
+    private fun updateUi() {
+        if (bind.inputEmail.isEmpty) {
+            bind.register.inactive()
+            return
+        }
+        if (::birthdayCalendar.isInitialized.not()) {
+            bind.register.inactive()
+            return
+        }
+        if (::gender.isInitialized.not()) {
+            bind.register.inactive()
+            return
+        }
+        bind.register.active()
     }
 
     private fun register() {

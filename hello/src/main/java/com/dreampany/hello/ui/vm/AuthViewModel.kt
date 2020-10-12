@@ -30,6 +30,7 @@ class AuthViewModel
     application,
     rm
 ) {
+
     fun write(input: Auth) {
         uiScope.launch {
             progressSingle(true)
@@ -119,7 +120,7 @@ class AuthViewModel
     }
 
     private fun postError(error: SmartError) {
-        postMultiple(
+        postSingle(
             Type.AUTH,
             Subtype.DEFAULT,
             State.DEFAULT,

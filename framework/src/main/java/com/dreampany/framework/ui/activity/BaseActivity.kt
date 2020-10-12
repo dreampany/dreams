@@ -279,6 +279,10 @@ abstract class BaseActivity : AppCompatActivity(),
         }
     }
 
+    protected fun progress(progress : Boolean) {
+        if (progress) showProgress() else hideProgress()
+    }
+
     protected fun showDialogue(
         @StringRes titleRes: Int,
         @StringRes messageRes: Int = 0,

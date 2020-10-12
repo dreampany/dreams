@@ -229,6 +229,7 @@ class LoginActivity : InjectActivity() {
     private fun processAuthResponse(response: Response<Type, Subtype, State, Action, Auth>) {
         if (response is Response.Progress) {
             //bind.swipe.refresh(response.progress)
+            progress(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, Auth>) {

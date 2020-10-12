@@ -152,7 +152,8 @@
                     android:layout_marginEnd="@dimen/align_margin"
                     android:text="error"
                     android:textColor="@color/error"
-                    android:textSize="@dimen/textSizePrimary" />
+                    android:textSize="@dimen/textSizePrimary"
+                    android:visibility="gone" />
 
                 <!-- gender -->
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -237,7 +238,8 @@
                     android:layout_marginEnd="@dimen/align_margin"
                     android:text="error"
                     android:textColor="@color/error"
-                    android:textSize="@dimen/textSizePrimary" />
+                    android:textSize="@dimen/textSizePrimary"
+                    android:visibility="gone" />
 
                 <!-- register -->
                 <com.google.android.material.button.MaterialButton

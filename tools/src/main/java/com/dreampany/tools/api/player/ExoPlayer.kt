@@ -7,7 +7,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.R
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.audio.AudioAttributes
@@ -93,7 +93,7 @@ constructor(
             player?.addAnalyticsListener(this)
 
         }
-        hls = url.endsWith(AppConstants.Extension.M3U8)
+        hls = url.endsWith(Constants.Extension.M3U8)
         val retryTimeout = 4L
         val retryDelay = 10L
 

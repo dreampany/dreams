@@ -7,7 +7,7 @@ import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
@@ -32,13 +32,13 @@ data class Trade(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     var exchange: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Trade.FROM_SYMBOL)
+    @ColumnInfo(name = Constants.Keys.Trade.FROM_SYMBOL)
     private var fromSymbol: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Trade.TO_SYMBOL)
+    @ColumnInfo(name = Constants.Keys.Trade.TO_SYMBOL)
     private var toSymbol: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Trade.VOLUME_24H)
+    @ColumnInfo(name = Constants.Keys.Trade.VOLUME_24H)
     private var volume24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Trade.VOLUME_24H_TO)
+    @ColumnInfo(name = Constants.Keys.Trade.VOLUME_24H_TO)
     private var volume24hTo: Double = Constant.Default.DOUBLE
 ) : Base() {
 
@@ -66,42 +66,42 @@ data class Trade(
         return "Trade ($id) == $id"
     }
 
-    @PropertyName(AppConstants.Keys.Trade.FROM_SYMBOL)
+    @PropertyName(Constants.Keys.Trade.FROM_SYMBOL)
     fun setFromSymbol(fromSymbol: String) {
         this.fromSymbol = fromSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.FROM_SYMBOL)
+    @PropertyName(Constants.Keys.Trade.FROM_SYMBOL)
     fun getFromSymbol(): String {
         return fromSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.TO_SYMBOL)
+    @PropertyName(Constants.Keys.Trade.TO_SYMBOL)
     fun setToSymbol(toSymbol: String) {
         this.toSymbol = toSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.TO_SYMBOL)
+    @PropertyName(Constants.Keys.Trade.TO_SYMBOL)
     fun getToSymbol(): String {
         return toSymbol
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H)
+    @PropertyName(Constants.Keys.Trade.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {
         this.volume24h = volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H)
+    @PropertyName(Constants.Keys.Trade.VOLUME_24H)
     fun getVolume24h(): Double {
         return volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H_TO)
+    @PropertyName(Constants.Keys.Trade.VOLUME_24H_TO)
     fun setVolume24hTo(volume24hTo: Double) {
         this.volume24hTo = volume24hTo
     }
 
-    @PropertyName(AppConstants.Keys.Trade.VOLUME_24H_TO)
+    @PropertyName(Constants.Keys.Trade.VOLUME_24H_TO)
     fun getVolume24hTo(): Double {
         return volume24hTo
     }

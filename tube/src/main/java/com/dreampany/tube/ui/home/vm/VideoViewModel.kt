@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -39,7 +40,6 @@ class VideoViewModel
     application,
     rm
 ) {
-
 
     fun loadRegionVideos(regionCode: String, order: String, offset: Long) {
         uiScope.launch {

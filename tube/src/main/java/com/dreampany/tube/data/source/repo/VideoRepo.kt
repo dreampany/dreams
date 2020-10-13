@@ -146,7 +146,6 @@ class VideoRepo
                         result = remote.gets(it)
                         result?.let {
                             val puts = room.put(it)
-                            Timber.v("")
                         }
                         result?.forEach {
                             mapper.commitExpire(it.id)

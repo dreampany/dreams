@@ -8,7 +8,7 @@ import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.crypto.Currency
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
@@ -24,27 +24,27 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constant.Keys.ID, AppConstants.Keys.Quote.CURRENCY],
+        value = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY],
         unique = true
     )],
-    primaryKeys = [Constant.Keys.ID, AppConstants.Keys.Quote.CURRENCY]
+    primaryKeys = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY]
 )
 data class Quote(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     var currency: Currency = Currency.USD,
     var price: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.VOLUME_24H)
+    @ColumnInfo(name = Constants.Keys.Quote.VOLUME_24H)
     private var volume24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.MARKET_CAP)
+    @ColumnInfo(name = Constants.Keys.Quote.MARKET_CAP)
     private var marketCap: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_1H)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_1H)
     private var change1h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_24H)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_24H)
     private var change24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_7D)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_7D)
     private var change7d: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.LAST_UPDATED)
+    @ColumnInfo(name = Constants.Keys.Quote.LAST_UPDATED)
     private var lastUpdated: Long = Constant.Default.LONG
 ) : Base() {
 
@@ -68,62 +68,62 @@ data class Quote(
         return Objects.equal(item.id, id) && Objects.equal(item.currency, currency)
     }
 
-    @PropertyName(AppConstants.Keys.Quote.VOLUME_24H)
+    @PropertyName(Constants.Keys.Quote.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {
         this.volume24h = volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.VOLUME_24H)
+    @PropertyName(Constants.Keys.Quote.VOLUME_24H)
     fun getVolume24h(): Double {
         return volume24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.MARKET_CAP)
+    @PropertyName(Constants.Keys.Quote.MARKET_CAP)
     fun setMarketCap(marketCap: Double) {
         this.marketCap = marketCap
     }
 
-    @PropertyName(AppConstants.Keys.Quote.MARKET_CAP)
+    @PropertyName(Constants.Keys.Quote.MARKET_CAP)
     fun getMarketCap(): Double {
         return marketCap
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_1H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_1H)
     fun setChange1h(change1h: Double) {
         this.change1h = change1h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_1H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_1H)
     fun getChange1h(): Double {
         return change1h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_24H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_24H)
     fun setChange24h(change24h: Double) {
         this.change24h = change24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_24H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_24H)
     fun getChange24h(): Double {
         return change24h
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_7D)
+    @PropertyName(Constants.Keys.Quote.CHANGE_7D)
     fun setChange7d(change7d: Double) {
         this.change7d = change7d
     }
 
-    @PropertyName(AppConstants.Keys.Quote.CHANGE_7D)
+    @PropertyName(Constants.Keys.Quote.CHANGE_7D)
     fun getChange7d(): Double {
         return change7d
     }
 
-    @PropertyName(AppConstants.Keys.Quote.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Quote.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
         this.lastUpdated = lastUpdated
     }
 
-    @PropertyName(AppConstants.Keys.Quote.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Quote.LAST_UPDATED)
     fun getLastUpdated(): Long {
         return lastUpdated
     }

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AppConstants {
+class Constants {
 
     companion object {
         const val APPS_URL =
@@ -71,6 +71,7 @@ class AppConstants {
 
     object Times {
 
+        val HOUSE_ADS = TimeUnit.HOURS.toMillis(1)
         val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
         val STATION = TimeUnit.DAYS.toMillis(10)

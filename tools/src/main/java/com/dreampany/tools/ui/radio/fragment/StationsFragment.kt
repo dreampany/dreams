@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.Menu
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
@@ -20,11 +19,10 @@ import com.dreampany.tools.data.enums.radio.RadioSubtype
 import com.dreampany.tools.data.enums.radio.RadioType
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.manager.RadioPlayerManager
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.ui.radio.adapter.FastStationAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.dreampany.tools.ui.radio.vm.StationViewModel
-import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -65,7 +63,7 @@ class StationsFragment
 
     override fun onResume() {
         super.onResume()
-        val filter = IntentFilter(AppConstants.Service.PLAYER_SERVICE_UPDATE)
+        val filter = IntentFilter(Constants.Service.PLAYER_SERVICE_UPDATE)
         bindLocalCast(serviceUpdateReceiver, filter)
     }
 

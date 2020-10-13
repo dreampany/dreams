@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.enums.crypto
 
 import android.os.Parcelable
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -14,6 +14,6 @@ import kotlinx.android.parcel.Parcelize
 enum class CoinSort(
     val value: String
 ) : Parcelable {
-    MARKET_CAP(AppConstants.Keys.Quote.MARKET_CAP),
-    RANK(AppConstants.Keys.Quote.MARKET_CAP)
+    MARKET_CAP(Constants.Keys.Quote.MARKET_CAP),
+    RANK(Constants.Keys.Quote.MARKET_CAP)
 }

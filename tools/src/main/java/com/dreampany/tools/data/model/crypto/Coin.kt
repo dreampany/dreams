@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.crypto.Currency
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import com.google.common.collect.Maps
 import com.google.firebase.database.Exclude
@@ -39,22 +39,22 @@ data class Coin(
     var name: String = Constant.Default.STRING,
     var symbol: String = Constant.Default.STRING,
     var slug: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Coin.MAX_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.MAX_SUPPLY)
     private var maxSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Coin.TOTAL_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.TOTAL_SUPPLY)
     private var totalSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Coin.MARKET_PAIRS)
+    @ColumnInfo(name = Constants.Keys.Coin.MARKET_PAIRS)
     private var marketPairs: Int = Constant.Default.INT,
     var rank: Int = Constant.Default.INT,
     @Ignore
     @Exclude
     var quotes: HashMap<Currency, Quote> = Maps.newHashMap(),
     var tags: List<String>? = Constant.Default.NULL,
-    @ColumnInfo(name = AppConstants.Keys.Coin.DATE_ADDED)
+    @ColumnInfo(name = Constants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constant.Default.LONG,
-    @ColumnInfo(name = AppConstants.Keys.Coin.LAST_UPDATED)
+    @ColumnInfo(name = Constants.Keys.Coin.LAST_UPDATED)
     private var lastUpdated: Long = Constant.Default.LONG
 ) : Base() {
 
@@ -78,62 +78,62 @@ data class Coin(
 
     override fun toString(): String = "Coin ($id) == $id"
 
-    @PropertyName(AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.CIRCULATING_SUPPLY)
     fun setCirculatingSupply(circulatingSupply: Double) {
         this.circulatingSupply = circulatingSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.CIRCULATING_SUPPLY)
     fun getCirculatingSupply(): Double {
         return circulatingSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.TOTAL_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.TOTAL_SUPPLY)
     fun setTotalSupply(totalSupply: Double) {
         this.totalSupply = totalSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.TOTAL_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.TOTAL_SUPPLY)
     fun getTotalSupply(): Double {
         return totalSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MAX_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.MAX_SUPPLY)
     fun setMaxSupply(maxSupply: Double) {
         this.maxSupply = maxSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MAX_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.MAX_SUPPLY)
     fun getMaxSupply(): Double {
         return maxSupply
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MARKET_PAIRS)
+    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
     fun setMarketPairs(marketPairs: Int) {
         this.marketPairs = marketPairs
     }
 
-    @PropertyName(AppConstants.Keys.Coin.MARKET_PAIRS)
+    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
     fun getMarketPairs(): Int {
         return marketPairs
     }
 
-    @PropertyName(AppConstants.Keys.Coin.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Coin.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
         this.lastUpdated = lastUpdated
     }
 
-    @PropertyName(AppConstants.Keys.Coin.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Coin.LAST_UPDATED)
     fun getLastUpdated(): Long {
         return lastUpdated
     }
 
-    @PropertyName(AppConstants.Keys.Coin.DATE_ADDED)
+    @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun setDateAdded(dateAdded: Long) {
         this.dateAdded = dateAdded
     }
 
-    @PropertyName(AppConstants.Keys.Coin.DATE_ADDED)
+    @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun getDateAdded(): Long = dateAdded
 
     @Exclude

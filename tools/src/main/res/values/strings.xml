@@ -14,4 +14,6 @@
     <string name="format_quiz_point" formatted="false">Point: %d / %d</string>
     <string name="format_quiz_count" formatted="false">Quiz: %d / %d</string>
 
+    <string name="title_categories" translatable="false">Categories</string>
+
 </resources>

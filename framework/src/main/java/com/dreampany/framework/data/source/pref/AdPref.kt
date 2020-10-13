@@ -38,7 +38,7 @@ class AdPref
     fun isBannerExpired(expireTime: Long): Boolean {
         updateIfMissing(Constant.Keys.Ad.BANNER, Util.currentMillis())
         val time = getPrivately(Constant.Keys.Ad.BANNER, Constant.Default.LONG)
-        return time.isExpired( expireTime)
+        return time.isExpired(expireTime)
     }
 
     fun isInterstitialExpired(expireTime: Long): Boolean {

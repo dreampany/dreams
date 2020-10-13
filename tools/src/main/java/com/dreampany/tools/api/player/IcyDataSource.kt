@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.api.radio.Mapper
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener
@@ -36,8 +36,8 @@ class IcyDataSource(
 ) : HttpDataSource {
 
     companion object {
-        val DEFAULT_TIME_UNTIL_STOP_RECONNECTING: Long = AppConstants.Times.minuteToMillis(2)
-        val DEFAULT_DELAY_BETWEEN_RECONNECTIONS: Long = AppConstants.Times.minuteToMillis(0)
+        val DEFAULT_TIME_UNTIL_STOP_RECONNECTING: Long = Constants.Times.minuteToMillis(2)
+        val DEFAULT_DELAY_BETWEEN_RECONNECTIONS: Long = Constants.Times.minuteToMillis(0)
     }
 
     interface Listener {
@@ -78,12 +78,12 @@ class IcyDataSource(
 
         val builder = Request.Builder()
             .url(url)
-            .addHeader(AppConstants.Header.ICY_METADATA, AppConstants.Header.ICY_METADATA_OK)
+            .addHeader(Constants.Header.ICY_METADATA, Constants.Header.ICY_METADATA_OK)
 
         if (!allowGzip) {
             builder.addHeader(
-                AppConstants.Header.ACCEPT_ENCODING,
-                AppConstants.Header.ACCEPT_ENCODING_IDENTITY
+                Constants.Header.ACCEPT_ENCODING,
+                Constants.Header.ACCEPT_ENCODING_IDENTITY
             )
         }
 
@@ -185,7 +185,7 @@ class IcyDataSource(
         val type =
             contentType?.toString()?.toLowerCase() ?: MediaUtil.getMimeType(
                 spec.uri.toString(),
-                AppConstants.MimeType.AUDIO_MPEG
+                Constants.MimeType.AUDIO_MPEG
             )
 
         if (!HttpDataSource.REJECT_PAYWALL_TYPES.evaluate(type)) {
@@ -198,7 +198,7 @@ class IcyDataSource(
         listener.onConnected()
         transferListener.onTransferStart(this, spec, true)
 
-        if (type == AppConstants.ContentType.APPLE_MPEGURL || type == AppConstants.ContentType.X_MPEGURL) {
+        if (type == Constants.ContentType.APPLE_MPEGURL || type == Constants.ContentType.X_MPEGURL) {
             return body!!.contentLength()
         } else {
             remainingUntilMetadata = Integer.MAX_VALUE

@@ -8,7 +8,7 @@ import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.api.StationDataSource
 import com.dreampany.tools.data.source.radio.pref.RadioPref
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import java.util.*
 import javax.inject.Inject
@@ -43,7 +43,7 @@ class StationMapper
         state: RadioState
     ): Boolean {
         val time = pref.getExpireTime(state)
-        return time.isExpired(AppConstants.Times.RADIO.LISTING)
+        return time.isExpired(Constants.Times.RADIO.LISTING)
     }
 
     @Synchronized
@@ -56,7 +56,7 @@ class StationMapper
         offset: Long
     ): Boolean {
         val time = pref.getExpireTime(state, countryCode, hideBroken, order, reverse, offset)
-        return time.isExpired(AppConstants.Times.RADIO.LISTING)
+        return time.isExpired(Constants.Times.RADIO.LISTING)
     }
 
     @Synchronized

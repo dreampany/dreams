@@ -33,7 +33,7 @@ import com.dreampany.tools.api.radio.RadioPlayer
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
 import com.dreampany.tools.data.model.radio.Station
-import com.dreampany.tools.misc.constants.AppConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.RadioConstants
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import timber.log.Timber
@@ -99,13 +99,13 @@ class RadioPlayerService
             Timber.v("with a null intent. It has been probably restarted by the system.")
         } else {
             when (action) {
-                AppConstants.Service.Command.RESUME -> {
+                Constants.Service.Command.RESUME -> {
                     resume()
                 }
-                AppConstants.Service.Command.PAUSE -> {
+                Constants.Service.Command.PAUSE -> {
                     pause()
                 }
-                AppConstants.Service.Command.STOP -> {
+                Constants.Service.Command.STOP -> {
                     stop()
                 }
             }
@@ -155,8 +155,8 @@ class RadioPlayerService
 
             updateNotify(state)
 
-            val intent = Intent(AppConstants.Service.PLAYER_SERVICE_STATE_CHANGE)
-            intent.putExtra(AppConstants.Service.PLAYER_SERVICE_STATE, state)
+            val intent = Intent(Constants.Service.PLAYER_SERVICE_STATE_CHANGE)
+            intent.putExtra(Constants.Service.PLAYER_SERVICE_STATE, state)
             localCast(intent)
         })
     }
@@ -179,7 +179,7 @@ class RadioPlayerService
         Timber.v("Hls:$hls")
         Timber.v("Server: $cast.server")
         Timber.v("AudioInfo: $cast.audioInfo")
-        localCast(AppConstants.Service.PLAYER_SERVICE_UPDATE)
+        localCast(Constants.Service.PLAYER_SERVICE_UPDATE)
     }
 
     override fun onStream(stream: Stream) {
@@ -190,7 +190,7 @@ class RadioPlayerService
         }
 
         if (oldStream == null || !oldStream.title?.value.equals(stream.title)) {
-            localCast(AppConstants.Service.PLAYER_SERVICE_UPDATE)
+            localCast(Constants.Service.PLAYER_SERVICE_UPDATE)
             updateNotify()
         }
     }
@@ -381,7 +381,7 @@ class RadioPlayerService
     private fun updateNotify(state: SmartPlayer.State) {
         when (state) {
             SmartPlayer.State.IDLE -> {
-                notifyManager.cancel(AppConstants.Notify.PLAYER_FOREGROUND_ID)
+                notifyManager.cancel(Constants.Notify.PLAYER_FOREGROUND_ID)
             }
             SmartPlayer.State.PRE_PLAYING -> {
                 showNotify(
@@ -435,11 +435,11 @@ class RadioPlayerService
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         val stopIntent = Intent(this, RadioPlayerService::class.java)
-        stopIntent.action = AppConstants.Service.Command.STOP
+        stopIntent.action = Constants.Service.Command.STOP
         val pendingIntentStop = PendingIntent.getService(this, 0, stopIntent, 0)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
-                AppConstants.Notify.PLAYER_FOREGROUND_CHANNEL_ID,
+                Constants.Notify.PLAYER_FOREGROUND_CHANNEL_ID,
                 "Smart Radio",
                 NotificationManager.IMPORTANCE_LOW
             )
@@ -457,7 +457,7 @@ class RadioPlayerService
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         val builder =
-            NotificationCompat.Builder(this, AppConstants.Notify.PLAYER_FOREGROUND_CHANNEL_ID)
+            NotificationCompat.Builder(this, Constants.Notify.PLAYER_FOREGROUND_CHANNEL_ID)
                 .setContentIntent(contentIntent)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -480,7 +480,7 @@ class RadioPlayerService
         val state = player.getState()
         if (state == SmartPlayer.State.PRE_PLAYING || state == SmartPlayer.State.PLAYING) {
             val pauseIntent = Intent(this, RadioPlayerService::class.java)
-            pauseIntent.action = AppConstants.Service.Command.PAUSE
+            pauseIntent.action = Constants.Service.Command.PAUSE
             val pendingIntentPause = PendingIntent.getService(this, 0, pauseIntent, 0)
 
             builder.addAction(
@@ -493,7 +493,7 @@ class RadioPlayerService
         } else if (state == SmartPlayer.State.IDLE || state == SmartPlayer.State.PAUSED) {
 
             val resumeIntent = Intent(this, RadioPlayerService::class.java)
-            resumeIntent.action = AppConstants.Service.Command.RESUME
+            resumeIntent.action = Constants.Service.Command.RESUME
             val pendingIntentResume = PendingIntent.getService(this, 0, resumeIntent, 0)
 
             builder.addAction(
@@ -518,7 +518,7 @@ class RadioPlayerService
                 .setShowCancelButton(true)
         )
         val notification = builder.build()
-        startForeground(AppConstants.Notify.PLAYER_FOREGROUND_ID, notification)
+        startForeground(Constants.Notify.PLAYER_FOREGROUND_ID, notification)
 
         if (state == SmartPlayer.State.PAUSED) {
             stopForeground(false) // necessary to make notification dismissible

@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -62,6 +63,9 @@ class ArticleViewModel
                 when (subtype) {
                     NewsSubtype.COUNTRY -> {
                         result = repo.getsByCountry(getApplication<App>().countryCode, 1, 100)
+                        if (result.isNullOrEmpty()) {
+                            result = repo.getsByCountry(Locale.US.country, 1, 100)
+                        }
                     }
                     else -> {
                         result = repo.getsByCategory(subtype.toCategory.value, 1, 100)
@@ -80,16 +84,16 @@ class ArticleViewModel
         }
     }
 
-    private val NewsSubtype.toCategory : NewsCategory
+    private val NewsSubtype.toCategory: NewsCategory
         get() {
-            when(this) {
-                NewsSubtype.GENERAL-> return NewsCategory.GENERAL
-                NewsSubtype.HEALTH-> return NewsCategory.HEALTH
-                NewsSubtype.BUSINESS-> return NewsCategory.BUSINESS
-                NewsSubtype.ENTERTAINMENT-> return NewsCategory.ENTERTAINMENT
-                NewsSubtype.SPORTS-> return NewsCategory.SPORTS
-                NewsSubtype.SCIENCE-> return NewsCategory.SCIENCE
-                NewsSubtype.TECHNOLOGY-> return NewsCategory.TECHNOLOGY
+            when (this) {
+                NewsSubtype.GENERAL -> return NewsCategory.GENERAL
+                NewsSubtype.HEALTH -> return NewsCategory.HEALTH
+                NewsSubtype.BUSINESS -> return NewsCategory.BUSINESS
+                NewsSubtype.ENTERTAINMENT -> return NewsCategory.ENTERTAINMENT
+                NewsSubtype.SPORTS -> return NewsCategory.SPORTS
+                NewsSubtype.SCIENCE -> return NewsCategory.SCIENCE
+                NewsSubtype.TECHNOLOGY -> return NewsCategory.TECHNOLOGY
                 else -> return NewsCategory.GENERAL
             }
         }

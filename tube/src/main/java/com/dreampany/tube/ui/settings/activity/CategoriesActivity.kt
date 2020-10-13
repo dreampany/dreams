@@ -44,7 +44,7 @@ class CategoriesActivity : InjectActivity() {
     private lateinit var adapter: FastCategoryAdapter
 
     override val layoutRes: Int = R.layout.recycler_activity
-    override val menuRes: Int = R.menu.menu_categories
+    override val menuRes: Int = R.menu.categories_menu
     override val toolbarId: Int = R.id.toolbar
 
     override val params: Map<String, Map<String, Any>?>?

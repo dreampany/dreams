@@ -6,11 +6,14 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.dreampany.ads.HouseAdsDialog
 import com.dreampany.framework.data.source.pref.AdPref
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.exts.gone
+import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.structure.MutablePair
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.R
+import com.dreampany.tools.misc.constants.Constants
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -58,6 +61,7 @@ class AdManager
     private lateinit var config: Config
 
     private var ads: HouseAdsDialog? = null
+    private var houseAdsTime = 0L
 
     fun setConfig(config: Config) {
         this.config = config
@@ -349,6 +353,8 @@ class AdManager
     }
 
     fun showInHouseAds(context: Context) {
+        if (houseAdsTime.isExpired(Constants.Times.HOUSE_ADS).not()) return
+        houseAdsTime = currentMillis
         ads = HouseAdsDialog(context, R.raw.apps).apply {
             hideIfAppInstalled(true)
             setCardCorners(16)

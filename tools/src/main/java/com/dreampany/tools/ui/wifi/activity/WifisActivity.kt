@@ -82,7 +82,6 @@ class WifisActivity : InjectActivity() {
     }
 
     override fun onStopUi() {
-        adapter.destroy()
         vm.stopPeriodicWifis()
     }
 
@@ -97,8 +96,12 @@ class WifisActivity : InjectActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -151,13 +154,14 @@ class WifisActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            bind.swipe.init(this)
-            bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_wifis)
-            vm = createVm(WifiViewModel::class)
-            vm.subscribes(this, Observer { this.processResponses(it) })
-        }
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(WifiViewModel::class)
+
+        vm.subscribes(this, Observer { this.processResponses(it) })
+
+        bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_wifis)
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -172,6 +176,7 @@ class WifisActivity : InjectActivity() {
     }
 
     private fun loadWifis() {
+        if (isFinishing) return
         runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
             vm.loadWifis(adapter.itemCount.toLong(), {
                 if (isMinQ) {

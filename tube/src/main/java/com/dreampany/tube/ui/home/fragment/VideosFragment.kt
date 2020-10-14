@@ -130,7 +130,7 @@ class VideosFragment
         if (context.hasLocationPermission) {
             readRegionVideosSafe()
         } else {
-            if (savedInstanceState) return
+            if (isFinishing) return
             runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
                 readRegionVideosSafe()
             }

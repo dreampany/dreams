@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dreampany.adapter.SpacingItemDecoration
+import com.dreampany.framework.misc.exts.addDecoration
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
@@ -71,13 +72,14 @@ class FastWifiAdapter(
         recycler.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = fastAdapter
-            addItemDecoration(
+            addDecoration(4)
+            /*addItemDecoration(
                 SpacingItemDecoration(
                     2,
                     context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
                     true
                 )
-            )
+            )*/
 
             scrollListener?.let {
                 scroller = object : EndlessRecyclerOnScrollListener(footerAdapter) {

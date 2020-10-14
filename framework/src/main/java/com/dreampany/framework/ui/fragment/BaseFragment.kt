@@ -39,6 +39,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     protected lateinit var ex: Executors
 
     protected var savedInstanceState = false
+    protected val isFinishing : Boolean get() = activity?.isFinishing ?: savedInstanceState
     protected lateinit var menu: Menu
     protected var currentView: View? = null
 

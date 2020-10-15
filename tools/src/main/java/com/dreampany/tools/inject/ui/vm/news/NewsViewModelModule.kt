@@ -3,6 +3,7 @@ package com.dreampany.tools.inject.ui.vm.news
 import androidx.lifecycle.ViewModel
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.tools.ui.news.vm.ArticleViewModel
+import com.dreampany.tools.ui.news.vm.CategoryViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -15,6 +16,12 @@ import dagger.multibindings.IntoMap
  */
 @Module
 abstract class NewsViewModelModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CategoryViewModel::class)
+    abstract fun bindCategory(vm: CategoryViewModel): ViewModel
+
     @Binds
     @IntoMap
     @ViewModelKey(ArticleViewModel::class)

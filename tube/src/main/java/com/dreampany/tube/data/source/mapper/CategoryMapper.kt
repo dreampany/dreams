@@ -36,7 +36,7 @@ class CategoryMapper
 ) {
     private val categories: MutableMap<String, Category>
     private val favorites: MutableMap<String, Boolean>
-    private val countries : HashSet<String>
+    private val countries: HashSet<String>
 
     init {
         categories = Maps.newConcurrentMap()
@@ -44,13 +44,13 @@ class CategoryMapper
         countries = HashSet(Locale.getISOCountries().asList())
     }
 
-    fun isIsoCountry(country : String) : Boolean = countries.contains(country)
+    fun isIsoCountry(country: String): Boolean = countries.contains(country)
 
-    @Synchronized
-    fun isExpired(): Boolean {
-        val time = pref.getExpireTimeOfCategory()
-        return time.isExpired(AppConstants.Times.CATEGORIES)
-    }
+    val isExpired: Boolean
+        get() {
+            val time = pref.getExpireTimeOfCategory()
+            return time.isExpired(AppConstants.Times.CATEGORIES)
+        }
 
     @Synchronized
     fun commitExpire() = pref.commitExpireTimeOfCategory()

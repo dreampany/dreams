@@ -1,22 +1,30 @@
 package com.dreampany.tools.ui.news.vm
 
 import android.app.Application
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.countryCode
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
+import com.dreampany.theme.Colors
 import com.dreampany.tools.app.App
-import com.dreampany.tools.data.enums.news.*
-import com.dreampany.tools.data.model.news.Article
-import com.dreampany.tools.data.source.news.repo.ArticleRepo
-import com.dreampany.tools.ui.news.model.ArticleItem
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.source.news.mapper.CategoryMapper
+import com.dreampany.tools.data.source.news.pref.NewsPref
+import com.dreampany.tools.data.source.news.repo.CategoryRepo
+import com.dreampany.tools.ui.news.model.CategoryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 3/21/20
@@ -28,50 +36,27 @@ class CategoryViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val repo: ArticleRepo
-) : BaseViewModel<NewsType, NewsSubtype, NewsState, NewsAction, Article, ArticleItem, UiTask<NewsType, NewsSubtype, NewsState, NewsAction, Article>>(
+    private val colors: Colors,
+    private val pref: NewsPref,
+    private val mapper : CategoryMapper,
+    private val repo: CategoryRepo
+)  : BaseViewModel<Type, Subtype, State, Action, Category, CategoryItem, UiTask<Type, Subtype, State, Action, Category>>(
     application,
     rm
 ) {
 
-    fun loadArticles() {
+    fun loadCategories() {
         uiScope.launch {
             postProgressMultiple(true)
-            var result: List<Article>? = null
+            var result: List<Category>? = null
             var errors: SmartError? = null
             try {
-                val query = "crypto AND currency OR (bitcoin OR ethereum OR litecoin)"
-                result = repo.gets(query, "en", 1, 100)
-            } catch (error: SmartError) {
-                Timber.e(error)
-                errors = error
-            }
-            if (errors != null) {
-                postError(errors)
-            } else {
-                postResult(result?.toItems())
-            }
-        }
-    }
-
-    fun loadArticles(subtype: NewsSubtype) {
-        uiScope.launch {
-            postProgressMultiple(true)
-            var result: List<Article>? = null
-            var errors: SmartError? = null
-            try {
-                when (subtype) {
-                    NewsSubtype.COUNTRY -> {
-                        result = repo.getsByCountry(getApplication<App>().countryCode, 1, 100)
-                        if (result.isNullOrEmpty()) {
-                            result = repo.getsByCountry(Locale.US.country, 1, 100)
-                        }
-                    }
-                    else -> {
-                        result = repo.getsByCategory(subtype.toCategory.value, 1, 100)
-                    }
+                result = repo.gets()
+                if (!result.isNullOrEmpty()) {
+                    val total = ArrayList(result)
+                    total.add(0, regionCategory())
+                    result = total
                 }
-
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -79,40 +64,51 @@ class CategoryViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItems())
+                val items = result?.toItems()
+                postResult(items)
             }
         }
     }
 
-    private val NewsSubtype.toCategory: NewsCategory
-        get() {
-            when (this) {
-                NewsSubtype.GENERAL -> return NewsCategory.GENERAL
-                NewsSubtype.HEALTH -> return NewsCategory.HEALTH
-                NewsSubtype.BUSINESS -> return NewsCategory.BUSINESS
-                NewsSubtype.ENTERTAINMENT -> return NewsCategory.ENTERTAINMENT
-                NewsSubtype.SPORTS -> return NewsCategory.SPORTS
-                NewsSubtype.SCIENCE -> return NewsCategory.SCIENCE
-                NewsSubtype.TECHNOLOGY -> return NewsCategory.TECHNOLOGY
-                else -> return NewsCategory.GENERAL
-            }
-        }
+    private fun regionCategory() : Category {
+        val regionCode = getApplication<App>().countryCode
+        val name = Locale(Constant.Default.STRING, regionCode).displayName
+        val category = Category(regionCode)
+        category.category = name
+        return category
+    }
 
-    private suspend fun List<Article>.toItems(): List<ArticleItem> {
+    private suspend fun List<Category>.toItems(): List<CategoryItem> {
         val input = this
+        val categories = pref.categories
         return withContext(Dispatchers.IO) {
             input.map { input ->
-                ArticleItem.getItem(input)
+                val item = CategoryItem(input)
+                item.color = colors.nextColor(Type.CATEGORY.name)
+                if (!categories.isNullOrEmpty()) {
+                    item.select = categories.contains(input)
+                }
+                item
             }
         }
+    }
+
+    private fun postProgressSingle(progress: Boolean) {
+        postProgressSingle(
+            Type.CATEGORY,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            progress = progress
+        )
     }
 
     private fun postProgressMultiple(progress: Boolean) {
         postProgressMultiple(
-            NewsType.ARTICLE,
-            NewsSubtype.DEFAULT,
-            NewsState.DEFAULT,
-            NewsAction.DEFAULT,
+            Type.CATEGORY,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             progress = progress
         )
     }
@@ -120,21 +116,32 @@ class CategoryViewModel
 
     private fun postError(error: SmartError) {
         postMultiple(
-            NewsType.ARTICLE,
-            NewsSubtype.DEFAULT,
-            NewsState.DEFAULT,
-            NewsAction.DEFAULT,
+            Type.CATEGORY,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             error = error,
             showProgress = true
         )
     }
 
-    private fun postResult(result: List<ArticleItem>?) {
+    private fun postResult(result: List<CategoryItem>?) {
         postMultiple(
-            NewsType.ARTICLE,
-            NewsSubtype.DEFAULT,
-            NewsState.DEFAULT,
-            NewsAction.DEFAULT,
+            Type.CATEGORY,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            result = result,
+            showProgress = true
+        )
+    }
+
+    private fun postResult(result: CategoryItem?, state: State = State.DEFAULT) {
+        postSingle(
+            Type.CATEGORY,
+            Subtype.DEFAULT,
+            state,
+            Action.DEFAULT,
             result = result,
             showProgress = true
         )

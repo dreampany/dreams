@@ -68,6 +68,7 @@ class HomeFragment
     }
 
     private fun initPager() {
+        if (::adapter.isInitialized) return
         adapter = CategoryPagerAdapter(this)
         bind.pager.adapter = adapter
         TabLayoutMediator(

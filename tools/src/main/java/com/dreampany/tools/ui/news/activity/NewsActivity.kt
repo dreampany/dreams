@@ -5,11 +5,14 @@ import android.view.MenuItem
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.versionCode
 import com.dreampany.framework.misc.exts.versionName
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.NewsActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.news.adapter.ArticlePagerAdapter
+import com.dreampany.tools.ui.news.model.CategoryItem
+import com.dreampany.tools.ui.news.vm.CategoryViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
 
@@ -25,6 +28,7 @@ class NewsActivity : InjectActivity() {
     internal lateinit var ad: AdManager
 
     private lateinit var bind: NewsActivityBinding
+    private lateinit var vm: CategoryViewModel
     private lateinit var adapter: ArticlePagerAdapter
 
     override val homeUp: Boolean = true
@@ -94,10 +98,16 @@ class NewsActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
+        vm = createVm(CategoryViewModel::class)
+
+        vm.subscribes(this, { this.processResponses(it) })
+
     }
 
     private fun initPager() {
+        if (::adapter.isInitialized) return
         adapter = ArticlePagerAdapter(this)
         bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
@@ -106,5 +116,31 @@ class NewsActivity : InjectActivity() {
             { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
+    }
+
+    private fun processError(error: SmartError) {
+        val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
+        val message =
+            if (error.hostError) getString(R.string.message_no_internet) else error.message
+        showDialogue(
+            titleRes,
+            messageRes = R.string.message_unknown,
+            message = message,
+            onPositiveClick = {
+
+            },
+            onNegativeClick = {
+
+            }
+        )
+    }
+
+    private fun processResults(result: List<CategoryItem>?) {
+        if (result != null) {
+            if (!adapter.isEmpty) {
+                adapter.clear()
+            }
+            adapter.addItems(result)
+        }
     }
 }

@@ -62,7 +62,7 @@ class CategoryRepo
 
     @Throws
     override suspend fun gets(regionCode: String) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired()) {
+        if (mapper.isExpired) {
             val result = remote.gets(regionCode)
             if (!result.isNullOrEmpty()) {
                 room.deleteAll()

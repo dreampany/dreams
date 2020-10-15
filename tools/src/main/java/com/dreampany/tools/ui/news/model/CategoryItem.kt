@@ -1,17 +1,17 @@
-package com.dreampany.tube.ui.home.model
+package com.dreampany.tools.ui.news.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.toTintByColor
-import com.dreampany.tube.R
-import com.dreampany.tube.data.model.Category
-import com.dreampany.tube.databinding.CategoryItemBinding
-import com.google.common.base.Objects
+import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.databinding.CategoryItemBinding
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 import com.mikepenz.fastadapter.drag.IDraggable
+import com.dreampany.tools.R
+import com.google.common.base.Objects
 
 /**
- * Created by roman on 1/7/20
+ * Created by roman on 15/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -42,23 +42,20 @@ class CategoryItem(
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): CategoryItemBinding =
         CategoryItemBinding.inflate(inflater, parent, false)
 
-    override fun bindView(bind: CategoryItemBinding, payloads: List<Any>) {
+    override fun bindView(binding: CategoryItemBinding, payloads: List<Any>) {
         //bind.layout.setCardBackgroundColor(color)
-        bind.letter.text = input.title?.first()?.toTitleCase().toString()
-        bind.letter.setTextColor(color)
-        bind.title.text = input.title
-        bind.title.setBackgroundColor(color)
+        binding.letter.text = input.category.first().toTitleCase().toString()
+        binding.letter.setTextColor(color)
+        binding.title.text = input.category
+        binding.title.setBackgroundColor(color)
         val selectRes = if (select) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
-        bind.selection.setImageResource(selectRes)
-        bind.selection.toTintByColor(color)
+        binding.selection.setImageResource(selectRes)
+        binding.selection.toTintByColor(color)
     }
 
-    override fun unbindView(bind: CategoryItemBinding) {
-        bind.letter.text = null
-        bind.title.text = null
-        bind.selection.setImageResource(0)
+    override fun unbindView(binding: CategoryItemBinding) {
+        binding.letter.text = null
+        binding.title.text = null
+        binding.selection.setImageResource(0)
     }
-
-    /*val isPureSelected : Boolean
-        get() = select || input.type.isFixed*/
 }

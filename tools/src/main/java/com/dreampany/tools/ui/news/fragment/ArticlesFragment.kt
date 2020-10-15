@@ -22,10 +22,12 @@ import com.dreampany.tools.data.enums.news.NewsAction
 import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
 import com.dreampany.tools.data.enums.news.NewsType
+import com.dreampany.tools.data.model.misc.Category
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
 import com.dreampany.tools.ui.news.model.ArticleItem
+import com.dreampany.tools.ui.news.model.CategoryItem
 import com.dreampany.tools.ui.news.vm.ArticleViewModel
 import com.dreampany.tools.ui.web.WebActivity
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
@@ -45,21 +47,25 @@ class ArticlesFragment
     private lateinit var bind: RecyclerChildFragmentBinding
     private lateinit var vm: ArticleViewModel
     private lateinit var adapter: FastArticleAdapter
-
-    private lateinit var subtype: NewsSubtype
+    private lateinit var input: Category
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
 
     override fun onStartUi(state: Bundle?) {
-        val task = (task ?: return) as UiTask<NewsType, NewsSubtype, NewsState, NewsAction, Article>
-        subtype = task.subtype
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Category>
+        input = task.input ?: return
         initUi()
         initRecycler(state)
-        onRefresh()
+       // onRefresh()
     }
 
     override fun onStopUi() {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onRefresh()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -3,15 +3,23 @@ package com.dreampany.tools.ui.news.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.exts.country
+import com.dreampany.framework.misc.exts.toTitle
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.enums.news.NewsAction
 import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
 import com.dreampany.tools.data.enums.news.NewsType
+import com.dreampany.tools.data.model.misc.Category
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.ui.news.fragment.ArticlesFragment
+import com.dreampany.tools.ui.news.model.CategoryItem
 
 /**
  * Created by roman on 27/4/20
@@ -21,11 +29,36 @@ import com.dreampany.tools.ui.news.fragment.ArticlesFragment
  */
 class ArticlePagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
-    init {
-        addItems()
+    private val categories = arrayListOf<Category>()
+
+    fun addItems(items: List<CategoryItem>) {
+        categories.clear()
+
+        items.forEach {
+            categories.add(it.input)
+            val task = UiTask(
+                Type.CATEGORY,
+                Subtype.DEFAULT,
+                State.DEFAULT,
+                Action.DEFAULT,
+                it.input
+            )
+            addItem(
+                com.dreampany.framework.misc.exts.createFragment(
+                    ArticlesFragment::class,
+                    task
+                ),
+                it.input.category.toTitle(),
+                false
+            )
+        }
+        notifyDataSetChanged()
     }
 
-    fun addItems() {
+    fun hasUpdate(inputs: List<Category>): Boolean =
+        inputs.containsAll(categories) && categories.containsAll(inputs)
+
+    /*fun addItems() {
         val country = UiTask(
             NewsType.DEFAULT,
             NewsSubtype.COUNTRY,
@@ -139,5 +172,5 @@ class ArticlePagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
             R.string.title_article_technology
         )
         notifyDataSetChanged()
-    }
+    }*/
 }

@@ -26,8 +26,7 @@ import kotlinx.android.parcel.Parcelize
 data class Category(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
-    //var type : CategoryType = CategoryType.DEFAULT,
-    var title: String? = Constant.Default.NULL
+    var category: String = Constant.Default.STRING
 ) : Base() {
 
     @Ignore

@@ -19,8 +19,14 @@ class Constants {
 
     object Keys {
 
-        object PrefKeys {
+        object Pref {
             const val PREF = "pref"
+            const val EXPIRE = "expire"
+
+            object News {
+                const val CATEGORY = "news.category"
+                const val CATEGORIES = "news.categories"
+            }
         }
 
         object Coin {
@@ -86,6 +92,10 @@ class Constants {
             val NORMAL = TimeUnit.MINUTES.toMillis(3)
             val LAZY = TimeUnit.MINUTES.toMillis(5)
             val DEAD = TimeUnit.HOURS.toMillis(1)
+        }
+
+        object News {
+            val CATEGORIES = TimeUnit.DAYS.toMillis(7)
         }
 
         fun minuteToMillis(minutes: Long): Long {

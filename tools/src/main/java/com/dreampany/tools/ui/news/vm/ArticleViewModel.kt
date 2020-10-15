@@ -8,6 +8,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.tools.app.App
 import com.dreampany.tools.data.enums.news.*
+import com.dreampany.tools.data.model.misc.Category
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.data.source.news.repo.ArticleRepo
 import com.dreampany.tools.ui.news.model.ArticleItem
@@ -54,24 +55,35 @@ class ArticleViewModel
         }
     }
 
-    fun loadArticles(subtype: NewsSubtype) {
+    fun loadRegionArticles(regionCode: String,) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Article>? = null
             var errors: SmartError? = null
             try {
-                when (subtype) {
-                    NewsSubtype.COUNTRY -> {
-                        result = repo.getsByCountry(getApplication<App>().countryCode, 1, 100)
-                        if (result.isNullOrEmpty()) {
-                            result = repo.getsByCountry(Locale.US.country, 1, 100)
-                        }
-                    }
-                    else -> {
-                        result = repo.getsByCategory(subtype.toCategory.value, 1, 100)
-                    }
+                result = repo.getsByCountry(getApplication<App>().countryCode, 1, 100)
+                if (result.isNullOrEmpty()) {
+                    result = repo.getsByCountry(Locale.US.country, 1, 100)
                 }
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
 
+    fun loadArticles(input: Category) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Article>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.getsByCategory(input.id, 1, 100)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

@@ -1,14 +1,15 @@
 package com.dreampany.tools.ui.news.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
+import com.afollestad.assent.Permission
+import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.init
-import com.dreampany.framework.misc.exts.open
-import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -30,7 +31,10 @@ import com.dreampany.tools.ui.news.model.ArticleItem
 import com.dreampany.tools.ui.news.model.CategoryItem
 import com.dreampany.tools.ui.news.vm.ArticleViewModel
 import com.dreampany.tools.ui.web.WebActivity
+import com.google.android.gms.location.LocationRequest
+import com.patloew.colocation.CoLocation
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -190,7 +194,45 @@ class ArticlesFragment
     }
 
     private fun loadArticles() {
-        vm.loadArticles(subtype)
+        if (adapter.isEmpty) {
+            if (input.id.length == 2) {
+                loadRegionArticles()
+            } else {
+                vm.loadArticles(input)
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun loadRegionArticles() {
+        if (context.hasLocationPermission) {
+            readRegionArticlesSafe()
+        } else {
+            if (isFinishing) return
+            runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
+                readRegionArticlesSafe()
+            }
+        }
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun readRegionArticlesSafe() {
+        val location = CoLocation.from(requireContext())
+        val request = LocationRequest.create()
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        vm.viewModelScope.launch {
+            /* val result = location.checkLocationSettings(request)
+             when (request) {
+
+             }*/
+            val data = location.getLastLocation()
+            if (data == null) {
+                vm.loadArticles(input)
+            } else {
+                //vm.loadLocationVideos(data, order, 0)
+            }
+        }
     }
 
     fun openWeb(url: String?) {

@@ -16,8 +16,8 @@ android {
         applicationId 'com.dreampany.tube'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 36
-        versionName '0.3.6'
+        versionCode 37
+        versionName '0.3.7'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -148,7 +148,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     /* test */
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 

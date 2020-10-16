@@ -16,8 +16,8 @@ android {
         applicationId 'com.dreampany.crypto'
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 18
-        versionName '0.1.8'
+        versionCode 19
+        versionName '0.1.9'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -122,7 +122,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     /* test */
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 

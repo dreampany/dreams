@@ -1,12 +1,14 @@
-package com.dreampany.tube.manager
+package com.dreampany.crypto.manager
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
 import com.dreampany.ads.HouseAdsDialog
-import com.dreampany.tube.R
-import com.dreampany.framework.data.source.pref.AdPref
+import com.dreampany.crypto.R
+import com.dreampany.crypto.misc.constants.Constants
+import com.dreampany.framework.data.source.pref.AdsPref
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.exts.gone
 import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.structure.MutablePair
@@ -29,10 +31,10 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class AdManager
+class AdsManager
 @Inject constructor(
     private val context: Context,
-    private val pref: AdPref
+    private val pref: AdsPref
 ) {
 
     private enum class State {
@@ -348,6 +350,8 @@ class AdManager
     }
 
     fun showInHouseAds(context: Context) {
+        if (pref.isHouseExpired(Constants.Times.HOUSE_ADS).not()) return
+        pref.setHouseTime(currentMillis)
         ads = HouseAdsDialog(context, R.raw.apps).apply {
             hideIfAppInstalled(true)
             setCardCorners(16)

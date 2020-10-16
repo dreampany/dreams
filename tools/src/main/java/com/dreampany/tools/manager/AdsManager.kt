@@ -1,16 +1,18 @@
-package com.dreampany.crypto.manager
+package com.dreampany.tools.manager
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
 import com.dreampany.ads.HouseAdsDialog
-import com.dreampany.crypto.R
-import com.dreampany.framework.data.source.pref.AdPref
+import com.dreampany.framework.data.source.pref.AdsPref
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.exts.gone
 import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.structure.MutablePair
 import com.dreampany.framework.misc.util.Util
+import com.dreampany.tools.R
+import com.dreampany.tools.misc.constants.Constants
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -29,10 +31,10 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class AdManager
+class AdsManager
 @Inject constructor(
     private val context: Context,
-    private val pref: AdPref
+    private val pref: AdsPref
 ) {
 
     private enum class State {
@@ -228,6 +230,7 @@ class AdManager
         }
     }
 
+    @SuppressLint("MissingPermission")
     fun loadInterstitial(screenId: String): Boolean {
         if (!pref.isInterstitialExpired(config.interstitialExpireDelay)) {
             return false
@@ -348,6 +351,8 @@ class AdManager
     }
 
     fun showInHouseAds(context: Context) {
+        if (pref.isHouseExpired(Constants.Times.HOUSE_ADS).not()) return
+        pref.setHouseTime(currentMillis)
         ads = HouseAdsDialog(context, R.raw.apps).apply {
             hideIfAppInstalled(true)
             setCardCorners(16)

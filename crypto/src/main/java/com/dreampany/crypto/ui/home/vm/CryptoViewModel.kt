@@ -9,7 +9,7 @@ import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.data.source.repo.CoinRepo
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.crypto.misc.func.CurrencyFormatter
 import com.dreampany.crypto.ui.home.activity.HomeActivity
 import com.dreampany.framework.api.notify.NotifyManager
@@ -59,8 +59,8 @@ class CryptoViewModel
             try {
                 val sort = pref.getSort()
                 val order = pref.getOrder()
-                val offset = getRandOffset(AppConstants.Limits.COINS)
-                result = repo.gets(currency, sort, order, offset, AppConstants.Limits.COINS)
+                val offset = getRandOffset(Constants.Limits.COINS)
+                result = repo.gets(currency, sort, order, offset, Constants.Limits.COINS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -78,7 +78,7 @@ class CryptoViewModel
     }
 
     private fun getRandOffset(limit: Long): Long {
-        val max = AppConstants.Limits.MAX_COINS - limit
+        val max = Constants.Limits.MAX_COINS - limit
         return RandomUtils.nextLong(0, max - 1)
     }
 

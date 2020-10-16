@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AppConstants {
+class Constants {
 
     object Keys {
         object Pref {
@@ -36,6 +36,7 @@ class AppConstants {
     }
 
     object Times {
+        val HOUSE_ADS = TimeUnit.HOURS.toMillis(1)
         val CATEGORIES = TimeUnit.DAYS.toMillis(7)
         val VIDEOS = TimeUnit.DAYS.toMillis(1)
         val VIDEO = TimeUnit.HOURS.toMillis(1)

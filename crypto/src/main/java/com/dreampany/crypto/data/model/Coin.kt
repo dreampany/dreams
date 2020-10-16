@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.data.enums.Currency
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.google.common.base.Objects
 import com.google.common.collect.Maps
 import kotlinx.android.parcel.Parcelize
@@ -36,22 +36,22 @@ data class Coin(
     var name: String = Constant.Default.STRING,
     var symbol: String = Constant.Default.STRING,
     var slug: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Coin.MAX_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.MAX_SUPPLY)
     private var maxSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Coin.TOTAL_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.TOTAL_SUPPLY)
     private var totalSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Coin.MARKET_PAIRS)
+    @ColumnInfo(name = Constants.Keys.Coin.MARKET_PAIRS)
     private var marketPairs: Int = Constant.Default.INT,
     var rank: Int = Constant.Default.INT,
     @Ignore
     //@Exclude
     var quotes: HashMap<Currency, Quote> = Maps.newHashMap(),
     var tags: List<String>? = Constant.Default.NULL,
-    @ColumnInfo(name = AppConstants.Keys.Coin.DATE_ADDED)
+    @ColumnInfo(name = Constants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constant.Default.LONG,
-    @ColumnInfo(name = AppConstants.Keys.Coin.LAST_UPDATED)
+    @ColumnInfo(name = Constants.Keys.Coin.LAST_UPDATED)
     private var lastUpdated: Long = Constant.Default.LONG
 ) : Base() {
 

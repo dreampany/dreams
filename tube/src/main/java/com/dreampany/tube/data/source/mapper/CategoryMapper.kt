@@ -12,7 +12,7 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.source.api.CategoryDataSource
 import com.dreampany.tube.data.source.pref.AppPref
-import com.dreampany.tube.misc.AppConstants
+import com.dreampany.tube.misc.Constants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import java.util.*
@@ -49,7 +49,7 @@ class CategoryMapper
     val isExpired: Boolean
         get() {
             val time = pref.getExpireTimeOfCategory()
-            return time.isExpired(AppConstants.Times.CATEGORIES)
+            return time.isExpired(Constants.Times.CATEGORIES)
         }
 
     @Synchronized

@@ -2,9 +2,7 @@ package com.dreampany.crypto.app
 
 import com.dreampany.crypto.R
 import com.dreampany.crypto.inject.app.DaggerAppComponent
-import com.dreampany.crypto.manager.AdManager
-import com.dreampany.crypto.misc.constants.AppConstants
-import com.dreampany.crypto.worker.CryptoWorker
+import com.dreampany.crypto.manager.AdsManager
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.exts.isDebug
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -29,7 +27,7 @@ import javax.inject.Inject
 class App : InjectApp() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     private var action: Action? = null
     private var indexable: Indexable? = null
@@ -67,12 +65,12 @@ class App : InjectApp() {
         //if (isDebug) return
         MobileAds.initialize(this, getString(R.string.admob_app_id))
         //ad.initPoints(Util.AD_POINTS)
-        val config = AdManager.Config.Builder()
+        val config = AdsManager.Config.Builder()
             .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
             .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(5))
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(10))
             .enabled(!isDebug)
-        ad.setConfig(config.build())
+        ads.setConfig(config.build())
     }
 
     private fun initFresco() {

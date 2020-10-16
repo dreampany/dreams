@@ -16,7 +16,7 @@ import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.source.news.pref.NewsPref
 import com.dreampany.tools.databinding.NewsActivityBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.news.adapter.ArticlePagerAdapter
 import com.dreampany.tools.ui.news.model.CategoryItem
 import com.dreampany.tools.ui.news.vm.CategoryViewModel
@@ -33,7 +33,8 @@ import javax.inject.Inject
 class NewsActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
+
     @Inject
     internal lateinit var pref: NewsPref
 
@@ -65,11 +66,11 @@ class NewsActivity : InjectActivity() {
         initAd()
         initUi()
         initPager()
-        ad.loadBanner(this.javaClass.simpleName)
-        ad.showInHouseAds(this)
+        ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
 
         if (pref.isCategoriesSelected.not()) {
-           open(CategoriesActivity::class)
+            open(CategoriesActivity::class)
         }
     }
 
@@ -83,11 +84,11 @@ class NewsActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -107,7 +108,7 @@ class NewsActivity : InjectActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

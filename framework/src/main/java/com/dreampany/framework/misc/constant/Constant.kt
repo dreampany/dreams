@@ -135,10 +135,10 @@ class Constant {
         const val SUBTYPE = "subtype"
         const val STATE = "state"
 
-        object PrefKeys {
+        object Pref {
             const val DEFAULT = "default"
             const val SERVICE = "service"
-            const val AD = "ad"
+            const val ADS = "ads"
             const val SERVICE_STATE = "service_state"
         }
 
@@ -146,10 +146,11 @@ class Constant {
             const val PACKAGES = "packages"
         }
 
-        object Ad {
+        object Ads {
             const val BANNER = "banner"
             const val INTERSTITIAL = "interstitial"
             const val REWARDED = "rewarded"
+            const val HOUSE = "house"
         }
     }
 

@@ -17,7 +17,7 @@ import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
@@ -34,7 +34,7 @@ import javax.inject.Inject
 class FavoriteCoinsActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     @Inject
     internal lateinit var cryptoPref: CryptoPref
@@ -68,7 +68,7 @@ class FavoriteCoinsActivity : InjectActivity() {
         initUi()
         initRecycler(state)
         onRefresh()
-        ad.loadBanner(this.javaClass.simpleName)
+        ads.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
@@ -77,11 +77,11 @@ class FavoriteCoinsActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -108,7 +108,7 @@ class FavoriteCoinsActivity : InjectActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

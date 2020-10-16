@@ -7,7 +7,7 @@ import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.model.Exchange
 import com.dreampany.crypto.data.source.repo.ExchangeRepo
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.crypto.misc.func.CurrencyFormatter
 import com.dreampany.crypto.ui.home.model.ExchangeItem
 import com.dreampany.framework.misc.func.ResponseMapper
@@ -47,7 +47,7 @@ class ExchangeViewModel
                     fromSymbol,
                     toSymbol,
                     extraParams,
-                    AppConstants.Limits.EXCHANGES
+                    Constants.Limits.EXCHANGES
                 )
             } catch (error: SmartError) {
                 Timber.e(error)

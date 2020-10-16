@@ -7,12 +7,11 @@ import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.StationsActivityBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.ui.radio.adapter.StationPagerAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import javax.inject.Inject
 
 /**
@@ -24,7 +23,7 @@ import javax.inject.Inject
 class StationsActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     private lateinit var bind: StationsActivityBinding
     private lateinit var adapter: StationPagerAdapter
@@ -51,8 +50,8 @@ class StationsActivity : InjectActivity() {
         initAd()
         initUi()
         initPager()
-        ad.loadBanner(this.javaClass.simpleName)
-        ad.showInHouseAds(this)
+        ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
     }
 
     override fun onStopUi() {
@@ -60,11 +59,11 @@ class StationsActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -75,7 +74,7 @@ class StationsActivity : InjectActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

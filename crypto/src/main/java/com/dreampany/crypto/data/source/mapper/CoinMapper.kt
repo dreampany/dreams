@@ -9,7 +9,7 @@ import com.dreampany.crypto.data.model.Quote
 import com.dreampany.crypto.data.source.api.CoinDataSource
 import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.data.source.room.dao.QuoteDao
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
@@ -51,7 +51,7 @@ class CoinMapper
     @Synchronized
     fun isExpired(currency: Currency, sort: Sort, order: Order, offset: Long): Boolean {
         val time = pref.getExpireTime(currency, sort, order, offset)
-        return time.isExpired(AppConstants.Times.COINS)
+        return time.isExpired(Constants.Times.COINS)
     }
 
     @Synchronized
@@ -61,7 +61,7 @@ class CoinMapper
     @Synchronized
     fun isExpired(id: String, currency: Currency): Boolean {
         val time = pref.getExpireTime(id, currency)
-        return time.isExpired(AppConstants.Times.COIN)
+        return time.isExpired(Constants.Times.COIN)
     }
 
     @Synchronized

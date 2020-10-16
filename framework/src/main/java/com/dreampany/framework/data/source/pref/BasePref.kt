@@ -22,7 +22,7 @@ abstract class BasePref(val context: Context) {
         private = Prefser(pref)
     }
 
-    open fun getPrivateName(context: Context): String = Constant.Keys.PrefKeys.DEFAULT
+    open fun getPrivateName(context: Context): String = Constant.Keys.Pref.DEFAULT
 
     /* check */
     fun hasPublic(key: String): Boolean = public.contains(key)

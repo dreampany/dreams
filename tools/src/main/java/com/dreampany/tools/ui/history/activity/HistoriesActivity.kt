@@ -7,11 +7,10 @@ import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HistoriesActivityBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.history.adapter.HistoryPagerAdapter
 import com.dreampany.tools.ui.history.model.HistoryItem
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import javax.inject.Inject
 
 /**
@@ -23,7 +22,7 @@ import javax.inject.Inject
 class HistoriesActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     private lateinit var bind: HistoriesActivityBinding
     private lateinit var adapter: HistoryPagerAdapter
@@ -50,8 +49,8 @@ class HistoriesActivity : InjectActivity() {
         initAd()
         initUi()
         initPager()
-        ad.loadBanner(this.javaClass.simpleName)
-        ad.showInHouseAds(this)
+        ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
     }
 
     override fun onStopUi() {
@@ -59,11 +58,11 @@ class HistoriesActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -74,7 +73,7 @@ class HistoriesActivity : InjectActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

@@ -7,7 +7,7 @@ import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -29,13 +29,13 @@ data class Trade(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     var exchange: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Trade.FROM_SYMBOL)
+    @ColumnInfo(name = Constants.Keys.Trade.FROM_SYMBOL)
     private var fromSymbol: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Trade.TO_SYMBOL)
+    @ColumnInfo(name = Constants.Keys.Trade.TO_SYMBOL)
     private var toSymbol: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Trade.VOLUME_24H)
+    @ColumnInfo(name = Constants.Keys.Trade.VOLUME_24H)
     private var volume24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Trade.VOLUME_24H_TO)
+    @ColumnInfo(name = Constants.Keys.Trade.VOLUME_24H_TO)
     private var volume24hTo: Double = Constant.Default.DOUBLE
 ) : Base() {
 

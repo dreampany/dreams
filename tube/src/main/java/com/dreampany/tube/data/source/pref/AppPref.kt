@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Category
-import com.dreampany.tube.misc.AppConstants
+import com.dreampany.tube.misc.Constants
 import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,7 +24,7 @@ class AppPref
     private val gson: Gson
 ) : BasePref(context) {
 
-    override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.PREF
+    override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 
     val order: String
         get() = getPublicly(
@@ -34,40 +34,40 @@ class AppPref
 
     @Synchronized
     fun commitCategoriesSelection() {
-        setPrivately(AppConstants.Keys.Pref.CATEGORY, true)
+        setPrivately(Constants.Keys.Pref.CATEGORY, true)
     }
 
     val isCategoriesSelected: Boolean
-        get() = getPrivately(AppConstants.Keys.Pref.CATEGORY, Constant.Default.BOOLEAN)
+        get() = getPrivately(Constants.Keys.Pref.CATEGORY, Constant.Default.BOOLEAN)
 
     @Synchronized
     fun commitExpireTimeOfCategory() {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.CATEGORY)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.CATEGORY)
         }
         setPrivately(key.toString(), currentMillis)
     }
 
     @Synchronized
     fun getExpireTimeOfCategory(): Long {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.CATEGORY)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.CATEGORY)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
     fun commitExpireTimeOfSearch() {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.CATEGORY)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.CATEGORY)
         }
         setPrivately(key.toString(), currentMillis)
     }
 
     @Synchronized
     fun getExpireTimeOfSearch(query: String): Long {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.SEARCH)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.SEARCH)
             append(query)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)
@@ -75,8 +75,8 @@ class AppPref
 
     @Synchronized
     fun commitExpireTimeOfCategoryId(categoryId: String, offset: Long) {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.VIDEO)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.VIDEO)
             append(categoryId)
             append(offset)
         }
@@ -85,8 +85,8 @@ class AppPref
 
     @Synchronized
     fun getExpireTimeOfCategoryId(categoryId: String, offset: Long): Long {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.VIDEO)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.VIDEO)
             append(categoryId)
             append(offset)
         }
@@ -95,8 +95,8 @@ class AppPref
 
     @Synchronized
     fun commitExpireTimeOfVideo(id: String) {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.VIDEO)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.VIDEO)
             append(id)
         }
         setPrivately(key.toString(), currentMillis)
@@ -104,8 +104,8 @@ class AppPref
 
     @Synchronized
     fun getExpireTimeOfVideo(id: String): Long {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
-            append(AppConstants.Keys.Pref.VIDEO)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.VIDEO)
             append(id)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)
@@ -114,13 +114,13 @@ class AppPref
     @Synchronized
     fun commitCategories(inputs: List<Category>) {
         val json = gson.toJson(inputs)
-        setPrivately(AppConstants.Keys.Pref.CATEGORIES, json)
+        setPrivately(Constants.Keys.Pref.CATEGORIES, json)
     }
 
     val categories: List<Category>?
         get() {
             val json =
-                getPrivately(AppConstants.Keys.Pref.CATEGORIES, Constant.Default.NULL as String?)
+                getPrivately(Constants.Keys.Pref.CATEGORIES, Constant.Default.NULL as String?)
             if (json.isNullOrEmpty()) {
                 return null
             } else {

@@ -3,13 +3,11 @@ package com.dreampany.crypto.ui.web
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.task
-import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.crypto.R
 import com.dreampany.crypto.databinding.WebActivityBinding
-import com.dreampany.crypto.manager.AdManager
+import com.dreampany.crypto.manager.AdsManager
 import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
 
@@ -22,7 +20,7 @@ import javax.inject.Inject
 class WebActivity : InjectActivity(), AdvancedWebView.Listener {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     private lateinit var bind: WebActivityBinding
     private lateinit var url: String
@@ -39,7 +37,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
         url = task?.url ?: return
         bind.web.loadUrl(url)
 
-        ad.loadBanner(this.javaClass.simpleName)
+        ads.loadBanner(this.javaClass.simpleName)
         showProgress()
     }
 
@@ -94,7 +92,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

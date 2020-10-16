@@ -2,7 +2,7 @@ package com.dreampany.tube.app
 
 import com.dreampany.tube.R
 import com.dreampany.tube.inject.app.DaggerAppComponent
-import com.dreampany.tube.manager.AdManager
+import com.dreampany.tube.manager.AdsManager
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.exts.isDebug
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class App : InjectApp() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     private var action: Action? = null
     private var indexable: Indexable? = null
@@ -64,12 +64,12 @@ class App : InjectApp() {
         //if (isDebug) return
         MobileAds.initialize(this, getString(R.string.admob_app_id))
         //ad.initPoints(Util.AD_POINTS)
-        val config = AdManager.Config.Builder()
+        val config = AdsManager.Config.Builder()
             .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
             .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(5))
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(10))
             .enabled(!isDebug)
-        ad.setConfig(config.build())
+        ads.setConfig(config.build())
     }
 
     private fun initFresco() {

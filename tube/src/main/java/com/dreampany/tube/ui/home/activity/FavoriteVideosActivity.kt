@@ -18,7 +18,7 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.manager.AdManager
+import com.dreampany.tube.manager.AdsManager
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import timber.log.Timber
@@ -33,7 +33,7 @@ import javax.inject.Inject
 class FavoriteVideosActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     private lateinit var bind: RecyclerActivityBinding
     private lateinit var vm: VideoViewModel
@@ -73,11 +73,11 @@ class FavoriteVideosActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -117,7 +117,7 @@ class FavoriteVideosActivity : InjectActivity() {
 
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

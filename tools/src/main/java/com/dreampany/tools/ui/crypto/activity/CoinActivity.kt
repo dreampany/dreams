@@ -16,13 +16,12 @@ import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinActivityBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.ui.crypto.adapter.CoinPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.content_pager_ad.view.*
 import java.util.*
 import javax.inject.Inject
 
@@ -35,7 +34,7 @@ import javax.inject.Inject
 class CoinActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     @Inject
     internal lateinit var pref: CryptoPref
@@ -76,7 +75,7 @@ class CoinActivity : InjectActivity() {
         initAd()
         //setTitle(input.name)
         loadUi()
-        ad.loadBanner(this.javaClass.simpleName)
+        ads.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
@@ -84,11 +83,11 @@ class CoinActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -132,7 +131,7 @@ class CoinActivity : InjectActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

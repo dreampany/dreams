@@ -8,7 +8,7 @@ import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.crypto.data.enums.Currency
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -22,27 +22,27 @@ import kotlinx.android.parcel.Parcelize
 //@IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constant.Keys.ID, AppConstants.Keys.Quote.CURRENCY],
+        value = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY],
         unique = true
     )],
-    primaryKeys = [Constant.Keys.ID, AppConstants.Keys.Quote.CURRENCY]
+    primaryKeys = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY]
 )
 data class Quote(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     var currency: Currency = Currency.USD,
     var price: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.VOLUME_24H)
+    @ColumnInfo(name = Constants.Keys.Quote.VOLUME_24H)
     private var volume24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.MARKET_CAP)
+    @ColumnInfo(name = Constants.Keys.Quote.MARKET_CAP)
     private var marketCap: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_1H)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_1H)
     private var change1h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_24H)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_24H)
     private var change24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.CHANGE_7D)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_7D)
     private var change7d: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Quote.LAST_UPDATED)
+    @ColumnInfo(name = Constants.Keys.Quote.LAST_UPDATED)
     private var lastUpdated: Long = Constant.Default.LONG
 ) : Base() {
 

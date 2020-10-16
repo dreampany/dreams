@@ -14,13 +14,12 @@ import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.data.source.repo.CategoryRepo
 import com.dreampany.tube.data.source.repo.VideoRepo
-import com.dreampany.tube.misc.AppConstants
+import com.dreampany.tube.misc.Constants
 import com.dreampany.tube.ui.home.model.VideoItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -49,7 +48,7 @@ class VideoViewModel
             try {
 
                 result =
-                    repo.getsOfRegionCode(regionCode, order, offset, AppConstants.Limits.VIDEOS)
+                    repo.getsOfRegionCode(regionCode, order, offset, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -70,7 +69,7 @@ class VideoViewModel
             try {
                 val loc = "${location.latitude},${location.longitude}"
                 val radius = "10mi"
-                result = repo.getsOfLocation(loc, radius, order, offset, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfLocation(loc, radius, order, offset, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -89,7 +88,7 @@ class VideoViewModel
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfEvent(eventType, order, offset, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfEvent(eventType, order, offset, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -108,7 +107,7 @@ class VideoViewModel
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfCategoryId(categoryId, offset, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfCategoryId(categoryId, offset, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -127,7 +126,7 @@ class VideoViewModel
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfQuery(query, order, 0, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfQuery(query, order, 0, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -146,7 +145,7 @@ class VideoViewModel
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfRelated(id, order,0, AppConstants.Limits.VIDEOS)
+                result = repo.getsOfRelated(id, order,0, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

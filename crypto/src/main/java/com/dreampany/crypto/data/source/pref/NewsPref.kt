@@ -1,7 +1,7 @@
 package com.dreampany.crypto.data.source.pref
 
 import android.content.Context
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.framework.data.source.pref.BasePref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
@@ -20,11 +20,11 @@ class NewsPref
     context: Context
 ) : BasePref(context) {
 
-    override fun getPrivateName(context: Context): String = AppConstants.Keys.Pref.NEWS
+    override fun getPrivateName(context: Context): String = Constants.Keys.Pref.NEWS
 
     @Synchronized
     fun getExpireTime(query: String, language: String, offset: Long): Long {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(query)
             append(language)
             append(offset)
@@ -34,7 +34,7 @@ class NewsPref
 
     @Synchronized
     fun commitExpireTime(query: String, language: String, offset: Long) {
-        val key = StringBuilder(AppConstants.Keys.Pref.EXPIRE).apply {
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(query)
             append(language)
             append(offset)

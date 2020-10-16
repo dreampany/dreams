@@ -7,7 +7,7 @@ import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -30,16 +30,16 @@ data class Exchange(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     var market: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Exchange.FROM_SYMBOL)
+    @ColumnInfo(name = Constants.Keys.Exchange.FROM_SYMBOL)
     private var fromSymbol: String = Constant.Default.STRING,
-    @ColumnInfo(name = AppConstants.Keys.Exchange.TO_SYMBOL)
+    @ColumnInfo(name = Constants.Keys.Exchange.TO_SYMBOL)
     private var toSymbol: String = Constant.Default.STRING,
     var price: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Exchange.VOLUME_24H)
+    @ColumnInfo(name = Constants.Keys.Exchange.VOLUME_24H)
     private var volume24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Exchange.CHANGE_24H)
+    @ColumnInfo(name = Constants.Keys.Exchange.CHANGE_24H)
     private var change24h: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = AppConstants.Keys.Exchange.CHANGE_PCT_24H)
+    @ColumnInfo(name = Constants.Keys.Exchange.CHANGE_PCT_24H)
     private var changePct24h: Double = Constant.Default.DOUBLE
 ) : Base() {
 

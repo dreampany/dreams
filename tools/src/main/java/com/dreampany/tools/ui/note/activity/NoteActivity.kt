@@ -21,7 +21,7 @@ import com.dreampany.tools.data.enums.note.NoteType
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.databinding.NoteActivityBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.note.model.NoteItem
 import com.dreampany.tools.ui.note.vm.NoteViewModel
 import timber.log.Timber
@@ -35,7 +35,7 @@ import javax.inject.Inject
  */
 class NoteActivity : InjectActivity() {
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     @Inject
     internal lateinit var notePref: NotePref
@@ -71,7 +71,7 @@ class NoteActivity : InjectActivity() {
                 vm.loadNote(id)
             })
         }
-        ad.loadBanner(this.javaClass.simpleName)
+        ads.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
@@ -79,11 +79,11 @@ class NoteActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -163,7 +163,7 @@ class NoteActivity : InjectActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

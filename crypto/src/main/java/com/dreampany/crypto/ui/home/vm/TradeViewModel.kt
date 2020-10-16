@@ -7,7 +7,7 @@ import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.model.Trade
 import com.dreampany.crypto.data.source.repo.TradeRepo
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
@@ -38,7 +38,7 @@ class TradeViewModel
             var result: List<Trade>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getTrades(fromSymbol, extraParams, AppConstants.Limits.TRADES)
+                result = repo.getTrades(fromSymbol, extraParams, Constants.Limits.TRADES)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

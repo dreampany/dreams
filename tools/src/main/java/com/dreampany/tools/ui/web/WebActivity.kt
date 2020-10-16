@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.WebActivityBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class WebActivity : InjectActivity(), AdvancedWebView.Listener {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     private lateinit var bind: WebActivityBinding
     private lateinit var url: String
@@ -39,7 +39,8 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
         url = task?.url ?: return
         bind.web.loadUrl(url)
 
-        ad.loadBanner(this.javaClass.simpleName)
+        ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
         showProgress()
     }
 
@@ -50,10 +51,12 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     override fun onResume() {
         super.onResume()
         bind.web.onResume()
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
         bind.web.onPause()
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -94,7 +97,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),
@@ -104,6 +107,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
         bind.web.setListener(this, this)
 

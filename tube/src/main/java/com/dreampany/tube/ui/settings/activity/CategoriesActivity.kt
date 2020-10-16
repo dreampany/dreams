@@ -20,7 +20,7 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.source.pref.AppPref
 import com.dreampany.tube.databinding.RecyclerActivityBinding
-import com.dreampany.tube.misc.AppConstants
+import com.dreampany.tube.misc.Constants
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.home.model.CategoryItem
 import com.dreampany.tube.ui.home.vm.CategoryViewModel
@@ -120,7 +120,7 @@ class CategoriesActivity : InjectActivity() {
         val subtitle = getString(R.string.subtitle_categories, selection, total)
         setSubtitle(subtitle)
 
-        val required = AppConstants.Count.MIN_CATEGORIES - adapter.selectionCount
+        val required = Constants.Count.MIN_CATEGORIES - adapter.selectionCount
         val menuIconRes =
             if (required > 0) R.drawable.ic_baseline_done_24 else R.drawable.ic_baseline_done_all_24
         findMenuItemById(R.id.action_done)?.setIcon(menuIconRes)
@@ -162,7 +162,7 @@ class CategoriesActivity : InjectActivity() {
     }
 
     private fun onDonePressed() {
-        val required = AppConstants.Count.MIN_CATEGORIES - adapter.selectionCount
+        val required = Constants.Count.MIN_CATEGORIES - adapter.selectionCount
         if (required > 0) {
             NotifyUtil.shortToast(this, getString(R.string.notify_select_min_categories, required))
             return

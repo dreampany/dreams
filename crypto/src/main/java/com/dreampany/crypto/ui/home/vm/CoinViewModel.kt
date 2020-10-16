@@ -8,7 +8,7 @@ import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.data.source.pref.AppPref
 import com.dreampany.crypto.data.source.repo.CoinRepo
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.crypto.misc.func.CurrencyFormatter
 import com.dreampany.crypto.ui.home.model.CoinItem
 import com.dreampany.framework.misc.func.ResponseMapper
@@ -48,7 +48,7 @@ class CoinViewModel
                 val currency = pref.getCurrency()
                 val sort = pref.getSort()
                 val order = pref.getOrder()
-                result = repo.gets(currency, sort, order, offset, AppConstants.Limits.COINS)
+                result = repo.gets(currency, sort, order, offset, Constants.Limits.COINS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

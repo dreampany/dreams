@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.tube.misc.AppConstants
+import com.dreampany.tube.misc.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -17,14 +17,14 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [AppConstants.Keys.Related.LEFTER, AppConstants.Keys.Related.RIGHTER],
+        value = [Constants.Keys.Related.LEFTER, Constants.Keys.Related.RIGHTER],
         unique = true
-    )], primaryKeys = [AppConstants.Keys.Related.LEFTER, AppConstants.Keys.Related.RIGHTER]
+    )], primaryKeys = [Constants.Keys.Related.LEFTER, Constants.Keys.Related.RIGHTER]
 )
 data class Related(
-    @ColumnInfo(name = AppConstants.Keys.Related.LEFTER)
+    @ColumnInfo(name = Constants.Keys.Related.LEFTER)
     var left: String,
-    @ColumnInfo(name = AppConstants.Keys.Related.RIGHTER)
+    @ColumnInfo(name = Constants.Keys.Related.RIGHTER)
     var right: String
 ) : BaseParcel() {
 

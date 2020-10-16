@@ -26,7 +26,7 @@ import com.dreampany.tools.data.enums.wifi.WifiSubtype
 import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.wifi.adapter.FastWifiAdapter
 import com.dreampany.tools.ui.wifi.model.WifiItem
@@ -43,7 +43,7 @@ import javax.inject.Inject
 class WifisActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     @Inject
     internal lateinit var wifiPref: WifiPref
@@ -77,8 +77,8 @@ class WifisActivity : InjectActivity() {
         initUi()
         initRecycler(state)
         onRefresh()
-        ad.loadBanner(this.javaClass.simpleName)
-        ad.showInHouseAds(this)
+        ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
     }
 
     override fun onStopUi() {
@@ -87,11 +87,11 @@ class WifisActivity : InjectActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -144,7 +144,7 @@ class WifisActivity : InjectActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

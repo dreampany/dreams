@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HomeActivityBinding
-import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.home.fragment.HomeFragment
 import com.dreampany.tools.ui.settings.SettingsFragment
 import dagger.Lazy
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class HomeActivity : InjectBottomNavigationActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     @Inject
     internal lateinit var home: Lazy<HomeFragment>
@@ -55,7 +55,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override fun onStartUi(state: Bundle?) {
         initAd()
         initUi()
-        ad.loadBanner(this.javaClass.simpleName)
+        ads.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
@@ -63,11 +63,11 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -85,7 +85,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

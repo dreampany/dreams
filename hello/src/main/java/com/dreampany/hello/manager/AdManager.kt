@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.dreampany.ads.HouseAdsDialog
 import com.dreampany.hello.R
-import com.dreampany.framework.data.source.pref.AdPref
+import com.dreampany.framework.data.source.pref.AdsPref
 import com.dreampany.framework.misc.exts.gone
 import com.dreampany.framework.misc.exts.visible
 import com.dreampany.framework.misc.structure.MutablePair
@@ -32,7 +32,7 @@ import javax.inject.Singleton
 class AdManager
 @Inject constructor(
     private val context: Context,
-    private val pref: AdPref
+    private val pref: AdsPref
 ) {
 
     private enum class State {

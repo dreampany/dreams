@@ -7,7 +7,7 @@ import com.dreampany.crypto.data.enums.Type
 import com.dreampany.crypto.data.model.Article
 import com.dreampany.crypto.data.source.api.ArticleDataSource
 import com.dreampany.crypto.data.source.pref.NewsPref
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.*
@@ -40,7 +40,7 @@ class NewsMapper
     @Synchronized
     fun isExpired(query: String, language: String, offset: Long): Boolean {
         val time = pref.getExpireTime(query, language, offset)
-        return time.isExpired(AppConstants.Times.NEWS)
+        return time.isExpired(Constants.Times.NEWS)
     }
 
     @Synchronized

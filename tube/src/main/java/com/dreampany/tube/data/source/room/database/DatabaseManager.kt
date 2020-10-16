@@ -13,7 +13,7 @@ import com.dreampany.tube.data.source.room.converters.Converters
 import com.dreampany.tube.data.source.room.dao.CategoryDao
 import com.dreampany.tube.data.source.room.dao.RelatedDao
 import com.dreampany.tube.data.source.room.dao.VideoDao
-import com.dreampany.tube.misc.AppConstants
+import com.dreampany.tube.misc.Constants
 
 /**
  * Created by roman on 14/3/20
@@ -35,7 +35,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, AppConstants.Keys.Room.TYPE_TUBE)
+                val DATABASE = Constant.database(context, Constants.Keys.Room.TYPE_TUBE)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

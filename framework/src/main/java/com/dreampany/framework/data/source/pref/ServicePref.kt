@@ -19,14 +19,14 @@ class ServicePref
 ) : BasePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constant.Keys.PrefKeys.SERVICE
+        return Constant.Keys.Pref.SERVICE
     }
 
     fun setState(ref: String, state: ServiceState) {
-        setPublicly(ref + Constant.Keys.PrefKeys.SERVICE_STATE, state)
+        setPublicly(ref + Constant.Keys.Pref.SERVICE_STATE, state)
     }
 
     fun getState(ref: String, state: ServiceState): ServiceState {
-        return getPublicly(ref + Constant.Keys.PrefKeys.SERVICE_STATE, ServiceState::class.java, state) ?: state
+        return getPublicly(ref + Constant.Keys.Pref.SERVICE_STATE, ServiceState::class.java, state) ?: state
     }
 }

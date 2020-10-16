@@ -22,6 +22,7 @@ class Constants {
         object Pref {
             const val PREF = "pref"
             const val EXPIRE = "expire"
+            const val HOUSE_ADS = "house_ads"
 
             object News {
                 const val CATEGORY = "news.category"

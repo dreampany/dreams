@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.crypto.R
 import com.dreampany.crypto.databinding.HomeActivityBinding
-import com.dreampany.crypto.manager.AdManager
+import com.dreampany.crypto.manager.AdsManager
 import com.dreampany.crypto.ui.home.fragment.HomeFragment
 import com.dreampany.crypto.ui.news.NewsFragment
 import com.dreampany.crypto.ui.settings.SettingsFragment
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class HomeActivity : InjectBottomNavigationActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ads: AdsManager
 
     @Inject
     internal lateinit var home: Lazy<HomeFragment>
@@ -60,7 +60,8 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override fun onStartUi(state: Bundle?) {
         initUi()
         initAd()
-        ad.loadBanner(this.javaClass.simpleName)
+        ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
     }
 
     override fun onStopUi() {
@@ -68,11 +69,11 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(this.javaClass.simpleName)
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
-        ad.pauseBanner(this.javaClass.simpleName)
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -98,7 +99,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     }
 
     private fun initAd() {
-        ad.initAd(
+        ads.initAd(
             this,
             this.javaClass.simpleName,
             findViewById(R.id.adview),

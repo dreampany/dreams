@@ -1,7 +1,7 @@
 package com.dreampany.crypto.data.model
 
 import androidx.room.*
-import com.dreampany.crypto.misc.constants.AppConstants
+import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.misc.constant.Constant
@@ -59,7 +59,7 @@ data class Article(
 
     @Parcelize
     data class Source(
-        @ColumnInfo(name = AppConstants.Keys.News.SOURCE_ID)
+        @ColumnInfo(name = Constants.Keys.News.SOURCE_ID)
         val id: String?,
         val name: String?
     ) : BaseParcel()

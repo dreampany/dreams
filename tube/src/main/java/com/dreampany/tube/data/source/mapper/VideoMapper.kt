@@ -13,7 +13,7 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.pref.AppPref
-import com.dreampany.tube.misc.AppConstants
+import com.dreampany.tube.misc.Constants
 import com.google.common.collect.Maps
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -53,7 +53,7 @@ class VideoMapper
     @Synchronized
     fun isExpired(categoryId: String, offset: Long): Boolean {
         val time = pref.getExpireTimeOfCategoryId(categoryId, offset)
-        return time.isExpired(AppConstants.Times.VIDEOS)
+        return time.isExpired(Constants.Times.VIDEOS)
     }
 
     @Throws
@@ -65,7 +65,7 @@ class VideoMapper
     suspend fun isExpired(id: String): Boolean {
         val time =
             timeRepo.getTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
-        return time.isExpired(AppConstants.Times.VIDEOS)
+        return time.isExpired(Constants.Times.VIDEOS)
     }
 
     @Throws
@@ -77,17 +77,17 @@ class VideoMapper
     suspend fun isExpiredOfRelated(id: String): Boolean {
         val time =
             timeRepo.getTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.RELATED.value)
-        return time.isExpired(AppConstants.Times.VIDEOS)
+        return time.isExpired(Constants.Times.VIDEOS)
     }
 
     fun setRegionVideos(regionCode: String, videos: List<Video>) {
         val json = videos.toJson
-        pref.setPrivately(AppConstants.Keys.Pref.VIDEOS.plus(regionCode), json)
+        pref.setPrivately(Constants.Keys.Pref.VIDEOS.plus(regionCode), json)
     }
 
     fun getRegionVideos(regionCode: String): List<Video>? {
         val json = pref.getPrivately(
-            AppConstants.Keys.Pref.VIDEOS.plus(regionCode),
+            Constants.Keys.Pref.VIDEOS.plus(regionCode),
             Constant.Default.STRING
         )
         return if (json.isNullOrEmpty()) null else json.toItems
@@ -95,12 +95,12 @@ class VideoMapper
 
     fun setEventVideos(eventType: String, videos: List<Video>) {
         val json = videos.toJson
-        pref.setPrivately(AppConstants.Keys.Pref.VIDEOS.plus(eventType), json)
+        pref.setPrivately(Constants.Keys.Pref.VIDEOS.plus(eventType), json)
     }
 
     fun getEventVideos(eventType: String): List<Video>? {
         val json = pref.getPrivately(
-            AppConstants.Keys.Pref.VIDEOS.plus(eventType),
+            Constants.Keys.Pref.VIDEOS.plus(eventType),
             Constant.Default.STRING
         )
         return if (json.isNullOrEmpty()) null else json.toItems

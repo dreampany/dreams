@@ -62,14 +62,14 @@ class SettingsFragment
     }
 
     private fun openCategoriesUi() {
-        val task = UiTask(
+        /*val task = UiTask(
             Type.CATEGORY,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.BACK,
             null as Category?
-        )
-        open(CategoriesActivity::class, task)
+        )*/
+        open(CategoriesActivity::class)
     }
 
     private fun moreApps() {

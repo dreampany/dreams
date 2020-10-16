@@ -27,6 +27,13 @@ class NewsPref
 
     override fun getPrivateName(context: Context): String = NewsConstants.Keys.Pref.NEWS
 
+    fun commitCategoriesSelection() {
+        setPrivately(Constants.Keys.Pref.News.CATEGORY, true)
+    }
+
+    val isCategoriesSelected: Boolean
+        get() = getPrivately(Constants.Keys.Pref.News.CATEGORY, Constant.Default.BOOLEAN)
+
     fun commitExpireTimeOfCategory() {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(Constants.Keys.Pref.News.CATEGORY)

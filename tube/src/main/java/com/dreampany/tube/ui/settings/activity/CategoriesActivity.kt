@@ -55,9 +55,9 @@ class CategoriesActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "Tube.CategoriesActivity")
+            param.put(Constant.Param.SCREEN, "CategoriesActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 
@@ -94,27 +94,24 @@ class CategoriesActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            bind.swipe.isEnabled = false
-            //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
-            /*bind.fab.visible()
-            bind.fab.setOnSafeClickListener { openScanUi() }*/
-            vm = createVm(CategoryViewModel::class)
-            vm.subscribes(this, Observer { this.processResponses(it) })
-        }
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(CategoryViewModel::class)
+
+        //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
+        /*bind.fab.visible()
+        bind.fab.setOnSafeClickListener { openScanUi() }*/
+
+
+        bind.swipe.isEnabled = false
+
+        vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastCategoryAdapter(
-                this::onItemPressed
-            )
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
-            )
-        }
+        if (::adapter.isInitialized) return
+        adapter = FastCategoryAdapter(this::onItemPressed)
+        adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
     private fun updateSubtitle() {

@@ -92,7 +92,8 @@ class WifiMapper
     }
 
     @Synchronized
-    fun get(input: WifiInfo): Wifi {
+    fun get(input: WifiInfo): Wifi? {
+        if (input.bssid == null) return null
         Timber.v("Resolved Wifi: %s", input.bssid)
         val ssid = WifiUtils.convertSsid(input.ssid)
         val id = input.bssid + ssid

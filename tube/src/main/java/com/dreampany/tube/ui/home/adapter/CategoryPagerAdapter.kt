@@ -47,5 +47,5 @@ class CategoryPagerAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragme
     }
 
     fun hasUpdate(inputs: List<Category>): Boolean =
-        inputs.containsAll(categories) && categories.containsAll(inputs)
+        (inputs.containsAll(categories) && categories.containsAll(inputs)).not()
 }

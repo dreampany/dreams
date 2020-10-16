@@ -70,6 +70,25 @@ class CategoryViewModel
         }
     }
 
+    fun loadCategoriesOfCache() {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Category>? = null
+            var errors: SmartError? = null
+            try {
+                result = pref.categories
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
     private fun regionCategory() : Category {
         val regionCode = getApplication<App>().countryCode
         val name = Locale(Constant.Default.STRING, regionCode).displayName

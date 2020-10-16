@@ -103,6 +103,12 @@ class Constants {
         }
     }
 
+    object Count {
+        object News {
+            const val MIN_CATEGORIES = 3
+        }
+    }
+
     object Service {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"

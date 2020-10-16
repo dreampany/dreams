@@ -2,18 +2,26 @@ package com.dreampany.tools.ui.news.activity
 
 import android.os.Bundle
 import android.view.MenuItem
+import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.versionCode
 import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.source.news.pref.NewsPref
 import com.dreampany.tools.databinding.NewsActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.news.adapter.ArticlePagerAdapter
 import com.dreampany.tools.ui.news.model.CategoryItem
 import com.dreampany.tools.ui.news.vm.CategoryViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -26,6 +34,8 @@ class NewsActivity : InjectActivity() {
 
     @Inject
     internal lateinit var ad: AdManager
+    @Inject
+    internal lateinit var pref: NewsPref
 
     private lateinit var bind: NewsActivityBinding
     private lateinit var vm: CategoryViewModel
@@ -57,9 +67,18 @@ class NewsActivity : InjectActivity() {
         initPager()
         ad.loadBanner(this.javaClass.simpleName)
         ad.showInHouseAds(this)
+
+        if (pref.isCategoriesSelected.not()) {
+           open(CategoriesActivity::class)
+        }
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onStart() {
+        super.onStart()
+        updateCategories()
     }
 
     override fun onResume() {
@@ -118,6 +137,17 @@ class NewsActivity : InjectActivity() {
             }).attach()
     }
 
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CategoryItem>>) {
+        if (response is Response.Progress) {
+            //bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<CategoryItem>>) {
+            Timber.v("Result [%s]", response.result)
+            processResults(response.result)
+        }
+    }
+
     private fun processError(error: SmartError) {
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
         val message =
@@ -141,6 +171,13 @@ class NewsActivity : InjectActivity() {
                 adapter.clear()
             }
             adapter.addItems(result)
+        }
+    }
+
+    private fun updateCategories() {
+        val categories = pref.categories ?: return
+        if (adapter.hasUpdate(categories)) {
+            vm.loadCategoriesOfCache()
         }
     }
 }

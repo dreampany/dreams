@@ -52,13 +52,6 @@ class HomeFragment
         updateCategories()
     }
 
-    private fun updateCategories() {
-        val categories = pref.categories ?: return
-        if (adapter.hasUpdate(categories)) {
-            vm.loadCategoriesOfCache()
-        }
-    }
-
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
@@ -113,6 +106,13 @@ class HomeFragment
                 adapter.clear()
             }
             adapter.addItems(result)
+        }
+    }
+
+    private fun updateCategories() {
+        val categories = pref.categories ?: return
+        if (adapter.hasUpdate(categories)) {
+            vm.loadCategoriesOfCache()
         }
     }
 

@@ -15,5 +15,7 @@
     <string name="format_quiz_count" formatted="false">Quiz: %d / %d</string>
 
     <string name="title_categories" translatable="false">Categories</string>
+    <string name="subtitle_categories" translatable="false">%d / %d</string>
+    <string name="notify_select_min_categories" translatable="false">Select %d categories</string>
 
 </resources>

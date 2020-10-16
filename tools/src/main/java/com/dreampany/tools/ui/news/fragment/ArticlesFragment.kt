@@ -230,7 +230,7 @@ class ArticlesFragment
             if (data == null) {
                 vm.loadArticles(input)
             } else {
-                //vm.loadLocationVideos(data, order, 0)
+                vm.loadRegionArticles(input.id)
             }
         }
     }

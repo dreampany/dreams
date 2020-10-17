@@ -16,9 +16,13 @@ constructor(
 ) : TimeDataSource {
 
     @Throws
-    override suspend fun insert(item: Time): Long = dao.insertOrReplace(item)
+    override suspend fun write(item: Time): Long = dao.insertOrReplace(item)
 
     @Throws
-    override suspend fun getTime(id: String, type: String, subtype: String, state: String): Long =
-        dao.getTime(id, type, subtype, state)
+    override suspend fun read(id: String, type: String, subtype: String, state: String) : Time?
+    = dao.read(id, type, subtype, state)
+
+    @Throws
+    override suspend fun readTime(id: String, type: String, subtype: String, state: String): Long =
+        dao.readTime(id, type, subtype, state)
 }

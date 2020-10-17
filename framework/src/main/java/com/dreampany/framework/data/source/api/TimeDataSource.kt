@@ -11,8 +11,11 @@ import com.dreampany.framework.data.model.Time
 interface TimeDataSource {
 
     @Throws
-    suspend fun insert(item: Time): Long
+    suspend fun write(item: Time): Long
 
     @Throws
-    suspend fun getTime(id: String, type: String, subtype: String, state: String): Long
+    suspend fun read(id: String, type: String, subtype: String, state: String): Time?
+
+    @Throws
+    suspend fun readTime(id: String, type: String, subtype: String, state: String): Long
 }

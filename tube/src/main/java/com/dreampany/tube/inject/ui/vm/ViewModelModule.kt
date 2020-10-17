@@ -7,6 +7,7 @@ import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tube.ui.home.vm.CategoryViewModel
 import com.dreampany.tube.ui.home.vm.VideoViewModel
 import com.dreampany.tube.ui.more.vm.MoreViewModel
+import com.dreampany.tube.ui.vm.TimeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -29,6 +30,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MoreViewModel::class)
     abstract fun bindMore(vm: MoreViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TimeViewModel::class)
+    abstract fun bindTime(vm: TimeViewModel): ViewModel
 
     @Binds
     @IntoMap

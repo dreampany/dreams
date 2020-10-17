@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.crypto.pref
 
 import android.content.Context
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.crypto.CoinSort
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class CryptoPref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String =
         CryptoConstants.Keys.PrefKeys.CRYPTO

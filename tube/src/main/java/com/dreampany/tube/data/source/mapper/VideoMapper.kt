@@ -12,7 +12,7 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.misc.Constants
 import com.google.common.collect.Maps
 import com.google.gson.Gson
@@ -33,7 +33,7 @@ class VideoMapper
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
     private val timeRepo: TimeRepo,
-    private val pref: AppPref,
+    private val pref: Prefs,
     private val gson: Gson
 ) {
 
@@ -59,24 +59,24 @@ class VideoMapper
     @Throws
     suspend fun commitExpire(id: String) {
         val time = Time(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
-        timeRepo.insert(time)
+        timeRepo.write(time)
     }
 
     suspend fun isExpired(id: String): Boolean {
         val time =
-            timeRepo.getTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+            timeRepo.readTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
         return time.isExpired(Constants.Times.VIDEOS)
     }
 
     @Throws
     suspend fun commitExpireOfRelated(id: String) {
         val time = Time(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.RELATED.value)
-        timeRepo.insert(time)
+        timeRepo.write(time)
     }
 
     suspend fun isExpiredOfRelated(id: String): Boolean {
         val time =
-            timeRepo.getTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.RELATED.value)
+            timeRepo.readTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.RELATED.value)
         return time.isExpired(Constants.Times.VIDEOS)
     }
 

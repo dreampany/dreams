@@ -13,7 +13,7 @@ import com.dreampany.tube.app.App
 import com.dreampany.tube.data.enums.*
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.source.mapper.CategoryMapper
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.data.source.repo.CategoryRepo
 import com.dreampany.tube.ui.home.model.CategoryItem
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,7 @@ class CategoryViewModel
     application: Application,
     rm: ResponseMapper,
     private val colors: Colors,
-    private val pref: AppPref,
+    private val pref: Prefs,
     private val mapper : CategoryMapper,
     private val repo: CategoryRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Category, CategoryItem, UiTask<Type, Subtype, State, Action, Category>>(

@@ -5,7 +5,7 @@ import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.misc.constants.Constants
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import javax.inject.Inject
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class AppPref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 

@@ -1,7 +1,7 @@
 package com.dreampany.tube.data.source.pref
 
 import android.content.Context
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tube.R
@@ -18,11 +18,11 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class AppPref
+class Prefs
 @Inject constructor(
     context: Context,
     private val gson: Gson
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 

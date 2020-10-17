@@ -1,17 +1,13 @@
 package com.dreampany.tube.ui.splash
 
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.decodeBase64
-import com.dreampany.framework.misc.exts.encodeBase64
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
-import com.dreampany.tube.api.misc.ApiConstants
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.settings.activity.CategoriesActivity
 import kotlinx.coroutines.Runnable
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -23,7 +19,7 @@ import javax.inject.Inject
 class SplashActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var pref : AppPref
+    internal lateinit var pref : Prefs
 
     override val layoutRes: Int = R.layout.splash_activity
 

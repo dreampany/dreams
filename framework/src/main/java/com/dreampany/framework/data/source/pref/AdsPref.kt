@@ -4,7 +4,6 @@ import android.content.Context
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.exts.isExpired
-import com.dreampany.framework.misc.util.Util
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +17,7 @@ import javax.inject.Singleton
 class AdsPref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = Constant.Keys.Pref.ADS
 

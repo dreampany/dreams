@@ -10,7 +10,7 @@ import com.github.pwittchen.prefser.library.rx2.Prefser
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BasePref(val context: Context) {
+abstract class Pref(val context: Context) {
 
     private val public: Prefser
     private val private: Prefser

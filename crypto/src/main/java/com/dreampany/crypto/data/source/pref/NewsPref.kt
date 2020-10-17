@@ -2,7 +2,7 @@ package com.dreampany.crypto.data.source.pref
 
 import android.content.Context
 import com.dreampany.crypto.misc.constants.Constants
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 class NewsPref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.NEWS
 

@@ -15,14 +15,13 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.VideoPlayerActivityBinding
+import com.dreampany.tube.misc.PlayerListener
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.home.vm.VideoViewModel
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
@@ -37,7 +36,7 @@ import javax.inject.Inject
 class VideoPlayerActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var pref: AppPref
+    internal lateinit var pref: Prefs
 
     private lateinit var bind: VideoPlayerActivityBinding
     private lateinit var vm: VideoViewModel
@@ -57,9 +56,9 @@ class VideoPlayerActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "Tube.VideoPlayerActivity")
+            param.put(Constant.Param.SCREEN, "VideoPlayerActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 
@@ -77,8 +76,12 @@ class VideoPlayerActivity : InjectActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -109,13 +112,15 @@ class VideoPlayerActivity : InjectActivity() {
     private fun reInit(item: VideoItem) {
         input = item.input
         updateUi()
-        player.loadOrCueVideo(lifecycle, input.id, 0f)
+        if (::player.isInitialized)
+            player.loadOrCueVideo(lifecycle, input.id, 0f)
     }
 
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
         vm = createVm(VideoViewModel::class)
+
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
 
@@ -132,56 +137,11 @@ class VideoPlayerActivity : InjectActivity() {
             showMenuButton(true)
         }
         bind.player.enableBackgroundPlayback(true)
-        bind.player.addYouTubePlayerListener(object : YouTubePlayerListener {
-            override fun onApiChange(youTubePlayer: YouTubePlayer) {
-
-            }
-
-            override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
-            }
-
-            override fun onError(
-                youTubePlayer: YouTubePlayer,
-                error: PlayerConstants.PlayerError
-            ) {
-            }
-
-            override fun onPlaybackQualityChange(
-                youTubePlayer: YouTubePlayer,
-                playbackQuality: PlayerConstants.PlaybackQuality
-            ) {
-            }
-
-            override fun onPlaybackRateChange(
-                player: YouTubePlayer,
-                playbackRate: PlayerConstants.PlaybackRate
-            ) {
-            }
-
+        bind.player.addYouTubePlayerListener(object : PlayerListener() {
             override fun onReady(player: YouTubePlayer) {
                 this@VideoPlayerActivity.player = player
                 player.loadOrCueVideo(lifecycle, input.id, 0f)
             }
-
-            override fun onStateChange(
-                youTubePlayer: YouTubePlayer,
-                state: PlayerConstants.PlayerState
-            ) {
-            }
-
-            override fun onVideoDuration(player: YouTubePlayer, duration: Float) {
-            }
-
-            override fun onVideoId(player: YouTubePlayer, videoId: String) {
-            }
-
-            override fun onVideoLoadedFraction(
-                youTubePlayer: YouTubePlayer,
-                loadedFraction: Float
-            ) {
-
-            }
-
         })
     }
 

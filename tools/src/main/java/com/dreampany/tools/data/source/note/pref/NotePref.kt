@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.note.pref
 
 import android.content.Context
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.tools.misc.constants.NoteConstants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class NotePref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String {
         return NoteConstants.Keys.PrefKeys.NOTE

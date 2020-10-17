@@ -10,7 +10,7 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.HomeFragmentBinding
 import com.dreampany.tube.ui.home.adapter.CategoryPagerAdapter
 import com.dreampany.tube.ui.home.model.CategoryItem
@@ -30,7 +30,7 @@ class HomeFragment
 @Inject constructor() : InjectFragment() {
 
     @Inject
-    internal lateinit var pref: AppPref
+    internal lateinit var pref: Prefs
 
     private lateinit var bind: HomeFragmentBinding
     private lateinit var vm: CategoryViewModel

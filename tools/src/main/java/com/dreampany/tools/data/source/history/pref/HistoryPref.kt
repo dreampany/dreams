@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.history.pref
 
 import android.content.Context
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.join
 import com.dreampany.framework.misc.util.Util
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class HistoryPref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String {
         return HistoryConstants.Keys.PrefKeys.HISTORY

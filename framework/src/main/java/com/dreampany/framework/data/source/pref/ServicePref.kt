@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class ServicePref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String {
         return Constant.Keys.Pref.SERVICE

@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.mapper.VideoMapper
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -25,7 +25,7 @@ class VideoRepo
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    private val pref: AppPref,
+    private val pref: Prefs,
     private val mapper: VideoMapper,
     @Room private val room: VideoDataSource,
     @Remote private val remote: VideoDataSource

@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.radio.pref
 
 import android.content.Context
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.radio.RadioState
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class RadioPref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String {
         return RadioConstants.Keys.PrefKeys.RADIO

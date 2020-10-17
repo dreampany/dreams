@@ -1,7 +1,7 @@
 package com.dreampany.hello.data.source.pref
 
 import android.content.Context
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.misc.Constants
 import javax.inject.Inject
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class Pref
 @Inject constructor(
     context: Context
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 

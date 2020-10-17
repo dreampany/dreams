@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.news.pref
 
 import android.content.Context
-import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.util.Util
@@ -23,7 +23,7 @@ class NewsPref
 @Inject constructor(
     context: Context,
     private val gson: Gson
-) : BasePref(context) {
+) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = NewsConstants.Keys.Pref.NEWS
 

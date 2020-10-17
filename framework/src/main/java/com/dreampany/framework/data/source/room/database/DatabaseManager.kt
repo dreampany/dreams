@@ -18,7 +18,7 @@ import com.dreampany.framework.misc.constant.Constant
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Store::class, Time::class ], version = 2, exportSchema = false)
+@Database(entities = [Store::class, Time::class], version = 2, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -27,13 +27,13 @@ abstract class DatabaseManager : RoomDatabase() {
 
         @Synchronized
         fun newInstance(context: Context, memoryOnly: Boolean): DatabaseManager {
-            val builder: RoomDatabase.Builder<DatabaseManager>
+            val builder: Builder<DatabaseManager>
 
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, Constant.Room.TYPE_FRAMEWORK)
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                val database = Constant.database(context, Constant.Room.TYPE_FRAMEWORK)
+                builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
             return builder

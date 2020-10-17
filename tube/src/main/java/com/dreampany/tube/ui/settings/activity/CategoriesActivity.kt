@@ -18,7 +18,7 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.RecyclerActivityBinding
 import com.dreampany.tube.misc.Constants
 import com.dreampany.tube.ui.home.activity.HomeActivity
@@ -37,7 +37,7 @@ import javax.inject.Inject
 class CategoriesActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var pref: AppPref
+    internal lateinit var pref: Prefs
 
     private lateinit var bind: RecyclerActivityBinding
     private lateinit var vm: CategoryViewModel

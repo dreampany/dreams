@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.source.api.CategoryDataSource
 import com.dreampany.tube.data.source.mapper.CategoryMapper
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class CategoryRepo
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    private val pref: AppPref,
+    private val pref: Prefs,
     private val mapper: CategoryMapper,
     @Room private val room: CategoryDataSource,
     @Remote private val remote: CategoryDataSource

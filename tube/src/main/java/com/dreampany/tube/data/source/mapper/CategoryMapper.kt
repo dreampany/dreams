@@ -11,7 +11,7 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.source.api.CategoryDataSource
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.misc.Constants
 import com.google.common.collect.Maps
 import timber.log.Timber
@@ -32,7 +32,7 @@ class CategoryMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
-    private val pref: AppPref
+    private val pref: Prefs
 ) {
     private val categories: MutableMap<String, Category>
     private val favorites: MutableMap<String, Boolean>

@@ -11,7 +11,7 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
-import com.dreampany.tube.data.source.pref.AppPref
+import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.data.source.repo.CategoryRepo
 import com.dreampany.tube.data.source.repo.VideoRepo
 import com.dreampany.tube.misc.Constants
@@ -32,7 +32,7 @@ class VideoViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val pref: AppPref,
+    private val pref: Prefs,
     private val categoryRepo: CategoryRepo,
     private val repo: VideoRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Video, VideoItem, UiTask<Type, Subtype, State, Action, Video>>(
@@ -139,13 +139,13 @@ class VideoViewModel
         }
     }
 
-    fun loadRelated(id: String,order : String) {
+    fun loadRelated(id: String, order: String) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsOfRelated(id, order,0, Constants.Limits.VIDEOS)
+                result = repo.getsOfRelated(id, order, 0, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

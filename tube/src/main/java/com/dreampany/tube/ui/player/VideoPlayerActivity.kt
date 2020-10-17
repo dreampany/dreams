@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.data.model.Time
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
@@ -21,6 +22,7 @@ import com.dreampany.tube.misc.PlayerListener
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.home.model.VideoItem
 import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.ui.vm.TimeViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import kotlinx.android.synthetic.main.content_recycler.view.*
@@ -39,10 +41,12 @@ class VideoPlayerActivity : InjectActivity() {
     internal lateinit var pref: Prefs
 
     private lateinit var bind: VideoPlayerActivityBinding
+    private lateinit var timeVm: TimeViewModel
     private lateinit var vm: VideoViewModel
     private lateinit var adapter: FastVideoAdapter
     private lateinit var input: Video
     private lateinit var player: YouTubePlayer
+    private var currentSeconds = 0L
 
     override val layoutRes: Int = R.layout.video_player_activity
     override val menuRes: Int = R.menu.videos_menu
@@ -112,15 +116,16 @@ class VideoPlayerActivity : InjectActivity() {
     private fun reInit(item: VideoItem) {
         input = item.input
         updateUi()
-        if (::player.isInitialized)
-            player.loadOrCueVideo(lifecycle, input.id, 0f)
+        timeVm.read(input.id, Type.VIDEO, Subtype.DEFAULT, State.DEFAULT)
     }
 
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
+        timeVm = createVm(TimeViewModel::class)
         vm = createVm(VideoViewModel::class)
 
+        timeVm.subscribe(this, Observer { this.processTimeResponse(it) })
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
 
@@ -140,7 +145,14 @@ class VideoPlayerActivity : InjectActivity() {
         bind.player.addYouTubePlayerListener(object : PlayerListener() {
             override fun onReady(player: YouTubePlayer) {
                 this@VideoPlayerActivity.player = player
-                player.loadOrCueVideo(lifecycle, input.id, 0f)
+                timeVm.read(input.id, Type.VIDEO, Subtype.DEFAULT, State.DEFAULT)
+                //player.loadOrCueVideo(lifecycle, input.id, 0f)
+            }
+
+            override fun onCurrentSecond(player: YouTubePlayer, second: Float) {
+                if (currentSeconds == second.toLong()) return
+                currentSeconds = second.toLong()
+                timeVm.write(input.id, Type.VIDEO, Subtype.DEFAULT, State.DEFAULT, currentSeconds)
             }
         })
     }
@@ -167,6 +179,17 @@ class VideoPlayerActivity : InjectActivity() {
         bind.player.getPlayerUiController().apply {
             enableLiveVideoUi(input.isLive)
             setVideoTitle(input.title.value)
+        }
+    }
+
+    private fun processTimeResponse(response: Response<Type, Subtype, State, Action, Time>) {
+        if (response is Response.Progress) {
+            bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<Type, Subtype, State, Action, Time>) {
+            Timber.v("Result [%s]", response.result)
+            processResult(response.result)
         }
     }
 
@@ -207,6 +230,12 @@ class VideoPlayerActivity : InjectActivity() {
 
             }
         )
+    }
+
+    private fun processResult(result: Time?) {
+        val time = result?.time.value.toFloat()
+        if (::player.isInitialized)
+            player.loadOrCueVideo(lifecycle, input.id, time)
     }
 
     private fun processResults(result: List<VideoItem>?) {

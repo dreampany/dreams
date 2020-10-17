@@ -5,6 +5,7 @@ import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by roman on 3/22/20
@@ -113,5 +114,11 @@ val Long.time: String
             DateUtils.MINUTE_IN_MILLIS
         ).toString()
     }
+
+val Long.millisToSeconds : Long
+    get() = TimeUnit.MILLISECONDS.toSeconds(this)
+
+val Long.secondsToMillis : Long
+    get() = TimeUnit.SECONDS.toMillis(this)
 
 

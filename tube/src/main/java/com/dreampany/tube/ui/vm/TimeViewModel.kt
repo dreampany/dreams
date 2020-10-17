@@ -11,7 +11,6 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.ui.home.model.VideoItem
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +31,27 @@ class TimeViewModel
     rm
 ) {
 
-    fun loadTime(id: String, type: Type, subtype: Subtype, state: State) {
+    fun write(id: String, type: Type, subtype: Subtype, state: State, time: Long) {
+        uiScope.launch {
+            var result: Time? = null
+            var errors: SmartError? = null
+            try {
+                val time = Time(time, id, type.value, subtype.value, state.value, null)
+                val opt = repo.write(time)
+                result = time
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                //postError(type, subtype, state, errors)
+            } else {
+                //postResult(type, subtype, state, result)
+            }
+        }
+    }
+
+    fun read(id: String, type: Type, subtype: Subtype, state: State) {
         uiScope.launch {
             var result: Time? = null
             var errors: SmartError? = null

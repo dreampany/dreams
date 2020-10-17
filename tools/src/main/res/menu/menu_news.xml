@@ -17,4 +17,10 @@
         android:visible="false"
         auto:showAsAction="always" />
 
+    <item
+        android:id="@+id/item_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/title_news_settings"
+        auto:showAsAction="always" />
+
 </menu>

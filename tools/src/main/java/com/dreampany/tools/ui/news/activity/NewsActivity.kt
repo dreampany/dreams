@@ -98,6 +98,10 @@ class NewsActivity : InjectActivity() {
                 //openFavoritesUi()
                 return true
             }
+            R.id.item_settings -> {
+                openSettingsUi()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -180,5 +184,9 @@ class NewsActivity : InjectActivity() {
         if (adapter.hasUpdate(categories)) {
             vm.loadCategoriesOfCache()
         }
+    }
+
+    private fun openSettingsUi() {
+        open(SettingsActivity::class)
     }
 }

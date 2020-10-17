@@ -251,6 +251,12 @@
 
         </activity>
 
+        <activity
+            android:name=".ui.news.activity.SettingsActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:label="@string/title_news_settings"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>

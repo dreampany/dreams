@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_settings_categories">Select Categories</string>
+    <string name="key_settings_categories">categories</string>
+</resources>

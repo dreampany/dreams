@@ -30,7 +30,8 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class MoreFragment @Inject constructor() : InjectFragment() {
+class MoreFragment
+@Inject constructor() : InjectFragment() {
 
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var adapter: FastMoreAdapter
@@ -48,28 +49,34 @@ class MoreFragment @Inject constructor() : InjectFragment() {
     override fun onStopUi() {
     }
 
-    private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            bind.swipe.disable()
-            vm = createVm(MoreViewModel::class)
-            vm.subscribes(this, Observer { this.processResponse(it) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
         }
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun initUi() {
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(MoreViewModel::class)
+
+        vm.subscribes(this, { this.processResponse(it) })
+
+        bind.swipe.disable()
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastMoreAdapter(
-                clickListener = { item: MoreItem ->
+        if (::adapter.isInitialized) return
+        adapter = FastMoreAdapter(
+            clickListener = { item: MoreItem ->
                 Timber.v("MoreItem: %s", item.input.toString())
                 onPressed(item.input)
             })
-
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
-            )
-        }
+        adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, List<MoreItem>>) {

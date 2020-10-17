@@ -46,9 +46,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "Tools.HomeActivity")
+            param.put(Constant.Param.SCREEN, "HomeActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 
@@ -56,6 +56,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
         initAd()
         initUi()
         ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
     }
 
     override fun onStopUi() {

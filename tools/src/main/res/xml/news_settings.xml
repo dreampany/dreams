@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/category_general"
+        auto:iconSpaceReserved="false">
+
+        <Preference
+            android:key="@string/key_settings_categories"
+            android:title="@string/title_settings_categories"
+            auto:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

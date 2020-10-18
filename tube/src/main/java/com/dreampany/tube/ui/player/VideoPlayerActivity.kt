@@ -20,8 +20,8 @@ import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.VideoPlayerActivityBinding
 import com.dreampany.tube.misc.PlayerListener
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
-import com.dreampany.tube.ui.home.model.VideoItem
-import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.ui.model.VideoItem
+import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.ui.vm.TimeViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo

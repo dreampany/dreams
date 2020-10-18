@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tube.R
 import com.dreampany.tube.databinding.VideoItemBinding
-import com.dreampany.tube.ui.home.model.VideoItem
+import com.dreampany.tube.ui.model.VideoItem
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter

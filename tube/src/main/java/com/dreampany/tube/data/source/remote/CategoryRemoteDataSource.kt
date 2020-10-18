@@ -74,12 +74,12 @@ class CategoryRemoteDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun gets(): List<Category>? {
+    override suspend fun reads(): List<Category>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun gets(regionCode: String): List<Category>? {
+    override suspend fun reads(regionCode: String): List<Category>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue

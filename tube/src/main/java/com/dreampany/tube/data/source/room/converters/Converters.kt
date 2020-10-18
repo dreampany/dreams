@@ -2,7 +2,8 @@ package com.dreampany.tube.data.source.room.converters
 
 import androidx.room.TypeConverter
 import com.dreampany.framework.data.source.room.converter.Converter
-import com.dreampany.tube.data.enums.CategoryType
+import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.data.model.Page
 
 /**
  * Created by roman on 3/19/20
@@ -14,13 +15,19 @@ class Converters : Converter() {
 
     @Synchronized
     @TypeConverter
-    fun toString(input: CategoryType?): String? {
-        return if (input == null) null else input.name
-    }
+    fun toString(input: Category.Type?): String? = if (input == null) null else input.name
 
     @Synchronized
     @TypeConverter
-    fun toCategoryType(input: String?): CategoryType? {
-        return if (input.isNullOrEmpty()) null else CategoryType.valueOf(input)
-    }
+    fun toCategoryType(input: String?): Category.Type? =
+        if (input.isNullOrEmpty()) null else Category.Type.valueOf(input)
+
+    @Synchronized
+    @TypeConverter
+    fun toString(input: Page.Type?): String? = if (input == null) null else input.name
+
+    @Synchronized
+    @TypeConverter
+    fun toPageType(input: String?): Page.Type? =
+        if (input.isNullOrEmpty()) null else Page.Type.valueOf(input)
 }

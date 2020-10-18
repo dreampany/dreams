@@ -56,14 +56,15 @@ class CategoryRepo
         room.get(id)
     }
 
-    override suspend fun gets(): List<Category>? {
+    @Throws
+    override suspend fun reads(): List<Category>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun gets(regionCode: String) = withContext(Dispatchers.IO) {
+    override suspend fun reads(regionCode: String) = withContext(Dispatchers.IO) {
         if (mapper.isExpired) {
-            val result = remote.gets(regionCode)
+            val result = remote.reads(regionCode)
             if (!result.isNullOrEmpty()) {
                 room.deleteAll()
                 val result = room.put(result)
@@ -72,7 +73,7 @@ class CategoryRepo
                 }
             }
         }
-        room.gets()
+        room.reads()
     }
 
     override suspend fun gets(ids: List<String>): List<Category>? {

@@ -1,4 +1,4 @@
-package com.dreampany.tube.ui.home.model
+package com.dreampany.tube.ui.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

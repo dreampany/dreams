@@ -6,6 +6,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tube.R
 import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.data.model.Page
 import com.dreampany.tube.misc.Constants
 import com.google.gson.Gson
 import javax.inject.Inject
@@ -39,6 +40,15 @@ class Prefs
 
     val isCategoriesSelected: Boolean
         get() = getPrivately(Constants.Keys.Pref.CATEGORY, Constant.Default.BOOLEAN)
+
+
+    @Synchronized
+    fun commitPagesSelection() {
+        setPrivately(Constants.Keys.Pref.PAGE, true)
+    }
+
+    val isPagesSelected: Boolean
+        get() = getPrivately(Constants.Keys.Pref.PAGE, Constant.Default.BOOLEAN)
 
     @Synchronized
     fun commitExpireTimeOfCategory() {
@@ -125,6 +135,23 @@ class Prefs
                 return null
             } else {
                 return gson.fromJson(json, Array<Category>::class.java).toList()
+            }
+        }
+
+    @Synchronized
+    fun commitPages(inputs: List<Page>) {
+        val json = gson.toJson(inputs)
+        setPrivately(Constants.Keys.Pref.PAGES, json)
+    }
+
+    val pages: List<Page>?
+        get() {
+            val json =
+                getPrivately(Constants.Keys.Pref.PAGES, Constant.Default.NULL as String?)
+            if (json.isNullOrEmpty()) {
+                return null
+            } else {
+                return gson.fromJson(json, Array<Page>::class.java).toList()
             }
         }
 

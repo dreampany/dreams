@@ -13,8 +13,8 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.HomeFragmentBinding
 import com.dreampany.tube.ui.home.adapter.CategoryPagerAdapter
-import com.dreampany.tube.ui.home.model.CategoryItem
-import com.dreampany.tube.ui.home.vm.CategoryViewModel
+import com.dreampany.tube.ui.model.CategoryItem
+import com.dreampany.tube.ui.vm.CategoryViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject

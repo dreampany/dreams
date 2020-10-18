@@ -21,8 +21,8 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.VideosFragmentBinding
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
-import com.dreampany.tube.ui.home.model.VideoItem
-import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.ui.model.VideoItem
+import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber

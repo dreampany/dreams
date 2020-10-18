@@ -3,7 +3,7 @@ package com.dreampany.tube.data.source.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.framework.data.source.room.dao.BaseDao
-import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.data.model.Page
 
 /**
  * Created by roman on 14/3/20
@@ -12,14 +12,11 @@ import com.dreampany.tube.data.model.Category
  * Last modified $file.lastModified
  */
 @Dao
-interface CategoryDao : BaseDao<Category> {
+interface PageDao : BaseDao<Page> {
 
-    @get:Query("select * from category")
-    val all: List<Category>?
+    @get:Query("select * from page")
+    val all: List<Page>?
 
-    @Query("select * from category where id = :id limit 1")
-    fun read(id: String): Category?
-
-    @Query("delete from category")
-    fun deleteAll()
+    @Query("select * from page where id = :id limit 1")
+    fun read(id: String): Page?
 }

@@ -171,7 +171,7 @@ class CategoryMapper
     @Synchronized
     private suspend fun updateCache(source: CategoryDataSource) {
         if (categories.isEmpty()) {
-            source.gets()?.let {
+            source.reads()?.let {
                 if (it.isNotEmpty())
                     it.forEach { add(it) }
             }

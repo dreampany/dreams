@@ -12,14 +12,14 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tube.databinding.RecyclerActivityBinding
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
-import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.R
 import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.manager.AdsManager
-import com.dreampany.tube.ui.home.model.VideoItem
+import com.dreampany.tube.ui.model.VideoItem
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import timber.log.Timber
 import javax.inject.Inject

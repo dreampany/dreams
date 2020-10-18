@@ -22,9 +22,9 @@ import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.RecyclerActivityBinding
 import com.dreampany.tube.misc.Constants
 import com.dreampany.tube.ui.home.activity.HomeActivity
-import com.dreampany.tube.ui.model.CategoryItem
-import com.dreampany.tube.ui.vm.CategoryViewModel
-import com.dreampany.tube.ui.settings.adapter.FastCategoryAdapter
+import com.dreampany.tube.ui.model.PageItem
+import com.dreampany.tube.ui.settings.adapter.FastPageAdapter
+import com.dreampany.tube.ui.vm.PageViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,17 +34,17 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CategoriesActivity : InjectActivity() {
+class PagesActivity : InjectActivity() {
 
     @Inject
     internal lateinit var pref: Prefs
 
     private lateinit var bind: RecyclerActivityBinding
-    private lateinit var vm: CategoryViewModel
-    private lateinit var adapter: FastCategoryAdapter
+    private lateinit var vm: PageViewModel
+    private lateinit var adapter: FastPageAdapter
 
     override val layoutRes: Int = R.layout.recycler_activity
-    override val menuRes: Int = R.menu.categories_menu
+    override val menuRes: Int = R.menu.pages_menu
     override val toolbarId: Int = R.id.toolbar
 
     override val params: Map<String, Map<String, Any>?>?
@@ -55,7 +55,7 @@ class CategoriesActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "CategoriesActivity")
+            param.put(Constant.Param.SCREEN, "PagesActivity")
 
             params.put(Constant.Event.activity(this), param)
             return params
@@ -80,7 +80,7 @@ class CategoriesActivity : InjectActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun onItemPressed(view: View, item: CategoryItem) {
+    private fun onItemPressed(view: View, item: PageItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
@@ -96,7 +96,7 @@ class CategoriesActivity : InjectActivity() {
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        vm = createVm(CategoryViewModel::class)
+        vm = createVm(PageViewModel::class)
 
         //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
         /*bind.fab.visible()
@@ -110,7 +110,7 @@ class CategoriesActivity : InjectActivity() {
 
     private fun initRecycler(state: Bundle?) {
         if (::adapter.isInitialized) return
-        adapter = FastCategoryAdapter(this::onItemPressed)
+        adapter = FastPageAdapter(this::onItemPressed)
         adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
@@ -126,12 +126,12 @@ class CategoriesActivity : InjectActivity() {
         findMenuItemById(R.id.action_done)?.setIcon(menuIconRes)
     }
 
-    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CategoryItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<PageItem>>) {
         if (response is Response.Progress) {
             //bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<CategoryItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<PageItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -154,7 +154,7 @@ class CategoriesActivity : InjectActivity() {
         )
     }
 
-    private fun processResults(result: List<CategoryItem>?) {
+    private fun processResults(result: List<PageItem>?) {
         if (result != null) {
             adapter.addItems(result)
             updateSubtitle()
@@ -167,9 +167,9 @@ class CategoriesActivity : InjectActivity() {
             NotifyUtil.shortToast(this, getString(R.string.notify_select_min_categories, required))
             return
         }
-        pref.commitCategoriesSelection()
-        val categories = adapter.selectedItems.map { it.input }
-        pref.commitCategories(categories)
+        pref.commitPagesSelection()
+        val pages = adapter.selectedItems.map { it.input }
+        pref.commitPages(pages)
 
         val action = task?.action as Action?
         if (action == Action.BACK) {

@@ -7,6 +7,7 @@ import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import com.dreampany.tube.ui.settings.activity.CategoriesActivity
+import com.dreampany.tube.ui.settings.activity.PagesActivity
 import com.dreampany.tube.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -24,6 +25,9 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun categories(): CategoriesActivity
+
+    @ContributesAndroidInjector
+    abstract fun pages(): PagesActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, SettingsModule::class])

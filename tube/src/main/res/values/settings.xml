@@ -3,6 +3,9 @@
     <string name="title_settings_categories">Select Categories</string>
     <string name="key_settings_categories">categories</string>
 
+    <string name="title_settings_pages">Select Pages</string>
+    <string name="key_settings_pages">pages</string>
+
     <string name="title_settings_order">Order Videos</string>
     <string name="key_settings_order">order</string>
 

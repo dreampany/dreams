@@ -28,10 +28,10 @@ interface CategoryDataSource {
     suspend fun get(id: String): Category?
 
     @Throws
-    suspend fun gets(): List<Category>?
+    suspend fun reads(): List<Category>?
 
     @Throws
-    suspend fun gets(regionCode: String): List<Category>?
+    suspend fun reads(regionCode: String): List<Category>?
 
     @Throws
     suspend fun gets(ids: List<String>): List<Category>?

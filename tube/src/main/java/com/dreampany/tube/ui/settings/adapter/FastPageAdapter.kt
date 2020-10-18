@@ -8,6 +8,7 @@ import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tube.R
 import com.dreampany.tube.databinding.CategoryItemBinding
 import com.dreampany.tube.ui.model.CategoryItem
+import com.dreampany.tube.ui.model.PageItem
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
@@ -24,8 +25,8 @@ import com.mikepenz.fastadapter.utils.DragDropUtil
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FastCategoryAdapter(
-    val clickListener: ((view: View, item: CategoryItem) -> Unit)? = null
+class FastPageAdapter(
+    val clickListener: ((view: View, item: PageItem) -> Unit)? = null
 ) : ItemTouchCallback {
 
     private lateinit var fastAdapter: GenericFastItemAdapter
@@ -95,7 +96,7 @@ class FastCategoryAdapter(
                 { bind -> arrayListOf(bind.root) }
             )
             { view, position, adapter, item ->
-                if (item is CategoryItem) {
+                if (item is PageItem) {
                     listener(view, item)
                 }
             }
@@ -114,17 +115,17 @@ class FastCategoryAdapter(
     }
 
     val selectionCount: Int
-        get() = fastAdapter.adapterItems.filter { (it as CategoryItem).select }.size
+        get() = fastAdapter.adapterItems.filter { (it as PageItem).select }.size
 
-    val selectedItems: List<CategoryItem>
-        get() = fastAdapter.adapterItems.filter { (it as CategoryItem).select }.map { it as CategoryItem }
+    val selectedItems: List<PageItem>
+        get() = fastAdapter.adapterItems.filter { (it as PageItem).select }.map { it as PageItem }
 
-    fun toggle(item: CategoryItem) {
+    fun toggle(item: PageItem) {
         item.select = item.select.not()
         updateItem(item)
     }
 
-    fun updateItem(item: CategoryItem): Boolean {
+    fun updateItem(item: PageItem): Boolean {
         var position = fastAdapter.getAdapterPosition(item)
         position = fastAdapter.getGlobalPosition(position)
         if (position >= 0) {
@@ -135,19 +136,19 @@ class FastCategoryAdapter(
         return false
     }
 
-    fun updateItems(items: List<CategoryItem>) {
+    fun updateItems(items: List<PageItem>) {
         items.forEach {
             updateItem(it)
         }
     }
 
-    fun addItem(item: CategoryItem) {
+    fun addItem(item: PageItem) {
         val updated = updateItem(item)
         if (!updated)
             fastAdapter.add(item)
     }
 
-    fun addItems(items: List<CategoryItem>) {
+    fun addItems(items: List<PageItem>) {
         fastAdapter.add(items)
     }
 }

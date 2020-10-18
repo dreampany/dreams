@@ -26,8 +26,8 @@ import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.VideosFragmentBinding
 import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
-import com.dreampany.tube.ui.home.model.VideoItem
-import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.ui.model.VideoItem
+import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import com.google.android.gms.location.LocationRequest
 import com.patloew.colocation.CoLocation

@@ -10,7 +10,7 @@ import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.ui.home.fragment.VideosFragment
-import com.dreampany.tube.ui.home.model.CategoryItem
+import com.dreampany.tube.ui.model.CategoryItem
 
 /**
  * Created by roman on 30/6/20

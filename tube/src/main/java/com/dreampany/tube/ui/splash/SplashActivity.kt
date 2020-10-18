@@ -7,6 +7,7 @@ import com.dreampany.tube.R
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.settings.activity.CategoriesActivity
+import com.dreampany.tube.ui.settings.activity.PagesActivity
 import kotlinx.coroutines.Runnable
 import javax.inject.Inject
 
@@ -39,7 +40,7 @@ class SplashActivity : InjectActivity() {
         if (pref.isCategoriesSelected) {
             open(HomeActivity::class, true)
         } else {
-            open(CategoriesActivity::class, true)
+            open(PagesActivity::class, true)
         }
         //open(HomeActivity::class, true)
 /*        if (vm.isJoinPressed()) {

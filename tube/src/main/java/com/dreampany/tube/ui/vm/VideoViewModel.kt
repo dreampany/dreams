@@ -1,4 +1,4 @@
-package com.dreampany.tube.ui.home.vm
+package com.dreampany.tube.ui.vm
 
 import android.app.Application
 import android.location.Location
@@ -15,7 +15,7 @@ import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.data.source.repo.CategoryRepo
 import com.dreampany.tube.data.source.repo.VideoRepo
 import com.dreampany.tube.misc.Constants
-import com.dreampany.tube.ui.home.model.VideoItem
+import com.dreampany.tube.ui.model.VideoItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

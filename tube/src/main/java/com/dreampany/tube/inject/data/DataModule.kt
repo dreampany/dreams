@@ -11,14 +11,17 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tube.api.inject.data.YoutubeModule
 import com.dreampany.tube.api.remote.service.YoutubeService
 import com.dreampany.tube.data.source.api.CategoryDataSource
+import com.dreampany.tube.data.source.api.PageDataSource
 import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.mapper.CategoryMapper
 import com.dreampany.tube.data.source.mapper.VideoMapper
 import com.dreampany.tube.data.source.remote.CategoryRemoteDataSource
 import com.dreampany.tube.data.source.remote.VideoRemoteDataSource
 import com.dreampany.tube.data.source.room.CategoryRoomDataSource
+import com.dreampany.tube.data.source.room.PageRoomDataSource
 import com.dreampany.tube.data.source.room.VideoRoomDataSource
 import com.dreampany.tube.data.source.room.dao.CategoryDao
+import com.dreampany.tube.data.source.room.dao.PageDao
 import com.dreampany.tube.data.source.room.dao.RelatedDao
 import com.dreampany.tube.data.source.room.dao.VideoDao
 import com.dreampany.tube.data.source.room.database.DatabaseManager
@@ -51,6 +54,10 @@ class DataModule {
 
     @Provides
     @Singleton
+    fun providePageDao(database: DatabaseManager): PageDao = database.pageDao()
+
+    @Provides
+    @Singleton
     fun provideVideoDao(database: DatabaseManager): VideoDao = database.videoDao()
 
     @Provides
@@ -64,6 +71,13 @@ class DataModule {
         mapper: CategoryMapper,
         dao: CategoryDao
     ): CategoryDataSource = CategoryRoomDataSource(mapper, dao)
+
+    @Singleton
+    @Provides
+    @Room
+    fun providePageRoomDataSource(
+        dao: PageDao
+    ): PageDataSource = PageRoomDataSource(dao)
 
     @Singleton
     @Provides

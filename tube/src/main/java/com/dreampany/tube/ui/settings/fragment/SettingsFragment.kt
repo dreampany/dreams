@@ -7,14 +7,8 @@ import com.dreampany.framework.misc.exts.moreApps
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.rateUs
 import com.dreampany.framework.ui.fragment.InjectFragment
-import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tube.R
-import com.dreampany.tube.data.enums.Subtype
-import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.enums.Action
-import com.dreampany.tube.data.enums.State
-import com.dreampany.tube.data.model.Category
-import com.dreampany.tube.ui.settings.activity.CategoriesActivity
+import com.dreampany.tube.ui.settings.activity.PagesActivity
 import com.mikepenz.aboutlibraries.LibsBuilder
 import javax.inject.Inject
 
@@ -38,8 +32,8 @@ class SettingsFragment
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        if (preference.key == getString(R.string.key_settings_categories)) {
-            openCategoriesUi()
+        if (preference.key == getString(R.string.key_settings_pages)) {
+            openPagesUi()
             return true
         }  else if (preference.key == getString(R.string.key_settings_more_apps)) {
             moreApps()
@@ -61,7 +55,7 @@ class SettingsFragment
 
     }
 
-    private fun openCategoriesUi() {
+    private fun openPagesUi() {
         /*val task = UiTask(
             Type.CATEGORY,
             Subtype.DEFAULT,
@@ -69,7 +63,7 @@ class SettingsFragment
             Action.BACK,
             null as Category?
         )*/
-        open(CategoriesActivity::class)
+        open(PagesActivity::class)
     }
 
     private fun moreApps() {

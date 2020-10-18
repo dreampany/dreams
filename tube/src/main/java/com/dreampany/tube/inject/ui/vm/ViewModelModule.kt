@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
-import com.dreampany.tube.ui.home.vm.CategoryViewModel
-import com.dreampany.tube.ui.home.vm.VideoViewModel
+import com.dreampany.tube.ui.vm.CategoryViewModel
+import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.ui.more.vm.MoreViewModel
+import com.dreampany.tube.ui.vm.PageViewModel
 import com.dreampany.tube.ui.vm.TimeViewModel
 import dagger.Binds
 import dagger.Module
@@ -40,6 +41,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CategoryViewModel::class)
     abstract fun bindCategory(vm: CategoryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PageViewModel::class)
+    abstract fun bindPage(vm: PageViewModel): ViewModel
 
     @Binds
     @IntoMap

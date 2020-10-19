@@ -5,9 +5,10 @@ import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
 import com.dreampany.tube.data.source.pref.Prefs
+import com.dreampany.tube.databinding.SplashActivityBinding
 import com.dreampany.tube.ui.home.activity.HomeActivity
-import com.dreampany.tube.ui.settings.activity.CategoriesActivity
 import com.dreampany.tube.ui.settings.activity.PagesActivity
+import com.dreampany.tube.ui.vm.PageViewModel
 import kotlinx.coroutines.Runnable
 import javax.inject.Inject
 
@@ -20,7 +21,10 @@ import javax.inject.Inject
 class SplashActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var pref : Prefs
+    internal lateinit var pref: Prefs
+
+    private lateinit var bind : SplashActivityBinding
+    private lateinit var vm: PageViewModel
 
     override val layoutRes: Int = R.layout.splash_activity
 
@@ -34,10 +38,16 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(PageViewModel::class)
     }
 
     private fun nextScreen() {
-        if (pref.isCategoriesSelected) {
+        if (pref.isPagesSelected) {
+            open(HomeActivity::class, true)
+        } else if (pref.isCategoriesSelected) {
+            vm.backupPages()
             open(HomeActivity::class, true)
         } else {
             open(PagesActivity::class, true)

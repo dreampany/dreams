@@ -21,6 +21,7 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.data.model.Page
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.VideosFragmentBinding
@@ -52,14 +53,14 @@ class VideosFragment
     private lateinit var bind: VideosFragmentBinding
     private lateinit var vm: VideoViewModel
     private lateinit var adapter: FastVideoAdapter
-    private lateinit var input: Category
+    private lateinit var input: Page
 
     override val layoutRes: Int = R.layout.videos_fragment
     override val menuRes: Int = R.menu.videos_menu
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
-        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Category>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Page>
         input = task.input ?: return
         initUi()
         initRecycler(state)
@@ -95,8 +96,10 @@ class VideosFragment
                 loadRegionVideos()
             } else if (input.type.isEvent) {
                 vm.loadEventVideos(input.id, order, adapter.itemCount.toLong())
-            } else {
+            } else if (input.type.isCategory) {
                 vm.loadVideos(input.id, adapter.itemCount.toLong())
+            } else if (input.type.isCustom) {
+                vm.loadSearch(input.id, pref.order)
             }
         }
     }

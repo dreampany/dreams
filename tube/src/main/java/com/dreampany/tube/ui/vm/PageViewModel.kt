@@ -81,7 +81,69 @@ class PageViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                 postResult(result?.toItems())
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun readCache() {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Page>? = null
+            var errors: SmartError? = null
+            try {
+                result = pref.pages
+                /*if (result.isNullOrEmpty()) {
+                    result = pref.categories?.toPages()
+                }*/
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun write(query: String) {
+        uiScope.launch {
+            postProgressSingle(true)
+            var result: Page? = null
+            var errors: SmartError? = null
+            try {
+                val page = Page(query)
+                page.type = Page.Type.CUSTOM
+                page.title = query.toTitle()
+                val opt = repo.write(page)
+                if (opt > 0) {
+                    result = page
+                    pref.commitPage(result)
+                }
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItem())
+            }
+        }
+    }
+
+    fun backupPages() {
+        uiScope.launch {
+            try {
+                val pages = pref.categories?.toPages()
+                if (pages != null) {
+                    pref.commitPages(pages)
+                    pref.commitPagesSelection()
+                }
+            } catch (error: SmartError) {
+                Timber.e(error)
             }
         }
     }
@@ -114,16 +176,25 @@ class PageViewModel
         return withContext(Dispatchers.IO) {
             input.map { input ->
                 val page = Page(input.id)
-                page.type = Page.Type.CATEGORY
+                page.type = input.type.toPageType()
                 page.title = input.title
                 page
             }
         }
     }
 
+    private suspend fun Category.Type.toPageType(): Page.Type {
+        when (this) {
+            Category.Type.REGION -> return Page.Type.REGION
+            Category.Type.LIVE -> return Page.Type.EVENT
+            Category.Type.UPCOMING -> return Page.Type.EVENT
+        }
+        return Page.Type.DEFAULT
+    }
+
     private suspend fun List<Page>.toItems(): List<PageItem> {
         val input = this
-        val pages = pref.pages
+        val pages = pref.pages /*?: pref.categories?.toPages()*/
         return withContext(Dispatchers.IO) {
             input.map { input ->
                 val item = PageItem(input)
@@ -136,9 +207,22 @@ class PageViewModel
         }
     }
 
+    private suspend fun Page.toItem(): PageItem {
+        val input = this
+        val pages = pref.pages
+        return withContext(Dispatchers.IO) {
+            val item = PageItem(input)
+            item.color = colors.nextColor(Type.PAGE.name)
+            if (!pages.isNullOrEmpty()) {
+                item.select = pages.contains(input)
+            }
+            item
+        }
+    }
+
     private fun postProgressSingle(progress: Boolean) {
         postProgressSingle(
-            Type.CATEGORY,
+            Type.PAGE,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,
@@ -148,7 +232,7 @@ class PageViewModel
 
     private fun postProgressMultiple(progress: Boolean) {
         postProgressMultiple(
-            Type.CATEGORY,
+            Type.PAGE,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,

@@ -52,6 +52,7 @@ class Constant {
         const val NOTIFICATION = "notification"
 
         fun activity(context: Context?) : String = lastAppId(context).plus(Sep.DOT).plus(ACTIVITY)
+        fun fragment(context: Context?) : String = lastAppId(context).plus(Sep.DOT).plus(FRAGMENT)
     }
 
     object Param {

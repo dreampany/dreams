@@ -2,12 +2,13 @@ package com.dreampany.tube.ui.settings.adapter
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tube.R
-import com.dreampany.tube.databinding.CategoryItemBinding
-import com.dreampany.tube.ui.model.CategoryItem
+import com.dreampany.tube.databinding.PageItemBinding
 import com.dreampany.tube.ui.model.PageItem
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -91,7 +92,7 @@ class FastPageAdapter(
         fastAdapter.withSavedInstanceState(state)
 
         clickListener?.let { listener ->
-            fastAdapter.addClickListener<CategoryItemBinding, GenericItem>(
+            fastAdapter.addClickListener<PageItemBinding, GenericItem>(
                 { bind -> bind.root },
                 { bind -> arrayListOf(bind.root) }
             )

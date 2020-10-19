@@ -16,8 +16,8 @@ android {
         applicationId 'com.dreampany.tube'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 39
-        versionName '0.3.9'
+        versionCode 40
+        versionName '0.4.0'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -191,4 +191,5 @@ dependencies {
     implementation 'com.patloew.colocation:colocation:1.0.0'
     implementation 'com.afollestad.assent:core:3.0.0-RC4'
     implementation 'com.afollestad.assent:rationales:3.0.0-RC4'
+    //implementation 'com.jcminarro:RoundKornerLayouts:0.4.0'
 }

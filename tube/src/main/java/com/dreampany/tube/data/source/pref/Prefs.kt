@@ -144,6 +144,14 @@ class Prefs
         setPrivately(Constants.Keys.Pref.PAGES, json)
     }
 
+    @Synchronized
+    fun commitPage(input: Page) {
+        val pages = pages
+        val inputs = if (pages.isNullOrEmpty()) arrayListOf<Page>() else ArrayList(pages)
+        inputs.add(input)
+        commitPages(inputs)
+    }
+
     val pages: List<Page>?
         get() {
             val json =

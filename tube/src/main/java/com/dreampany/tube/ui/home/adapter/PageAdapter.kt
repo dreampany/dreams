@@ -9,8 +9,10 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Category
+import com.dreampany.tube.data.model.Page
 import com.dreampany.tube.ui.home.fragment.VideosFragment
 import com.dreampany.tube.ui.model.CategoryItem
+import com.dreampany.tube.ui.model.PageItem
 
 /**
  * Created by roman on 30/6/20
@@ -18,15 +20,15 @@ import com.dreampany.tube.ui.model.CategoryItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CategoryPagerAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragment>(fragment) {
+class PageAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragment>(fragment) {
 
-    private val categories = arrayListOf<Category>()
+    private val pages = arrayListOf<Page>()
 
-    fun addItems(items: List<CategoryItem>) {
-        categories.clear()
+    fun addItems(items: List<PageItem>) {
+        pages.clear()
 
         items.forEach {
-            categories.add(it.input)
+            pages.add(it.input)
             val video = UiTask(
                 Type.VIDEO,
                 Subtype.DEFAULT,
@@ -46,6 +48,6 @@ class CategoryPagerAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragme
         notifyDataSetChanged()
     }
 
-    fun hasUpdate(inputs: List<Category>): Boolean =
-        (inputs.containsAll(categories) && categories.containsAll(inputs)).not()
+    fun hasUpdate(inputs: List<Page>): Boolean =
+        (inputs.containsAll(pages) && pages.containsAll(inputs)).not()
 }

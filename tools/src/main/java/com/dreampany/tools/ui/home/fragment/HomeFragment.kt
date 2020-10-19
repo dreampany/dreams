@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.framework.misc.exts.*
+import com.dreampany.framework.misc.exts.disable
+import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tools.R

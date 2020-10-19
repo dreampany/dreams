@@ -53,10 +53,13 @@ data class Page(
 
     @Parcelize
     enum class Type(val value: String) : Parcelable {
-        DEFAULT("default"), REGION("region"), CATEGORY("category"),  CUSTOM("custom");
+        DEFAULT("default"), REGION("region"), EVENT("event"), CATEGORY("category"),  CUSTOM("custom");
 
         val isRegion : Boolean
             get() = this == REGION
+
+        val isEvent : Boolean
+            get() = this == EVENT
 
         val isCategory : Boolean
              get() = this == CATEGORY

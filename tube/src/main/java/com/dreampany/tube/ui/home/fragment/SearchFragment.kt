@@ -5,10 +5,8 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.init
-import com.dreampany.framework.misc.exts.open
-import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.value
+import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -19,11 +17,12 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.source.pref.Prefs
-import com.dreampany.tube.databinding.VideosFragmentBinding
+import com.dreampany.tube.databinding.SearchFragmentBinding
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.model.VideoItem
-import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.ui.player.VideoPlayerActivity
+import com.dreampany.tube.ui.vm.PageViewModel
+import com.dreampany.tube.ui.vm.VideoViewModel
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,15 +38,31 @@ class SearchFragment
 @Inject constructor() : InjectFragment() {
 
     @Inject
-    internal lateinit var pref : Prefs
+    internal lateinit var pref: Prefs
 
-    private lateinit var bind: VideosFragmentBinding
+    private lateinit var bind: SearchFragmentBinding
     private lateinit var vm: VideoViewModel
+    private lateinit var pageVm: PageViewModel
     private lateinit var adapter: FastVideoAdapter
+    private lateinit var query: String
 
-    override val layoutRes: Int = R.layout.videos_fragment
+    override val layoutRes: Int = R.layout.search_fragment
     override val menuRes: Int = R.menu.search_menu
     override val searchMenuItemId: Int = R.id.item_search
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constant.Param.PACKAGE_NAME, parentRef.packageName)
+            param.put(Constant.Param.VERSION_CODE, parentRef.versionCode)
+            param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
+            param.put(Constant.Param.SCREEN, "SearchFragment")
+
+            params.put(Constant.Event.fragment(context), param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -70,6 +85,7 @@ class SearchFragment
 
     override fun onQueryTextChange(newText: String?): Boolean {
         adapter.filter(newText)
+        bind.layoutMake.hide()
         /*if (newText.isNullOrEmpty().not()) {
             searchVideos(newText.value)
         }*/
@@ -77,8 +93,10 @@ class SearchFragment
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query.isNullOrEmpty().not()) {
-            searchVideos(query.value)
+        val value = query.trimValue
+        if (value.isNotEmpty()) {
+            this.query = value
+            searchVideos(value)
         }
         return false
     }
@@ -101,15 +119,24 @@ class SearchFragment
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-
         vm = createVm(VideoViewModel::class)
+        pageVm = createVm(PageViewModel::class)
+
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
 
         bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.DEFAULT, R.layout.content_default_search_videos)
+        bind.stateful.setStateView(
+            StatefulLayout.State.DEFAULT,
+            R.layout.content_default_search_videos
+        )
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_search_videos)
         bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_videos)
+
+        bind.layoutMake.setOnSafeClickListener {
+            writePage()
+            bind.layoutMake.hide()
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -197,8 +224,10 @@ class SearchFragment
 
         if (adapter.isEmpty) {
             bind.stateful.setState(StatefulLayout.State.EMPTY)
+            bind.layoutMake.hide()
         } else {
             bind.stateful.setState(StatefulLayout.State.CONTENT)
+            bind.layoutMake.show()
         }
     }
 
@@ -206,5 +235,9 @@ class SearchFragment
         if (result != null) {
             adapter.addItem(result)
         }
+    }
+
+    private fun writePage() {
+        pageVm.write(query)
     }
 }

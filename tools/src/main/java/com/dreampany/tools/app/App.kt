@@ -19,6 +19,7 @@ import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
 import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -37,14 +38,15 @@ class App : InjectApp() {
     internal lateinit var ads: AdsManager
 
     private lateinit var analytics: FirebaseAnalytics
-    private var action: Action? = null
-    private var indexable: Indexable? = null
+    private lateinit var action: Action
+    private lateinit var indexable: Indexable
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
         DaggerAppComponent.builder().application(this).build()
 
     override fun onOpen() {
         initFirebase()
+        initCrashlytics()
         initIndexing()
         initAd()
         initFresco()
@@ -67,6 +69,16 @@ class App : InjectApp() {
         }
     }
 
+    private fun initFirebase() {
+        if (isDebug) return
+        FirebaseApp.initializeApp(this)
+        analytics = Firebase.analytics
+    }
+
+    private fun initCrashlytics() {
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(isDebug.not())
+    }
+
     private fun initIndexing() {
         if (isDebug) return
         val name = getString(R.string.app_name)
@@ -74,12 +86,6 @@ class App : InjectApp() {
         val url = getString(R.string.app_url)
         action = getAction(description, url);
         indexable = Indexables.newSimple(name, url)
-    }
-
-    private fun initFirebase() {
-        if (isDebug) return
-        FirebaseApp.initializeApp(this)
-        analytics = Firebase.analytics
     }
 
     @SuppressLint("MissingPermission")

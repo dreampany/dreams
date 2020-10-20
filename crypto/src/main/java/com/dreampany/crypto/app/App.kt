@@ -1,5 +1,6 @@
 package com.dreampany.crypto.app
 
+import android.os.Bundle
 import com.dreampany.crypto.R
 import com.dreampany.crypto.inject.app.DaggerAppComponent
 import com.dreampany.crypto.manager.AdsManager
@@ -8,11 +9,15 @@ import com.dreampany.framework.misc.exts.isDebug
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.appindexing.Action
 import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
 import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import java.util.concurrent.TimeUnit
@@ -29,15 +34,17 @@ class App : InjectApp() {
     @Inject
     internal lateinit var ads: AdsManager
 
-    private var action: Action? = null
-    private var indexable: Indexable? = null
+    private lateinit var analytics: FirebaseAnalytics
+    private lateinit var action: Action
+    private lateinit var indexable: Indexable
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
         DaggerAppComponent.builder().application(this).build()
 
     override fun onOpen() {
-        initIndexing()
         initFirebase()
+        initCrashlytics()
+        initIndexing()
         initAd()
         initFresco()
         startAppIndex()
@@ -48,6 +55,27 @@ class App : InjectApp() {
         stopAppIndex()
     }
 
+    override fun logEvent(params: Map<String, Map<String, Any>?>?) {
+        if (isDebug) return
+        params?.let {
+            val key = it.keys.first()
+            val param = it.values.first()
+            val bundle = Bundle()
+            param?.entries?.forEach { bundle.putString(it.key, it.value.toString()) }
+            analytics.logEvent(key, bundle)
+        }
+    }
+
+    private fun initFirebase() {
+        if (isDebug) return
+        FirebaseApp.initializeApp(this)
+        analytics = Firebase.analytics
+    }
+
+    private fun initCrashlytics() {
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(isDebug.not())
+    }
+
     private fun initIndexing() {
         if (isDebug) return
         val name = getString(R.string.app_name)
@@ -55,10 +83,6 @@ class App : InjectApp() {
         val url = getString(R.string.app_url)
         action = getAction(description, url);
         indexable = Indexables.newSimple(name, url)
-    }
-
-    private fun initFirebase() {
-        FirebaseApp.initializeApp(this)
     }
 
     private fun initAd() {

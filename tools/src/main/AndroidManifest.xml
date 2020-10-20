@@ -35,6 +35,9 @@
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:allowBackup, android:label">
 
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

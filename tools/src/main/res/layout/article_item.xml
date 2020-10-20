@@ -7,10 +7,10 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/layout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         auto:cardCornerRadius="@dimen/cornerRadius"
-        auto:cardPreventCornerOverlap="false"
         auto:cardElevation="@dimen/cornerRadius"
-        android:layout_height="wrap_content">
+        auto:cardPreventCornerOverlap="false">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -18,20 +18,10 @@
             android:orientation="horizontal"
             android:padding="@dimen/_8sdp">
 
-            <!--<com.google.android.material.textview.MaterialTextView
-                android:id="@+id/rank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:text="1"
-                android:textColor="@color/material_grey800"
-                android:textSize="@dimen/_14ssp"
-                android:visibility="gone" />-->
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -39,7 +29,6 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_12sdp"
                     android:ellipsize="end"
                     android:lines="2"
                     android:textColor="@color/material_grey800"
@@ -51,7 +40,6 @@
                     android:id="@+id/source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_12sdp"
                     android:textColor="@color/material_grey800"
                     android:textSize="@dimen/_10ssp"
                     auto:fontFamily="@font/roboto_slab_regular"
@@ -62,7 +50,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="@dimen/_80sdp"
+                android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
                 <com.facebook.drawee.view.SimpleDraweeView

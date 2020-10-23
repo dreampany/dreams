@@ -23,8 +23,8 @@ import com.dreampany.tools.data.enums.news.NewsAction
 import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
 import com.dreampany.tools.data.enums.news.NewsType
-import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.data.model.news.Article
+import com.dreampany.tools.data.model.news.Page
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
 import com.dreampany.tools.ui.news.model.ArticleItem
@@ -50,12 +50,12 @@ class ArticlesFragment
     private lateinit var bind: RecyclerChildFragmentBinding
     private lateinit var vm: ArticleViewModel
     private lateinit var adapter: FastArticleAdapter
-    private lateinit var input: Category
+    private lateinit var input: Page
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
 
     override fun onStartUi(state: Bundle?) {
-        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Category>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Page>
         input = task.input ?: return
         initUi()
         initRecycler(state)
@@ -194,16 +194,21 @@ class ArticlesFragment
 
     private fun loadArticles() {
         if (adapter.isEmpty) {
-            if (input.id.length == 2) {
+            if (input.type.isRegion) {
+                readRegionArticles()
+            }else if (input.type.isCategory) {
+                vm.loadArticles(input)
+            }
+            /*if (input.id.length == 2) {
                 loadRegionArticles()
             } else {
                 vm.loadArticles(input)
-            }
+            }*/
         }
     }
 
     @SuppressLint("MissingPermission")
-    private fun loadRegionArticles() {
+    private fun readRegionArticles() {
         if (context.hasLocationPermission) {
             readRegionArticlesSafe()
         } else {

@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Type : BaseType {
-    DEFAULT, MORE, SITE, CATEGORY;
+    DEFAULT, MORE, SITE, CATEGORY, PAGE;
 
     override val value: String get() = name
 }

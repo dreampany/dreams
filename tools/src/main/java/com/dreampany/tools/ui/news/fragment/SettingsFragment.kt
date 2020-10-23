@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.fragment.InjectFragment
 import javax.inject.Inject
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.news.activity.CategoriesActivity
+import com.dreampany.tools.ui.news.activity.PagesActivity
 
 /**
  * Created by roman on 17/10/20
@@ -29,8 +29,8 @@ class SettingsFragment
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        if (preference.key == getString(R.string.key_settings_categories)) {
-            openCategoriesUi()
+        if (preference.key == getString(R.string.key_news_settings_pages)) {
+            openPagesUi()
             return true
         }
         return super.onPreferenceTreeClick(preference)
@@ -40,7 +40,7 @@ class SettingsFragment
 
     }
 
-    private fun openCategoriesUi() {
+    private fun openPagesUi() {
         /*val task = UiTask(
             Type.CATEGORY,
             Subtype.DEFAULT,
@@ -48,6 +48,6 @@ class SettingsFragment
             Action.BACK,
             null as Category?
         )*/
-        open(CategoriesActivity::class)
+        open(PagesActivity::class)
     }
 }

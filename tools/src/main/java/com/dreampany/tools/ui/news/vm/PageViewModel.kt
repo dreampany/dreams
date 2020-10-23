@@ -52,16 +52,14 @@ class PageViewModel
             var result: List<Page>? = null
             var errors: SmartError? = null
             try {
-                var categories = categoryRepo.gets()
-                if (!categories.isNullOrEmpty()) {
-                    val total = ArrayList(categories)
-                    total.add(0, regionCategory())
-                    categories = total
-                }
+                val categories = categoryRepo.reads()
 
+                val regionPage = region
                 val categoryPages = categories?.toPages()
                 val customPages = repo.reads()
+
                 val total = arrayListOf<Page>()
+                total.add(regionPage)
                 if (categoryPages != null) {
                     total.addAll(categoryPages)
                 }
@@ -81,7 +79,7 @@ class PageViewModel
         }
     }
 
-    fun readCache() {
+    fun readsCache() {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Page>? = null
@@ -129,7 +127,7 @@ class PageViewModel
         }
     }
 
-    fun backupPages() {
+/*    fun backupPages() {
         uiScope.launch {
             try {
                 val pages = pref.categories?.toPages()
@@ -141,50 +139,28 @@ class PageViewModel
                 Timber.e(error)
             }
         }
-    }
+    }*/
 
-    private fun regionCategory(): Category {
-        val regionCode = getApplication<App>().countryCode
-        val name = Locale(Constant.Default.STRING, regionCode).displayName
-        val category = Category(regionCode)
-        category.title = name
-        category.type = Category.Type.REGION
-        return category
-    }
-
-    private fun liveCategory(): Category {
-        val category = Category(Category.Type.LIVE.value)
-        category.title = Category.Type.LIVE.value.toTitle()
-        category.type = Category.Type.LIVE
-        return category
-    }
-
-    private fun upcomingCategory(): Category {
-        val category = Category(Category.Type.UPCOMING.value)
-        category.title = Category.Type.UPCOMING.value.toTitle()
-        category.type = Category.Type.UPCOMING
-        return category
-    }
+    private val region: Page
+        get() {
+            val regionCode = getApplication<App>().countryCode
+            val title = Locale(Constant.Default.STRING, regionCode).displayName
+            val page = Page(regionCode)
+            page.type = Page.Type.REGION
+            page.title = title
+            return page
+        }
 
     private suspend fun List<Category>.toPages(): List<Page> {
         val input = this
         return withContext(Dispatchers.IO) {
             input.map { input ->
                 val page = Page(input.id)
-                page.type = input.type.toPageType()
+                page.type = Page.Type.CATEGORY
                 page.title = input.title
                 page
             }
         }
-    }
-
-    private suspend fun Category.Type.toPageType(): Page.Type {
-        when (this) {
-            Category.Type.REGION -> return Page.Type.REGION
-            Category.Type.LIVE -> return Page.Type.EVENT
-            Category.Type.UPCOMING -> return Page.Type.EVENT
-        }
-        return Page.Type.DEFAULT
     }
 
     private suspend fun List<Page>.toItems(): List<PageItem> {
@@ -205,7 +181,7 @@ class PageViewModel
     private suspend fun Page.toItem(): PageItem {
         val input = this
         val pages = pref.pages
-        return withContext(kotlinx.coroutines.Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             val item = PageItem(input)
             item.color = colors.nextColor(Type.PAGE.name)
             if (!pages.isNullOrEmpty()) {

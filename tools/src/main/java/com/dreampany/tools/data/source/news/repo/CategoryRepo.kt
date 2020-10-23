@@ -28,14 +28,14 @@ class CategoryRepo
 ) : CategoryDataSource {
 
     @Throws
-    override suspend fun gets() = withContext(Dispatchers.IO) {
-        getsImpl()
+    override suspend fun reads() = withContext(Dispatchers.IO) {
+        readsImpl()
     }
 
-    private fun getsImpl(): List<Category> {
+    private fun readsImpl(): List<Category>? {
         return Constants.Values.CATEGORIES.map {
             val category = Category(it)
-            category.category = it
+            category.title = it
             category
         }
     }

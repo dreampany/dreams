@@ -1,3 +1,4 @@
+/*
 package com.dreampany.tools.ui.news.vm
 
 import android.app.Application
@@ -26,12 +27,14 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
+*/
 /**
  * Created by roman on 3/21/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class CategoryViewModel
 @Inject constructor(
     application: Application,
@@ -51,7 +54,7 @@ class CategoryViewModel
             var result: List<Category>? = null
             var errors: SmartError? = null
             try {
-                result = repo.gets()
+                result = repo.reads()
                 if (!result.isNullOrEmpty()) {
                     val total = ArrayList(result)
                     total.add(0, regionCategory())
@@ -93,7 +96,7 @@ class CategoryViewModel
         val regionCode = getApplication<App>().countryCode
         val name = Locale(Constant.Default.STRING, regionCode).displayName
         val category = Category(regionCode)
-        category.category = name
+        category.title = name
         return category
     }
 
@@ -165,4 +168,4 @@ class CategoryViewModel
             showProgress = true
         )
     }
-}
+}*/

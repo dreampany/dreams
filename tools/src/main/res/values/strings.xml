@@ -17,6 +17,7 @@
     <string name="title_categories" translatable="false">Categories</string>
     <string name="subtitle_categories" translatable="false">%d / %d</string>
     <string name="notify_select_min_categories" translatable="false">Select %d categories</string>
+    <string name="notify_select_min_pages" translatable="false">Select %d pages</string>
 
     <string name="title_pages" translatable="false">Pages</string>
 </resources>

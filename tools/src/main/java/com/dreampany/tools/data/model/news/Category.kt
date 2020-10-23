@@ -1,6 +1,5 @@
 package com.dreampany.tools.data.model.news
 
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -27,7 +26,7 @@ import kotlinx.android.parcel.Parcelize
 data class Category(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
-    var category: String = Constant.Default.STRING
+    var title: String = Constant.Default.STRING
 ) : Base() {
 
     @Ignore
@@ -49,12 +48,4 @@ data class Category(
     }
 
     override fun toString(): String = "Category ($id) == $id"
-
-    @Parcelize
-    enum class Type(val value: String) : Parcelable {
-        DEFAULT("default"), REGION("region");
-
-        val isRegion : Boolean
-            get() = this == REGION
-    }
 }

@@ -44,9 +44,9 @@ class CategoryItem(
 
     override fun bindView(binding: CategoryItemBinding, payloads: List<Any>) {
         //bind.layout.setCardBackgroundColor(color)
-        binding.letter.text = input.category.first().toTitleCase().toString()
+        binding.letter.text = input.title.first().toTitleCase().toString()
         binding.letter.setTextColor(color)
-        binding.title.text = input.category
+        binding.title.text = input.title
         binding.title.setBackgroundColor(color)
         val selectRes = if (select) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
         binding.selection.setImageResource(selectRes)

@@ -59,7 +59,7 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initPager()
-        vm.readCache()
+        //vm.readCache()
     }
 
     override fun onStopUi() {

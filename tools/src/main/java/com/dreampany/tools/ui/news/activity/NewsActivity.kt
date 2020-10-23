@@ -17,9 +17,9 @@ import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.source.news.pref.NewsPref
 import com.dreampany.tools.databinding.NewsActivityBinding
 import com.dreampany.tools.manager.AdsManager
-import com.dreampany.tools.ui.news.adapter.ArticlePagerAdapter
-import com.dreampany.tools.ui.news.model.CategoryItem
-import com.dreampany.tools.ui.news.vm.CategoryViewModel
+import com.dreampany.tools.ui.news.adapter.PageAdapter
+import com.dreampany.tools.ui.news.model.PageItem
+import com.dreampany.tools.ui.news.vm.PageViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,8 +39,8 @@ class NewsActivity : InjectActivity() {
     internal lateinit var pref: NewsPref
 
     private lateinit var bind: NewsActivityBinding
-    private lateinit var vm: CategoryViewModel
-    private lateinit var adapter: ArticlePagerAdapter
+    private lateinit var vm: PageViewModel
+    private lateinit var adapter: PageAdapter
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.news_activity
@@ -69,8 +69,8 @@ class NewsActivity : InjectActivity() {
         ads.loadBanner(this.javaClass.simpleName)
         ads.showInHouseAds(this)
 
-        if (pref.isCategoriesSelected.not()) {
-            open(CategoriesActivity::class)
+        if (pref.isPagesSelected.not()) {
+            open(PagesActivity::class)
         }
     }
 
@@ -79,7 +79,7 @@ class NewsActivity : InjectActivity() {
 
     override fun onStart() {
         super.onStart()
-        updateCategories()
+        updatePages()
     }
 
     override fun onResume() {
@@ -124,7 +124,7 @@ class NewsActivity : InjectActivity() {
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        vm = createVm(CategoryViewModel::class)
+        vm = createVm(PageViewModel::class)
 
         vm.subscribes(this, { this.processResponses(it) })
 
@@ -132,7 +132,7 @@ class NewsActivity : InjectActivity() {
 
     private fun initPager() {
         if (::adapter.isInitialized) return
-        adapter = ArticlePagerAdapter(this)
+        adapter = PageAdapter(this)
         bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
             bind.tabs,
@@ -142,12 +142,12 @@ class NewsActivity : InjectActivity() {
             }).attach()
     }
 
-    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CategoryItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<PageItem>>) {
         if (response is Response.Progress) {
             //bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<CategoryItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<PageItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -170,7 +170,7 @@ class NewsActivity : InjectActivity() {
         )
     }
 
-    private fun processResults(result: List<CategoryItem>?) {
+    private fun processResults(result: List<PageItem>?) {
         if (result != null) {
             if (!adapter.isEmpty) {
                 adapter.clear()
@@ -179,10 +179,10 @@ class NewsActivity : InjectActivity() {
         }
     }
 
-    private fun updateCategories() {
-        val categories = pref.categories ?: return
-        if (adapter.hasUpdate(categories)) {
-            vm.loadCategoriesOfCache()
+    private fun updatePages() {
+        val pages = pref.pages ?: return
+        if (adapter.hasUpdate(pages)) {
+            vm.readsCache()
         }
     }
 

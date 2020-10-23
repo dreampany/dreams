@@ -10,6 +10,7 @@ import com.dreampany.tools.app.App
 import com.dreampany.tools.data.enums.news.*
 import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.data.model.news.Article
+import com.dreampany.tools.data.model.news.Page
 import com.dreampany.tools.data.source.news.repo.ArticleRepo
 import com.dreampany.tools.ui.news.model.ArticleItem
 import kotlinx.coroutines.Dispatchers
@@ -77,7 +78,7 @@ class ArticleViewModel
         }
     }
 
-    fun loadArticles(input: Category) {
+    fun loadArticles(input: Page) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Article>? = null
@@ -95,20 +96,6 @@ class ArticleViewModel
             }
         }
     }
-
-    private val NewsSubtype.toCategory: NewsCategory
-        get() {
-            when (this) {
-                NewsSubtype.GENERAL -> return NewsCategory.GENERAL
-                NewsSubtype.HEALTH -> return NewsCategory.HEALTH
-                NewsSubtype.BUSINESS -> return NewsCategory.BUSINESS
-                NewsSubtype.ENTERTAINMENT -> return NewsCategory.ENTERTAINMENT
-                NewsSubtype.SPORTS -> return NewsCategory.SPORTS
-                NewsSubtype.SCIENCE -> return NewsCategory.SCIENCE
-                NewsSubtype.TECHNOLOGY -> return NewsCategory.TECHNOLOGY
-                else -> return NewsCategory.GENERAL
-            }
-        }
 
     private suspend fun List<Article>.toItems(): List<ArticleItem> {
         val input = this

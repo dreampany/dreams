@@ -6,6 +6,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.model.news.Category
+import com.dreampany.tools.data.model.news.Page
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.NewsConstants
 import com.google.gson.Gson
@@ -27,12 +28,20 @@ class NewsPref
 
     override fun getPrivateName(context: Context): String = NewsConstants.Keys.Pref.NEWS
 
-    fun commitCategoriesSelection() {
+    @Synchronized
+    fun commitPagesSelection() {
+        setPrivately(Constants.Keys.Pref.News.PAGE, true)
+    }
+
+    val isPagesSelected: Boolean
+        get() = getPrivately(Constants.Keys.Pref.News.PAGE, Constant.Default.BOOLEAN)
+
+  /*  fun commitCategoriesSelection() {
         setPrivately(Constants.Keys.Pref.News.CATEGORY, true)
     }
 
     val isCategoriesSelected: Boolean
-        get() = getPrivately(Constants.Keys.Pref.News.CATEGORY, Constant.Default.BOOLEAN)
+        get() = getPrivately(Constants.Keys.Pref.News.CATEGORY, Constant.Default.BOOLEAN)*/
 
     fun commitExpireTimeOfCategory() {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
@@ -69,7 +78,7 @@ class NewsPref
         setPrivately(key.toString(), Util.currentMillis())
     }
 
-    @Synchronized
+/*    @Synchronized
     fun commitCategories(inputs: List<Category>) {
         val json = gson.toJson(inputs)
         setPrivately(Constants.Keys.Pref.News.CATEGORIES, json)
@@ -83,6 +92,31 @@ class NewsPref
                 return null
             } else {
                 return gson.fromJson(json, Array<Category>::class.java).toList()
+            }
+        }*/
+
+    @Synchronized
+    fun commitPages(inputs: List<Page>) {
+        val json = gson.toJson(inputs)
+        setPrivately(Constants.Keys.Pref.News.PAGES, json)
+    }
+
+    @Synchronized
+    fun commitPage(input: Page) {
+        val pages = pages
+        val inputs = if (pages.isNullOrEmpty()) arrayListOf<Page>() else ArrayList(pages)
+        inputs.add(input)
+        commitPages(inputs)
+    }
+
+    val pages: List<Page>?
+        get() {
+            val json =
+                getPrivately(Constants.Keys.Pref.News.PAGES, Constant.Default.NULL as String?)
+            if (json.isNullOrEmpty()) {
+                return null
+            } else {
+                return gson.fromJson(json, Array<Page>::class.java).toList()
             }
         }
 }

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.tools.ui.news.activity
 
 import android.os.Bundle
@@ -28,12 +29,14 @@ import com.dreampany.tools.ui.news.vm.CategoryViewModel
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 
+*/
 /**
  * Created by roman on 13/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class CategoriesActivity : InjectActivity()  {
 
     @Inject
@@ -98,14 +101,9 @@ class CategoriesActivity : InjectActivity()  {
         bind = getBinding()
         vm = createVm(CategoryViewModel::class)
 
-        //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
-        /*bind.fab.visible()
-        bind.fab.setOnSafeClickListener { openScanUi() }*/
-
+        vm.subscribes(this, Observer { this.processResponses(it) })
 
         bind.swipe.isEnabled = false
-
-        vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -120,7 +118,7 @@ class CategoriesActivity : InjectActivity()  {
         val subtitle = getString(R.string.subtitle_categories, selection, total)
         setSubtitle(subtitle)
 
-        val required = Constants.Count.News.MIN_CATEGORIES - adapter.selectionCount
+        val required = Constants.Count.News.MIN_PAGES - adapter.selectionCount
         val menuIconRes =
             if (required > 0) R.drawable.ic_baseline_done_24 else R.drawable.ic_baseline_done_all_24
         findMenuItemById(R.id.action_done)?.setIcon(menuIconRes)
@@ -162,7 +160,7 @@ class CategoriesActivity : InjectActivity()  {
     }
 
     private fun onDonePressed() {
-        val required = Constants.Count.News.MIN_CATEGORIES - adapter.selectionCount
+        val required = Constants.Count.News.MIN_PAGES - adapter.selectionCount
         if (required > 0) {
             NotifyUtil.shortToast(this, getString(R.string.notify_select_min_categories, required))
             return
@@ -178,4 +176,4 @@ class CategoriesActivity : InjectActivity()  {
         }
         open(NewsActivity::class, true)
     }
-}
+}*/

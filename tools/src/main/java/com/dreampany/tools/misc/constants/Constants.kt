@@ -26,7 +26,9 @@ class Constants {
 
             object News {
                 const val CATEGORY = "news.category"
-                const val CATEGORIES = "news.categories"
+                /*const val CATEGORIES = "news.categories"*/
+                const val PAGE = "news.page"
+                const val PAGES = "news.pages"
             }
         }
 
@@ -106,7 +108,7 @@ class Constants {
 
     object Count {
         object News {
-            const val MIN_CATEGORIES = 3
+            const val MIN_PAGES = 3
         }
     }
 

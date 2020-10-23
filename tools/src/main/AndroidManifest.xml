@@ -253,7 +253,7 @@
 
         </activity>
 
-        <activity
+<!--        <activity
             android:name=".ui.news.activity.CategoriesActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:label="@string/title_categories"
@@ -267,7 +267,7 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
-        </activity>
+        </activity>-->
 
         <activity
             android:name=".ui.news.activity.SettingsActivity"

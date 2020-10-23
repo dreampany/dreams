@@ -10,5 +10,5 @@ import com.dreampany.tools.data.model.news.Category
  */
 interface CategoryDataSource {
     @Throws
-    suspend fun gets(): List<Category>?
+    suspend fun reads(): List<Category>?
 }

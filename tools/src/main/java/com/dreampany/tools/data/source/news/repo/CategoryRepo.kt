@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.news.repo
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.api.news.misc.Constants
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.data.source.news.api.CategoryDataSource
 import com.dreampany.tools.data.source.news.mapper.CategoryMapper
 import com.dreampany.tools.data.source.news.pref.NewsPref

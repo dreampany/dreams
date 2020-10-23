@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.news.api
 
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 
 /**
  * Created by roman on 14/10/20

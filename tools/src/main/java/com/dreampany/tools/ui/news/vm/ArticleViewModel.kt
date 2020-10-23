@@ -8,7 +8,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.tools.app.App
 import com.dreampany.tools.data.enums.news.*
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.data.source.news.repo.ArticleRepo
 import com.dreampany.tools.ui.news.model.ArticleItem

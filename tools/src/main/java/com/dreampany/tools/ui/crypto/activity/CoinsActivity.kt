@@ -45,7 +45,7 @@ class CoinsActivity : InjectActivity() {
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.recycler_activity_ad
-    override val menuRes: Int = R.menu.menu_coins
+    override val menuRes: Int = R.menu.coins_menu
     override val toolbarId: Int = R.id.toolbar
     override val searchMenuItemId: Int = R.id.item_search
 

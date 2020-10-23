@@ -13,14 +13,14 @@ import com.dreampany.tube.data.model.Page
  */
 class Converters : Converter() {
 
-    @Synchronized
+/*    @Synchronized
     @TypeConverter
     fun toString(input: Category.Type?): String? = if (input == null) null else input.name
 
     @Synchronized
     @TypeConverter
     fun toCategoryType(input: String?): Category.Type? =
-        if (input.isNullOrEmpty()) null else Category.Type.valueOf(input)
+        if (input.isNullOrEmpty()) null else Category.Type.valueOf(input)*/
 
     @Synchronized
     @TypeConverter

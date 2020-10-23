@@ -9,7 +9,7 @@ import com.dreampany.tools.data.enums.Action
 import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.ui.news.fragment.ArticlesFragment
 import com.dreampany.tools.ui.news.model.CategoryItem
 

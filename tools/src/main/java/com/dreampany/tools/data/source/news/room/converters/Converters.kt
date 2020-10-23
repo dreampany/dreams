@@ -1,6 +1,8 @@
 package com.dreampany.tools.data.source.news.room.converters
 
+import androidx.room.TypeConverter
 import com.dreampany.framework.data.source.room.converter.Converter
+import com.dreampany.tools.data.model.news.Page
 
 /**
  * Created by roman on 3/19/20
@@ -9,5 +11,12 @@ import com.dreampany.framework.data.source.room.converter.Converter
  * Last modified $file.lastModified
  */
 class Converters : Converter() {
+    @Synchronized
+    @TypeConverter
+    fun toString(input: Page.Type?): String? = if (input == null) null else input.name
 
+    @Synchronized
+    @TypeConverter
+    fun toPageType(input: String?): Page.Type? =
+        if (input.isNullOrEmpty()) null else Page.Type.valueOf(input)
 }

@@ -21,18 +21,6 @@ class Pref
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 
-    val isStarted: Boolean
-        get() = getPrivately(Constants.Keys.Pref.STARTED, false)
-
-    val isLogged: Boolean
-        get() = getPrivately(Constants.Keys.Pref.LOGGED, false)
-
-    val isSignIn: Boolean
-        get() = getPrivately(Constants.Keys.Pref.SiGN_IN, false)
-
-    val user: User?
-        get() = getPrivately(Constants.Keys.Pref.USER, User::class.java, null)
-
     fun start() {
         setPrivately(Constants.Keys.Pref.STARTED, true)
     }
@@ -40,6 +28,9 @@ class Pref
     fun stop() {
         setPrivately(Constants.Keys.Pref.STARTED, false)
     }
+
+    val isStarted: Boolean
+        get() = getPrivately(Constants.Keys.Pref.STARTED, false)
 
     fun login() {
         setPrivately(Constants.Keys.Pref.LOGGED, true)
@@ -49,15 +40,24 @@ class Pref
         setPrivately(Constants.Keys.Pref.LOGGED, false)
     }
 
+    val isLogged: Boolean
+        get() = getPrivately(Constants.Keys.Pref.LOGGED, false)
+
     fun signIn() {
-        setPrivately(Constants.Keys.Pref.SiGN_IN, true)
+        setPrivately(Constants.Keys.Pref.SIGN_IN, true)
     }
 
     fun signOut() {
-        setPrivately(Constants.Keys.Pref.SiGN_IN, false)
+        setPrivately(Constants.Keys.Pref.SIGN_IN, false)
     }
+
+    val isSignIn: Boolean
+        get() = getPrivately(Constants.Keys.Pref.SIGN_IN, false)
 
     fun write(input : User) {
         setPrivately(Constants.Keys.Pref.USER, input)
     }
+
+    val user: User?
+        get() = getPrivately(Constants.Keys.Pref.USER, User::class.java, null)
 }

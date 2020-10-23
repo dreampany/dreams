@@ -1,4 +1,4 @@
-package com.dreampany.tube.ui.vm
+package com.dreampany.tools.ui.news.vm
 
 import android.app.Application
 import com.dreampany.framework.misc.constant.Constant
@@ -9,16 +9,17 @@ import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.theme.Colors
-import com.dreampany.tube.app.App
-import com.dreampany.tube.data.enums.*
-import com.dreampany.tube.data.model.Category
-import com.dreampany.tube.data.model.Event
-import com.dreampany.tube.data.model.Page
-import com.dreampany.tube.data.source.pref.Prefs
-import com.dreampany.tube.data.source.repo.CategoryRepo
-import com.dreampany.tube.data.source.repo.PageRepo
-import com.dreampany.tube.ui.model.CategoryItem
-import com.dreampany.tube.ui.model.PageItem
+import com.dreampany.tools.app.App
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.model.news.Category
+import com.dreampany.tools.data.model.news.Page
+import com.dreampany.tools.data.source.news.pref.NewsPref
+import com.dreampany.tools.data.source.news.repo.CategoryRepo
+import com.dreampany.tools.data.source.news.repo.PageRepo
+import com.dreampany.tools.ui.news.model.PageItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,7 +28,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Created by roman on 1/7/20
+ * Created by roman on 22/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -37,7 +38,7 @@ class PageViewModel
     application: Application,
     rm: ResponseMapper,
     private val colors: Colors,
-    private val pref: Prefs,
+    private val pref: NewsPref,
     private val categoryRepo: CategoryRepo,
     private val repo: PageRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Page, PageItem, UiTask<Type, Subtype, State, Action, Page>>(
@@ -51,20 +52,16 @@ class PageViewModel
             var result: List<Page>? = null
             var errors: SmartError? = null
             try {
-                var countryCode = getApplication<App>().countryCode
-                var categories = categoryRepo.reads(countryCode)
-                if (categories.isNullOrEmpty()) {
-                    countryCode = Locale.US.country
-                    categories = categoryRepo.reads(countryCode)
+                var categories = categoryRepo.gets()
+                if (!categories.isNullOrEmpty()) {
+                    val total = ArrayList(categories)
+                    total.add(0, regionCategory())
+                    categories = total
                 }
-                val regionPage = region
-                val eventPages = events
+
                 val categoryPages = categories?.toPages()
                 val customPages = repo.reads()
-
                 val total = arrayListOf<Page>()
-                total.add(regionPage)
-                total.addAll(eventPages)
                 if (categoryPages != null) {
                     total.addAll(categoryPages)
                 }
@@ -146,34 +143,48 @@ class PageViewModel
         }
     }
 
-    private val region: Page
-        get() {
-            val regionCode = getApplication<App>().countryCode
-            val title = Locale(Constant.Default.STRING, regionCode).displayName
-            val page = Page(regionCode)
-            page.type = Page.Type.REGION
-            page.title = title
-            return page
-        }
+    private fun regionCategory(): Category {
+        val regionCode = getApplication<App>().countryCode
+        val name = Locale(Constant.Default.STRING, regionCode).displayName
+        val category = Category(regionCode)
+        category.title = name
+        category.type = Category.Type.REGION
+        return category
+    }
 
-    private val events: List<Page>
-        get() = Event.Type.values().map {
-            val page = Page(it.name)
-            page.type = Page.Type.EVENT
-            page.title = it.value.toTitle()
-            page
-        }
+    private fun liveCategory(): Category {
+        val category = Category(Category.Type.LIVE.value)
+        category.title = Category.Type.LIVE.value.toTitle()
+        category.type = Category.Type.LIVE
+        return category
+    }
+
+    private fun upcomingCategory(): Category {
+        val category = Category(Category.Type.UPCOMING.value)
+        category.title = Category.Type.UPCOMING.value.toTitle()
+        category.type = Category.Type.UPCOMING
+        return category
+    }
 
     private suspend fun List<Category>.toPages(): List<Page> {
         val input = this
         return withContext(Dispatchers.IO) {
             input.map { input ->
                 val page = Page(input.id)
-                page.type = Page.Type.CATEGORY
+                page.type = input.type.toPageType()
                 page.title = input.title
                 page
             }
         }
+    }
+
+    private suspend fun Category.Type.toPageType(): Page.Type {
+        when (this) {
+            Category.Type.REGION -> return Page.Type.REGION
+            Category.Type.LIVE -> return Page.Type.EVENT
+            Category.Type.UPCOMING -> return Page.Type.EVENT
+        }
+        return Page.Type.DEFAULT
     }
 
     private suspend fun List<Page>.toItems(): List<PageItem> {
@@ -194,7 +205,7 @@ class PageViewModel
     private suspend fun Page.toItem(): PageItem {
         val input = this
         val pages = pref.pages
-        return withContext(Dispatchers.IO) {
+        return withContext(kotlinx.coroutines.Dispatchers.IO) {
             val item = PageItem(input)
             item.color = colors.nextColor(Type.PAGE.name)
             if (!pages.isNullOrEmpty()) {

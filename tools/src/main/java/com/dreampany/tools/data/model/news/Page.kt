@@ -1,5 +1,6 @@
-package com.dreampany.tube.data.model
+package com.dreampany.tools.data.model.news
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -10,7 +11,7 @@ import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by roman on 30/6/20
+ * Created by roman on 22/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -23,12 +24,11 @@ import kotlinx.android.parcel.Parcelize
     )],
     primaryKeys = [Constant.Keys.ID]
 )
-data class Category(
+data class Page(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
-    var channelId: String = Constant.Default.STRING,
-    var title: String = Constant.Default.STRING,
-    var assignable: Boolean = Constant.Default.BOOLEAN
+    var type: Type = Type.DEFAULT,
+    var title: String = Constant.Default.STRING
 ) : Base() {
 
     @Ignore
@@ -45,23 +45,23 @@ data class Category(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Category
+        val item = other as Page
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String = "Category ($id) == $id"
+    override fun toString(): String = "Page ($id) == $id"
 
-/*    @Parcelize
+    @Parcelize
     enum class Type(val value: String) : Parcelable {
-        DEFAULT("default"), REGION("region"), LIVE("live") , UPCOMING("upcoming");
+        DEFAULT("default"), REGION("region"),  CATEGORY("category"),  CUSTOM("custom");
 
         val isRegion : Boolean
             get() = this == REGION
 
-        val isEvent : Boolean
-            get() = this == LIVE || this == UPCOMING
+        val isCategory : Boolean
+            get() = this == CATEGORY
 
-        val isFixed : Boolean
-            get() = this == REGION || this == LIVE
-    }*/
+        val isCustom : Boolean
+            get() = this == CUSTOM
+    }
 }

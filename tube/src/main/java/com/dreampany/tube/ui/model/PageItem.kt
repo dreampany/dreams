@@ -44,7 +44,7 @@ class PageItem(
 
     override fun bindView(bind: PageItemBinding, payloads: List<Any>) {
         //bind.layout.setCardBackgroundColor(color)
-        bind.letter.text = input.title?.first()?.toTitleCase().toString()
+        bind.letter.text = input.title.first().toTitleCase().toString()
         bind.letter.setTextColor(color)
         bind.title.text = input.title
         bind.title.setBackgroundColor(color)

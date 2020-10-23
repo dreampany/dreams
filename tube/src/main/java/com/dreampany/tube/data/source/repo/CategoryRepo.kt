@@ -2,6 +2,7 @@ package com.dreampany.tube.data.source.repo
 
 import com.dreampany.framework.inject.annote.Remote
 import com.dreampany.framework.inject.annote.Room
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tube.data.model.Category
@@ -40,20 +41,20 @@ class CategoryRepo
         room.toggleFavorite(input)
     }
 
-    override suspend fun getFavorites(): List<Category>? {
+    override suspend fun readFavorites(): List<Category>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun put(input: Category): Long {
+    override suspend fun write(input: Category): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun put(inputs: List<Category>): List<Long>? {
+    override suspend fun write(inputs: List<Category>): List<Long>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun get(id: String) = withContext(Dispatchers.IO) {
-        room.get(id)
+    override suspend fun read(id: String) = withContext(Dispatchers.IO) {
+        room.read(id)
     }
 
     @Throws
@@ -63,11 +64,11 @@ class CategoryRepo
 
     @Throws
     override suspend fun reads(regionCode: String) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired) {
+        if (mapper.isExpired || room.reads()?.isNullOrEmpty() ?: true) {
             val result = remote.reads(regionCode)
             if (!result.isNullOrEmpty()) {
                 room.deleteAll()
-                val result = room.put(result)
+                val result = room.write(result)
                 if (!result.isNullOrEmpty()) {
                     mapper.commitExpire()
                 }
@@ -76,11 +77,11 @@ class CategoryRepo
         room.reads()
     }
 
-    override suspend fun gets(ids: List<String>): List<Category>? {
+    override suspend fun reads(ids: List<String>): List<Category>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun gets(offset: Long, limit: Long): List<Category>? {
+    override suspend fun reads(offset: Long, limit: Long): List<Category>? {
         TODO("Not yet implemented")
     }
 

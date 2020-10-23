@@ -16,16 +16,16 @@ interface CategoryDataSource {
     suspend fun toggleFavorite(input: Category): Boolean
 
     @Throws
-    suspend fun getFavorites(): List<Category>?
+    suspend fun readFavorites(): List<Category>?
 
     @Throws
-    suspend fun put(input: Category): Long
+    suspend fun write(input: Category): Long
 
     @Throws
-    suspend fun put(inputs: List<Category>): List<Long>?
+    suspend fun write(inputs: List<Category>): List<Long>?
 
     @Throws
-    suspend fun get(id: String): Category?
+    suspend fun read(id: String): Category?
 
     @Throws
     suspend fun reads(): List<Category>?
@@ -34,10 +34,10 @@ interface CategoryDataSource {
     suspend fun reads(regionCode: String): List<Category>?
 
     @Throws
-    suspend fun gets(ids: List<String>): List<Category>?
+    suspend fun reads(ids: List<String>): List<Category>?
 
     @Throws
-    suspend fun gets(offset: Long, limit: Long): List<Category>?
+    suspend fun reads(offset: Long, limit: Long): List<Category>?
 
     @Throws
     suspend fun deleteAll()

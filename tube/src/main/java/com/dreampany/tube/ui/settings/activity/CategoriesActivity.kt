@@ -64,7 +64,7 @@ class CategoriesActivity : InjectActivity() {
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-        vm.reads()
+       // vm.reads()
         updateSubtitle()
     }
 

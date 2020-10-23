@@ -5,7 +5,7 @@ import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.NewsConstants
 import com.google.gson.Gson

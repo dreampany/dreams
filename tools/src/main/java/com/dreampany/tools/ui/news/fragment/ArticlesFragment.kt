@@ -23,12 +23,11 @@ import com.dreampany.tools.data.enums.news.NewsAction
 import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
 import com.dreampany.tools.data.enums.news.NewsType
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
 import com.dreampany.tools.ui.news.model.ArticleItem
-import com.dreampany.tools.ui.news.model.CategoryItem
 import com.dreampany.tools.ui.news.vm.ArticleViewModel
 import com.dreampany.tools.ui.web.WebActivity
 import com.google.android.gms.location.LocationRequest

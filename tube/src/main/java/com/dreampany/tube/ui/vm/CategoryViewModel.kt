@@ -57,9 +57,9 @@ class CategoryViewModel
                 }
                 if (!result.isNullOrEmpty()) {
                     val total = ArrayList(result)
-                    total.add(0, regionCategory())
+                   /* total.add(0, regionCategory())
                     total.add(1, liveCategory())
-                    total.add(2, upcomingCategory())
+                    total.add(2, upcomingCategory())*/
                     result = total
                 }
             } catch (error: SmartError) {
@@ -75,26 +75,9 @@ class CategoryViewModel
         }
     }
 
-    fun loadCategoriesOfCache() {
-        uiScope.launch {
-            postProgressMultiple(true)
-            var result: List<Category>? = null
-            var errors: SmartError? = null
-            try {
-                result = pref.categories
-            } catch (error: SmartError) {
-                Timber.e(error)
-                errors = error
-            }
-            if (errors != null) {
-                postError(errors)
-            } else {
-                postResult(result?.toItems())
-            }
-        }
-    }
 
-    private fun regionCategory() : Category {
+
+    /*private fun regionCategory() : Category {
         val regionCode = getApplication<App>().countryCode
         val name = Locale(Constant.Default.STRING, regionCode).displayName
         val category = Category(regionCode)
@@ -115,7 +98,7 @@ class CategoryViewModel
         category.title = Category.Type.UPCOMING.value.toTitle()
         category.type = Category.Type.UPCOMING
         return category
-    }
+    }*/
 
     private suspend fun List<Category>.toItems(): List<CategoryItem> {
         val input = this
@@ -132,12 +115,12 @@ class CategoryViewModel
         }
     }
 
-    private fun categoryType(id : String) : Category.Type {
+  /*  private fun categoryType(id : String) : Category.Type {
         if (mapper.isIsoCountry(id)) {
             return Category.Type.REGION
         }
         return Category.Type.DEFAULT
-    }
+    }*/
 
     private fun postProgressSingle(progress: Boolean) {
         postProgressSingle(

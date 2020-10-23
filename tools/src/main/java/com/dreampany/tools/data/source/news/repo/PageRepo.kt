@@ -1,17 +1,18 @@
-package com.dreampany.tube.data.source.repo
+package com.dreampany.tools.data.source.news.repo
 
 import com.dreampany.framework.inject.annote.Room
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
-import com.dreampany.tube.data.model.Page
-import com.dreampany.tube.data.source.api.PageDataSource
+import com.dreampany.tools.data.model.news.Page
+import com.dreampany.tools.data.source.news.api.PageDataSource
+import com.dreampany.tools.data.source.news.pref.NewsPref
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by roman on 30/6/20
+ * Created by roman on 22/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

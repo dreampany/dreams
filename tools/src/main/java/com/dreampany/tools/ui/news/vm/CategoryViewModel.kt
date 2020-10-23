@@ -13,7 +13,7 @@ import com.dreampany.tools.data.enums.Action
 import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.data.source.news.mapper.CategoryMapper
 import com.dreampany.tools.data.source.news.pref.NewsPref
 import com.dreampany.tools.data.source.news.repo.CategoryRepo
@@ -38,9 +38,9 @@ class CategoryViewModel
     rm: ResponseMapper,
     private val colors: Colors,
     private val pref: NewsPref,
-    private val mapper : CategoryMapper,
+    private val mapper: CategoryMapper,
     private val repo: CategoryRepo
-)  : BaseViewModel<Type, Subtype, State, Action, Category, CategoryItem, UiTask<Type, Subtype, State, Action, Category>>(
+) : BaseViewModel<Type, Subtype, State, Action, Category, CategoryItem, UiTask<Type, Subtype, State, Action, Category>>(
     application,
     rm
 ) {
@@ -89,7 +89,7 @@ class CategoryViewModel
         }
     }
 
-    private fun regionCategory() : Category {
+    private fun regionCategory(): Category {
         val regionCode = getApplication<App>().countryCode
         val name = Locale(Constant.Default.STRING, regionCode).displayName
         val category = Category(regionCode)

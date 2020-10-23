@@ -7,8 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tools.data.model.news.Article
+import com.dreampany.tools.data.model.news.Page
 import com.dreampany.tools.data.source.news.room.converters.Converters
 import com.dreampany.tools.data.source.news.room.dao.ArticleDao
+import com.dreampany.tools.data.source.news.room.dao.PageDao
 import com.dreampany.tools.misc.constants.NewsConstants
 
 /**
@@ -17,7 +19,7 @@ import com.dreampany.tools.misc.constants.NewsConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Article::class], version = 1, exportSchema = false)
+@Database(entities = [Article::class, Page::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -52,6 +54,8 @@ abstract class DatabaseManager : RoomDatabase() {
             return instance!!
         }
     }
+
+    abstract fun pageDao(): PageDao
 
     abstract fun articleDao(): ArticleDao
 }

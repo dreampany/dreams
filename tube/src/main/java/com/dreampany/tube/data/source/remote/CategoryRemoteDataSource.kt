@@ -58,19 +58,19 @@ class CategoryRemoteDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getFavorites(): List<Category>? {
+    override suspend fun readFavorites(): List<Category>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun put(input: Category): Long {
+    override suspend fun write(input: Category): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun put(inputs: List<Category>): List<Long>? {
+    override suspend fun write(inputs: List<Category>): List<Long>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun get(id: String): Category? {
+    override suspend fun read(id: String): Category? {
         TODO("Not yet implemented")
     }
 
@@ -114,11 +114,11 @@ class CategoryRemoteDataSource(
         throw SmartError()
     }
 
-    override suspend fun gets(ids: List<String>): List<Category>? {
+    override suspend fun reads(ids: List<String>): List<Category>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun gets(offset: Long, limit: Long): List<Category>? {
+    override suspend fun reads(offset: Long, limit: Long): List<Category>? {
         TODO("Not yet implemented")
     }
 

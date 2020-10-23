@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.news.mapper
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.isExpired
-import com.dreampany.tools.data.model.misc.Category
+import com.dreampany.tools.data.model.news.Category
 import com.dreampany.tools.data.source.news.pref.NewsPref
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps

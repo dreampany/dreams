@@ -1,11 +1,11 @@
-package com.dreampany.tube.data.source.room
+package com.dreampany.tools.data.source.news.room
 
-import com.dreampany.tube.data.model.Page
-import com.dreampany.tube.data.source.api.PageDataSource
-import com.dreampany.tube.data.source.room.dao.PageDao
+import com.dreampany.tools.data.model.news.Page
+import com.dreampany.tools.data.source.news.api.PageDataSource
+import com.dreampany.tools.data.source.news.room.dao.PageDao
 
 /**
- * Created by roman on 18/10/20
+ * Created by roman on 22/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

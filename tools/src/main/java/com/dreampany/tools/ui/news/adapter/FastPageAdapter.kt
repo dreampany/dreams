@@ -121,6 +121,9 @@ class FastPageAdapter(
     val selectedItems: List<PageItem>
         get() = fastAdapter.adapterItems.filter { (it as PageItem).select }.map { it as PageItem }
 
+    val isSelected : Boolean
+        get() = selectionCount > 0
+
     fun toggle(item: PageItem) {
         item.select = item.select.not()
         updateItem(item)

@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.news.repo
 
+import com.dreampany.framework.misc.exts.title
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.api.news.misc.Constants
@@ -35,7 +36,7 @@ class CategoryRepo
     private fun readsImpl(): List<Category>? {
         return Constants.Values.CATEGORIES.map {
             val category = Category(it)
-            category.title = it
+            category.title = it.title
             category
         }
     }

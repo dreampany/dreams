@@ -92,6 +92,11 @@ class PagesActivity : InjectActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (adapter.isSelected.not()) return
+        super.onBackPressed()
+    }
+
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()

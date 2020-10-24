@@ -14,6 +14,7 @@
     <string name="message_empty_favorite_articles" translatable="false">It seems you have not made any favorite article yet.</string>
 
     <string name="title_news_settings" translatable="false">News Settings</string>
+    <string name="title_news_pages" translatable="false">News Pages</string>
 
     <string name="title_article_general">General</string>
     <string name="title_article_health">Health</string>

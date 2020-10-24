@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.enums.note
 
 import com.dreampany.framework.data.enums.BaseState
-import com.dreampany.framework.misc.exts.toTitle
+import com.dreampany.framework.misc.exts.title
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -15,5 +15,5 @@ enum class NoteState : BaseState {
     DEFAULT, LOADED, FAVORITE, VIEWED, ADDED, EDITED;
 
     override val value: String get() = name
-    val title: String get() = name.toTitle()
+    val title: String get() = name.title
 }

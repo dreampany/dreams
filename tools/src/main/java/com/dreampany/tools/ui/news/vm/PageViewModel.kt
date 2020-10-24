@@ -3,7 +3,7 @@ package com.dreampany.tools.ui.news.vm
 import android.app.Application
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.countryCode
-import com.dreampany.framework.misc.exts.toTitle
+import com.dreampany.framework.misc.exts.title
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
@@ -109,7 +109,7 @@ class PageViewModel
             try {
                 val page = Page(query)
                 page.type = Page.Type.CUSTOM
-                page.title = query.toTitle()
+                page.title = query.title
                 val opt = repo.write(page)
                 if (opt > 0) {
                     result = page

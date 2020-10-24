@@ -7,8 +7,8 @@
         auto:iconSpaceReserved="false">
 
         <Preference
-            android:key="@string/key_settings_categories"
-            android:title="@string/title_settings_categories"
+            android:key="@string/key_news_settings_pages"
+            android:title="@string/title_news_settings_pages"
             auto:iconSpaceReserved="false" />
 
     </PreferenceCategory>

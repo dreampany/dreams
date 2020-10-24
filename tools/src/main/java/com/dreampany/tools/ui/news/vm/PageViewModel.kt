@@ -53,7 +53,6 @@ class PageViewModel
             var errors: SmartError? = null
             try {
                 val categories = categoryRepo.reads()
-
                 val regionPage = region
                 val categoryPages = categories?.toPages()
                 val customPages = repo.reads()
@@ -147,7 +146,7 @@ class PageViewModel
             val title = Locale(Constant.Default.STRING, regionCode).displayName
             val page = Page(regionCode)
             page.type = Page.Type.REGION
-            page.title = title
+            page.title = title.title
             return page
         }
 

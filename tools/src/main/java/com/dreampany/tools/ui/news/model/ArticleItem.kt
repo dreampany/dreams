@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.news.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.dreampany.framework.misc.exts.time
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.databinding.ArticleItemBinding
 import com.dreampany.tools.misc.exts.setUrl
@@ -43,13 +44,16 @@ private constructor(
         ArticleItemBinding.inflate(inflater, parent, false)
 
 
-    override fun bindView(bind: ArticleItemBinding, payloads: List<Any>) {
-         bind.icon.setUrl(input.imageUrl)
-        bind.title.text = input.title
-        bind.source.text = input.source?.name
+    override fun bindView(binding: ArticleItemBinding, payloads: List<Any>) {
+        binding.icon.setUrl(input.imageUrl)
+        binding.source.text = input.source?.name
+        binding.title.text = input.title
+        binding.publishedAt.text = input.publishedAt.time
     }
 
     override fun unbindView(binding: ArticleItemBinding) {
-
+        binding.source.text = null
+        binding.title.text = null
+        binding.publishedAt.text = null
     }
 }

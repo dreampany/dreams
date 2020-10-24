@@ -79,7 +79,6 @@ class Constants {
     }
 
     object Times {
-
         val HOUSE_ADS = TimeUnit.HOURS.toMillis(1)
         val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)

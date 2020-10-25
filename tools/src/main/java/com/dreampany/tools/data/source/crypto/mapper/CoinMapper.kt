@@ -97,7 +97,7 @@ class CoinMapper
             CryptoSubtype.DEFAULT.value,
             CryptoState.FAVORITE.value
         )
-        store?.let { storeRepo.insert(it) }
+        store?.let { storeRepo.write(it) }
         return true
     }
 
@@ -160,7 +160,7 @@ class CoinMapper
         source: CoinDataSource
     ): List<Coin>? {
         updateCache(source)
-        val stores = storeRepo.getStores(
+        val stores = storeRepo.reads(
             CryptoType.COIN.value,
             CryptoSubtype.DEFAULT.value,
             CryptoState.FAVORITE.value

@@ -139,7 +139,7 @@ class VideoMapper
             Subtype.DEFAULT.value,
             State.FAVORITE.value
         )
-        store?.let { storeRepo.insert(it) }
+        store?.let { storeRepo.write(it) }
         return true
     }
 
@@ -189,7 +189,7 @@ class VideoMapper
         source: VideoDataSource
     ): List<Video>? {
         //updateCache(source)
-        val stores = storeRepo.getStores(
+        val stores = storeRepo.reads(
             Type.VIDEO.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value

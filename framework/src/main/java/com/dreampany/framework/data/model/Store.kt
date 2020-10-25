@@ -54,6 +54,8 @@ data class Store(
                 Objects.equal(item.state, state)
     }
 
+    override fun toString(): String = "Store.id: $id"
+
     fun hasProperty(type: String, subtype: String, state: String): Boolean {
         return (Objects.equal(type, this.type)
                 && Objects.equal(subtype, this.subtype)

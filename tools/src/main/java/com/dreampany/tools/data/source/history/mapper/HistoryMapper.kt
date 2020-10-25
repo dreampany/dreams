@@ -98,7 +98,7 @@ class HistoryMapper
             HistorySubtype.DEFAULT.value,
             HistoryState.FAVORITE.value
         )
-        store?.let { storeRepo.insert(it) }
+        store?.let { storeRepo.write(it) }
         return true
     }
 
@@ -121,7 +121,7 @@ class HistoryMapper
         source: HistoryDataSource
     ): List<History>? {
         updateCache(source)
-        val stores = storeRepo.getStores(
+        val stores = storeRepo.reads(
             HistoryType.HISTORY.value,
             HistorySubtype.DEFAULT.value,
             HistoryState.FAVORITE.value

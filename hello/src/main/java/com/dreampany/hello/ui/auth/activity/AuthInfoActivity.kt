@@ -219,6 +219,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         }
         if (valid.not()) return
         input.email = email
+
         //vm.read(email, password)
     }
 }

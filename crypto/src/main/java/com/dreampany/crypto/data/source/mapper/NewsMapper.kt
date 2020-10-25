@@ -73,7 +73,7 @@ class NewsMapper
             Subtype.DEFAULT.value,
             State.FAVORITE.value
         )
-        store?.let { storeRepo.insert(it) }
+        store?.let { storeRepo.write(it) }
         return true
     }
 
@@ -127,7 +127,7 @@ class NewsMapper
         source: ArticleDataSource
     ): List<Article>? {
         updateCache(source)
-        val stores = storeRepo.getStores(
+        val stores = storeRepo.reads(
             Type.ARTICLE.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value

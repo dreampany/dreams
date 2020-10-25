@@ -82,7 +82,7 @@ class NoteMapper
             NoteSubtype.DEFAULT.value,
             NoteState.FAVORITE.value
         )
-        store?.let { storeRepo.insert(it) }
+        store?.let { storeRepo.write(it) }
         return true
     }
 
@@ -114,7 +114,7 @@ class NoteMapper
         source: NoteDataSource
     ): List<Note>? {
         updateCache(source)
-        val stores = storeRepo.getStores(
+        val stores = storeRepo.reads(
             NoteType.NOTE.value,
             NoteSubtype.DEFAULT.value,
             NoteState.FAVORITE.value

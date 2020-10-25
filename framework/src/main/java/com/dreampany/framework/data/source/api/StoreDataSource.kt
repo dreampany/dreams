@@ -13,13 +13,13 @@ interface StoreDataSource {
     suspend fun isExists(id: String, type: String, subtype: String, state: String): Boolean
 
     @Throws
-    suspend fun insert(item: Store): Long
+    suspend fun write(input: Store): Long
 
     @Throws
-    suspend fun getStore(id: String, type: String, subtype: String, state: String): Store?
+    suspend fun read(id: String, type: String, subtype: String, state: String): Store?
 
     @Throws
-    suspend fun getStores(type: String, subtype: String, state: String): List<Store>?
+    suspend fun reads(type: String, subtype: String, state: String): List<Store>?
 
     @Throws
     suspend fun delete(store: Store): Int

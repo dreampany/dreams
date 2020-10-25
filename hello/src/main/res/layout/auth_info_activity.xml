@@ -241,6 +241,73 @@
                     android:textSize="@dimen/textSizePrimary"
                     android:visibility="gone" />
 
+                <!-- country -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/para_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/textSizePrimary" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/align_margin"
+                        android:text="*"
+                        android:textColor="@color/error"
+                        android:textSize="@dimen/textSizePrimary" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/para_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:minHeight="@dimen/buttonSizePrimary"
+                    auto:cardCornerRadius="@dimen/cornerRadius">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/country_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        auto:ccpDialog_keyboardAutoPopup="false"
+                        auto:ccpDialog_showPhoneCode="false"
+                        auto:ccp_arrowColor="@color/textColorPrimary"
+                        auto:ccp_autoDetectCountry="true"
+                        auto:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"
+                        auto:ccp_rememberLastSelection="true"
+                        auto:ccp_showFullName="true"
+                        auto:ccp_showNameCode="false"
+                        auto:ccp_showPhoneCode="false"
+                        auto:ccp_textGravity="LEFT"
+                        auto:ccp_textSize="@dimen/textSizePrimary" />
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/error_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:layout_marginTop="@dimen/align_margin"
+                    android:layout_marginEnd="@dimen/align_margin"
+                    android:text="error"
+                    android:textColor="@color/error"
+                    android:textSize="@dimen/textSizePrimary"
+                    android:visibility="gone" />
+
                 <!-- register -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/register"

@@ -262,7 +262,6 @@ class LoginActivity : InjectActivity() {
             } else {
                 bind.error.show()
             }
-
             return
         }
         //successful login

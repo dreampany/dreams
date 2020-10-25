@@ -212,7 +212,13 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             valid = false
             //todo gender error
         }
+       val country =  bind.countryPicker.selectedCountryCode
+        if (country.isNullOrEmpty()) {
+            valid = false
+            //todo country error
+        }
         if (valid.not()) return
+        input.email = email
         //vm.read(email, password)
     }
 }

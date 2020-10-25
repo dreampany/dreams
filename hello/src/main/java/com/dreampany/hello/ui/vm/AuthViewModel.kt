@@ -10,6 +10,7 @@ import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
+import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.repo.AuthRepo
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -35,6 +36,26 @@ class AuthViewModel
         uiScope.launch {
             progressSingle(true)
             var result: Auth? = null
+            var errors: SmartError? = null
+            try {
+                val opt = repo.write(input)
+                result = input
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result)
+            }
+        }
+    }
+
+    fun write(input: User) {
+        uiScope.launch {
+            progressSingle(true)
+            var result: User? = null
             var errors: SmartError? = null
             try {
                 val opt = repo.write(input)

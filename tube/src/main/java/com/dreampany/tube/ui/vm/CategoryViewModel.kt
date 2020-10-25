@@ -3,7 +3,7 @@ package com.dreampany.tube.ui.vm
 import android.app.Application
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.countryCode
-import com.dreampany.framework.misc.exts.toTitle
+import com.dreampany.framework.misc.exts.title
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask

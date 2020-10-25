@@ -34,7 +34,8 @@ data class User(
     var email : String? = Constant.Default.NULL,
     var phone : String? = Constant.Default.NULL,
     var birthday : Long = Constant.Default.LONG,
-    var gender : Gender? = Constant.Default.NULL
+    var gender : Gender? = Constant.Default.NULL,
+    var country : String? = Constant.Default.NULL
 ) : Base() {
 
     @Ignore

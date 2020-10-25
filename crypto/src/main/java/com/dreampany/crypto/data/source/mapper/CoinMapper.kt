@@ -89,7 +89,7 @@ class CoinMapper
     @Throws
     suspend fun insertFavorite(input: Coin): Boolean {
         favorites.put(input.id, true)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.COIN.value,
             Subtype.DEFAULT.value,
@@ -102,7 +102,7 @@ class CoinMapper
     @Throws
     suspend fun deleteFavorite(input: Coin): Boolean {
         favorites.put(input.id, false)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.COIN.value,
             Subtype.DEFAULT.value,

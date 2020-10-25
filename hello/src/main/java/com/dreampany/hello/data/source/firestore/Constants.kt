@@ -1,4 +1,4 @@
-package com.dreampany.hello.api
+package com.dreampany.hello.data.source.firestore
 
 /**
  * Created by roman on 25/9/20
@@ -6,7 +6,7 @@ package com.dreampany.hello.api
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ApiConstants {
+class Constants {
     object Api {
         const val GOOGLE_CLIENT_ID_DREAMPANY_MAIL = "Mzg3MTgwMDk4NzI4LXVrMjIyOXA5dDJlMHI5ZmwzODRkNHY3ZzlkNDdhMDJvLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29t"
     }

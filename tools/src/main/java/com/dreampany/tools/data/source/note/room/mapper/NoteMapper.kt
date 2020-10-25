@@ -76,7 +76,7 @@ class NoteMapper
     @Throws
     suspend fun insertFavorite(input: Note): Boolean {
         favorites.put(input.id, true)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             NoteType.NOTE.value,
             NoteSubtype.DEFAULT.value,
@@ -89,7 +89,7 @@ class NoteMapper
     @Throws
     suspend fun deleteFavorite(input: Note): Boolean {
         favorites.put(input.id, false)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             NoteType.NOTE.value,
             NoteSubtype.DEFAULT.value,

@@ -1,6 +1,7 @@
 package com.dreampany.framework.misc.constant
 
 import android.content.Context
+import com.dreampany.framework.misc.exts.applicationId
 import com.dreampany.framework.misc.exts.lastApplicationId
 import com.dreampany.framework.misc.exts.lastPart
 import java.util.*
@@ -31,6 +32,9 @@ class Constant {
                 .plus(Room.POST_FIX_DB)
         }
 
+        fun appId(context: Context?): String =
+            context.applicationId ?: Default.STRING
+
         fun lastAppId(context: Context?): String =
             context.lastApplicationId ?: Default.STRING
 
@@ -51,8 +55,8 @@ class Constant {
         const val FRAGMENT = "fragment"
         const val NOTIFICATION = "notification"
 
-        fun activity(context: Context?) : String = lastAppId(context).plus(Sep.DOT).plus(ACTIVITY)
-        fun fragment(context: Context?) : String = lastAppId(context).plus(Sep.DOT).plus(FRAGMENT)
+        fun activity(context: Context?): String = lastAppId(context).plus(Sep.DOT).plus(ACTIVITY)
+        fun fragment(context: Context?): String = lastAppId(context).plus(Sep.DOT).plus(FRAGMENT)
     }
 
     object Param {
@@ -165,5 +169,6 @@ class Constant {
     object Regex {
         const val NAME = "^[a-zA-Zぁ-ゔゞ゛゜ー ]*\$"
         const val PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{10,}$"
+        val WHITE_SPACE = "\\s+".toRegex()
     }
 }

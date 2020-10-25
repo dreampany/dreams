@@ -11,7 +11,7 @@ import dagger.android.ContributesAndroidInjector
  * Last modified $file.lastModified
  */
 @Module
-abstract class VideosModule {
+abstract class VideoModule {
     @ContributesAndroidInjector
     abstract fun videos(): VideosFragment
 }

@@ -1,4 +1,4 @@
-package com.dreampany.hello.api
+package com.dreampany.tube.data.source.firestore
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
@@ -36,6 +36,16 @@ class FirestoreManager
         val colRef = firestore.collection(collection)
         val docRef = colRef.document(document)
         Tasks.await(docRef.set(input, SetOptions.merge()))
+    }
+
+    @Synchronized
+    fun increment(collection: String, document: String, field: String) {
+        val colRef = firestore.collection(collection)
+        val docRef = colRef.document(document)
+        val task = firestore.runTransaction { transition ->
+            transition.update(docRef, field, FieldValue.increment(1))
+        }
+        Tasks.await(task)
     }
 
     @Synchronized

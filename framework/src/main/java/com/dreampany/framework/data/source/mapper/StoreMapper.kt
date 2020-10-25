@@ -27,7 +27,7 @@ class StoreMapper
 
     fun isExists(id: String, type: String, subtype: String, state: String): Boolean {
         if (isExists(id)) {
-            val item = getItem(id)
+            val item = readStore(id)
             return item?.hasProperty(type, subtype, state) ?: false
         }
         return false
@@ -37,12 +37,12 @@ class StoreMapper
         stores.put(item.id, item)
     }
 
-    fun getItem(id: String): Store? {
+    fun readStore(id: String): Store? {
         return stores.get(id)
     }
 
-    fun getItem(id: String, type: String, subtype: String, state: String, extra: String? = null): Store? {
-        return if (isExists(id, type, subtype, state)) getItem(id)
+    fun readStore(id: String, type: String, subtype: String, state: String, extra: String? = null): Store? {
+        return if (isExists(id, type, subtype, state)) readStore(id)
         else Store(
             id = id,
             type = type,

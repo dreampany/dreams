@@ -1,7 +1,12 @@
 package com.dreampany.hello.inject.data
 
+import android.app.Application
 import com.dreampany.framework.inject.data.DatabaseModule
+import com.dreampany.hello.data.source.room.dao.UserDao
+import com.dreampany.hello.data.source.room.database.DatabaseManager
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by roman on 26/9/20
@@ -17,4 +22,13 @@ import dagger.Module
     ]
 )
 class DataModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabase(application: Application): DatabaseManager =
+        DatabaseManager.getInstance(application)
+
+    @Provides
+    @Singleton
+    fun provideUserDao(database: DatabaseManager): UserDao = database.userDao()
 }

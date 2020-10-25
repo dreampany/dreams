@@ -1,29 +1,9 @@
 package com.dreampany.tube.inject.data
 
 import android.app.Application
-import android.content.Context
-import com.dreampany.framework.inject.annote.Remote
-import com.dreampany.framework.inject.annote.Room
 import com.dreampany.framework.inject.data.DatabaseModule
-import com.dreampany.framework.misc.func.Keys
-import com.dreampany.framework.misc.func.Parser
-import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tube.api.inject.data.YoutubeModule
-import com.dreampany.tube.api.remote.service.YoutubeService
-import com.dreampany.tube.data.source.api.CategoryDataSource
-import com.dreampany.tube.data.source.api.PageDataSource
-import com.dreampany.tube.data.source.api.VideoDataSource
-import com.dreampany.tube.data.source.mapper.CategoryMapper
-import com.dreampany.tube.data.source.mapper.VideoMapper
-import com.dreampany.tube.data.source.remote.CategoryRemoteDataSource
-import com.dreampany.tube.data.source.remote.VideoRemoteDataSource
-import com.dreampany.tube.data.source.room.CategoryRoomDataSource
-import com.dreampany.tube.data.source.room.PageRoomDataSource
-import com.dreampany.tube.data.source.room.VideoRoomDataSource
-import com.dreampany.tube.data.source.room.dao.CategoryDao
-import com.dreampany.tube.data.source.room.dao.PageDao
-import com.dreampany.tube.data.source.room.dao.RelatedDao
-import com.dreampany.tube.data.source.room.dao.VideoDao
+import com.dreampany.tube.data.source.room.dao.*
 import com.dreampany.tube.data.source.room.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
@@ -38,7 +18,11 @@ import javax.inject.Singleton
 @Module(
     includes = [
         DatabaseModule::class,
-        YoutubeModule::class
+        YoutubeModule::class,
+        SearchModule::class,
+        PageModule::class,
+        CategoryModule::class,
+        VideoModule::class
     ]
 )
 class DataModule {
@@ -47,6 +31,10 @@ class DataModule {
     @Singleton
     fun provideDatabase(application: Application): DatabaseManager =
         DatabaseManager.getInstance(application)
+
+    @Provides
+    @Singleton
+    fun provideSearchDao(database: DatabaseManager): SearchDao = database.searchDao()
 
     @Provides
     @Singleton
@@ -63,53 +51,4 @@ class DataModule {
     @Provides
     @Singleton
     fun provideRelatedDao(database: DatabaseManager): RelatedDao = database.relatedDao()
-
-    @Singleton
-    @Provides
-    @Room
-    fun provideCategoryRoomDataSource(
-        mapper: CategoryMapper,
-        dao: CategoryDao
-    ): CategoryDataSource = CategoryRoomDataSource(mapper, dao)
-
-    @Singleton
-    @Provides
-    @Room
-    fun providePageRoomDataSource(
-        dao: PageDao
-    ): PageDataSource = PageRoomDataSource(dao)
-
-    @Singleton
-    @Provides
-    @Remote
-    fun provideCategoryRemoteDataSource(
-        context: Context,
-        network: NetworkManager,
-        parser: Parser,
-        keys: Keys,
-        mapper: CategoryMapper,
-        service: YoutubeService
-    ): CategoryDataSource =
-        CategoryRemoteDataSource(context, network, parser, keys, mapper, service)
-
-    @Singleton
-    @Provides
-    @Room
-    fun provideVideoRoomDataSource(
-        mapper: VideoMapper,
-        dao: VideoDao,
-        relatedDao: RelatedDao
-    ): VideoDataSource = VideoRoomDataSource(mapper, dao, relatedDao)
-
-    @Singleton
-    @Provides
-    @Remote
-    fun provideVideoRemoteDataSource(
-        context: Context,
-        network: NetworkManager,
-        parser: Parser,
-        keys: Keys,
-        mapper: VideoMapper,
-        service: YoutubeService
-    ): VideoDataSource = VideoRemoteDataSource(context, network, parser, keys, mapper, service)
 }

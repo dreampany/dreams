@@ -133,7 +133,7 @@ class VideoMapper
     @Throws
     suspend fun insertFavorite(input: Video): Boolean {
         favorites.put(input.id, true)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.VIDEO.value,
             Subtype.DEFAULT.value,
@@ -146,7 +146,7 @@ class VideoMapper
     @Throws
     suspend fun deleteFavorite(input: Video): Boolean {
         favorites.put(input.id, false)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.VIDEO.value,
             Subtype.DEFAULT.value,

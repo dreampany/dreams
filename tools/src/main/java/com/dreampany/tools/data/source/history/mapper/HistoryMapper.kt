@@ -92,7 +92,7 @@ class HistoryMapper
     @Throws
     suspend fun putFavorite(input: History): Boolean {
         favorites.put(input.id, true)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             HistoryType.HISTORY.value,
             HistorySubtype.DEFAULT.value,
@@ -105,7 +105,7 @@ class HistoryMapper
     @Throws
     suspend fun deleteFavorite(input: History): Boolean {
         favorites.put(input.id, false)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             HistoryType.HISTORY.value,
             HistorySubtype.DEFAULT.value,

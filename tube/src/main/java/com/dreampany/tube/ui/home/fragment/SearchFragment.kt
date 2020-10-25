@@ -16,12 +16,14 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.data.model.Search
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.SearchFragmentBinding
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.model.VideoItem
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import com.dreampany.tube.ui.vm.PageViewModel
+import com.dreampany.tube.ui.vm.SearchViewModel
 import com.dreampany.tube.ui.vm.VideoViewModel
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
@@ -41,6 +43,7 @@ class SearchFragment
     internal lateinit var pref: Prefs
 
     private lateinit var bind: SearchFragmentBinding
+    private lateinit var searchVm: SearchViewModel
     private lateinit var vm: VideoViewModel
     private lateinit var pageVm: PageViewModel
     private lateinit var adapter: FastVideoAdapter
@@ -97,6 +100,7 @@ class SearchFragment
         if (value.isNotEmpty()) {
             this.query = value
             searchVideos(value)
+            writeSearch()
         }
         return false
     }
@@ -119,8 +123,9 @@ class SearchFragment
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        vm = createVm(VideoViewModel::class)
+        searchVm = createVm(SearchViewModel::class)
         pageVm = createVm(PageViewModel::class)
+        vm = createVm(VideoViewModel::class)
 
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
@@ -239,5 +244,9 @@ class SearchFragment
 
     private fun writePage() {
         pageVm.write(query)
+    }
+
+    private fun writeSearch() {
+        searchVm.write(query)
     }
 }

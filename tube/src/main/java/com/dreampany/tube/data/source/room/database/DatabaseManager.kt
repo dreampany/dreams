@@ -6,15 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.tube.data.model.Category
-import com.dreampany.tube.data.model.Page
-import com.dreampany.tube.data.model.Related
-import com.dreampany.tube.data.model.Video
+import com.dreampany.tube.data.model.*
 import com.dreampany.tube.data.source.room.converters.Converters
-import com.dreampany.tube.data.source.room.dao.CategoryDao
-import com.dreampany.tube.data.source.room.dao.PageDao
-import com.dreampany.tube.data.source.room.dao.RelatedDao
-import com.dreampany.tube.data.source.room.dao.VideoDao
+import com.dreampany.tube.data.source.room.dao.*
 import com.dreampany.tube.misc.Constants
 
 /**
@@ -25,12 +19,13 @@ import com.dreampany.tube.misc.Constants
  */
 @Database(
     entities = [
+        Search::class,
         Category::class,
         Page::class,
         Video::class,
         Related::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -68,11 +63,9 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
+    abstract fun searchDao(): SearchDao
     abstract fun categoryDao(): CategoryDao
-
     abstract fun pageDao(): PageDao
-
     abstract fun videoDao(): VideoDao
-
     abstract fun relatedDao(): RelatedDao
 }

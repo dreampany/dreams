@@ -37,8 +37,8 @@ class StoreRepo
     }
 
     @Throws
-    override suspend fun write(item: Store) = withContext(Dispatchers.IO) {
-        room.write(item)
+    override suspend fun write(input: Store) = withContext(Dispatchers.IO) {
+        room.write(input)
     }
 
     @Throws

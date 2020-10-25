@@ -5,6 +5,7 @@ import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.dreampany.framework.misc.constant.Constant
 import com.google.common.hash.Hashing
 import kotlinx.coroutines.Runnable
 import java.util.*
@@ -46,10 +47,14 @@ val Cursor?.has: Boolean
         return false
     }
 
-fun Cursor?.close() {
-    if (this != null && !isClosed) {
-        this.close()
+val Cursor?.close: Boolean
+    get() {
+        if (this != null && !isClosed) {
+            this.close()
+            return true
+        }
+        return false
     }
-}
 
-
+val String.id: String
+    get() = this.replace(Constant.Regex.WHITE_SPACE, Constant.Default.STRING)

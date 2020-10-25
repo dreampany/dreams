@@ -75,7 +75,7 @@ class CategoryMapper
     @Throws
     suspend fun insertFavorite(input: Category): Boolean {
         favorites.put(input.id, true)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.CATEGORY.value,
             Subtype.DEFAULT.value,
@@ -88,7 +88,7 @@ class CategoryMapper
     @Throws
     suspend fun deleteFavorite(input: Category): Boolean {
         favorites.put(input.id, false)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.CATEGORY.value,
             Subtype.DEFAULT.value,

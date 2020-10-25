@@ -30,7 +30,7 @@ class CoinRoomDataSource(
         if (favorite) {
             mapper.deleteFavorite(input)
         } else {
-            mapper.insertFavorite(input)
+            mapper.writeFavorite(input)
         }
         return favorite.not()
     }

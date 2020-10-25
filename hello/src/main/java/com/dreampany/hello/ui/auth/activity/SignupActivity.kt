@@ -11,7 +11,7 @@ import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.hello.R
-import com.dreampany.hello.api.ApiConstants
+import com.dreampany.hello.data.source.firestore.Constants
 import com.dreampany.hello.data.enums.Action
 import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
@@ -119,7 +119,7 @@ class SignupActivity : InjectActivity() {
         if (::auth.isInitialized) return
         auth = Firebase.auth
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(ApiConstants.Api.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
+            .requestIdToken(Constants.Api.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
             .requestEmail()
             .requestProfile()
             .build()

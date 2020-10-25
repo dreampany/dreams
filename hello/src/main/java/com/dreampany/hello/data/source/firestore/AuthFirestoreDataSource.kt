@@ -1,7 +1,5 @@
 package com.dreampany.hello.data.source.firestore
 
-import com.dreampany.hello.api.ApiConstants
-import com.dreampany.hello.api.FirestoreManager
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.source.api.AuthDataSource
 import com.dreampany.hello.data.source.mapper.AuthMapper
@@ -22,7 +20,7 @@ class AuthFirestoreDataSource(
     @Throws
     override suspend fun write(input: Auth): Long {
         try {
-            val col = ApiConstants.Keys.AUTHS
+            val col = Constants.Keys.AUTHS
             firestore.write(col, input.id, input)
             return 1
         } catch (error: Throwable) {
@@ -34,7 +32,7 @@ class AuthFirestoreDataSource(
     @Throws
     override suspend fun read(id: String): Auth? {
         try {
-            val col = ApiConstants.Keys.AUTHS
+            val col = Constants.Keys.AUTHS
             return firestore.read(col, id, Auth::class)
         } catch (error: Throwable) {
             Timber.e(error)
@@ -45,10 +43,10 @@ class AuthFirestoreDataSource(
     @Throws
     override suspend fun read(email: String, password: String): Auth? {
         try {
-            val col = ApiConstants.Keys.AUTHS
+            val col = Constants.Keys.AUTHS
             val equalTo = TreeMap<String, Any>()
-            equalTo.put(ApiConstants.Keys.EMAIL, email)
-            equalTo.put(ApiConstants.Keys.PASSWORD, password)
+            equalTo.put(Constants.Keys.EMAIL, email)
+            equalTo.put(Constants.Keys.PASSWORD, password)
             return firestore.read(col, equalTo, Auth::class)
         } catch (error: Throwable) {
             Timber.e(error)
@@ -59,9 +57,9 @@ class AuthFirestoreDataSource(
     @Throws
     override suspend fun readByEmail(email: String): Auth? {
         try {
-            val col = ApiConstants.Keys.AUTHS
+            val col = Constants.Keys.AUTHS
             val equalTo = TreeMap<String, Any>()
-            equalTo.put(ApiConstants.Keys.EMAIL, email)
+            equalTo.put(Constants.Keys.EMAIL, email)
             return firestore.read(col, equalTo, Auth::class)
         } catch (error: Throwable) {
             Timber.e(error)

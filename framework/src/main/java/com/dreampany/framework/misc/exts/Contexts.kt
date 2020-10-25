@@ -248,9 +248,15 @@ fun Context?.kill(pkg: String?) {
     activityManager?.killBackgroundProcesses(pkg)
 }
 
-val Context?.lastApplicationId: String?
+val Context?.applicationId: String
     get() {
-        val applicationId = this.packageName ?: return Constant.Default.NULL
+        val applicationId = this.packageName
+        return applicationId
+    }
+
+val Context?.lastApplicationId: String
+    get() {
+        val applicationId = this.packageName
         return Iterables.getLast(Splitter.on(Constant.Sep.DOT).trimResults().split(applicationId))
     }
 

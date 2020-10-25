@@ -4,11 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
-import com.dreampany.tube.ui.vm.CategoryViewModel
-import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.ui.more.vm.MoreViewModel
-import com.dreampany.tube.ui.vm.PageViewModel
-import com.dreampany.tube.ui.vm.TimeViewModel
+import com.dreampany.tube.ui.vm.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -36,6 +33,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TimeViewModel::class)
     abstract fun bindTime(vm: TimeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    abstract fun bindSearch(vm: SearchViewModel): ViewModel
 
     @Binds
     @IntoMap

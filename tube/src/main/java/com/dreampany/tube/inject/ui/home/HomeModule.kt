@@ -15,7 +15,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class HomeModule {
     @FragmentScope
-    @ContributesAndroidInjector(modules = [VideosModule::class])
+    @ContributesAndroidInjector(modules = [VideoModule::class])
     abstract fun home(): HomeFragment
 
     @ContributesAndroidInjector

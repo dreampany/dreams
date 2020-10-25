@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken
  * Last modified $file.lastModified
  */
 open class Converter {
+
     protected val gson = Gson()
     private val type = object : TypeToken<List<String>>() {}.type
 

@@ -67,7 +67,7 @@ class NewsMapper
     @Throws
     suspend fun insertFavorite(input: Article): Boolean {
         favorites.put(input.id, true)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.ARTICLE.value,
             Subtype.DEFAULT.value,
@@ -80,7 +80,7 @@ class NewsMapper
     @Throws
     suspend fun deleteFavorite(input: Article): Boolean {
         favorites.put(input.id, false)
-        val store = storeMapper.getItem(
+        val store = storeMapper.readStore(
             input.id,
             Type.ARTICLE.value,
             Subtype.DEFAULT.value,

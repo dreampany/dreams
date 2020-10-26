@@ -4,10 +4,12 @@ import android.app.Application
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.id
+import com.dreampany.framework.misc.exts.lastApplicationId
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
+import com.dreampany.tube.app.App
 import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
@@ -46,7 +48,7 @@ class SearchViewModel
             var result: Search? = null
             var errors: SmartError? = null
             try {
-                val ref = "tools"
+                val ref = context.lastApplicationId
                 val search = Search(input.id)
                 if (!search.hasFirestore()) {
                     search.keyword = input

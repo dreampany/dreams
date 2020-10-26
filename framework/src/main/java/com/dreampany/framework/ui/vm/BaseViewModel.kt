@@ -1,6 +1,7 @@
 package com.dreampany.framework.ui.vm
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.enums.*
@@ -71,9 +72,7 @@ protected constructor(
         uiScope = CoroutineScope(Dispatchers.Main + job)
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return lifecycleRegistry
-    }
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
     override fun onCleared() {
         job.cancel()
@@ -86,6 +85,9 @@ protected constructor(
         lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED)
         super.onCleared()
     }
+
+    protected val context : Context
+        get() = getApplication()
 
     /*fun subscribeStatus(owner: LifecycleOwner, callback: (status: Status) -> Unit) {
         status.observe(owner, Observer { result ->

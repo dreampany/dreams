@@ -24,6 +24,7 @@ class Constants {
         }
 
         object Room {
+            const val TYPE_LITE = "lite"
             const val TYPE_TUBE = "tube"
         }
 

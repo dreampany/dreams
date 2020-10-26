@@ -4,6 +4,7 @@ import android.app.Application
 import com.dreampany.framework.inject.data.DatabaseModule
 import com.dreampany.tube.api.inject.data.YoutubeModule
 import com.dreampany.tube.data.source.room.dao.*
+import com.dreampany.tube.data.source.room.database.DatabaseLite
 import com.dreampany.tube.data.source.room.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
@@ -29,20 +30,25 @@ class DataModule {
 
     @Provides
     @Singleton
+    fun provideDatabaseLite(application: Application): DatabaseLite =
+        DatabaseLite.getInstance(application)
+
+    @Provides
+    @Singleton
     fun provideDatabase(application: Application): DatabaseManager =
         DatabaseManager.getInstance(application)
 
     @Provides
     @Singleton
-    fun provideSearchDao(database: DatabaseManager): SearchDao = database.searchDao()
+    fun provideSearchDao(database: DatabaseLite): SearchDao = database.searchDao()
 
     @Provides
     @Singleton
-    fun provideCategoryDao(database: DatabaseManager): CategoryDao = database.categoryDao()
+    fun provideCategoryDao(database: DatabaseLite): CategoryDao = database.categoryDao()
 
     @Provides
     @Singleton
-    fun providePageDao(database: DatabaseManager): PageDao = database.pageDao()
+    fun providePageDao(database: DatabaseLite): PageDao = database.pageDao()
 
     @Provides
     @Singleton

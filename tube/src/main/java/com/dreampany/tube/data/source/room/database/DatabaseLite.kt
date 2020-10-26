@@ -12,34 +12,35 @@ import com.dreampany.tube.data.source.room.dao.*
 import com.dreampany.tube.misc.Constants
 
 /**
- * Created by roman on 14/3/20
+ * Created by roman on 26/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @Database(
     entities = [
-        Video::class,
-        Related::class
+        Search::class,
+        Category::class,
+        Page::class
     ],
-    version = 7,
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class DatabaseManager : RoomDatabase() {
+abstract class DatabaseLite : RoomDatabase() {
 
     companion object {
-        private var instance: DatabaseManager? = null
+        private var instance: DatabaseLite? = null
 
         @Synchronized
-        fun newInstance(context: Context, memoryOnly: Boolean): DatabaseManager {
-            val builder: RoomDatabase.Builder<DatabaseManager>
+        fun newInstance(context: Context, memoryOnly: Boolean): DatabaseLite {
+            val builder: Builder<DatabaseLite>
 
             if (memoryOnly) {
-                builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
+                builder = Room.inMemoryDatabaseBuilder(context, DatabaseLite::class.java)
             } else {
-                val database = Constant.database(context, Constants.Keys.Room.TYPE_TUBE)
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
+                val database = Constant.database(context, Constants.Keys.Room.TYPE_LITE)
+                builder = Room.databaseBuilder(context, DatabaseLite::class.java, database)
             }
 
             return builder
@@ -48,7 +49,7 @@ abstract class DatabaseManager : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context): DatabaseManager {
+        fun getInstance(context: Context): DatabaseLite {
             if (instance == null) {
                 instance =
                     newInstance(
@@ -60,6 +61,7 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
-    abstract fun videoDao(): VideoDao
-    abstract fun relatedDao(): RelatedDao
+    abstract fun searchDao(): SearchDao
+    abstract fun categoryDao(): CategoryDao
+    abstract fun pageDao(): PageDao
 }

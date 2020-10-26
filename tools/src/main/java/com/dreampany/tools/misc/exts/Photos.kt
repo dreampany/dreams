@@ -28,7 +28,7 @@ fun SimpleDraweeView.setUrl(url: String?): SimpleDraweeView {
     return this
 }
 
-fun SimpleDraweeView.setRes(@DrawableRes resId: Int): SimpleDraweeView {
+/*fun SimpleDraweeView.setRes(@DrawableRes resId: Int): SimpleDraweeView {
     val request =
         ImageRequestBuilder.newBuilderWithResourceId(resId)
             //.setResizeOptions(new ResizeOptions(width, height))
@@ -39,5 +39,10 @@ fun SimpleDraweeView.setRes(@DrawableRes resId: Int): SimpleDraweeView {
             .setImageRequest(request)
             .build()
     )
+    return this
+}*/
+
+fun SimpleDraweeView.setRes(@DrawableRes resId: Int): SimpleDraweeView {
+    this.setImageResource(resId)
     return this
 }

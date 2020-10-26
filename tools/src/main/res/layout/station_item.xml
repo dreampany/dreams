@@ -7,12 +7,115 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_4sdp"
-        auto:cardPreventCornerOverlap="false"
-        auto:cardElevation="@dimen/_4sdp"
-        auto:cardMaxElevation="@dimen/_4sdp">
+        auto:cardCornerRadius="@dimen/cornerRadiusSmall"
+        auto:cardElevation="@dimen/cornerRadiusSmall"
+        auto:cardMaxElevation="@dimen/cornerRadiusSmall"
+        auto:cardPreventCornerOverlap="false">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/align_margin"
+                android:layout_marginBottom="@dimen/align_margin">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/icon"
+                    android:layout_width="@dimen/buttonSizePrimary"
+                    android:layout_height="@dimen/buttonSizePrimary"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    auto:actualImageScaleType="centerCrop"
+                    auto:failureImage="@drawable/ic_baseline_radio_24"
+                    auto:failureImageScaleType="centerInside"
+                    auto:layout_constraintBottom_toBottomOf="parent"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toTopOf="parent"
+                    auto:placeholderImage="@drawable/ic_baseline_radio_24"
+                    auto:placeholderImageScaleType="centerCrop"
+                    auto:roundAsCircle="true" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/status"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_gravity="top|end"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    auto:actualImageScaleType="fitXY"
+                    auto:failureImage="@color/material_grey300"
+                    auto:failureImageScaleType="fitXY"
+                    auto:placeholderImage="@color/material_grey300"
+                    auto:placeholderImageScaleType="fitXY"
+                    auto:roundAsCircle="true" />
+
+            </FrameLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/title"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/textSizePrimary"
+                    auto:fontFamily="@font/roboto_slab_bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/title"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/textSizeSecondary"
+                    auto:fontFamily="@font/roboto_slab_regular" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.like.LikeButton
+                    android:id="@+id/favorite"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    auto:icon_size="@dimen/_14sdp"
+                    auto:icon_type="heart" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/_80sdp">
@@ -81,6 +184,6 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
     </com.google.android.material.card.MaterialCardView>
 </layout>

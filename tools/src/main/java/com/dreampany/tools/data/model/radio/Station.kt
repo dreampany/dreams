@@ -168,9 +168,7 @@ data class Station(
     }
 
     @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_OK)
-    fun getLastCheckOk(): Boolean {
-        return lastCheckOk
-    }
+    fun getLastCheckOk(): Boolean = lastCheckOk
 
     @PropertyName(RadioConstants.Keys.Station.LAST_CHANGE_TIME)
     fun setLastChangeTime(lastChangeTime: Long) {
@@ -178,9 +176,7 @@ data class Station(
     }
 
     @PropertyName(RadioConstants.Keys.Station.LAST_CHANGE_TIME)
-    fun getLastChangeTime(): Long {
-        return lastChangeTime
-    }
+    fun getLastChangeTime(): Long = lastChangeTime
 
     @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_TIME)
     fun setLastCheckTime(lastCheckTime: Long) {

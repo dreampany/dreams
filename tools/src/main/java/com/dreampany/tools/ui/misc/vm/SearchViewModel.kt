@@ -4,6 +4,7 @@ import android.app.Application
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.id
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.exts.lastApplicationId
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
@@ -42,6 +43,7 @@ class SearchViewModel
     rm
 ) {
     fun write(input: String, tag: String) {
+        if (context.isDebug) return
         uiScope.launch {
             progressSingle(true)
             var result: Search? = null
@@ -74,6 +76,7 @@ class SearchViewModel
     }
 
     fun hit(input: Search) {
+        if (context.isDebug) return
         uiScope.launch {
             progressSingle(true)
             var result: Search? = null

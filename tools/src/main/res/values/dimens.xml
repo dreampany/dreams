@@ -7,9 +7,12 @@
     <dimen name="textSizeHighlight">@dimen/_26ssp</dimen>
 
     <dimen name="buttonSizePrimary">@dimen/_48sdp</dimen>
-    <dimen name="cornerRadius">@dimen/_4sdp</dimen>
     <dimen name="buttonRadius">@dimen/_20sdp</dimen>
     <dimen name="tabSize">@dimen/_8sdp</dimen>
+
+    <dimen name="cornerRadiusSmall">@dimen/_4sdp</dimen>
+    <dimen name="cornerRadiusMedium">@dimen/_8sdp</dimen>
+    <dimen name="cornerRadiusLarge">@dimen/_16sdp</dimen>
 
     <dimen name="margin">@dimen/_4sdp</dimen>
     <dimen name="align_margin">@dimen/_8sdp</dimen>

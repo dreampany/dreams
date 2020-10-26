@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.source.news.room.database
+package com.dreampany.tools.data.source.misc.room.database
 
 import android.content.Context
 import androidx.room.Database
@@ -6,12 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.tools.data.model.news.Article
-import com.dreampany.tools.data.model.news.Page
-import com.dreampany.tools.data.source.news.room.converters.Converters
-import com.dreampany.tools.data.source.news.room.dao.ArticleDao
-import com.dreampany.tools.data.source.news.room.dao.PageDao
-import com.dreampany.tools.misc.constants.NewsConstants
+import com.dreampany.tools.data.model.misc.Search
+import com.dreampany.tools.data.source.misc.room.converters.Converters
+import com.dreampany.tools.data.source.misc.room.dao.SearchDao
+import com.dreampany.tools.misc.constants.Constants
 
 /**
  * Created by roman on 14/3/20
@@ -19,7 +17,13 @@ import com.dreampany.tools.misc.constants.NewsConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Article::class, Page::class], version = 2, exportSchema = false)
+@Database(
+    entities = [
+        Search::class
+    ],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -28,13 +32,13 @@ abstract class DatabaseManager : RoomDatabase() {
 
         @Synchronized
         fun newInstance(context: Context, memoryOnly: Boolean): DatabaseManager {
-            val builder: RoomDatabase.Builder<DatabaseManager>
+            val builder: Builder<DatabaseManager>
 
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, NewsConstants.Keys.Room.NEWS)
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                val database = Constant.database(context, Constants.Keys.Room.MISC)
+                builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
             return builder
@@ -55,7 +59,5 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
-    abstract fun pageDao(): PageDao
-
-    abstract fun articleDao(): ArticleDao
+    abstract fun searchDao(): SearchDao
 }

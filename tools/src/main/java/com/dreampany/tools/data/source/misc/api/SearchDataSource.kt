@@ -1,6 +1,7 @@
-package com.dreampany.tube.data.source.api
+package com.dreampany.tools.data.source.misc.api
 
-import com.dreampany.tube.data.model.Search
+import com.dreampany.tools.data.model.misc.Search
+
 
 /**
  * Created by roman on 25/10/20

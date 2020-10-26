@@ -1,9 +1,9 @@
-package com.dreampany.tube.data.source.room.dao
+package com.dreampany.tube.data.source.misc.room.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.framework.data.source.room.dao.BaseDao
-import com.dreampany.tube.data.model.Search
+import com.dreampany.tube.data.model.misc.Search
 
 /**
  * Created by roman on 14/3/20

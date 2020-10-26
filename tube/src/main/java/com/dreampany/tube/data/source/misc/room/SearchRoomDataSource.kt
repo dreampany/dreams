@@ -1,8 +1,9 @@
-package com.dreampany.tube.data.source.room
+package com.dreampany.tube.data.source.misc.room
 
-import com.dreampany.tube.data.model.Search
-import com.dreampany.tube.data.source.api.SearchDataSource
-import com.dreampany.tube.data.source.room.dao.SearchDao
+import com.dreampany.tube.data.model.misc.Search
+import com.dreampany.tube.data.source.misc.api.SearchDataSource
+import com.dreampany.tube.data.source.misc.room.dao.SearchDao
+
 
 /**
  * Created by roman on 18/10/20

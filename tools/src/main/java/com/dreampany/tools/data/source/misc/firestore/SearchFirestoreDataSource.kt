@@ -1,8 +1,8 @@
-package com.dreampany.tube.data.source.firestore
+package com.dreampany.tools.data.source.misc.firestore
 
-import com.dreampany.tube.data.model.Search
-import com.dreampany.tube.data.source.api.SearchDataSource
-import com.dreampany.tube.data.source.mapper.SearchMapper
+import com.dreampany.tools.data.model.misc.Search
+import com.dreampany.tools.data.source.misc.api.SearchDataSource
+import com.dreampany.tools.data.source.misc.mapper.SearchMapper
 import timber.log.Timber
 
 /**

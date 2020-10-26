@@ -1,4 +1,4 @@
-package com.dreampany.tube.ui.vm
+package com.dreampany.tools.ui.misc.vm
 
 import android.app.Application
 import com.dreampany.framework.data.source.mapper.StoreMapper
@@ -9,12 +9,12 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.tube.data.enums.Action
-import com.dreampany.tube.data.enums.State
-import com.dreampany.tube.data.enums.Subtype
-import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.model.misc.Search
-import com.dreampany.tube.data.source.misc.repo.SearchRepo
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.model.misc.Search
+import com.dreampany.tools.data.source.misc.repo.SearchRepo
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.mlkit.nl.languageid.LanguageIdentification
@@ -25,7 +25,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Created by roman on 25/10/20
+ * Created by roman on 26/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

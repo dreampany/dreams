@@ -1,4 +1,4 @@
-package com.dreampany.tube.data.model
+package com.dreampany.tube.data.model.misc
 
 import androidx.room.Entity
 import androidx.room.Ignore

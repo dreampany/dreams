@@ -4,7 +4,6 @@ import android.app.Application
 import com.dreampany.framework.inject.data.DatabaseModule
 import com.dreampany.tube.api.inject.data.YoutubeModule
 import com.dreampany.tube.data.source.room.dao.*
-import com.dreampany.tube.data.source.room.database.DatabaseLite
 import com.dreampany.tube.data.source.room.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
@@ -19,8 +18,8 @@ import javax.inject.Singleton
 @Module(
     includes = [
         DatabaseModule::class,
+        MiscModule::class,
         YoutubeModule::class,
-        SearchModule::class,
         PageModule::class,
         CategoryModule::class,
         VideoModule::class
@@ -30,25 +29,16 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideDatabaseLite(application: Application): DatabaseLite =
-        DatabaseLite.getInstance(application)
-
-    @Provides
-    @Singleton
     fun provideDatabase(application: Application): DatabaseManager =
         DatabaseManager.getInstance(application)
 
     @Provides
     @Singleton
-    fun provideSearchDao(database: DatabaseLite): SearchDao = database.searchDao()
+    fun provideCategoryDao(database: DatabaseManager): CategoryDao = database.categoryDao()
 
     @Provides
     @Singleton
-    fun provideCategoryDao(database: DatabaseLite): CategoryDao = database.categoryDao()
-
-    @Provides
-    @Singleton
-    fun providePageDao(database: DatabaseLite): PageDao = database.pageDao()
+    fun providePageDao(database: DatabaseManager): PageDao = database.pageDao()
 
     @Provides
     @Singleton

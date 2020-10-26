@@ -19,6 +19,8 @@ import com.dreampany.tube.misc.Constants
  */
 @Database(
     entities = [
+        Category::class,
+        Page::class,
         Video::class,
         Related::class
     ],
@@ -38,7 +40,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val database = Constant.database(context, Constants.Keys.Room.TYPE_TUBE)
+                val database = Constant.database(context, Constants.Keys.Room.ROOM)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
@@ -60,6 +62,8 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
+    abstract fun pageDao(): PageDao
+    abstract fun categoryDao(): CategoryDao
     abstract fun videoDao(): VideoDao
     abstract fun relatedDao(): RelatedDao
 }

@@ -149,6 +149,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.mlkit:language-id:16.1.1'
+
     //implementation 'com.google.firebase:firebase-ml-vision'
 
     //implementation 'com.google.firebase:firebase-core:17.5.0'

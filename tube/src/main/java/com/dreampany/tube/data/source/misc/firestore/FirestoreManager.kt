@@ -1,4 +1,4 @@
-package com.dreampany.tube.data.source.firestore
+package com.dreampany.tube.data.source.misc.firestore
 
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*

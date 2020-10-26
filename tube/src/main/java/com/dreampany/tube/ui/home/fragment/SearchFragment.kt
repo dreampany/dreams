@@ -16,7 +16,6 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.model.Search
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.SearchFragmentBinding
 import com.dreampany.tube.misc.Constants

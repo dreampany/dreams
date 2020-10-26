@@ -1,4 +1,4 @@
-package com.dreampany.tube.data.source.firestore
+package com.dreampany.tube.data.source.misc.firestore
 
 import com.dreampany.framework.misc.constant.Constant
 

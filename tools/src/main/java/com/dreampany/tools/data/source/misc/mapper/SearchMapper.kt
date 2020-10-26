@@ -1,8 +1,8 @@
-package com.dreampany.tube.data.source.mapper
+package com.dreampany.tools.data.source.misc.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.tube.data.source.pref.Prefs
+import com.dreampany.tools.data.source.misc.pref.Prefs
 import javax.inject.Inject
 import javax.inject.Singleton
 

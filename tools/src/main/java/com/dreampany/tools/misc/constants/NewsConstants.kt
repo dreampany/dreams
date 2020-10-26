@@ -16,7 +16,7 @@ class NewsConstants {
         }
 
         object Room {
-            const val TYPE_NEWS = "news"
+            const val NEWS = "news"
         }
 
         object News {

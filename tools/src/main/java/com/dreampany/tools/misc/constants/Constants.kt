@@ -21,6 +21,7 @@ class Constants {
 
         object Pref {
             const val PREF = "pref"
+            const val MISC = "misc"
             const val EXPIRE = "expire"
             const val HOUSE_ADS = "house_ads"
 
@@ -30,6 +31,10 @@ class Constants {
                 const val PAGE = "news.page"
                 const val PAGES = "news.pages"
             }
+        }
+
+        object Room {
+            const val MISC = "misc"
         }
 
         object Coin {

@@ -19,8 +19,10 @@ import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.manager.AdsManager
+import com.dreampany.tube.misc.Constants
 import com.dreampany.tube.ui.model.VideoItem
 import com.dreampany.tube.ui.player.VideoPlayerActivity
+import com.dreampany.tube.ui.vm.SearchViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,11 +38,12 @@ class FavoriteVideosActivity : InjectActivity() {
     internal lateinit var ads: AdsManager
 
     private lateinit var bind: RecyclerActivityBinding
+    private lateinit var searchVm: SearchViewModel
     private lateinit var vm: VideoViewModel
     private lateinit var adapter: FastVideoAdapter
+    private lateinit var query: String
 
     override val homeUp: Boolean = true
-
     override val layoutRes: Int = R.layout.recycler_activity
     override val toolbarId: Int = R.id.toolbar
     override val menuRes: Int = R.menu.search_menu
@@ -56,7 +59,7 @@ class FavoriteVideosActivity : InjectActivity() {
             param.put(Constant.Param.VERSION_NAME, versionName)
             param.put(Constant.Param.SCREEN, "FavoriteVideosActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 
@@ -89,6 +92,12 @@ class FavoriteVideosActivity : InjectActivity() {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         adapter.filter(newText)
+        val value = newText.trimValue
+        if (value.isNotEmpty()) {
+            this.query = value
+            ex.getUiHandler().removeCallbacks(runner)
+            ex.getUiHandler().postDelayed(runner, 1500L)
+        }
         return false
     }
 
@@ -129,11 +138,16 @@ class FavoriteVideosActivity : InjectActivity() {
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_favorite_videos)
-
+        searchVm = createVm(SearchViewModel::class)
         vm = createVm(VideoViewModel::class)
+
         vm.subscribes(this, Observer { this.processResponse(it) })
+
+        bind.swipe.init(this)
+        bind.stateful.setStateView(
+            StatefulLayout.State.EMPTY,
+            R.layout.content_empty_favorite_videos
+        )
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -196,5 +210,14 @@ class FavoriteVideosActivity : InjectActivity() {
             item.input
         )
         open(VideoPlayerActivity::class, task)
+    }
+
+    private val runner = kotlinx.coroutines.Runnable {
+        writeSearch()
+    }
+
+    private fun writeSearch() {
+        if (isFinishing) return
+        searchVm.write(query, Constants.Values.VIDEOS)
     }
 }

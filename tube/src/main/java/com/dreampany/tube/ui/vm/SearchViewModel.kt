@@ -40,7 +40,7 @@ class SearchViewModel
     application,
     rm
 ) {
-    fun write(input: String) {
+    fun write(input: String, tag: String) {
         uiScope.launch {
             progressSingle(true)
             var result: Search? = null
@@ -52,6 +52,7 @@ class SearchViewModel
                     search.keyword = input
                     search.language = input.language()
                     search.hits = mapOf(ref to 0L)
+                    search.tags = arrayListOf(tag)
                     val success = repo.write(search)
                     if (success > 0) {
                         search.trackFirestore()

@@ -19,6 +19,7 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Search
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.SearchFragmentBinding
+import com.dreampany.tube.misc.Constants
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.model.VideoItem
 import com.dreampany.tube.ui.player.VideoPlayerActivity
@@ -44,8 +45,8 @@ class SearchFragment
 
     private lateinit var bind: SearchFragmentBinding
     private lateinit var searchVm: SearchViewModel
-    private lateinit var vm: VideoViewModel
     private lateinit var pageVm: PageViewModel
+    private lateinit var vm: VideoViewModel
     private lateinit var adapter: FastVideoAdapter
     private lateinit var query: String
 
@@ -247,6 +248,6 @@ class SearchFragment
     }
 
     private fun writeSearch() {
-        searchVm.write(query)
+        searchVm.write(query, Constants.Values.SEARCH)
     }
 }

@@ -33,6 +33,11 @@ class Constants {
         }
     }
 
+    object Values {
+        const val VIDEOS = "tube.videos"
+        const val SEARCH = "tube.search"
+    }
+
     object Limits {
         const val VIDEOS = 50L
     }

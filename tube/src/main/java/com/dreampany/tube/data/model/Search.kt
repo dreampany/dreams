@@ -30,7 +30,8 @@ data class Search(
     override var id: String = Constant.Default.STRING,
     var keyword: String = Constant.Default.STRING,
     var language: String = Constant.Default.STRING,
-    var hits: Map<String, Long>? = Constant.Default.NULL
+    var hits: Map<String, Long>? = Constant.Default.NULL,
+    var tags : List<String>? = Constant.Default.NULL
 ) : Base() {
 
     @Ignore

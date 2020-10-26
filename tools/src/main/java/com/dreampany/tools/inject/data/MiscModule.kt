@@ -4,12 +4,13 @@ import android.app.Application
 import com.dreampany.framework.inject.annote.Firestore
 import com.dreampany.framework.inject.annote.Room
 import com.dreampany.tools.data.source.misc.api.SearchDataSource
-import com.dreampany.tools.data.source.misc.firestore.FirestoreManager
+import com.dreampany.tools.manager.FirestoreManager
 import com.dreampany.tools.data.source.misc.firestore.SearchFirestoreDataSource
 import com.dreampany.tools.data.source.misc.mapper.SearchMapper
 import com.dreampany.tools.data.source.misc.room.SearchRoomDataSource
 import com.dreampany.tools.data.source.misc.room.dao.SearchDao
 import com.dreampany.tools.data.source.misc.room.database.DatabaseManager
+import com.dreampany.tools.manager.AuthManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -44,6 +45,7 @@ class MiscModule {
     @Firestore
     fun provideSearchFirestoreDataSource(
         mapper: SearchMapper,
+        auth: AuthManager,
         firestore: FirestoreManager
-    ): SearchDataSource = SearchFirestoreDataSource(mapper, firestore)
+    ): SearchDataSource = SearchFirestoreDataSource(mapper, auth, firestore)
 }

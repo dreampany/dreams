@@ -1,7 +1,7 @@
 package com.dreampany.hello.inject.data
 
 import com.dreampany.framework.inject.annote.Firestore
-import com.dreampany.hello.data.source.firestore.FirestoreManager
+import com.dreampany.hello.manager.FirestoreManager
 import com.dreampany.hello.data.source.api.AuthDataSource
 import com.dreampany.hello.data.source.firestore.AuthFirestoreDataSource
 import com.dreampany.hello.data.source.mapper.AuthMapper

@@ -38,20 +38,6 @@ class HomeActivity : InjectBottomNavigationActivity() {
     override val navigationViewId: Int = R.id.navigation_view
     override val selectedNavigationItemId: Int = R.id.navigation_home
 
-    override val params: Map<String, Map<String, Any>?>?
-        get() {
-            val params = HashMap<String, HashMap<String, Any>?>()
-
-            val param = HashMap<String, Any>()
-            param.put(Constant.Param.PACKAGE_NAME, packageName)
-            param.put(Constant.Param.VERSION_CODE, versionCode)
-            param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "HomeActivity")
-
-            params.put(Constant.Event.activity(this), param)
-            return params
-        }
-
     override fun onStartUi(state: Bundle?) {
         initAd()
         initUi()

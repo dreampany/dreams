@@ -30,9 +30,9 @@ class SettingsFragment
             param.put(Constant.Param.PACKAGE_NAME, parentRef.packageName)
             param.put(Constant.Param.VERSION_CODE, parentRef.versionCode)
             param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
-            param.put(Constant.Param.SCREEN, "Tools.SettingsFragment")
+            param.put(Constant.Param.SCREEN, "SettingsFragment")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.fragment(context), param)
             return params
         }
 

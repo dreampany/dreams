@@ -5,7 +5,9 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
+import com.dreampany.framework.misc.exts.addDecoration
 import com.dreampany.framework.misc.exts.dimension
+import com.dreampany.framework.misc.exts.integer
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.mikepenz.fastadapter.FastAdapter
@@ -27,7 +29,7 @@ import timber.log.Timber
  */
 class FastFeatureAdapter(
     val scrollListener: ((currentPage: Int) -> Unit)? = null,
-    val clickListener : ((item: FeatureItem) -> Unit)? = null
+    val clickListener: ((item: FeatureItem) -> Unit)? = null
 ) {
 
     private lateinit var scroller: EndlessRecyclerOnScrollListener
@@ -42,7 +44,7 @@ class FastFeatureAdapter(
         itemAdapter = ItemAdapter.items()
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is FeatureItem) true
-                //item.item.name.toString().contains(constraint.toString(), ignoreCase = true)
+            //item.item.name.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }
@@ -53,7 +55,8 @@ class FastFeatureAdapter(
         recycler.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = fastAdapter
-            addItemDecoration(SpacingItemDecoration(3, context.dimension(R.dimen.feature_recycler_spacing).toInt(), true))
+            addDecoration(context.integer(R.integer.recycler_item_offset_small))
+            //addItemDecoration(SpacingItemDecoration(3, context.dimension(R.dimen.recycler_vertical_spacing).toInt(), true))
             /*addItemDecoration(
                 ItemSpaceDecoration(
                     context.dimension(R.dimen.recycler_horizontal_spacing).toInt(),
@@ -78,7 +81,7 @@ class FastFeatureAdapter(
             fastAdapter.onClickListener = { view, adapter, item, position ->
                 Timber.v("View %s", view.toString())
                 if (item is FeatureItem) {
-                    it (item)
+                    it(item)
                 }
                 false
             }
@@ -132,7 +135,7 @@ class FastFeatureAdapter(
     val itemCount: Long
         get() = fastAdapter.itemCount.toLong()
 
-    val isEmpty : Boolean
+    val isEmpty: Boolean
         get() = itemCount == 0L
 
 }

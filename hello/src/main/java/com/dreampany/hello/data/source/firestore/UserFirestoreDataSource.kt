@@ -3,6 +3,7 @@ package com.dreampany.hello.data.source.firestore
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.api.UserDataSource
 import com.dreampany.hello.data.source.mapper.UserMapper
+import com.dreampany.hello.manager.FirestoreManager
 import timber.log.Timber
 
 /**

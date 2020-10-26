@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="recycler_item_offset_small">4</integer>
+    <integer name="recycler_item_offset_medium">8</integer>
+    <integer name="recycler_item_offset_large">16</integer>
+</resources>

@@ -116,6 +116,10 @@ fun Context?.dpToPx(dp: Float): Int = (dp * density).toInt()
 fun Context?.color(@ColorRes resId: Int): Int =
     if (this == null) 0 else ContextCompat.getColor(this, resId)
 
+fun Context?.integer(@IntegerRes resId: Int) : Int =
+    if (this == null) 0 else resources.getInteger(resId)
+
+
 /*@ColorInt
 fun Int.toColor(context: Context): Int = ContextCompat.getColor(context, this)*/
 

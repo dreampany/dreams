@@ -3,6 +3,8 @@ package com.dreampany.tube.data.source.misc.firestore
 import com.dreampany.tube.data.model.misc.Search
 import com.dreampany.tube.data.source.misc.api.SearchDataSource
 import com.dreampany.tube.data.source.misc.mapper.SearchMapper
+import com.dreampany.tube.manager.AuthManager
+import com.dreampany.tube.manager.FirestoreManager
 import timber.log.Timber
 
 /**
@@ -13,12 +15,14 @@ import timber.log.Timber
  */
 class SearchFirestoreDataSource(
     private val mapper : SearchMapper,
+    private val auth: AuthManager,
     private val firestore: FirestoreManager
 ) : SearchDataSource {
 
     @Throws
     override suspend fun write(input: Search): Long {
         try {
+            if (auth.signInAnonymously().not()) return -1L
             val col = Constants.Keys.SEARCHES
             firestore.write(col, input.id, input)
             return 1
@@ -31,6 +35,7 @@ class SearchFirestoreDataSource(
     @Throws
     override suspend fun hit(id: String, ref: String): Long {
         try {
+            if (auth.signInAnonymously().not()) return -1L
             val col = Constants.Keys.SEARCHES
             val field = Constants.Keys.hit(ref)
             firestore.increment(col, id, field)

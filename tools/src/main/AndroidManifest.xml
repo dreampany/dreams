@@ -243,13 +243,13 @@
             android:label="@string/title_feature_news"
             android:windowSoftInputMode="adjustResize">
 
-            <meta-data
+<!--            <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
+            </intent-filter>-->
 
         </activity>
 

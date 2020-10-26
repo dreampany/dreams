@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.disable
-import com.dreampany.framework.misc.exts.open
+import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tools.R
@@ -44,7 +44,7 @@ class HomeFragment
 
     override val layoutRes: Int = R.layout.home_fragment
 
-    /*override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>?
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -52,11 +52,11 @@ class HomeFragment
             param.put(Constant.Param.PACKAGE_NAME, parentRef.packageName)
             param.put(Constant.Param.VERSION_CODE, parentRef.versionCode)
             param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
-            param.put(Constant.Param.SCREEN, "Tools.HomeFragment")
+            param.put(Constant.Param.SCREEN, "HomeFragment")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.fragment(context), param)
             return params
-        }*/
+        }
 
     override fun onStartUi(state: Bundle?) {
         initUi()

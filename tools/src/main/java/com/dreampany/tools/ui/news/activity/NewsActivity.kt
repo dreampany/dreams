@@ -44,9 +44,7 @@ class NewsActivity : InjectActivity() {
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.news_activity
-    override val menuRes: Int = R.menu.menu_news
     override val toolbarId: Int = R.id.toolbar
-    override val searchMenuItemId: Int = R.id.item_search
 
     override val params: Map<String, Map<String, Any>?>?
         get() {
@@ -104,11 +102,6 @@ class NewsActivity : InjectActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        //adapter.filter(newText)
-        return false
     }
 
     private fun initAd() {

@@ -26,6 +26,8 @@ import com.dreampany.tools.data.enums.news.NewsType
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.data.model.news.Page
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
+import com.dreampany.tools.misc.constants.Constants
+import com.dreampany.tools.ui.misc.vm.SearchViewModel
 import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
 import com.dreampany.tools.ui.news.model.ArticleItem
 import com.dreampany.tools.ui.news.vm.ArticleViewModel
@@ -48,11 +50,15 @@ class ArticlesFragment
 @Inject constructor() : InjectFragment() {
 
     private lateinit var bind: RecyclerChildFragmentBinding
+    private lateinit var searchVm: SearchViewModel
     private lateinit var vm: ArticleViewModel
     private lateinit var adapter: FastArticleAdapter
     private lateinit var input: Page
+    private lateinit var query: String
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
+    override val menuRes: Int = R.menu.menu_news
+    override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Page>
@@ -81,6 +87,22 @@ class ArticlesFragment
         super.onSaveInstanceState(outState)
     }
 
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.filter(newText)
+        val value = newText.trimValue
+        if (value.isNotEmpty()) {
+            this.query = value
+            ex.getUiHandler().removeCallbacks(runner)
+            ex.getUiHandler().postDelayed(runner, 1500L)
+        }
+        return false
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+
+        return false
+    }
+
     override fun onRefresh() {
         loadArticles()
     }
@@ -103,6 +125,7 @@ class ArticlesFragment
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
+        searchVm = createVm(SearchViewModel::class)
         vm = createVm(ArticleViewModel::class)
 
         vm.subscribe(this, Observer { this.processResponse(it) })
@@ -253,5 +276,14 @@ class ArticlesFragment
             url = url
         )
         open(WebActivity::class, task)
+    }
+
+    private val runner = Runnable {
+        writeSearch()
+    }
+
+    private fun writeSearch() {
+        if (isFinishing) return
+        searchVm.write(query, Constants.Values.News.ARTICLES)
     }
 }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
+import com.dreampany.framework.misc.exts.addDecoration
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tools.ui.news.model.PageItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -81,13 +82,14 @@ class FastPageAdapter(
         recycler.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = fastAdapter
-            addItemDecoration(
+            addDecoration(4)
+            /*addItemDecoration(
                 SpacingItemDecoration(
                     3,
                     context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
                     true
                 )
-            )
+            )*/
         }
         fastAdapter.withSavedInstanceState(state)
 

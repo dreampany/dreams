@@ -8,8 +8,8 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_8sdp"
-        auto:cardElevation="@dimen/_8sdp"
+        auto:cardCornerRadius="@dimen/cornerRadius"
+        auto:cardElevation="@dimen/cornerRadius"
         auto:cardPreventCornerOverlap="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout

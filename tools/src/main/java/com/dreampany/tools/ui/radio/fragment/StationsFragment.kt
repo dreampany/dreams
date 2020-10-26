@@ -20,9 +20,11 @@ import com.dreampany.tools.data.enums.radio.RadioType
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.manager.RadioPlayerManager
 import com.dreampany.tools.misc.constants.Constants
+import com.dreampany.tools.ui.misc.vm.SearchViewModel
 import com.dreampany.tools.ui.radio.adapter.FastStationAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.dreampany.tools.ui.radio.vm.StationViewModel
+import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -40,14 +42,13 @@ class StationsFragment
     internal lateinit var player: RadioPlayerManager
 
     private lateinit var bind: RecyclerChildFragmentBinding
+    private lateinit var searchVm: SearchViewModel
     private lateinit var vm: StationViewModel
-
     private lateinit var adapter: FastStationAdapter
+    private lateinit var query: String
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
-
     override val menuRes: Int = R.menu.menu_stations
-
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
@@ -81,9 +82,14 @@ class StationsFragment
 
     override fun onQueryTextChange(newText: String?): Boolean {
         adapter.filter(newText)
+        val value = newText.trimValue
+        if (value.isNotEmpty()) {
+            this.query = value
+            ex.getUiHandler().removeCallbacks(runner)
+            ex.getUiHandler().postDelayed(runner, 1500L)
+        }
         return false
     }
-
     private val serviceUpdateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             updatePlaying()
@@ -127,29 +133,30 @@ class StationsFragment
     }
 
     private fun initUi() {
-        if (!::bind.isInitialized) {
-            bind = getBinding()
-            bind.swipe.init(this)
-            bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
-            vm = createVm(StationViewModel::class)
-            vm.subscribes(this, Observer { this.processResponse(it) })
-        }
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        searchVm = createVm(SearchViewModel::class)
+        vm = createVm(StationViewModel::class)
+
+        vm.subscribes(this, Observer { this.processResponse(it) })
+
+        bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastStationAdapter(scrollListener = { currentPage: Int ->
-                Timber.v("CurrentPage: %d", currentPage)
-                onRefresh()
-            }, clickListener = { item: StationItem ->
-                Timber.v("StationItem: %s", item.input.toString())
-                onStationClicked(item)
-            })
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
-            )
-        }
+        if (::adapter.isInitialized) return
+        adapter = FastStationAdapter(scrollListener = { currentPage: Int ->
+            Timber.v("CurrentPage: %d", currentPage)
+            onRefresh()
+        }, clickListener = { item: StationItem ->
+            Timber.v("StationItem: %s", item.input.toString())
+            onStationClicked(item)
+        })
+        adapter.initRecycler(
+            state,
+            bind.layoutRecycler.recycler
+        )
     }
 
     private fun processResponse(response: Response<RadioType, RadioSubtype, RadioState, RadioAction, List<StationItem>>) {
@@ -189,5 +196,14 @@ class StationsFragment
         } else {
             bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
+    }
+
+    private val runner = Runnable {
+        writeSearch()
+    }
+
+    private fun writeSearch() {
+        if (isFinishing) return
+        searchVm.write(query, Constants.Values.Radio.STATIONS)
     }
 }

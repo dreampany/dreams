@@ -10,7 +10,6 @@ import com.dreampany.tools.data.model.misc.Search
  * Last modified $file.lastModified
  */
 interface SearchDataSource {
-
     @Throws
     suspend fun write(input: Search): Long
 

@@ -18,7 +18,6 @@ class Constants {
     }
 
     object Keys {
-
         object Pref {
             const val PREF = "pref"
             const val MISC = "misc"
@@ -27,6 +26,7 @@ class Constants {
 
             object News {
                 const val CATEGORY = "news.category"
+
                 /*const val CATEGORIES = "news.categories"*/
                 const val PAGE = "news.page"
                 const val PAGES = "news.pages"
@@ -155,5 +155,18 @@ class Constants {
     object ContentType {
         const val APPLE_MPEGURL = "application/vnd.apple.mpegurl"
         const val X_MPEGURL = "application/x-mpegurl"
+    }
+
+    object Values {
+        object News {
+            const val ARTICLES = "tools.news.articles"
+            const val SEARCH = "tools.news.search"
+        }
+
+        object Radio {
+            const val STATIONS = "tools.radio.stations"
+            const val SEARCH = "tools.radio.search"
+        }
+
     }
 }

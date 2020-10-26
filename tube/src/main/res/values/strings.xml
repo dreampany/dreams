@@ -23,7 +23,7 @@
 
     <string name="notify_select_min_categories" translatable="false">Select %d categories</string>
 
-    <string name="message_make_page" translatable="false">Make page</string>
+    <string name="message_add_page" translatable="false">Add to pages</string>
 
 
 

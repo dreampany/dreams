@@ -1,17 +1,17 @@
-package com.dreampany.tube.ui.web
+package com.dreampany.demo.ui.web
 
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.task
-import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
-import com.dreampany.tube.R
-import com.dreampany.tube.databinding.WebActivityBinding
-import com.dreampany.tube.manager.AdsManager
+import com.dreampany.demo.R
+import com.dreampany.demo.databinding.WebActivityBinding
+import com.dreampany.demo.manager.AdsManager
 import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
+import com.dreampany.framework.misc.exts.setOnSafeClickListener
+import com.dreampany.framework.misc.exts.toTint
 
 /**
  * Created by roman on 12/5/20

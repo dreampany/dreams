@@ -3,41 +3,54 @@
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        android:title="@string/category_general"
+        auto:iconSpaceReserved="false">
+
+        <Preference
+            android:key="@string/key_settings_pages"
+            android:title="@string/title_settings_pages"
+            auto:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/category_advance"
         auto:iconSpaceReserved="false">
 
         <Preference
             android:key="@string/key_settings_more_apps"
             android:title="@string/title_settings_more_apps"
-            auto:icon="@drawable/ic_apps_black_24dp"
             auto:iconSpaceReserved="false" />
 
         <Preference
             android:key="@string/key_settings_rate_us"
             android:title="@string/title_settings_rate_us"
-            auto:icon="@drawable/ic_rate_review_black_24dp"
             auto:iconSpaceReserved="false" />
 
         <Preference
             android:key="@string/key_settings_feedback"
             android:title="@string/title_settings_feedback"
-            auto:icon="@drawable/ic_feedback_black_24dp"
             auto:iconSpaceReserved="false" />
 
         <Preference
             android:key="@string/key_settings_about"
             android:title="@string/title_settings_about"
-            auto:icon="@drawable/ic_info_black_24dp"
             auto:iconSpaceReserved="false" />
-
     </PreferenceCategory>
 
-    <!--<androidx.preference.SwitchPreferenceCompat
-        android:defaultValue="true"
-        auto:iconSpaceReserved="false"
-        android:key="@string/key_notification"
-        android:summary="@string/summary_notification"
-        android:title="@string/title_notification" />-->
+    <!-- <android.support.v7.preference.PreferenceCategory >
+
+
+
+
+     </android.support.v7.preference.PreferenceCategory>-->
+
+    <!-- <androidx.preference.SwitchPreferenceCompat
+         android:defaultValue="true"
+         android:key="@string/key_notification"
+         android:summary="@string/summary_notification"
+         android:title="@string/title_notification"
+         auto:iconSpaceReserved="false" />-->
 
     <!--    <android.support.v7.preference.PreferenceCategory android:title="@string/category_general">
 

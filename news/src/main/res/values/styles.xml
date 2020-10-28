@@ -24,7 +24,7 @@
     <!-- activity -->
     <style name="Theme.Splash" parent="LightActionBar">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">@drawable/splash_window_backgroud</item>
+        <item name="android:windowBackground">@drawable/splash_window_background</item>
     </style>
 
     <style name="Theme.Fullscreen" parent="NoActionBar">

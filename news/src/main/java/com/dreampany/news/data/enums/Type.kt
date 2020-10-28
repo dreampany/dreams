@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Type : BaseType {
-    DEFAULT, MORE, SITE, SEARCH, CAMERA, QR, DOC, FACE;
+    DEFAULT, MORE, SITE, SEARCH, PAGE, ARTICLE;
 
     override val value: String get() = name
 }

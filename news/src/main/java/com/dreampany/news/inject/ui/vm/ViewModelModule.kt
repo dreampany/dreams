@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.news.ui.more.vm.MoreViewModel
+import com.dreampany.news.ui.vm.ArticleViewModel
+import com.dreampany.news.ui.vm.PageViewModel
 import com.dreampany.news.ui.vm.SearchViewModel
 import com.dreampany.news.ui.vm.TimeViewModel
 import dagger.Binds
@@ -39,4 +41,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
     abstract fun bindSearch(vm: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PageViewModel::class)
+    abstract fun bindPage(vm: PageViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ArticleViewModel::class)
+    abstract fun bindArticle(vm: ArticleViewModel): ViewModel
 }

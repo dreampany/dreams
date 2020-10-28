@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">News</string>
     <string name="action_settings">Settings</string>
+    <string name="notify_select_min_pages" translatable="false">Select %d pages</string>
+
+    <string name="title_pages" translatable="false">Select Pages</string>
+    <string name="subtitle_pages" translatable="false">%d / %d</string>
 
 </resources>

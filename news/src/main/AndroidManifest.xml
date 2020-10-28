@@ -55,11 +55,28 @@
             </intent-filter>
         </activity>
 
+        <!-- home -->
         <activity
             android:name=".ui.home.activity.HomeActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <!-- pages -->
+        <activity
+            android:name=".ui.page.PagesActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
+            android:label="@string/title_pages"
+            android:windowSoftInputMode="adjustResize">
+            <!--            <meta-data
+                            android:name="android.app.searchable"
+                            android:resource="@xml/searchable" />
+
+                        <intent-filter>
+                            <action android:name="android.intent.action.SEARCH" />
+                            <category android:name="android.intent.category.DEFAULT" />
+                        </intent-filter>-->
         </activity>
 
     </application>

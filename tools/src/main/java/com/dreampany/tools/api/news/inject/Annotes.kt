@@ -1,4 +1,4 @@
-package com.dreampany.crypto.api.inject
+package com.dreampany.tools.api.news.inject
 
 import javax.inject.Qualifier
 

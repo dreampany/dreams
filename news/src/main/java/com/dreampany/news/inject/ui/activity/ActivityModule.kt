@@ -6,6 +6,7 @@ import com.dreampany.news.inject.ui.home.HomeModule
 import com.dreampany.news.inject.ui.more.MoreModule
 import com.dreampany.news.inject.ui.settings.SettingsModule
 import com.dreampany.news.ui.home.activity.HomeActivity
+import com.dreampany.news.ui.page.PagesActivity
 import com.dreampany.news.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -20,6 +21,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun splash(): SplashActivity
+
+    @ContributesAndroidInjector
+    abstract fun pages(): PagesActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class, SettingsModule::class])

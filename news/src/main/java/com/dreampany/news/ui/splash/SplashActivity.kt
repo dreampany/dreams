@@ -4,8 +4,13 @@ import android.os.Bundle
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.news.R
+import com.dreampany.news.data.source.pref.Prefs
+import com.dreampany.news.databinding.SplashActivityBinding
 import com.dreampany.news.ui.home.activity.HomeActivity
+import com.dreampany.news.ui.page.PagesActivity
+import com.dreampany.news.ui.vm.PageViewModel
 import kotlinx.coroutines.Runnable
+import javax.inject.Inject
 
 /**
  * Created by roman on 3/10/20
@@ -14,6 +19,12 @@ import kotlinx.coroutines.Runnable
  * Last modified $file.lastModified
  */
 class SplashActivity : InjectActivity() {
+
+    @Inject
+    internal lateinit var pref: Prefs
+
+    private lateinit var bind : SplashActivityBinding
+    private lateinit var vm: PageViewModel
 
     override val layoutRes: Int = R.layout.splash_activity
 
@@ -27,11 +38,18 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        //vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(PageViewModel::class)
     }
 
     private fun nextScreen() {
-        open(HomeActivity::class, true)
+        if (pref.isPagesSelected) {
+            open(HomeActivity::class, true)
+        } else {
+            open(PagesActivity::class, true)
+        }
+        //open(HomeActivity::class, true)
 /*        if (vm.isJoinPressed()) {
             if (vm.isLoggedIn()) {
                 open(HomeActivity::class, true)

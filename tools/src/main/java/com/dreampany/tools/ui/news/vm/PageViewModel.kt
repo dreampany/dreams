@@ -126,20 +126,6 @@ class PageViewModel
         }
     }
 
-/*    fun backupPages() {
-        uiScope.launch {
-            try {
-                val pages = pref.categories?.toPages()
-                if (pages != null) {
-                    pref.commitPages(pages)
-                    pref.commitPagesSelection()
-                }
-            } catch (error: SmartError) {
-                Timber.e(error)
-            }
-        }
-    }*/
-
     private val region: Page
         get() {
             val regionCode = getApplication<App>().countryCode

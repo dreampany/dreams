@@ -21,5 +21,4 @@ class Prefs
 ) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.MISC
-
 }

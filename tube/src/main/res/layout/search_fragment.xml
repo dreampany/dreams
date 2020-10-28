@@ -29,7 +29,7 @@
                     android:id="@+id/layout_make"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/material_white"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="@dimen/align_margin"

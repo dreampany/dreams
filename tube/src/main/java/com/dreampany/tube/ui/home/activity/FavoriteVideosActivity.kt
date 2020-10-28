@@ -96,7 +96,7 @@ class FavoriteVideosActivity : InjectActivity() {
         if (value.isNotEmpty()) {
             this.query = value
             ex.getUiHandler().removeCallbacks(runner)
-            ex.getUiHandler().postDelayed(runner, 1500L)
+            ex.getUiHandler().postDelayed(runner, 3000L)
         }
         return false
     }
@@ -218,6 +218,6 @@ class FavoriteVideosActivity : InjectActivity() {
 
     private fun writeSearch() {
         if (isFinishing) return
-        searchVm.write(query, Constants.Values.VIDEOS)
+        searchVm.write(query, Constants.Values.FAVORITE_VIDEOS)
     }
 }

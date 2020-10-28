@@ -37,6 +37,7 @@ class Constants {
 
     object Values {
         const val VIDEOS = "tube.videos"
+        const val FAVORITE_VIDEOS = "tube.favorite.videos"
         const val SEARCH = "tube.search"
     }
 

@@ -7,15 +7,13 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            auto:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_weight="1" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_ad"

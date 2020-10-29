@@ -1,5 +1,4 @@
 <resources>
-
     <dimen name="textSizePrimary">@dimen/_14ssp</dimen>
     <dimen name="textSizeSecondary">@dimen/_12ssp</dimen>
     <dimen name="textSizeSmall">@dimen/_10ssp</dimen>

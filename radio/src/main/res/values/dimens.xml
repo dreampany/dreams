@@ -1,5 +1,19 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="textSizePrimary">@dimen/_14ssp</dimen>
+    <dimen name="textSizeSecondary">@dimen/_12ssp</dimen>
+    <dimen name="textSizeSmall">@dimen/_10ssp</dimen>
+    <dimen name="textSizeHeader">@dimen/_16ssp</dimen>
+    <dimen name="textSizeHighlight">@dimen/_26ssp</dimen>
+
+    <dimen name="buttonSizePrimary">@dimen/_48sdp</dimen>
+    <dimen name="cornerRadius">@dimen/_8sdp</dimen>
+    <dimen name="buttonRadius">@dimen/_20sdp</dimen>
+    <dimen name="tabSize">@dimen/_8sdp</dimen>
+
+    <dimen name="align_margin">@dimen/_8sdp</dimen>
+    <dimen name="para_margin">@dimen/_16sdp</dimen>
+    <dimen name="fab_margin">@dimen/_16sdp</dimen>
+    <dimen name="small_margin">@dimen/_4sdp</dimen>
 
     <dimen name="margin_xxsmall">8dp</dimen>
     <dimen name="margin_xsmall">16dp</dimen>
@@ -24,4 +38,6 @@
     <dimen name="rect_button_width">80dp</dimen>
     <dimen name="rect_button_height">24dp</dimen>
     <dimen name="shutter_button_margin">80dp</dimen>
+
+    <dimen name="feature_recycler_spacing">8dp</dimen>
 </resources>

@@ -4,7 +4,7 @@
         <shape
             android:shape="oval">
             <solid
-                android:color="@color/colorAccent"/>
+                android:color="@color/textColorPrimary"/>
             <size
                 android:width="@dimen/tabSize"
                 android:height="@dimen/tabSize"/>

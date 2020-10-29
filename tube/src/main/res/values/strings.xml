@@ -17,7 +17,7 @@
 
     <string name="video_info_format" translatable="false">%s . %s views . %s</string>
     <string name="title_categories" translatable="false">Categories</string>
-    <string name="title_pages" translatable="false">Pages</string>
+    <string name="title_pages" translatable="false">Select Pages</string>
     <string name="title_favorites" translatable="false">Favorite Videos</string>
     <string name="subtitle_categories" translatable="false">%d / %d</string>
 

@@ -22,7 +22,6 @@ class Constants {
             const val PREF = "pref"
             const val MISC = "misc"
             const val EXPIRE = "expire"
-            const val HOUSE_ADS = "house_ads"
 
             object News {
                 const val CATEGORY = "news.category"
@@ -84,7 +83,7 @@ class Constants {
     }
 
     object Times {
-        val HOUSE_ADS = TimeUnit.HOURS.toMillis(1)
+        val HOUSE_ADS = TimeUnit.DAYS.toMillis(1)
         val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
         val STATION = TimeUnit.DAYS.toMillis(10)

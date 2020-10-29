@@ -86,7 +86,7 @@ class StationsFragment
         if (value.isNotEmpty()) {
             this.query = value
             ex.getUiHandler().removeCallbacks(runner)
-            ex.getUiHandler().postDelayed(runner, 1500L)
+            ex.getUiHandler().postDelayed(runner, 3000L)
         }
         return false
     }

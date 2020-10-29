@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.news.fragment
+package com.dreampany.news.ui.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,25 +13,17 @@ import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.news.data.enums.Action
+import com.dreampany.news.data.enums.State
+import com.dreampany.news.data.enums.Subtype
+import com.dreampany.news.data.enums.Type
+import com.dreampany.news.data.model.Article
+import com.dreampany.news.misc.Constants
+import com.dreampany.news.ui.model.ArticleItem
+import com.dreampany.news.ui.vm.ArticleViewModel
+import com.dreampany.news.ui.vm.SearchViewModel
+import com.dreampany.news.ui.web.WebActivity
 import com.dreampany.stateful.StatefulLayout
-import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.home.Action
-import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
-import com.dreampany.tools.data.enums.news.NewsAction
-import com.dreampany.tools.data.enums.news.NewsState
-import com.dreampany.tools.data.enums.news.NewsSubtype
-import com.dreampany.tools.data.enums.news.NewsType
-import com.dreampany.tools.data.model.news.Article
-import com.dreampany.tools.data.model.news.Page
-import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
-import com.dreampany.tools.misc.constants.Constants
-import com.dreampany.tools.ui.misc.vm.SearchViewModel
-import com.dreampany.tools.ui.news.adapter.FastArticleAdapter
-import com.dreampany.tools.ui.news.model.ArticleItem
-import com.dreampany.tools.ui.news.vm.ArticleViewModel
-import com.dreampany.tools.ui.web.WebActivity
 import com.google.android.gms.location.LocationRequest
 import com.patloew.colocation.CoLocation
 import kotlinx.android.synthetic.main.content_recycler_ad.view.*
@@ -40,7 +32,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Created by roman on 14/6/20
+ * Created by roman on 29/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -65,7 +57,7 @@ class ArticlesFragment
         input = task.input ?: return
         initUi()
         initRecycler(state)
-       // onRefresh()
+        // onRefresh()
     }
 
     override fun onStopUi() {
@@ -128,8 +120,8 @@ class ArticlesFragment
         searchVm = createVm(SearchViewModel::class)
         vm = createVm(ArticleViewModel::class)
 
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        vm.subscribe(this, { this.processResponse(it) })
+        vm.subscribes(this, { this.processResponses(it) })
 
         bind.swipe.init(this)
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_articles)
@@ -150,23 +142,23 @@ class ArticlesFragment
         )
     }
 
-    private fun processResponse(response: Response<NewsType, NewsSubtype, NewsState, NewsAction, ArticleItem>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, ArticleItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<NewsType, NewsSubtype, NewsState, NewsAction, ArticleItem>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, ArticleItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
     }
 
-    private fun processResponses(response: Response<NewsType, NewsSubtype, NewsState, NewsAction, List<ArticleItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<ArticleItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<NewsType, NewsSubtype, NewsState, NewsAction, List<ArticleItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<ArticleItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -284,6 +276,6 @@ class ArticlesFragment
 
     private fun writeSearch() {
         if (isFinishing) return
-        searchVm.write(query, Constants.Values.News.ARTICLES)
+        searchVm.write(query, Constants.Values.ARTICLES)
     }
 }

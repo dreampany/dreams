@@ -7,6 +7,9 @@ import com.dreampany.news.R
 import com.dreampany.news.databinding.RecyclerFragmentBinding
 import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.visible
+import com.dreampany.news.data.source.pref.Prefs
+import com.dreampany.news.databinding.HomeFragmentBinding
+import com.dreampany.news.ui.vm.PageViewModel
 import javax.inject.Inject
 
 /**
@@ -19,14 +22,12 @@ import javax.inject.Inject
 class HomeFragment
 @Inject constructor() : InjectFragment() {
 
-    companion object {
-      private val REQUEST_CAMERA = 101
-    }
+    @Inject
+    internal lateinit var pref: Prefs
 
-    private lateinit var bind: RecyclerFragmentBinding
-    //private lateinit var vm: FeatureViewModel
-
-    //private lateinit var adapter: FastFeatureAdapter
+    private lateinit var bind: HomeFragmentBinding
+    private lateinit var vm: PageViewModel
+    private lateinit var adapter: PageAdapter
 
     override val layoutRes: Int = R.layout.recycler_fragment
 

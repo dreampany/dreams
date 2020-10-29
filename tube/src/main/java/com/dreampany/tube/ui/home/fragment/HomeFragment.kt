@@ -130,7 +130,7 @@ class HomeFragment
     private fun updatePages() {
         val pages = pref.pages ?: return
         if (adapter.hasUpdate(pages)) {
-            vm.readCache()
+            vm.readsCache()
         }
     }
 

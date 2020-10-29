@@ -84,7 +84,7 @@ class PageViewModel
         }
     }
 
-    fun readCache() {
+    fun readsCache() {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Page>? = null

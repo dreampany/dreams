@@ -1,15 +1,24 @@
 package com.dreampany.news.ui.home.fragment
 
 import android.os.Bundle
+import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.*
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.news.R
-import com.dreampany.news.databinding.RecyclerFragmentBinding
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
-import com.dreampany.framework.misc.exts.visible
+import com.dreampany.news.data.enums.Action
+import com.dreampany.news.data.enums.State
+import com.dreampany.news.data.enums.Subtype
+import com.dreampany.news.data.enums.Type
 import com.dreampany.news.data.source.pref.Prefs
 import com.dreampany.news.databinding.HomeFragmentBinding
+import com.dreampany.news.ui.adapter.PageAdapter
+import com.dreampany.news.ui.model.PageItem
 import com.dreampany.news.ui.vm.PageViewModel
+import com.google.android.material.tabs.TabLayoutMediator
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -29,50 +38,62 @@ class HomeFragment
     private lateinit var vm: PageViewModel
     private lateinit var adapter: PageAdapter
 
-    override val layoutRes: Int = R.layout.recycler_fragment
+    override val layoutRes: Int = R.layout.home_fragment
+
+    override val params: Map<String, Map<String, Any>?>?
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constant.Param.PACKAGE_NAME, parentRef.packageName)
+            param.put(Constant.Param.VERSION_CODE, parentRef.versionCode)
+            param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
+            param.put(Constant.Param.SCREEN, "HomeFragment")
+
+            params.put(Constant.Event.fragment(context), param)
+            return params
+        }
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        initRecycler(state)
-       /* if (adapter.isEmpty)
-            vm.loadFeatures()*/
+        initPager()
+        //vm.readCache()
     }
 
     override fun onStopUi() {
     }
 
+    override fun onStart() {
+        super.onStart()
+        updatePages()
+    }
+
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
+        vm = createVm(PageViewModel::class)
 
-        bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
-        bind.fab.visible()
-        bind.fab.setOnSafeClickListener { openScanUi() }
-        /*if (!::vm.isInitialized) {
-            vm = createVm(FeatureViewModel::class)
-            vm.subscribes(this, Observer { this.processResponse(it) })
-        }*/
+        vm.subscribes(this, { this.processResponses(it) })
     }
 
-    private fun initRecycler(state: Bundle?) {
-        /*if (!::adapter.isInitialized) {
-            adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
-                Timber.v("StationItem: %s", item.item.toString())
-                openUi(item.item)
-            })
-
-            adapter.initRecycler(
-                state,
-                bind.layoutRecycler.recycler
-            )
-        }*/
+    private fun initPager() {
+        if (::adapter.isInitialized) return
+        adapter = PageAdapter(this)
+        bind.pager.adapter = adapter
+        TabLayoutMediator(
+            bind.tabs,
+            bind.pager,
+            { tab, position ->
+                tab.text = adapter.getTitle(position)
+            }).attach()
     }
 
-    /*private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<PageItem>>) {
         if (response is Response.Progress) {
-            if (response.progress) showProgress() else hideProgress()
+            //bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<FeatureItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<PageItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -95,30 +116,30 @@ class HomeFragment
         )
     }
 
-    private fun processResults(result: List<FeatureItem>?) {
+    private fun processResults(result: List<PageItem>?) {
         if (result != null) {
+            if (!adapter.isEmpty) {
+                adapter.clear()
+            }
             adapter.addItems(result)
         }
     }
 
-    private fun openUi(item: Feature) {
-        when (item.subtype) {
-            Subtype.WIFI -> activity.open(WifisActivity::class)
-            Subtype.CRYPTO -> activity.open(CoinsActivity::class)
-            Subtype.RADIO -> activity.open(StationsActivity::class)
-            Subtype.NOTE -> activity.open(NotesActivity::class)
-            Subtype.HISTORY -> activity.open(HistoriesActivity::class)
+    private fun updatePages() {
+        val pages = pref.pages ?: return
+        if (adapter.hasUpdate(pages)) {
+            vm.readsCache()
         }
-    }*/
+    }
 
     private fun openScanUi() {
-       /* val task = UiTask(
-            Type.CAMERA,
-            Subtype.DEFAULT,
-            State.DEFAULT,
-            Action.SCAN,
-            null
-        )
-        open(CameraActivity::class, task, REQUEST_CAMERA)*/
+        /* val task = UiTask(
+             Type.CAMERA,
+             Subtype.DEFAULT,
+             State.DEFAULT,
+             Action.SCAN,
+             null
+         )
+         open(CameraActivity::class, task, REQUEST_CAMERA)*/
     }
 }

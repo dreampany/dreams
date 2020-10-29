@@ -1,6 +1,5 @@
 package com.dreampany.news.ui.adapter
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.ui.adapter.BasePagerFragmentAdapter
@@ -19,7 +18,7 @@ import com.dreampany.news.ui.model.PageItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class PageAdapter(activity: AppCompatActivity) : BasePagerFragmentAdapter<Fragment>(activity) {
+class PageAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragment>(fragment) {
 
     private val pages = arrayListOf<Page>()
 

@@ -1,5 +1,6 @@
 package com.dreampany.news.inject.ui.home
 
+import com.dreampany.framework.inject.annote.FragmentScope
 import com.dreampany.news.ui.home.fragment.HomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,6 +13,7 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 abstract class HomeModule {
-    @ContributesAndroidInjector
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [ArticleModule::class])
     abstract fun home(): HomeFragment
 }

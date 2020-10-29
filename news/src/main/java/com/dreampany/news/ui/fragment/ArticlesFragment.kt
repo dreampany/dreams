@@ -18,6 +18,7 @@ import com.dreampany.news.data.enums.State
 import com.dreampany.news.data.enums.Subtype
 import com.dreampany.news.data.enums.Type
 import com.dreampany.news.data.model.Article
+import com.dreampany.news.data.model.Page
 import com.dreampany.news.misc.Constants
 import com.dreampany.news.ui.model.ArticleItem
 import com.dreampany.news.ui.vm.ArticleViewModel
@@ -30,6 +31,9 @@ import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import com.dreampany.news.R
+import com.dreampany.news.databinding.RecyclerChildFragmentBinding
+import com.dreampany.news.ui.adapter.FastArticleAdapter
 
 /**
  * Created by roman on 29/10/20
@@ -49,7 +53,7 @@ class ArticlesFragment
     private lateinit var query: String
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
-    override val menuRes: Int = R.menu.menu_news
+    override val menuRes: Int = R.menu.articles_menu
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
@@ -104,9 +108,6 @@ class ArticlesFragment
         when (view.id) {
             R.id.layout -> {
                 openWeb(item.input.url)
-            }
-            R.id.button_favorite -> {
-                //onFavoriteClicked(item)
             }
             else -> {
 

@@ -6,4 +6,27 @@
     <string name="title_pages" translatable="false">Select Pages</string>
     <string name="subtitle_pages" translatable="false">%d / %d</string>
 
+    <string name="title_favorite_articles">Favorite Articles</string>
+    <string name="subtitle_favorite_articles" translatable="false">Total: %d</string>
+
+    <string name="title_empty_articles" translatable="false">No Articles!</string>
+    <string name="message_empty_articles" translatable="false">There is no news articles at this moment. Please try later.</string>
+
+    <string name="title_offline_articles" translatable="false">No Internet!</string>
+    <string name="message_offline_articles" translatable="false">Please connect to internet and reload news articles again.</string>
+
+
+    <string name="title_empty_favorite_articles" translatable="false">No Favorite Articles</string>
+    <string name="message_empty_favorite_articles" translatable="false">It seems you have not made any favorite article yet.</string>
+
+    <string name="title_news_settings" translatable="false">News Settings</string>
+    <string name="title_news_pages" translatable="false">Select News Pages</string>
+
+    <string name="title_article_general">General</string>
+    <string name="title_article_health">Health</string>
+    <string name="title_article_business">Business</string>
+    <string name="title_article_entertainment">Entertainment</string>
+    <string name="title_article_sports">Sports</string>
+    <string name="title_article_science">Science</string>
+    <string name="title_article_technology">Technology</string>
 </resources>

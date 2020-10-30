@@ -50,7 +50,7 @@ class ArticleRoomDataSource(
     }
 
     @Throws
-    override suspend fun gets(
+    override suspend fun getsOfQuery(
         query: String,
         language: String,
         offset: Long,

@@ -92,3 +92,12 @@ val Long.count: String
         }
     }
 
+fun Any.reset(filed: String) {
+    val input = this
+    val field = javaClass.getDeclaredField(filed)
+
+    with(field) {
+        isAccessible = true
+        set(input, null)
+    }
+}

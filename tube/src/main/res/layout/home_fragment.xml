@@ -17,7 +17,7 @@
             android:background="?attr/colorPrimary"
             auto:tabGravity="fill"
             auto:tabIndicator="@drawable/tab_indicator"
-            auto:tabIndicatorColor="@color/colorAccent"
+            auto:tabIndicatorColor="@color/textColorPrimary"
             auto:tabIndicatorHeight="@dimen/tabSize"
             auto:tabMode="scrollable"
             auto:tabSelectedTextColor="@color/textColorPrimary"

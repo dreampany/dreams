@@ -17,6 +17,7 @@ import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 import com.dreampany.news.R
 import com.dreampany.news.databinding.ArticleItemBinding
+import com.mikepenz.fastadapter.dsl.genericFastAdapter
 
 /**
  * Created by roman on 29/10/20
@@ -137,6 +138,14 @@ class FastArticleAdapter(
         fastAdapter.clear()
     }
 
+    fun clearAll() {
+        fastAdapter.clear()
+    }
+
+    fun notifyUi() {
+        fastAdapter.notifyDataSetChanged()
+    }
+
     fun saveInstanceState(outState: Bundle): Bundle {
         return fastAdapter.saveInstanceState(outState)
     }
@@ -156,18 +165,27 @@ class FastArticleAdapter(
         footerAdapter.clear()
     }
 
-    fun updateItem(item: ArticleItem) {
-        val position = fastAdapter.getGlobalPosition(fastAdapter.getAdapterPosition(item))
+    fun updateItem(item: ArticleItem): Boolean {
+        var position = fastAdapter.getAdapterPosition(item)
+        position = fastAdapter.getGlobalPosition(position)
         if (position >= 0) {
             fastAdapter.set(position, item)
+            return true
             //fastAdapter.notifyAdapterItemChanged(position)
         }
+        return false
     }
 
     fun updateItems(items: List<ArticleItem>) {
         items.forEach {
             updateItem(it)
         }
+    }
+
+    fun addItem(item: ArticleItem) {
+        val updated = updateItem(item)
+        if (!updated)
+            fastAdapter.add(item)
     }
 
     fun addItems(items: List<ArticleItem>) {

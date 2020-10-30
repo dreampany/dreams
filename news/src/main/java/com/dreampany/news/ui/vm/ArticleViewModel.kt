@@ -38,27 +38,7 @@ class ArticleViewModel
     rm
 ) {
 
-    fun loadArticles() {
-        uiScope.launch {
-            postProgressMultiple(true)
-            var result: List<Article>? = null
-            var errors: SmartError? = null
-            try {
-                val query = "crypto AND currency OR (bitcoin OR ethereum OR litecoin)"
-                result = repo.gets(query, "en", 1, 100)
-            } catch (error: SmartError) {
-                Timber.e(error)
-                errors = error
-            }
-            if (errors != null) {
-                postError(errors)
-            } else {
-                postResult(result?.toItems())
-            }
-        }
-    }
-
-    fun loadRegionArticles(regionCode: String,) {
+    fun loadRegionArticles(regionCode: String) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Article>? = null
@@ -87,6 +67,25 @@ class ArticleViewModel
             var errors: SmartError? = null
             try {
                 result = repo.getsByCategory(input.id, 1, 100)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun loadSearch(query: String) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Article>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.getsOfQuery(query, "en", 1, 100)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

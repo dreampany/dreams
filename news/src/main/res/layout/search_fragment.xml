@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    auto:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.dreampany.stateful.StatefulLayout
+            android:id="@+id/stateful"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/layout_recycler"
+                    layout="@layout/content_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/layout_make"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/material_white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/align_margin"
+                    android:visibility="visible">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/align_margin"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:text="@string/message_add_page"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/textSizePrimary"
+                        auto:drawableStartCompat="@drawable/ic_add_black_24dp"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </FrameLayout>
+
+        </com.dreampany.stateful.StatefulLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

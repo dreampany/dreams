@@ -3,7 +3,6 @@ package com.dreampany.news.ui.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
@@ -32,6 +31,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import com.dreampany.news.R
+import com.dreampany.news.databinding.ArticlesFragmentBinding
 import com.dreampany.news.databinding.RecyclerChildFragmentBinding
 import com.dreampany.news.ui.adapter.FastArticleAdapter
 
@@ -45,14 +45,14 @@ import com.dreampany.news.ui.adapter.FastArticleAdapter
 class ArticlesFragment
 @Inject constructor() : InjectFragment() {
 
-    private lateinit var bind: RecyclerChildFragmentBinding
+    private lateinit var bind: ArticlesFragmentBinding
     private lateinit var searchVm: SearchViewModel
     private lateinit var vm: ArticleViewModel
     private lateinit var adapter: FastArticleAdapter
     private lateinit var input: Page
     private lateinit var query: String
 
-    override val layoutRes: Int = R.layout.recycler_child_fragment
+    override val layoutRes: Int = R.layout.articles_fragment
     override val menuRes: Int = R.menu.articles_menu
     override val searchMenuItemId: Int = R.id.item_search
 
@@ -61,15 +61,20 @@ class ArticlesFragment
         input = task.input ?: return
         initUi()
         initRecycler(state)
+        /*       if (adapter.isEmpty.not()) {
+                   adapter.notifyUi()
+               }*/
         // onRefresh()
     }
 
     override fun onStopUi() {
-
+        Timber.v("")
+        //reset("bind")
+        //reset("adapter")
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         onRefresh()
     }
 
@@ -83,19 +88,20 @@ class ArticlesFragment
         super.onSaveInstanceState(outState)
     }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        adapter.filter(newText)
-        val value = newText.trimValue
-        if (value.isNotEmpty()) {
-            this.query = value
-            ex.getUiHandler().removeCallbacks(runner)
-            ex.getUiHandler().postDelayed(runner, 3000L)
-        }
-        return false
+    override fun onViewStateRestored(inState: Bundle?) {
+        super.onViewStateRestored(inState)
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (::adapter.isInitialized) {
+            adapter.filter(newText)
+            val value = newText.trimValue
+            if (value.isNotEmpty()) {
+                this.query = value
+                ex.getUiHandler().removeCallbacks(runner)
+                ex.getUiHandler().postDelayed(runner, 3000L)
+            }
+        }
         return false
     }
 
@@ -103,11 +109,11 @@ class ArticlesFragment
         loadArticles()
     }
 
-    private fun onItemPressed(view: View, item: ArticleItem) {
+    private fun onItemPressed(view: View, input: ArticleItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openWeb(item.input.url)
+                openWeb(input.input.url)
             }
             else -> {
 
@@ -212,15 +218,14 @@ class ArticlesFragment
         if (adapter.isEmpty) {
             if (input.type.isRegion) {
                 readRegionArticles()
-            }else if (input.type.isCategory) {
+            } else if (input.type.isCategory) {
                 vm.loadArticles(input)
             }
-            /*if (input.id.length == 2) {
-                loadRegionArticles()
-            } else {
-                vm.loadArticles(input)
-            }*/
-        }
+        } /*else {
+            ex.postToUi({
+                adapter.notifyUi()
+            }, 1000L)
+        }*/
     }
 
     @SuppressLint("MissingPermission")

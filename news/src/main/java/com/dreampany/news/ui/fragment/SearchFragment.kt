@@ -1,8 +1,7 @@
-package com.dreampany.tube.ui.home.fragment
+package com.dreampany.news.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.constant.Constant
@@ -10,27 +9,28 @@ import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.news.data.source.pref.Prefs
 import com.dreampany.stateful.StatefulLayout
-import com.dreampany.tube.R
-import com.dreampany.tube.data.enums.Action
-import com.dreampany.tube.data.enums.State
-import com.dreampany.tube.data.enums.Subtype
-import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.source.pref.Prefs
-import com.dreampany.tube.databinding.SearchFragmentBinding
-import com.dreampany.tube.misc.Constants
-import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
-import com.dreampany.tube.ui.model.VideoItem
-import com.dreampany.tube.ui.player.VideoPlayerActivity
-import com.dreampany.tube.ui.vm.PageViewModel
-import com.dreampany.tube.ui.vm.SearchViewModel
-import com.dreampany.tube.ui.vm.VideoViewModel
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
+import com.dreampany.news.R
+import com.dreampany.news.data.enums.Action
+import com.dreampany.news.data.enums.State
+import com.dreampany.news.data.enums.Subtype
+import com.dreampany.news.data.enums.Type
+import com.dreampany.news.data.model.Article
+import com.dreampany.news.databinding.SearchFragmentBinding
+import com.dreampany.news.misc.Constants
+import com.dreampany.news.ui.adapter.FastArticleAdapter
+import com.dreampany.news.ui.model.ArticleItem
+import com.dreampany.news.ui.vm.ArticleViewModel
+import com.dreampany.news.ui.vm.PageViewModel
+import com.dreampany.news.ui.vm.SearchViewModel
+import com.dreampany.news.ui.web.WebActivity
 
 /**
- * Created by roman on 12/9/20
+ * Created by roman on 30/10/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -45,8 +45,8 @@ class SearchFragment
     private lateinit var bind: SearchFragmentBinding
     private lateinit var searchVm: SearchViewModel
     private lateinit var pageVm: PageViewModel
-    private lateinit var vm: VideoViewModel
-    private lateinit var adapter: FastVideoAdapter
+    private lateinit var vm: ArticleViewModel
+    private lateinit var adapter: FastArticleAdapter
     private lateinit var query: String
 
     override val layoutRes: Int = R.layout.search_fragment
@@ -99,33 +99,39 @@ class SearchFragment
         val value = query.trimValue
         if (value.isNotEmpty()) {
             this.query = value
-            searchVideos(value)
+            searchArticles(value)
             writeSearch()
         }
         return false
     }
 
-    private fun onItemPressed(view: View, item: VideoItem) {
+    private fun onItemPressed(view: View, input: ArticleItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openPlayerUi(item)
+                openWeb(input.input.url)
             }
-            R.id.favorite -> {
+            /*R.id.favorite -> {
                 onFavoriteClicked(item)
-            }
+            }*/
             else -> {
 
             }
         }
     }
 
+    override val backPressed: Boolean
+        get() {
+
+            return false
+        }
+
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
         searchVm = createVm(SearchViewModel::class)
         pageVm = createVm(PageViewModel::class)
-        vm = createVm(VideoViewModel::class)
+        vm = createVm(ArticleViewModel::class)
 
         vm.subscribe(this, { this.processResponse(it) })
         vm.subscribes(this, { this.processResponses(it) })
@@ -133,10 +139,13 @@ class SearchFragment
         bind.swipe.init(this)
         bind.stateful.setStateView(
             StatefulLayout.State.DEFAULT,
-            R.layout.content_default_search_videos
+            R.layout.content_default_search_articles
         )
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_search_videos)
-        bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_videos)
+        bind.stateful.setStateView(
+            StatefulLayout.State.EMPTY,
+            R.layout.content_empty_search_articles
+        )
+        bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_articles)
 
         bind.layoutMake.setOnSafeClickListener {
             writePage()
@@ -146,7 +155,7 @@ class SearchFragment
 
     private fun initRecycler(state: Bundle?) {
         if (::adapter.isInitialized) return
-        adapter = FastVideoAdapter(
+        adapter = FastArticleAdapter(
             { currentPage: Int ->
                 Timber.v("CurrentPage: %d", currentPage)
                 onRefresh()
@@ -155,42 +164,47 @@ class SearchFragment
         adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
-    private fun openPlayerUi(item: VideoItem) {
+    fun openWeb(url: String?) {
+        if (url.isNullOrEmpty()) {
+            //TODO
+            return
+        }
         val task = UiTask(
-            Type.VIDEO,
+            Type.SITE,
             Subtype.DEFAULT,
             State.DEFAULT,
-            Action.VIEW,
-            item.input
+            Action.DEFAULT,
+            null as Article?,
+            url = url
         )
-        open(VideoPlayerActivity::class, task)
+        open(WebActivity::class, task)
     }
 
-    private fun onFavoriteClicked(item: VideoItem) {
+/*    private fun onFavoriteClicked(item: VideoItem) {
         vm.toggleFavorite(item.input)
+    }*/
+
+    private fun searchArticles(query: String) {
+        vm.loadSearch(query)
     }
 
-    private fun searchVideos(query: String) {
-        vm.loadSearch(query, pref.order)
-    }
-
-    private fun processResponses(response: Response<Type, Subtype, State, Action, List<VideoItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<ArticleItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<VideoItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<ArticleItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
     }
 
-    private fun processResponse(response: Response<Type, Subtype, State, Action, VideoItem>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, ArticleItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, VideoItem>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, ArticleItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
@@ -221,7 +235,7 @@ class SearchFragment
         )
     }
 
-    private fun processResults(result: List<VideoItem>?) {
+    private fun processResults(result: List<ArticleItem>?) {
         adapter.clearAll()
         if (result != null) {
             adapter.addItems(result)
@@ -236,7 +250,7 @@ class SearchFragment
         }
     }
 
-    private fun processResult(result: VideoItem?) {
+    private fun processResult(result: ArticleItem?) {
         if (result != null) {
             adapter.addItem(result)
         }

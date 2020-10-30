@@ -7,6 +7,7 @@ import com.dreampany.news.manager.AdsManager
 import com.dreampany.news.ui.home.fragment.HomeFragment
 import com.dreampany.news.ui.settings.SettingsFragment
 import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
+import com.dreampany.news.ui.fragment.SearchFragment
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -23,6 +24,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     @Inject
     internal lateinit var home: Lazy<HomeFragment>
+
+    @Inject
+    internal lateinit var search: Lazy<SearchFragment>
 
     @Inject
     internal lateinit var settings: Lazy<SettingsFragment>
@@ -60,6 +64,10 @@ class HomeActivity : InjectBottomNavigationActivity() {
             R.id.navigation_home -> {
                 setTitle(R.string.home)
                 commitFragment(HomeFragment::class, home, R.id.layout)
+            }
+            R.id.navigation_search -> {
+                setTitle(R.string.search)
+                commitFragment(SearchFragment::class, search, R.id.layout)
             }
             R.id.navigation_settings -> {
                 setTitle(R.string.settings)

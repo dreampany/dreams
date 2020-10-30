@@ -129,6 +129,8 @@ class HomeFragment
         val pages = pref.pages ?: return
         if (adapter.hasUpdate(pages)) {
             vm.readsCache()
+        } else {
+            adapter.notifyDataSetChanged()
         }
     }
 

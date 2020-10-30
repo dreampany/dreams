@@ -116,7 +116,7 @@
                 auto:tabGravity="fill"
                 auto:tabIndicator="@drawable/tab_indicator"
                 auto:tabIndicatorColor="@color/textColorPrimary"
-                auto:tabIndicatorHeight="@dimen/_4sdp"
+                auto:tabIndicatorHeight="@dimen/tabSize"
                 auto:tabMode="scrollable"
                 auto:tabSelectedTextColor="@color/textColorPrimary"
                 auto:tabTextAppearance="@style/TabTextLight" />

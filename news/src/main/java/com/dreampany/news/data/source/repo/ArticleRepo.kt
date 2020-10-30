@@ -69,7 +69,7 @@ class ArticleRepo
     }
 
     @Throws
-    override suspend fun gets(
+    override suspend fun getsOfQuery(
         query: String,
         language: String,
         offset: Long,
@@ -77,7 +77,7 @@ class ArticleRepo
     ) = withContext(Dispatchers.IO) {
         val id = append(query, language, offset)
         if (!articles.containsKey(id)) {
-            val result = remote.gets(query, language, offset, limit)
+            val result = remote.getsOfQuery(query, language, offset, limit)
             if (!result.isNullOrEmpty()) {
                 //mapper.commitExpire(query, language, offset)
                 //room.put(result)

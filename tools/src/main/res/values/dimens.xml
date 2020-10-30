@@ -8,7 +8,7 @@
 
     <dimen name="buttonSizePrimary">@dimen/_48sdp</dimen>
     <dimen name="buttonRadius">@dimen/_20sdp</dimen>
-    <dimen name="tabSize">@dimen/_8sdp</dimen>
+    <dimen name="tabSize">@dimen/_4sdp</dimen>
 
     <dimen name="cornerRadiusSmall">@dimen/_4sdp</dimen>
     <dimen name="cornerRadiusMedium">@dimen/_8sdp</dimen>

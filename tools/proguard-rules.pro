@@ -64,24 +64,21 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 #-renamesourcefileattribute SourceFile
 
-# common
--keep class com.dreampany.common.data.model.** { *; }
--keepclassmembers class com.dreampany.common.data.model.** { *; }
+# framework
+-keep class com.dreampany.framework.data.model.** { *; }
+-keepclassmembers class com.dreampany.framework.data.model.** { *; }
 
--keep class com.dreampany.common.ui.model.** { *; }
--keepclassmembers class com.dreampany.common.ui.model.** { *; }
+-keep class com.dreampany.framework.ui.model.** { *; }
+-keepclassmembers class com.dreampany.framework.ui.model.** { *; }
 
--keep class com.dreampany.common.misc.** { *; }
--keepclassmembers class com.dreampany.common.misc.** { *; }
+-keep class com.dreampany.framework.misc.** { *; }
+-keepclassmembers class com.dreampany.framework.misc.** { *; }
 
--keep class com.dreampany.translation.data.model.** { *; }
--keepclassmembers class com.dreampany.translation.data.model.** { *; }
+-keep class com.dreampany.framework.api.** { *; }
+-keepclassmembers class com.dreampany.framework.api.** { *; }
 
--keep class com.dreampany.language.data.model.** { *; }
--keepclassmembers class com.dreampany.language.data.model.** { *; }
-
--keep class com.dreampany.firebase.data.model.** { *; }
--keepclassmembers class com.dreampany.firebase.data.model.** { *; }
+-keep class com.dreampany.framework.service.** { *; }
+-keepclassmembers class com.dreampany.framework.service.** { *; }
 
 # app
 -keep class com.dreampany.tools.service.** { *; }

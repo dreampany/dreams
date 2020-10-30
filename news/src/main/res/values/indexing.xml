@@ -1,36 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_description">
-Smart Tools contains Live Crypto, VPN, Lock, Radio, Resumes and App Manager.
-
-Smart Tools is the complete package manager. It has now 8 most trendy apps. More apps are coming...
-
-# Super VPN -
-   * 100% free fastest VPN to unblock facebook, twitter, youtube and also to secure your full mobile connection.
-   * Auto find best speedy VPN server to make secure connection.
-   * Make favorite list with your prefer VPN server.
-
-# Live Crypto -
-   * Listing prices of live crypto currencies.
-   * Showing details info of each crypto currency.
-
-# Smart Lock -
-   * Lock Photos and Videos.
-   * Lock recent apps.
-   * Uninstallation Prevention.
-   * Lock incoming call.
-
-# Resume Plus - Build unlimited resumes in a minutes.
-
-# Questions - Open and free trivia question database.
-
-# Smart Radio - Play online radio with 25000+ stations from all around the worlds.
-
-# App Manager - View system and user apps, launch and more.
-
-# Keep Notes - Save and track your daily important notes easily.
-
-# Learn Words - Learn daily words with pronunciation, translation, synonyms, antonyms and definitions. Solve quiz of synonyms and antonyms from million words.
+   News - Latest, Local, Weather &amp; Breaking News.
+   Top trending articles, topics &amp; personalised news from all over the world.
+   News app keeps you updated with trending news regularly.
+   The app instantly connects you to the top news around the world.
+   Get news from different online sources of newspapers in one place.
+   Keywords: newsboys newsies news boys news explorer news ticker newsletter news of the world news and events.
 </string>
 <string name="app_url">https://play.google.com/store/apps/text?id=%1$s</string>
 </resources>

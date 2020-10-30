@@ -91,7 +91,7 @@ class App : InjectApp() {
     @SuppressLint("MissingPermission")
     private fun initAd() {
         //if (isDebug) return
-        MobileAds.initialize(this, getString(R.string.admob_app_id))
+        MobileAds.initialize(this)
         //ad.initPoints(Util.AD_POINTS)
         val config = AdsManager.Config.Builder()
             .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
@@ -128,6 +128,10 @@ class App : InjectApp() {
     }
 
     private fun configWork() {
-        worker.createPeriodic(CryptoWorker::class, CryptoConstants.Times.Crypto.WORKER, TimeUnit.HOURS)
+        worker.createPeriodic(
+            CryptoWorker::class,
+            CryptoConstants.Times.Crypto.WORKER,
+            TimeUnit.HOURS
+        )
     }
 }

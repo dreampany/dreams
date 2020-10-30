@@ -39,6 +39,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
         initAd()
         initUi()
         ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
     }
 
     override fun onStopUi() {

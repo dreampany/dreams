@@ -16,8 +16,8 @@ android {
         applicationId 'com.dreampany.news'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 16
-        versionName '0.1.6'
+        versionCode 17
+        versionName '0.1.7'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true

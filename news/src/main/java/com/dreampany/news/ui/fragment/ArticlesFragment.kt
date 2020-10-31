@@ -220,12 +220,10 @@ class ArticlesFragment
                 readRegionArticles()
             } else if (input.type.isCategory) {
                 vm.loadArticles(input)
+            } else if (input.type.isCustom) {
+                vm.loadSearch(input.id)
             }
-        } /*else {
-            ex.postToUi({
-                adapter.notifyUi()
-            }, 1000L)
-        }*/
+        }
     }
 
     @SuppressLint("MissingPermission")

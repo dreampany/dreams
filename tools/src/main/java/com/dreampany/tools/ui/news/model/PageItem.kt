@@ -41,20 +41,20 @@ class PageItem(
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): PageItemBinding =
         PageItemBinding.inflate(inflater, parent, false)
 
-    override fun bindView(bind: PageItemBinding, payloads: List<Any>) {
+    override fun bindView(binding: PageItemBinding, payloads: List<Any>) {
         //bind.layout.setCardBackgroundColor(color)
-        bind.letter.text = input.title.first().toTitleCase().toString()
-        bind.letter.setTextColor(color)
-        bind.title.text = input.title
-        bind.title.setBackgroundColor(color)
+        binding.letter.text = input.title.first().toTitleCase().toString()
+        binding.letter.setTextColor(color)
+        binding.title.text = input.title
+        binding.title.setBackgroundColor(color)
         val selectRes = if (select) R.drawable.ic_baseline_radio_button_checked_24 else R.drawable.ic_baseline_radio_button_unchecked_24
-        bind.selection.setImageResource(selectRes)
-        bind.selection.toTintByColor(color)
+        binding.selection.setImageResource(selectRes)
+        binding.selection.toTintByColor(color)
     }
 
-    override fun unbindView(bind: PageItemBinding) {
-        bind.letter.text = null
-        bind.title.text = null
-        bind.selection.setImageResource(0)
+    override fun unbindView(binding: PageItemBinding) {
+        binding.letter.text = null
+        binding.title.text = null
+        binding.selection.setImageResource(0)
     }
 }

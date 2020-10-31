@@ -74,11 +74,9 @@ class VideosFragment
     override fun onStopUi() {
     }
 
-    override fun onResume() {
-        super.onResume()
-        ex.postToUi({
-            onRefresh()
-        })
+    override fun onStart() {
+        super.onStart()
+        onRefresh()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

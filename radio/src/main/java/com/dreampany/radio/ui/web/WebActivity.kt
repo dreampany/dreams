@@ -3,7 +3,9 @@ package com.dreampany.radio.ui.web
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.radio.R
 import com.dreampany.radio.databinding.WebActivityBinding

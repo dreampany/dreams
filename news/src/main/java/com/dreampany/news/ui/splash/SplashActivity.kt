@@ -30,7 +30,7 @@ class SplashActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        ex.postToUi(Runnable { nextScreen() })
+        ex.postToUi(Runnable { nextUi() })
     }
 
     override fun onStopUi() {
@@ -43,7 +43,7 @@ class SplashActivity : InjectActivity() {
         vm = createVm(PageViewModel::class)
     }
 
-    private fun nextScreen() {
+    private fun nextUi() {
         if (pref.isPagesSelected) {
             open(HomeActivity::class, true)
         } else {

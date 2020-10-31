@@ -76,9 +76,7 @@ class Constants {
     }
 
     object Notify {
-        const val FOREGROUND_ID = Constant.Notify.FOREGROUND_ID
         const val PLAYER_FOREGROUND_ID = 104
-        const val FOREGROUND_CHANNEL_ID = Constant.Notify.FOREGROUND_CHANNEL_ID
         const val PLAYER_FOREGROUND_CHANNEL_ID = "player_" + Constant.Notify.FOREGROUND_CHANNEL_ID
     }
 

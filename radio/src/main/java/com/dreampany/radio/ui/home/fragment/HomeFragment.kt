@@ -41,9 +41,9 @@ class HomeFragment
     private fun initUi() {
         bind = getBinding()
 
-        bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
+/*        bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
         bind.fab.visible()
-        bind.fab.setOnSafeClickListener { openScanUi() }
+        bind.fab.setOnSafeClickListener { openScanUi() }*/
         /*if (!::vm.isInitialized) {
             vm = createVm(FeatureViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })

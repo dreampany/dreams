@@ -15,7 +15,7 @@ class Constants {
             const val COUNTRY_CODE_EXACT =
                 "json/stations/bycountrycodeexact/{${Keys.Station.COUNTRY_CODE}}"
             const val LANGUAGE =
-                "json/stations/bylanguage/{${Keys.Station.COUNTRY_CODE}}"
+                "json/stations/bylanguageexact/{${Keys.Station.COUNTRY_CODE}}"
             const val TOP_CLICK = "json/stations/topclick/{${Keys.Station.LIMIT}}"
             const val TOP_VOTE = "json/stations/topvote/{${Keys.Station.LIMIT}}"
             const val SEARCH = "json/stations/search"

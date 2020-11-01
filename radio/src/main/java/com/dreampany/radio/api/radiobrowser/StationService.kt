@@ -20,14 +20,15 @@ interface StationService {
     ): Call<List<RadioStation>>
 
     @GET(value = Constants.Apis.Radio.TOP_CLICK)
-    fun readsByTrend(@Path(value = Constants.Keys.Station.LIMIT) limit: Long): Call<List<RadioStation>>
+    fun readsByTopClick(@Path(value = Constants.Keys.Station.LIMIT) limit: Long): Call<List<RadioStation>>
 
     @GET(value = Constants.Apis.Radio.TOP_VOTE)
-    fun readsByPopular(@Path(value = Constants.Keys.Station.LIMIT) limit: Long): Call<List<RadioStation>>
+    fun readsByTopVote(@Path(value = Constants.Keys.Station.LIMIT) limit: Long): Call<List<RadioStation>>
 
-    /* @FormUrlEncoded
-     @POST(value = Constants.Api.Radio.RADIO_BROWSER_STATIONS_SEARCH)
-     fun getItemsOfCountryV2(@Path(value = Constants.Station.COUNTRY_CODE) countryCode: String) : Call<List<RadioStation>>
- */
+     @FormUrlEncoded
+     @POST(value = Constants.Apis.Radio.SEARCH)
+     fun search(
+         @Path(value = Constants.Keys.Station.COUNTRY_CODE) countryCode: String
+     ) : Call<List<RadioStation>>
 
 }

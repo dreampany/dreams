@@ -1,23 +1,17 @@
-package com.dreampany.radio.data.source.remote
+package com.dreampany.radio.data.source.room
 
-import com.dreampany.framework.misc.func.Parser
-import com.dreampany.network.manager.NetworkManager
-import com.dreampany.radio.api.radiobrowser.StationService
 import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.data.source.api.StationDataSource
-import com.dreampany.radio.data.source.mapper.StationMapper
+import com.dreampany.radio.data.source.room.dao.StationDao
 
 /**
- * Created by roman on 1/11/20
+ * Created by roman on 2/11/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class StationRemoteDataSource(
-    private val network: NetworkManager,
-    private val parser: Parser,
-    private val mapper: StationMapper,
-    private val service: StationService
+class StationRoomDataSource(
+     private val dao: StationDao
 ) : StationDataSource {
     override suspend fun write(input: Station): Long {
         TODO("Not yet implemented")
@@ -107,5 +101,4 @@ class StationRemoteDataSource(
     ): List<Station>? {
         TODO("Not yet implemented")
     }
-
 }

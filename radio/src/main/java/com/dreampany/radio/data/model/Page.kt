@@ -52,14 +52,14 @@ data class Page(
     override fun toString(): String = "Page ($id) == $id"
 
     @Parcelize
-    enum class Type(val value: String) : Parcelable {
-        DEFAULT("default"),
-        LOCAL("local"),
-        TOP("top"),
-        TREND("trend"),
-        POPULAR("popular"),
-        COUNTRY("country"),
-        CUSTOM("custom");
+    enum class Type : Parcelable {
+        DEFAULT,
+        LOCAL,
+        TOP_CLICK,
+        TOP_VOTE,
+        LAST_CLICK,
+        LAST_CHANGE,
+        CUSTOM;
 
         val isLocal : Boolean
             get() = this == LOCAL

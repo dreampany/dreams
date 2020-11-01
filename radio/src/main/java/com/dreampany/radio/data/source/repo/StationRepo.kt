@@ -1,11 +1,15 @@
-package com.dreampany.radio.data.source.remote
+package com.dreampany.radio.data.source.repo
 
-import com.dreampany.framework.misc.func.Parser
-import com.dreampany.network.manager.NetworkManager
-import com.dreampany.radio.api.radiobrowser.StationService
+import com.dreampany.framework.inject.annote.Remote
+import com.dreampany.framework.inject.annote.Room
+import com.dreampany.framework.misc.func.ResponseMapper
+import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.data.source.api.StationDataSource
 import com.dreampany.radio.data.source.mapper.StationMapper
+import com.dreampany.radio.data.source.pref.Prefs
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by roman on 1/11/20
@@ -13,11 +17,14 @@ import com.dreampany.radio.data.source.mapper.StationMapper
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class StationRemoteDataSource(
-    private val network: NetworkManager,
-    private val parser: Parser,
+@Singleton
+class StationRepo
+@Inject constructor(
+    rx: RxMapper,
+    rm: ResponseMapper,
+    private val pref: Prefs,
     private val mapper: StationMapper,
-    private val service: StationService
+    @Remote private val remote: StationDataSource
 ) : StationDataSource {
     override suspend fun write(input: Station): Long {
         TODO("Not yet implemented")

@@ -20,6 +20,14 @@ interface StationDataSource {
 
     @Throws
     suspend fun readsByCountry(
+        country: String,
+        order: Station.Order,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun readsByCountryCode(
         countryCode: String,
         order: Station.Order,
         offset: Long,
@@ -27,21 +35,36 @@ interface StationDataSource {
     ): List<Station>?
 
     @Throws
-    suspend fun readsByTop(
+    suspend fun readsByLanguage(
+        language: String,
         order: Station.Order,
         offset: Long,
         limit: Long
     ): List<Station>?
 
     @Throws
-    suspend fun readsByTrend(
+    suspend fun readsByTopClick(
         order: Station.Order,
         offset: Long,
         limit: Long
     ): List<Station>?
 
     @Throws
-    suspend fun readsByPopular(
+    suspend fun readsByTopVote(
+        order: Station.Order,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun readsByLastClick(
+        order: Station.Order,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun readsByLastChange(
         order: Station.Order,
         offset: Long,
         limit: Long
@@ -58,14 +81,6 @@ interface StationDataSource {
     @Throws
     suspend fun searchByTag(
         tag: String,
-        order: Station.Order,
-        offset: Long,
-        limit: Long
-    ): List<Station>?
-
-    @Throws
-    suspend fun searchByLanguage(
-        language: String,
         order: Station.Order,
         offset: Long,
         limit: Long

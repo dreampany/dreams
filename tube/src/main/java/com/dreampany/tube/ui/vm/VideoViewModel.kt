@@ -40,7 +40,7 @@ class VideoViewModel
     rm
 ) {
 
-    fun loadRegionVideos(regionCode: String, order: String, offset: Long) {
+    fun loadLocalVideos(countryCode: String, order: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
@@ -48,7 +48,7 @@ class VideoViewModel
             try {
 
                 result =
-                    repo.getsOfRegionCode(regionCode, order, offset, Constants.Limits.VIDEOS)
+                    repo.getsOfRegionCode(countryCode, order, offset, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

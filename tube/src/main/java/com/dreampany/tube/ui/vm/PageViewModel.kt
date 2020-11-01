@@ -17,7 +17,6 @@ import com.dreampany.tube.data.model.Page
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.data.source.repo.CategoryRepo
 import com.dreampany.tube.data.source.repo.PageRepo
-import com.dreampany.tube.ui.model.CategoryItem
 import com.dreampany.tube.ui.model.PageItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -151,7 +150,7 @@ class PageViewModel
             val regionCode = getApplication<App>().countryCode
             val title = Locale(Constant.Default.STRING, regionCode).displayName
             val page = Page(regionCode)
-            page.type = Page.Type.REGION
+            page.type = Page.Type.LOCAL
             page.title = title
             return page
         }

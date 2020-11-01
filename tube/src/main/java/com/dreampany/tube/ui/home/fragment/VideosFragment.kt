@@ -20,7 +20,6 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.model.Page
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.pref.Prefs
@@ -103,8 +102,8 @@ class VideosFragment
     override fun onRefresh() {
         val order = pref.order
         if (adapter.isEmpty || adapter.order.equals(order).not()) {
-            if (input.type.isRegion) {
-                loadRegionVideos()
+            if (input.type.isLocal) {
+                loadLocalVideos()
             } else if (input.type.isEvent) {
                 vm.loadEventVideos(input.id, order, adapter.itemCount.toLong())
             } else if (input.type.isCategory) {
@@ -140,20 +139,20 @@ class VideosFragment
     }
 
     @SuppressLint("MissingPermission")
-    private fun loadRegionVideos() {
+    private fun loadLocalVideos() {
         if (context.hasLocationPermission) {
-            readRegionVideosSafe()
+            readLocalVideosSafe()
         } else {
             if (isFinishing) return
             runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
-                readRegionVideosSafe()
+                readLocalVideosSafe()
             }
         }
 
     }
 
     @SuppressLint("MissingPermission")
-    private fun readRegionVideosSafe() {
+    private fun readLocalVideosSafe() {
         val location = CoLocation.from(requireContext())
         val request = LocationRequest.create()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -165,7 +164,7 @@ class VideosFragment
             val order = pref.order
             val data = location.getLastLocation()
             if (data == null) {
-                vm.loadRegionVideos(input.id, order, 0)
+                vm.loadLocalVideos(input.id, order, 0)
             } else {
                 vm.loadLocationVideos(data, order, 0)
             }

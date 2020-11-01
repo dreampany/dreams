@@ -217,8 +217,8 @@ class ArticlesFragment
 
     private fun loadArticles() {
         if (adapter.isEmpty) {
-            if (input.type.isRegion) {
-                readRegionArticles()
+            if (input.type.isLocal) {
+                readLocalArticles()
             }else if (input.type.isCategory) {
                 vm.loadArticles(input)
             }
@@ -231,20 +231,20 @@ class ArticlesFragment
     }
 
     @SuppressLint("MissingPermission")
-    private fun readRegionArticles() {
+    private fun readLocalArticles() {
         if (context.hasLocationPermission) {
-            readRegionArticlesSafe()
+            readLocalArticlesSafe()
         } else {
             if (isFinishing) return
             runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
-                readRegionArticlesSafe()
+                readLocalArticlesSafe()
             }
         }
 
     }
 
     @SuppressLint("MissingPermission")
-    private fun readRegionArticlesSafe() {
+    private fun readLocalArticlesSafe() {
         val location = CoLocation.from(requireContext())
         val request = LocationRequest.create()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -257,7 +257,7 @@ class ArticlesFragment
             if (data == null) {
                 vm.loadArticles(input)
             } else {
-                vm.loadRegionArticles(input.id)
+                vm.loadLocalArticles(input.id)
             }
         }
     }

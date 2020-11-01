@@ -38,13 +38,13 @@ class ArticleViewModel
     rm
 ) {
 
-    fun loadRegionArticles(regionCode: String) {
+    fun loadLocalArticles(countryCode: String) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Article>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getsByCountry(getApplication<App>().countryCode, 1, 100)
+                result = repo.getsByCountry(countryCode, 1, 100)
                 if (result.isNullOrEmpty()) {
                     result = repo.getsByCountry(Locale.US.country, 1, 100)
                 }

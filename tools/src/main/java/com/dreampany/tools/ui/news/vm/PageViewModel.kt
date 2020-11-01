@@ -131,7 +131,7 @@ class PageViewModel
             val regionCode = getApplication<App>().countryCode
             val title = Locale(Constant.Default.STRING, regionCode).displayName
             val page = Page(regionCode)
-            page.type = Page.Type.REGION
+            page.type = Page.Type.LOCAL
             page.title = title.title
             return page
         }

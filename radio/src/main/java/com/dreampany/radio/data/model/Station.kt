@@ -1,5 +1,6 @@
 package com.dreampany.radio.data.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -66,6 +67,12 @@ data class Station(
     @ColumnInfo(name = Constants.Keys.Station.CLICK_TIMESTAMP)
     private var clickTimestamp: Long = Constant.Default.LONG
 ) : Base() {
+
+    @Parcelize
+    enum class Order(val value: String) : Parcelable {
+        NAME(Constants.Keys.Station.Order.NAME),
+        CLICK_COUNT(Constants.Keys.Station.Order.CLICK_COUNT)
+    }
 
     @Ignore
     constructor() : this(time = Util.currentMillis()) {

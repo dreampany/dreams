@@ -1,6 +1,5 @@
 package com.dreampany.radio.api.radiobrowser
 
-import com.dreampany.framework.misc.constant.Constant
 
 /**
  * Created by roman on 31/10/20
@@ -24,21 +23,6 @@ class Constants {
     }
 
     object Keys {
-
-        object PrefKeys {
-            const val RADIO = "radio"
-
-            object Station {
-                const val ORDER = "order"
-                const val REVERSE = "reverse"
-                const val HIDE_BROKEN = "hide_broken"
-                const val EXPIRE = "expire"
-            }
-        }
-
-        object Room {
-            const val TYPE_RADIO = "radio"
-        }
 
         object Radio {
             const val STATION_STATE = "station_state"
@@ -72,11 +56,6 @@ class Constants {
                 const val CLICK_TIMESTAMP = "clicktimestamp"
                 const val CLICK_COUNT = "clickcount"
                 const val CLICK_TREND = "clicktrend"
-            }
-
-            object Order {
-                const val NAME = "name"
-                const val CLICK_COUNT = "clickcount"
             }
         }
 

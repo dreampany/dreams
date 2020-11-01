@@ -23,6 +23,10 @@ class Constants {
             const val CATEGORIES = "categories"
             const val PAGES = "pages"
             const val SEARCH = "search"
+
+            const val ORDER = "order"
+            const val REVERSE = "reverse"
+            const val HIDE_BROKEN = "hide_broken"
         }
 
         object Room {
@@ -52,6 +56,11 @@ class Constants {
             const val OFFSET = "offset"
             const val LIMIT = "limit"
             const val HIDE_BROKEN = "hidebroken"
+
+            object Order {
+                const val NAME = "name"
+                const val CLICK_COUNT = "clickcount"
+            }
         }
     }
 

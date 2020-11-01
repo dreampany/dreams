@@ -21,15 +21,12 @@ data class RadioStation(
     override var id: String = Constant.Default.STRING,
     @SerializedName(value = Constants.Keys.Station.Remote.CHANGE_UUID)
     var changeUuid: String? = Constant.Default.NULL,
-    /*@SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
-    var stationUuid: String = Constants.Default.STRING,*/
     var name: String? = Constant.Default.NULL,
     var url: String? = Constant.Default.NULL,
+    @SerializedName(value = Constants.Keys.Station.Remote.URL_RESOLVED)
+    var urlResolved: String? = Constant.Default.NULL,
     var homepage: String? = Constant.Default.NULL,
     var favicon: String? = Constant.Default.NULL,
-    var ip: String? = Constant.Default.NULL,
-    var codec: String? = Constant.Default.NULL,
-    var bitrate: Int = Constant.Default.INT,
     var tags: String? = Constant.Default.NULL,
     var country: String? = Constant.Default.NULL,
     @SerializedName(value = Constants.Keys.Station.Remote.COUNTRY_CODE)
@@ -37,23 +34,25 @@ data class RadioStation(
     var state: String? = Constant.Default.NULL,
     var language: String? = Constant.Default.NULL,
     var votes: Int = Constant.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.NEGATIVE_VOTES)
-    var negativeVotes: Int = Constant.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_COUNT)
-    var clickCount: Int = Constant.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_TREND)
-    var clickTrend: Int = Constant.Default.INT,
+    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHANGE_TIME)
+    var lastChangeTime: String? = Constant.Default.NULL,
+    var codec: String? = Constant.Default.NULL,
+    var bitrate: Int = Constant.Default.INT,
     var hls: Int = Constant.Default.INT,
     @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_OK)
     var lastCheckOk: Int = Constant.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHANGE_TIME)
-    var lastChangeTime: String? = Constant.Default.NULL,
     @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_TIME)
     var lastCheckTime: String? = Constant.Default.NULL,
     @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_OK_TIME)
     var lastCheckOkTime: String? = Constant.Default.NULL,
+    @SerializedName(value = Constants.Keys.Station.Remote.LAST_LOCAL_CHECK_TIME)
+    var lastLocalCheckTime: String? = Constant.Default.NULL,
     @SerializedName(value = Constants.Keys.Station.Remote.CLICK_TIMESTAMP)
-    var clickTimestamp: String? = Constant.Default.NULL
+    var clickTimestamp: String? = Constant.Default.NULL,
+    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_COUNT)
+    var clickCount: Int = Constant.Default.INT,
+    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_TREND)
+    var clickTrend: Int = Constant.Default.INT
 ) : Base() {
 
     @Ignore
@@ -74,5 +73,5 @@ data class RadioStation(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String = "RadioStation [$id] [$url] [$countryCode]"
+    override fun toString(): String = "RadioStation [$name] [$url]"
 }

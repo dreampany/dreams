@@ -42,12 +42,14 @@ class Constants {
         object Station {
             const val CHANGE_UUID = "change_uuid"
             const val STATION_UUID = "station_uuid"
+            const val URL_RESOLVED = "url_resolved"
             const val COUNTRY_CODE = "country_code"
             const val NEGATIVE_VOTES = "negative_votes"
             const val LAST_CHANGE_TIME = "last_change_time"
             const val LAST_CHECK_OK = "last_check_ok"
             const val LAST_CHECK_TIME = "last_check_time"
             const val LAST_CHECK_OK_TIME = "last_check_ok_time"
+            const val LAST_LOCAL_CHECK_TIME = "last_local_check_time"
             const val CLICK_TIMESTAMP = "click_timestamp"
             const val CLICK_COUNT = "click_count"
             const val CLICK_TREND = "click_trend"
@@ -59,6 +61,7 @@ class Constants {
 
             object Order {
                 const val NAME = "name"
+                const val VOTES = "votes"
                 const val CLICK_COUNT = "clickcount"
             }
         }
@@ -75,9 +78,8 @@ class Constants {
 
     object Times {
         val HOUSE_ADS = TimeUnit.DAYS.toMillis(1)
-        val CATEGORIES = TimeUnit.DAYS.toMillis(7)
-        val VIDEOS = TimeUnit.DAYS.toMillis(1)
-        val VIDEO = TimeUnit.HOURS.toMillis(1)
+        val PAGES = TimeUnit.DAYS.toMillis(7)
+        val STATIONS = TimeUnit.DAYS.toMillis(1)
     }
 
     object Count {

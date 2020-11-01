@@ -1,7 +1,13 @@
 package com.dreampany.radio.inject.data
 
+import android.app.Application
 import com.dreampany.framework.inject.data.DatabaseModule
+import com.dreampany.radio.api.radiobrowser.RadioBrowserModule
+import com.dreampany.radio.data.source.room.dao.PageDao
+import com.dreampany.radio.data.source.room.database.DatabaseManager
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by roman on 5/6/20
@@ -12,8 +18,17 @@ import dagger.Module
 @Module(
     includes = [
         DatabaseModule::class,
-        MiscModule::class
+        MiscModule::class,
+        RadioBrowserModule::class
     ]
 )
 class DataModule {
+    @Provides
+    @Singleton
+    fun provideDatabase(application: Application): DatabaseManager =
+        DatabaseManager.getInstance(application)
+
+    @Provides
+    @Singleton
+    fun providePageDao(database: DatabaseManager): PageDao = database.pageDao()
 }

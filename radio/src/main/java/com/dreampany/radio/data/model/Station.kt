@@ -12,7 +12,6 @@ import com.dreampany.radio.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -37,40 +36,42 @@ data class Station(
     private var changeUuid: String? = Constant.Default.NULL,
     var name: String? = Constant.Default.NULL,
     var url: String? = Constant.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.Station.URL_RESOLVED)
+    private var urlResolved: String? = Constant.Default.NULL,
     var homepage: String? = Constant.Default.NULL,
     var favicon: String? = Constant.Default.NULL,
-    var ip: String? = Constant.Default.NULL,
-    var codec: String? = Constant.Default.NULL,
-    var bitrate: Int = Constant.Default.INT,
-    var tags: String? = Constant.Default.NULL,
+    var tags: List<String>? = Constant.Default.NULL,
     var country: String? = Constant.Default.NULL,
     @ColumnInfo(name = Constants.Keys.Station.COUNTRY_CODE)
     private var countryCode: String? = Constant.Default.NULL,
     var state: String? = Constant.Default.NULL,
-    var language: String? = Constant.Default.NULL,
+    var languages: List<String>? = Constant.Default.NULL,
     var votes: Int = Constant.Default.INT,
-    @ColumnInfo(name = Constants.Keys.Station.NEGATIVE_VOTES)
-    private var negativeVotes: Int = Constant.Default.INT,
-    @ColumnInfo(name = Constants.Keys.Station.CLICK_COUNT)
-    private var clickCount: Int = Constant.Default.INT,
-    @ColumnInfo(name = Constants.Keys.Station.CLICK_TREND)
-    private var clickTrend: Int = Constant.Default.INT,
+    @ColumnInfo(name = Constants.Keys.Station.LAST_CHANGE_TIME)
+    private var lastChangeTime: Long = Constant.Default.LONG,
+    var codecs: List<String>? = Constant.Default.NULL,
+    var bitrate: Int = Constant.Default.INT,
     var hls: Boolean = Constant.Default.BOOLEAN,
     @ColumnInfo(name = Constants.Keys.Station.LAST_CHECK_OK)
     private var lastCheckOk: Boolean = Constant.Default.BOOLEAN,
-    @ColumnInfo(name = Constants.Keys.Station.LAST_CHANGE_TIME)
-    private var lastChangeTime: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Station.LAST_CHECK_TIME)
     private var lastCheckTime: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Station.LAST_CHECK_OK_TIME)
     private var lastCheckOkTime: Long = Constant.Default.LONG,
+    @ColumnInfo(name = Constants.Keys.Station.LAST_LOCAL_CHECK_TIME)
+    var lastLocalCheckTime: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Station.CLICK_TIMESTAMP)
-    private var clickTimestamp: Long = Constant.Default.LONG
+    private var clickTimestamp: Long = Constant.Default.LONG,
+    @ColumnInfo(name = Constants.Keys.Station.CLICK_COUNT)
+    private var clickCount: Int = Constant.Default.INT,
+    @ColumnInfo(name = Constants.Keys.Station.CLICK_TREND)
+    private var clickTrend: Int = Constant.Default.INT
 ) : Base() {
 
     @Parcelize
     enum class Order(val value: String) : Parcelable {
         NAME(Constants.Keys.Station.Order.NAME),
+        VOTES(Constants.Keys.Station.Order.VOTES),
         CLICK_COUNT(Constants.Keys.Station.Order.CLICK_COUNT)
     }
 
@@ -92,9 +93,7 @@ data class Station(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String {
-        return "Station [$id] [$url] [$countryCode]"
-    }
+    override fun toString(): String =  "Station [$name] [$url]"
 
     @PropertyName(Constants.Keys.Station.CHANGE_UUID)
     fun setChangeUuid(changeUuid: String?) {
@@ -102,9 +101,15 @@ data class Station(
     }
 
     @PropertyName(Constants.Keys.Station.CHANGE_UUID)
-    fun getChangeUuid(): String? {
-        return changeUuid
+    fun getChangeUuid(): String? = changeUuid
+
+    @PropertyName(Constants.Keys.Station.URL_RESOLVED)
+    fun setUrlResolved(urlResolved: String?) {
+        this.urlResolved = urlResolved
     }
+
+    @PropertyName(Constants.Keys.Station.URL_RESOLVED)
+    fun getUrlResolved(): String? = urlResolved
 
     @PropertyName(Constants.Keys.Station.COUNTRY_CODE)
     fun setCountryCode(countryCode: String?) {
@@ -114,16 +119,6 @@ data class Station(
     @PropertyName(Constants.Keys.Station.COUNTRY_CODE)
     fun getCountryCode(): String? {
         return countryCode
-    }
-
-    @PropertyName(Constants.Keys.Station.NEGATIVE_VOTES)
-    fun setNegativeVotes(negativeVotes: Int) {
-        this.negativeVotes = negativeVotes
-    }
-
-    @PropertyName(Constants.Keys.Station.NEGATIVE_VOTES)
-    fun getNegativeVotes(): Int {
-        return negativeVotes
     }
 
     @PropertyName(Constants.Keys.Station.CLICK_COUNT)

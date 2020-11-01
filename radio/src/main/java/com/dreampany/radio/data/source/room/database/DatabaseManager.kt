@@ -1,4 +1,4 @@
-package com.dreampany.news.data.source.room.database
+package com.dreampany.radio.data.source.room.database
 
 import android.content.Context
 import androidx.room.Database
@@ -6,20 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.news.data.model.Article
-import com.dreampany.news.data.model.Page
-import com.dreampany.news.data.source.room.converters.Converters
-import com.dreampany.news.data.source.room.dao.ArticleDao
-import com.dreampany.news.data.source.room.dao.PageDao
-import com.dreampany.news.misc.Constants
+import com.dreampany.radio.data.model.Page
+import com.dreampany.radio.data.source.room.converters.Converters
+import com.dreampany.radio.data.source.room.dao.PageDao
+import com.dreampany.radio.misc.Constants
 
 /**
- * Created by roman on 14/3/20
+ * Created by roman on 1/11/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Page::class, Article::class], version = 1, exportSchema = false)
+@Database(entities = [Page::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -56,6 +54,4 @@ abstract class DatabaseManager : RoomDatabase() {
     }
 
     abstract fun pageDao(): PageDao
-
-    abstract fun articleDao(): ArticleDao
 }

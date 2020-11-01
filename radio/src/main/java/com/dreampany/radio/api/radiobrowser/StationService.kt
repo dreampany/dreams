@@ -11,20 +11,18 @@ import retrofit2.http.*
  */
 interface StationService {
 
-    @GET(value = Constants.Apis.Radio.RADIO_BROWSER_STATIONS_OF_COUNTRY)
+    @GET(value = Constants.Apis.Radio.COUNTRY_CODE_EXACT)
     fun readsByCountry(
         @Path(value = Constants.Keys.Station.COUNTRY_CODE) countryCode: String,
-        @Query(value = Constants.Keys.Station.HIDE_BROKEN) hideBroken: Boolean,
         @Query(value = Constants.Keys.Station.ORDER) order: String,
-        @Query(value = Constants.Keys.Station.REVERSE) reverse: Boolean,
         @Query(value = Constants.Keys.Station.OFFSET) offset: Long,
         @Query(value = Constants.Keys.Station.LIMIT) limit: Long
     ): Call<List<RadioStation>>
 
-    @GET(value = Constants.Apis.Radio.RADIO_BROWSER_STATIONS_OF_TRENDS)
+    @GET(value = Constants.Apis.Radio.TOP_CLICK)
     fun readsByTrend(@Path(value = Constants.Keys.Station.LIMIT) limit: Long): Call<List<RadioStation>>
 
-    @GET(value = Constants.Apis.Radio.RADIO_BROWSER_STATIONS_OF_POPULAR)
+    @GET(value = Constants.Apis.Radio.TOP_VOTE)
     fun readsByPopular(@Path(value = Constants.Keys.Station.LIMIT) limit: Long): Call<List<RadioStation>>
 
     /* @FormUrlEncoded

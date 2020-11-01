@@ -3,7 +3,9 @@ package com.dreampany.radio.data.source.pref
 import android.content.Context
 import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.util.Util
+import com.dreampany.radio.data.model.Page
 import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.misc.Constants
 import com.google.gson.Gson
@@ -25,106 +27,78 @@ class Prefs
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 
-    val stationOrder: Station.Order
+/*    val stationOrder: Station.Order
         get() = getPrivately(
             Constants.Keys.Pref.ORDER,
             Station.Order::class.java,
             null
-        ) ?: Station.Order.NAME
-
-    fun write(state: RadioState) {
-        setPrivately(RadioConstants.Keys.Radio.STATION_STATE, state)
-    }
+        ) ?: Station.Order.NAME*/
 
     @Synchronized
-    fun getStationState(defaultState: RadioState): RadioState {
-        return getPrivately(
-            RadioConstants.Keys.Radio.STATION_STATE,
-            RadioState::class.java,
-            null
-        ) ?: defaultState
-    }
-
-    @Synchronized
-    fun commitExpireTime(state: RadioState) {
-        val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.value)
+    fun writeExpireTime(type: Page.Type) {
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(type.value)
         }
-        setPrivately(key.toString(), Util.currentMillis())
+        setPrivately(key.toString(), currentMillis)
     }
 
     @Synchronized
-    fun commitExpireTime(state: RadioState, order: StationOrder, reverse: Boolean, offset: Long) {
-        val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.value)
+    fun writeExpireTime(type: Page.Type, order: Station.Order, offset: Long) {
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(type.value)
             append(order.value)
-            append(reverse)
             append(offset)
         }
-        setPrivately(key.toString(), Util.currentMillis())
+        setPrivately(key.toString(), currentMillis)
     }
 
     @Synchronized
-    fun commitExpireTime(
-        state: RadioState,
+    fun writeExpireTime(
+        type: Page.Type,
+        order: Station.Order,
         countryCode: String,
-        hideBroken: Boolean,
-        order: StationOrder,
-        reverse: Boolean,
         offset: Long
     ) {
-        val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.value)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(type.value)
+            append(order.value)
             append(countryCode)
-            append(hideBroken)
-            append(order.value)
-            append(reverse)
             append(offset)
         }
-        setPrivately(key.toString(), Util.currentMillis())
+        setPrivately(key.toString(), currentMillis)
     }
 
     @Synchronized
-    fun getExpireTime(
-        state: RadioState
-    ): Long {
-        val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.value)
+    fun readExpireTime(type: Page.Type): Long {
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(type.value)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
-    fun getExpireTime(
-        state: RadioState,
-        order: StationOrder,
-        reverse: Boolean,
-        offset: Long
+    fun readExpireTime(
+        type: Page.Type, order: Station.Order, offset: Long
     ): Long {
-        val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.value)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(type.value)
             append(order.value)
-            append(reverse)
             append(offset)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)
     }
 
     @Synchronized
-    fun getExpireTime(
-        state: RadioState,
+    fun readExpireTime(
+        type: Page.Type,
+        order: Station.Order,
         countryCode: String,
-        hideBroken: Boolean,
-        order: StationOrder,
-        reverse: Boolean,
         offset: Long
     ): Long {
-        val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.value)
-            append(countryCode)
-            append(hideBroken)
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(type.value)
             append(order.value)
-            append(reverse)
+            append(countryCode)
             append(offset)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)

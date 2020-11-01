@@ -12,13 +12,13 @@ class Constants {
     object Apis {
         object Radio {
             const val BASE_URL = "http://de1.api.radio-browser.info/"
-            const val RADIO_BROWSER_STATIONS_OF_COUNTRY =
+            const val COUNTRY_CODE_EXACT =
                 "json/stations/bycountrycodeexact/{${Keys.Station.COUNTRY_CODE}}"
-            const val RADIO_BROWSER_STATIONS_OF_TRENDS =
-                "json/stations/topclick/{${Keys.Station.LIMIT}}"
-            const val RADIO_BROWSER_STATIONS_OF_POPULAR =
-                "json/stations/topvote/{${Keys.Station.LIMIT}}"
-            const val RADIO_BROWSER_STATIONS_SEARCH = "json/stations/search"
+            const val LANGUAGE =
+                "json/stations/bylanguage/{${Keys.Station.COUNTRY_CODE}}"
+            const val TOP_CLICK = "json/stations/topclick/{${Keys.Station.LIMIT}}"
+            const val TOP_VOTE = "json/stations/topvote/{${Keys.Station.LIMIT}}"
+            const val SEARCH = "json/stations/search"
         }
     }
 
@@ -47,12 +47,14 @@ class Constants {
             object Remote {
                 const val CHANGE_UUID = "changeuuid"
                 const val STATION_UUID = "stationuuid"
+                const val URL_RESOLVED = "url_resolved"
                 const val COUNTRY_CODE = "countrycode"
                 const val NEGATIVE_VOTES = "negativevotes"
                 const val LAST_CHANGE_TIME = "lastchangetime"
                 const val LAST_CHECK_OK = "lastcheckok"
                 const val LAST_CHECK_TIME = "lastchecktime"
                 const val LAST_CHECK_OK_TIME = "lastcheckoktime"
+                const val LAST_LOCAL_CHECK_TIME = "lastlocalchecktime"
                 const val CLICK_TIMESTAMP = "clicktimestamp"
                 const val CLICK_COUNT = "clickcount"
                 const val CLICK_TREND = "clicktrend"

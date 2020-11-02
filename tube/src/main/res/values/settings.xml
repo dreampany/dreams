@@ -11,8 +11,6 @@
 
     <string name="key_settings_order_value_relevance">relevance</string>
 
-
-
     <array name="array_order_labels">
         <item>Relevance</item>
         <item>Title</item>

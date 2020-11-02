@@ -1,7 +1,6 @@
 package com.dreampany.radio.data.source.repo
 
 import com.dreampany.framework.inject.annote.Remote
-import com.dreampany.framework.inject.annote.Room
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.radio.data.model.Station
@@ -40,7 +39,7 @@ class StationRepo
 
     override suspend fun readsByCountry(
         country: String,
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -49,7 +48,7 @@ class StationRepo
 
     override suspend fun readsByCountryCode(
         countryCode: String,
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -58,7 +57,7 @@ class StationRepo
 
     override suspend fun readsByLanguage(
         language: String,
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -66,7 +65,7 @@ class StationRepo
     }
 
     override suspend fun readsByTopClick(
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -74,7 +73,7 @@ class StationRepo
     }
 
     override suspend fun readsByTopVote(
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -82,7 +81,7 @@ class StationRepo
     }
 
     override suspend fun readsByLastClick(
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -90,7 +89,7 @@ class StationRepo
     }
 
     override suspend fun readsByLastChange(
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -99,7 +98,7 @@ class StationRepo
 
     override suspend fun searchByName(
         name: String,
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
@@ -108,7 +107,7 @@ class StationRepo
 
     override suspend fun searchByTag(
         tag: String,
-        order: Station.Order,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {

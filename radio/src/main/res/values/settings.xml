@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_settings_order">Station Order</string>
+    <string name="key_settings_order">order</string>
+
+    <string name="key_settings_order_value_name">name</string>
+
+    <array name="array_order_labels">
+        <item>Name</item>
+        <item>Votes</item>
+        <item>Trend</item>
+    </array>
+
+    <array name="array_order_values">
+        <item>@string/key_settings_order_value_name</item>
+        <item>votes</item>
+        <item>clickcount</item>
+    </array>
+</resources>

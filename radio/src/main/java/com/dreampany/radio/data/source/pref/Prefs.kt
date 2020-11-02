@@ -10,6 +10,7 @@ import com.dreampany.radio.misc.Constants
 import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.dreampany.radio.R
 
 /**
  * Created by roman on 1/11/20
@@ -25,6 +26,12 @@ class Prefs
 ) : Pref(context) {
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
+
+    val order: String
+        get() = getPublicly(
+            context.getString(R.string.key_settings_order),
+            context.getString(R.string.key_settings_order_value_name)
+        )
 
     @Synchronized
     fun writePagesSelection() {

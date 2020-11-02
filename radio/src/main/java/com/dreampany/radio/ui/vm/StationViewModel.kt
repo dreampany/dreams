@@ -2,6 +2,7 @@ package com.dreampany.radio.ui.vm
 
 import android.app.Application
 import com.dreampany.framework.misc.func.ResponseMapper
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.radio.data.enums.Type
@@ -10,7 +11,13 @@ import com.dreampany.radio.data.enums.Action
 import com.dreampany.radio.data.enums.State
 import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.data.source.repo.StationRepo
+import com.dreampany.radio.misc.Constants
 import com.dreampany.radio.ui.model.StationItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -28,4 +35,68 @@ class StationViewModel
     application,
     rm
 ) {
+
+    fun loadLocalStations(countryCode: String, order: String, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Station>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.readsByCountryCode(countryCode, order, offset, Constants.Limit.STATIONS)
+                if (result.isNullOrEmpty()) {
+                    result = repo.readsByCountryCode(Locale.US.country, order, offset, Constants.Limit.STATIONS)
+                }
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    private suspend fun List<Station>.toItems(): List<StationItem> {
+        val input = this
+        return withContext(Dispatchers.IO) {
+            input.map { input ->
+                StationItem(input)
+            }
+        }
+    }
+
+    private fun postProgressMultiple(progress: Boolean) {
+        postProgressMultiple(
+            Type.STATION,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            progress = progress
+        )
+    }
+
+
+    private fun postError(error: SmartError) {
+        postMultiple(
+            Type.STATION,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            error = error,
+            showProgress = true
+        )
+    }
+
+    private fun postResult(result: List<StationItem>?) {
+        postMultiple(
+            Type.STATION,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            result = result,
+            showProgress = true
+        )
+    }
 }

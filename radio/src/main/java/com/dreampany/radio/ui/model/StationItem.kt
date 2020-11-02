@@ -3,7 +3,6 @@ package com.dreampany.radio.ui.model
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.context
 import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.databinding.StationItemBinding
@@ -19,8 +18,7 @@ import com.dreampany.radio.misc.setUrl
  * Last modified $file.lastModified
  */
 class StationItem(
-    val input: Station,
-    val order: Station.Order
+    val input: Station
 ) : ModelAbstractBindingItem<Station, StationItemBinding>(input) {
 
     override fun hashCode(): Int = input.hashCode()
@@ -35,7 +33,8 @@ class StationItem(
 
     override fun bindView(binding: StationItemBinding, payloads: List<Any>) {
         binding.icon.setUrl(input.favicon)
-        val statusRes = if (input.getLastCheckOk()) R.drawable.ic_status_live_24 else R.drawable.ic_status_dead_24
+        val statusRes =
+            if (input.getLastCheckOk()) R.drawable.ic_status_live_24 else R.drawable.ic_status_dead_24
         binding.status.setRes(statusRes)
 
         binding.title.text = input.name
@@ -73,7 +72,7 @@ class StationItem(
         if (this.bitrate > 0) {
             subtitle.add(context.getString(R.string.station_detail_bitrate, this.bitrate))
         }
-        this.language?.run {
+        this.languages?.joinToString()?.run {
             if (isNotEmpty()) {
                 subtitle.add(this)
             }

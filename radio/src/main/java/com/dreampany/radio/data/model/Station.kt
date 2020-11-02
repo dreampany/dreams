@@ -7,6 +7,7 @@ import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.radio.misc.Constants
 import com.google.common.base.Objects
@@ -68,19 +69,19 @@ data class Station(
     private var clickTrend: Int = Constant.Default.INT
 ) : Base() {
 
-    @Parcelize
+/*    @Parcelize
     enum class Order(val value: String) : Parcelable {
         NAME(Constants.Keys.Station.Order.NAME),
         VOTES(Constants.Keys.Station.Order.VOTES),
         CLICK_COUNT(Constants.Keys.Station.Order.CLICK_COUNT)
-    }
+    }*/
 
     @Ignore
-    constructor() : this(time = Util.currentMillis()) {
+    constructor() : this(time = currentMillis) {
 
     }
 
-    constructor(id: String) : this(time = Util.currentMillis(), id = id) {
+    constructor(id: String) : this(time = currentMillis, id = id) {
 
     }
 

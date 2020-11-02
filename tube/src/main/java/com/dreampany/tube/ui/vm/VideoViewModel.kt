@@ -46,7 +46,6 @@ class VideoViewModel
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-
                 result =
                     repo.getsOfRegionCode(countryCode, order, offset, Constants.Limits.VIDEOS)
             } catch (error: SmartError) {

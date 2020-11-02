@@ -72,8 +72,8 @@ class Constants {
         const val SEARCH = "tube.search"
     }
 
-    object Limits {
-        const val VIDEOS = 50L
+    object Limit {
+        const val STATIONS = 100L
     }
 
     object Times {

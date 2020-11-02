@@ -1,5 +1,6 @@
 package com.dreampany.radio.inject.ui.home
 
+import com.dreampany.radio.ui.fragment.SearchFragment
 import com.dreampany.radio.ui.home.fragment.HomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,6 +13,9 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 abstract class HomeModule {
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [StationModule::class])
     abstract fun home(): HomeFragment
+
+    @ContributesAndroidInjector
+    abstract fun search(): SearchFragment
 }

@@ -26,12 +26,38 @@ class Prefs
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 
-/*    val stationOrder: Station.Order
-        get() = getPrivately(
-            Constants.Keys.Pref.ORDER,
-            Station.Order::class.java,
-            null
-        ) ?: Station.Order.NAME*/
+    @Synchronized
+    fun writePagesSelection() {
+        setPrivately(Constants.Keys.Pref.PAGE, true)
+    }
+
+    val isPagesSelected: Boolean
+        get() = getPrivately(Constants.Keys.Pref.PAGE, Constant.Default.BOOLEAN)
+
+    @Synchronized
+    fun writePages(inputs: List<Page>) {
+        val json = gson.toJson(inputs)
+        setPrivately(Constants.Keys.Pref.PAGES, json)
+    }
+
+    @Synchronized
+    fun writePage(input: Page) {
+        val pages = pages
+        val inputs = if (pages.isNullOrEmpty()) arrayListOf<Page>() else ArrayList(pages)
+        inputs.add(input)
+        writePages(inputs)
+    }
+
+    val pages: List<Page>?
+        get() {
+            val json =
+                getPrivately(Constants.Keys.Pref.PAGES, Constant.Default.NULL as String?)
+            if (json.isNullOrEmpty()) {
+                return null
+            } else {
+                return gson.fromJson(json, Array<Page>::class.java).toList()
+            }
+        }
 
     @Synchronized
     fun writeExpireTime(type: Page.Type) {

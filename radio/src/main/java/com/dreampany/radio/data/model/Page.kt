@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
+import com.dreampany.framework.data.enums.BaseType
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
@@ -52,14 +53,18 @@ data class Page(
     override fun toString(): String = "Page ($id) == $id"
 
     @Parcelize
-    enum class Type : Parcelable {
+    enum class Type : BaseType {
         DEFAULT,
         LOCAL,
+        /*COUNTRY,
+        LANGUAGE,*/
         TOP_CLICK,
         TOP_VOTE,
         LAST_CLICK,
         LAST_CHANGE,
         CUSTOM;
+
+        override val value: String get() = name
 
         val isLocal : Boolean
             get() = this == LOCAL

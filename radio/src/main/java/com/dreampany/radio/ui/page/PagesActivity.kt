@@ -12,19 +12,20 @@ import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.ui.activity.InjectActivity
-import com.dreampany.news.data.source.pref.Prefs
-import com.dreampany.news.databinding.RecyclerActivityBinding
-import com.dreampany.news.misc.Constants
-import com.dreampany.news.ui.model.PageItem
-import com.dreampany.news.ui.vm.PageViewModel
+import com.dreampany.radio.data.source.pref.Prefs
+import com.dreampany.radio.databinding.RecyclerActivityBinding
+import com.dreampany.radio.misc.Constants
+import com.dreampany.radio.ui.model.PageItem
+import com.dreampany.radio.ui.vm.PageViewModel
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
-import com.dreampany.news.R
-import com.dreampany.news.data.enums.Action
-import com.dreampany.news.data.enums.State
-import com.dreampany.news.data.enums.Subtype
-import com.dreampany.news.data.enums.Type
-import com.dreampany.news.ui.home.activity.HomeActivity
+import com.dreampany.radio.R
+import com.dreampany.radio.data.enums.Action
+import com.dreampany.radio.data.enums.State
+import com.dreampany.radio.data.enums.Subtype
+import com.dreampany.radio.data.enums.Type
+import com.dreampany.radio.ui.home.activity.HomeActivity
+import com.dreampany.radio.ui.page.FastPageAdapter
 import javax.inject.Inject
 
 /**
@@ -171,9 +172,9 @@ class PagesActivity : InjectActivity() {
             NotifyUtil.shortToast(this, getString(R.string.notify_select_min_pages, required))
             return
         }
-        pref.commitPagesSelection()
+        pref.writePagesSelection()
         val pages = adapter.selectedItems.map { it.input }
-        pref.commitPages(pages)
+        pref.writePages(pages)
 
         val action = task?.action as Action?
         if (action == Action.BACK) {

@@ -3,9 +3,14 @@ package com.dreampany.radio.ui.splash
 import android.os.Bundle
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
+import com.dreampany.news.ui.page.PagesActivity
 import com.dreampany.radio.R
+import com.dreampany.radio.data.source.pref.Prefs
+import com.dreampany.radio.databinding.SplashActivityBinding
 import com.dreampany.radio.ui.home.activity.HomeActivity
+import com.dreampany.radio.ui.vm.PageViewModel
 import kotlinx.coroutines.Runnable
+import javax.inject.Inject
 
 /**
  * Created by roman on 3/10/20
@@ -15,11 +20,17 @@ import kotlinx.coroutines.Runnable
  */
 class SplashActivity : InjectActivity() {
 
+    @Inject
+    internal lateinit var pref: Prefs
+
+    private lateinit var bind : SplashActivityBinding
+    private lateinit var vm: PageViewModel
+
     override val layoutRes: Int = R.layout.splash_activity
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        ex.postToUi(Runnable { nextScreen() })
+        ex.postToUi(Runnable { nextUi() })
     }
 
     override fun onStopUi() {
@@ -27,11 +38,18 @@ class SplashActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        //vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+        if (::bind.isInitialized) return
+        bind = getBinding()
+        vm = createVm(PageViewModel::class)
     }
 
-    private fun nextScreen() {
-        open(HomeActivity::class, true)
+    private fun nextUi() {
+        if (pref.isPagesSelected) {
+            open(HomeActivity::class, true)
+        } else {
+            open(PagesActivity::class, true)
+        }
+        //open(HomeActivity::class, true)
 /*        if (vm.isJoinPressed()) {
             if (vm.isLoggedIn()) {
                 open(HomeActivity::class, true)

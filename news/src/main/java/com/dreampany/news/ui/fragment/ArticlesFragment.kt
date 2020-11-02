@@ -7,18 +7,21 @@ import androidx.lifecycle.viewModelScope
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.inject.annote.FragmentScope
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.news.R
 import com.dreampany.news.data.enums.Action
 import com.dreampany.news.data.enums.State
 import com.dreampany.news.data.enums.Subtype
 import com.dreampany.news.data.enums.Type
 import com.dreampany.news.data.model.Article
 import com.dreampany.news.data.model.Page
+import com.dreampany.news.databinding.ArticlesFragmentBinding
 import com.dreampany.news.misc.Constants
+import com.dreampany.news.ui.adapter.FastArticleAdapter
 import com.dreampany.news.ui.model.ArticleItem
 import com.dreampany.news.ui.vm.ArticleViewModel
 import com.dreampany.news.ui.vm.SearchViewModel
@@ -30,9 +33,6 @@ import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import com.dreampany.news.R
-import com.dreampany.news.databinding.ArticlesFragmentBinding
-import com.dreampany.news.ui.adapter.FastArticleAdapter
 
 /**
  * Created by roman on 29/10/20
@@ -40,7 +40,7 @@ import com.dreampany.news.ui.adapter.FastArticleAdapter
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@ActivityScope
+@FragmentScope
 class ArticlesFragment
 @Inject constructor() : InjectFragment() {
 

@@ -83,7 +83,7 @@ class Constants {
     }
 
     object Count {
-        const val MIN_CATEGORIES = 3
+        const val MIN_PAGES = 3
     }
 
     object Service {

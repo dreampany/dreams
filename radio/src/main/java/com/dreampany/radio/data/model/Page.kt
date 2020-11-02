@@ -8,6 +8,7 @@ import com.dreampany.framework.data.enums.BaseType
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
+import com.dreampany.framework.misc.exts.title
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -41,6 +42,10 @@ data class Page(
 
     }
 
+    constructor(type: Page.Type) : this(time = currentMillis, id = type.value, type = type, title = type.value.title) {
+
+    }
+
     override fun hashCode(): Int = Objects.hashCode(id)
 
     override fun equals(other: Any?): Boolean {
@@ -58,10 +63,10 @@ data class Page(
         LOCAL,
         /*COUNTRY,
         LANGUAGE,*/
-        TOP_CLICK,
-        TOP_VOTE,
-        LAST_CLICK,
-        LAST_CHANGE,
+        TREND,
+        POPULAR,
+        RECENT,
+        NEW,
         CUSTOM;
 
         override val value: String get() = name

@@ -3,6 +3,7 @@ package com.dreampany.radio.ui.vm
 import android.app.Application
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.countryCode
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.exts.title
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
@@ -24,6 +25,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import com.dreampany.radio.R
 
 /**
  * Created by roman on 2/11/20
@@ -55,9 +57,7 @@ class PageViewModel
 
                 val total = arrayListOf<Page>()
                 total.add(regionPage)
-                if (basicPages != null) {
-                    total.addAll(basicPages)
-                }
+                total.addAll(basicPages)
                 if (customPages != null) {
                     total.addAll(customPages)
                 }
@@ -135,7 +135,10 @@ class PageViewModel
     private val basicPages: List<Page>
         get() {
             val pages = arrayListOf<Page>()
-            pages.add()
+            pages.add(Page(Page.Type.TREND))
+            pages.add(Page(Page.Type.POPULAR))
+            pages.add(Page(Page.Type.RECENT))
+            pages.add(Page(Page.Type.NEW))
             return pages
         }
 

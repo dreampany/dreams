@@ -1,4 +1,4 @@
-package com.dreampany.news.ui.page
+package com.dreampany.radio.ui.page
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.misc.exts.addDecoration
-import com.dreampany.news.databinding.PageItemBinding
-import com.dreampany.news.ui.model.PageItem
+import com.dreampany.radio.databinding.PageItemBinding
+import com.dreampany.radio.ui.model.PageItem
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter

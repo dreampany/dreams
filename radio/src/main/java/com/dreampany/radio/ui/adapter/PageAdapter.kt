@@ -4,13 +4,13 @@ import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.ui.adapter.BasePagerFragmentAdapter
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.news.data.enums.Action
-import com.dreampany.news.data.enums.State
-import com.dreampany.news.data.enums.Subtype
-import com.dreampany.news.data.enums.Type
-import com.dreampany.news.data.model.Page
-import com.dreampany.news.ui.fragment.ArticlesFragment
-import com.dreampany.news.ui.model.PageItem
+import com.dreampany.radio.data.enums.Action
+import com.dreampany.radio.data.enums.State
+import com.dreampany.radio.data.enums.Subtype
+import com.dreampany.radio.data.enums.Type
+import com.dreampany.radio.data.model.Page
+import com.dreampany.radio.ui.fragment.StationsFragment
+import com.dreampany.radio.ui.model.PageItem
 
 /**
  * Created by roman on 29/10/20
@@ -36,7 +36,7 @@ class PageAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragment>(fragm
             )
             addItem(
                 com.dreampany.framework.misc.exts.createFragment(
-                    ArticlesFragment::class,
+                    StationsFragment::class,
                     task
                 ),
                 it.input.title.value,

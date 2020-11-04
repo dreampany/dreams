@@ -3,7 +3,7 @@ package com.dreampany.tools.ui.news.adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.exts.value
-import com.dreampany.framework.ui.adapter.BasePagerFragmentAdapter
+import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.data.enums.Action
 import com.dreampany.tools.data.enums.State
@@ -19,7 +19,7 @@ import com.dreampany.tools.ui.news.model.PageItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class PageAdapter(activity: AppCompatActivity) : BasePagerFragmentAdapter<Fragment>(activity) {
+class PageAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
     private val pages = arrayListOf<Page>()
 

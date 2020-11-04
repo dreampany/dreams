@@ -92,9 +92,9 @@ class VideoRepo
     }
 
     @Throws
-    override suspend fun getsOfQuery(query: String,order : String, offset: Long, limit: Long) =
+    override suspend fun getsOfQuery(query: String, order: String, offset: Long, limit: Long) =
         withContext(Dispatchers.IO) {
-            remote.getsOfQuery(query, order,offset, limit)
+            remote.getsOfQuery(query, order, offset, limit)
         }
 
     override suspend fun getsOfCategoryId(categoryId: String): List<Video>? {
@@ -131,12 +131,12 @@ class VideoRepo
 
     @Throws
     override suspend fun getsOfRegionCode(
-        regionCode: String,order : String,
+        regionCode: String, order: String,
         offset: Long,
         limit: Long
     ) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(regionCode, offset)) {
-            var result = remote.getsOfRegionCode(regionCode, order,offset, limit)
+            var result = remote.getsOfRegionCode(regionCode, order, offset, limit)
             if (!result.isNullOrEmpty()) {
                 room.putIf(result)
                 mapper.setRegionVideos(regionCode, result)
@@ -160,7 +160,7 @@ class VideoRepo
     @Throws
     override suspend fun getsOfLocation(
         location: String,
-        radius: String,order : String,
+        radius: String, order: String,
         offset: Long,
         limit: Long
     ) = withContext(Dispatchers.IO) {
@@ -168,10 +168,10 @@ class VideoRepo
     }
 
     @Throws
-    override suspend fun getsOfEvent(eventType: String, order : String,offset: Long, limit: Long) =
+    override suspend fun getsOfEvent(eventType: String, order: String, offset: Long, limit: Long) =
         withContext(Dispatchers.IO) {
             if (mapper.isExpired(eventType, offset)) {
-                var result = remote.getsOfEvent(eventType,order, offset, limit)
+                var result = remote.getsOfEvent(eventType, order, offset, limit)
                 if (!result.isNullOrEmpty()) {
                     room.putIf(result)
                     mapper.setEventVideos(eventType, result)
@@ -190,15 +190,15 @@ class VideoRepo
                     }
                 }
             }
-            room.getsOfEvent(eventType,order, offset, limit)
+            room.getsOfEvent(eventType, order, offset, limit)
         }
 
     @Throws
-    override suspend fun getsOfRelated(id: String,order : String, offset: Long, limit: Long) =
+    override suspend fun getsOfRelated(id: String, order: String, offset: Long, limit: Long) =
         withContext(Dispatchers.IO) {
             var result: List<Video>? = null
             if (mapper.isExpiredOfRelated(id)) {
-                result = remote.getsOfRelated(id,order, offset, limit)
+                result = remote.getsOfRelated(id, order, offset, limit)
                 if (!result.isNullOrEmpty()) {
                     room.putIf(result)
                     mapper.commitExpireOfRelated(id)
@@ -217,7 +217,7 @@ class VideoRepo
                 }
             }
             if (result.isNullOrEmpty()) {
-                result = room.getsOfRelated(id,order, offset, limit)
+                result = room.getsOfRelated(id, order, offset, limit)
             }
             result
         }

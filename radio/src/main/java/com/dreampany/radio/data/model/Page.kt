@@ -66,7 +66,7 @@ data class Page(
         TREND,
         POPULAR,
         RECENT,
-        NEW,
+        CHANGE,
         CUSTOM;
 
         override val value: String get() = name

@@ -68,9 +68,9 @@ class StationsActivity : InjectActivity() {
     }
 
     override fun <T> onItem(item: T) {
-         if (item is StationItem) {
-             bind.icon.setUrl(item.input.favicon)
-         }
+        if (item is StationItem) {
+            bind.icon.setUrl(item.input.favicon)
+        }
     }
 
     private fun initAd() {
@@ -84,16 +84,18 @@ class StationsActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
     }
 
     private fun initPager() {
+        if (::adapter.isInitialized) return
         adapter = StationPagerAdapter(this)
         bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
             bind.tabs,
             bind.layoutPager.pager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
     }

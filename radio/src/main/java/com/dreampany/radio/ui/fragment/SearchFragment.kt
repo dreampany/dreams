@@ -19,14 +19,13 @@ import com.dreampany.radio.data.enums.Action
 import com.dreampany.radio.data.enums.State
 import com.dreampany.radio.data.enums.Subtype
 import com.dreampany.radio.data.enums.Type
-import com.dreampany.radio.data.model.Article
 import com.dreampany.radio.databinding.SearchFragmentBinding
 import com.dreampany.radio.misc.Constants
-import com.dreampany.radio.ui.adapter.FastArticleAdapter
-import com.dreampany.radio.ui.model.ArticleItem
-import com.dreampany.radio.ui.vm.ArticleViewModel
+import com.dreampany.radio.ui.adapter.FastStationAdapter
+import com.dreampany.radio.ui.model.StationItem
 import com.dreampany.radio.ui.vm.PageViewModel
 import com.dreampany.radio.ui.vm.SearchViewModel
+import com.dreampany.radio.ui.vm.StationViewModel
 import com.dreampany.radio.ui.web.WebActivity
 
 /**
@@ -45,8 +44,8 @@ class SearchFragment
     private lateinit var bind: SearchFragmentBinding
     private lateinit var searchVm: SearchViewModel
     private lateinit var pageVm: PageViewModel
-    private lateinit var vm: ArticleViewModel
-    private lateinit var adapter: FastArticleAdapter
+    private lateinit var vm: StationViewModel
+    private lateinit var adapter: FastStationAdapter
     private lateinit var query: String
 
     override val layoutRes: Int = R.layout.search_fragment
@@ -105,7 +104,7 @@ class SearchFragment
         return false
     }
 
-    private fun onItemPressed(view: View, input: ArticleItem) {
+    private fun onItemPressed(view: View, input: StationItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
@@ -131,7 +130,7 @@ class SearchFragment
         bind = getBinding()
         searchVm = createVm(SearchViewModel::class)
         pageVm = createVm(PageViewModel::class)
-        vm = createVm(ArticleViewModel::class)
+        vm = createVm(StationViewModel::class)
 
         vm.subscribe(this, { this.processResponse(it) })
         vm.subscribes(this, { this.processResponses(it) })
@@ -155,7 +154,7 @@ class SearchFragment
 
     private fun initRecycler(state: Bundle?) {
         if (::adapter.isInitialized) return
-        adapter = FastArticleAdapter(
+        adapter = FastStationAdapter(
             { currentPage: Int ->
                 Timber.v("CurrentPage: %d", currentPage)
                 onRefresh()
@@ -164,47 +163,32 @@ class SearchFragment
         adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
-    fun openWeb(url: String?) {
-        if (url.isNullOrEmpty()) {
-            //TODO
-            return
-        }
-        val task = UiTask(
-            Type.SITE,
-            Subtype.DEFAULT,
-            State.DEFAULT,
-            Action.DEFAULT,
-            null as Article?,
-            url = url
-        )
-        open(WebActivity::class, task)
-    }
 
 /*    private fun onFavoriteClicked(item: VideoItem) {
         vm.toggleFavorite(item.input)
     }*/
 
     private fun searchArticles(query: String) {
-        vm.loadSearch(query)
+        //vm.loadSearch(query)
     }
 
-    private fun processResponses(response: Response<Type, Subtype, State, Action, List<ArticleItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<StationItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<ArticleItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<StationItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
     }
 
-    private fun processResponse(response: Response<Type, Subtype, State, Action, ArticleItem>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, StationItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, ArticleItem>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, StationItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
@@ -235,7 +219,7 @@ class SearchFragment
         )
     }
 
-    private fun processResults(result: List<ArticleItem>?) {
+    private fun processResults(result: List<StationItem>?) {
         adapter.clearAll()
         if (result != null) {
             adapter.addItems(result)
@@ -250,9 +234,9 @@ class SearchFragment
         }
     }
 
-    private fun processResult(result: ArticleItem?) {
+    private fun processResult(result: StationItem?) {
         if (result != null) {
-            adapter.addItem(result)
+            //adapter.addItem(result)
         }
     }
 

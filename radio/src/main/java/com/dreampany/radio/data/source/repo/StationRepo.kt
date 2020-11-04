@@ -7,6 +7,8 @@ import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.data.source.api.StationDataSource
 import com.dreampany.radio.data.source.mapper.StationMapper
 import com.dreampany.radio.data.source.pref.Prefs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,13 +48,14 @@ class StationRepo
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun readsByCountryCode(
         countryCode: String,
         order: String,
         offset: Long,
         limit: Long
-    ): List<Station>? {
-        TODO("Not yet implemented")
+    ) = withContext(Dispatchers.IO) {
+        remote.readsByCountryCode(countryCode, order, offset, limit)
     }
 
     override suspend fun readsByLanguage(
@@ -64,36 +67,40 @@ class StationRepo
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsByTopClick(
+    @Throws
+    override suspend fun readsTrend(
         order: String,
         offset: Long,
         limit: Long
-    ): List<Station>? {
-        TODO("Not yet implemented")
+    ) = withContext(Dispatchers.IO) {
+        remote.readsTrend(order, offset, limit)
     }
 
-    override suspend fun readsByTopVote(
+    @Throws
+    override suspend fun readsPopular(
         order: String,
         offset: Long,
         limit: Long
-    ): List<Station>? {
-        TODO("Not yet implemented")
+    ) = withContext(Dispatchers.IO) {
+        remote.readsPopular(order, offset, limit)
     }
 
-    override suspend fun readsByLastClick(
+    @Throws
+    override suspend fun readsRecent(
         order: String,
         offset: Long,
         limit: Long
-    ): List<Station>? {
-        TODO("Not yet implemented")
+    ) = withContext(Dispatchers.IO) {
+        remote.readsRecent(order, offset, limit)
     }
 
-    override suspend fun readsByLastChange(
+    @Throws
+    override suspend fun readsChange(
         order: String,
         offset: Long,
         limit: Long
-    ): List<Station>? {
-        TODO("Not yet implemented")
+    ) = withContext(Dispatchers.IO) {
+        remote.readsChange(order, offset, limit)
     }
 
     override suspend fun searchByName(

@@ -43,28 +43,28 @@ interface StationDataSource {
     ): List<Station>?
 
     @Throws
-    suspend fun readsByTopClick(
+    suspend fun readsTrend(
         order: String,
         offset: Long,
         limit: Long
     ): List<Station>?
 
     @Throws
-    suspend fun readsByTopVote(
+    suspend fun readsPopular(
         order: String,
         offset: Long,
         limit: Long
     ): List<Station>?
 
     @Throws
-    suspend fun readsByLastClick(
+    suspend fun readsRecent(
         order: String,
         offset: Long,
         limit: Long
     ): List<Station>?
 
     @Throws
-    suspend fun readsByLastChange(
+    suspend fun readsChange(
         order: String,
         offset: Long,
         limit: Long

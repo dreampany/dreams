@@ -2,16 +2,14 @@ package com.dreampany.tube.ui.home.adapter
 
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.exts.value
-import com.dreampany.framework.ui.adapter.BasePagerFragmentAdapter
+import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
-import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.model.Page
 import com.dreampany.tube.ui.home.fragment.VideosFragment
-import com.dreampany.tube.ui.model.CategoryItem
 import com.dreampany.tube.ui.model.PageItem
 
 /**
@@ -20,7 +18,7 @@ import com.dreampany.tube.ui.model.PageItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class PageAdapter(fragment: Fragment) : BasePagerFragmentAdapter<Fragment>(fragment) {
+class PageAdapter(fragment: Fragment) : BasePagerAdapter<Fragment>(fragment) {
 
     private val pages = arrayListOf<Page>()
 

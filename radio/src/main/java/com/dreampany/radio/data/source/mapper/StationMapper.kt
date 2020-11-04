@@ -3,7 +3,9 @@ package com.dreampany.radio.data.source.mapper
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.data.source.repo.TimeRepo
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.isExpired
+import com.dreampany.radio.api.radiobrowser.RadioStation
 import com.dreampany.radio.data.model.Page
 import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.data.source.pref.Prefs
@@ -40,5 +42,42 @@ class StationMapper
     fun isExpired(type: Page.Type): Boolean {
         val time = pref.readExpireTime(type)
         return time.isExpired(Constants.Times.STATIONS)
+    }
+
+    @Synchronized
+    fun read(input: RadioStation): Station {
+        var out: Station? = stations.get(input.id)
+        if (out == null) {
+            out = Station(input.id)
+            stations.put(input.id, out)
+        }
+        out.setChangeUuid(input.changeUuid)
+        out.name = input.name
+        out.url = input.url
+        out.setUrlResolved(input.urlResolved)
+        out.homepage = input.homepage
+        out.favicon = input.favicon
+        out.tags = input.tags?.split(Constant.Sep.COMMA)?.map { it.trim() }
+        out.country = input.country
+        out.setCountryCode(input.countryCode)
+        out.state = input.state
+        out.languages = input.language?.split(Constant.Sep.COMMA)?.map { it.trim() }
+        out.votes = input.votes
+
+        out.codecs = input.codec?.split(Constant.Sep.COMMA)?.map { it.trim() }
+        out.bitrate = input.bitrate
+        out.hls = input.hls != 0
+
+        out.setLastCheckOk(input.lastCheckOk != 0)
+
+        out.setClickCount(input.clickCount)
+        out.setClickTrend(input.clickTrend)
+
+        return out
+    }
+
+    @Synchronized
+    fun reads(inputs: List<RadioStation>): List<Station> {
+        return inputs.map { read(it) }
     }
 }

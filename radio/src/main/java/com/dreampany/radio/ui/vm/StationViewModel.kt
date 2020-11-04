@@ -9,7 +9,9 @@ import com.dreampany.radio.data.enums.Type
 import com.dreampany.radio.data.enums.Subtype
 import com.dreampany.radio.data.enums.Action
 import com.dreampany.radio.data.enums.State
+import com.dreampany.radio.data.model.Page
 import com.dreampany.radio.data.model.Station
+import com.dreampany.radio.data.source.pref.Prefs
 import com.dreampany.radio.data.source.repo.StationRepo
 import com.dreampany.radio.misc.Constants
 import com.dreampany.radio.ui.model.StationItem
@@ -30,21 +32,61 @@ class StationViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
+    private val pref: Prefs,
     private val repo: StationRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Station, StationItem, UiTask<Type, Subtype, State, Action, Station>>(
     application,
     rm
 ) {
 
-    fun loadLocalStations(countryCode: String, order: String, offset: Long) {
+    fun readsLocal(countryCode: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Station>? = null
             var errors: SmartError? = null
             try {
-                result = repo.readsByCountryCode(countryCode, order, offset, Constants.Limit.STATIONS)
+                val order = pref.order
+                result =
+                    repo.readsByCountryCode(countryCode, order, offset, Constants.Limit.STATIONS)
                 if (result.isNullOrEmpty()) {
-                    result = repo.readsByCountryCode(Locale.US.country, order, offset, Constants.Limit.STATIONS)
+                    result = repo.readsByCountryCode(
+                        Locale.US.country,
+                        order,
+                        offset,
+                        Constants.Limit.STATIONS
+                    )
+                }
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun reads(type : Page.Type, order: String, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Station>? = null
+            var errors: SmartError? = null
+            try {
+                when(type) {
+                    Page.Type.TREND-> {
+                        result = repo.readsTrend(order, offset, Constants.Limit.STATIONS)
+                    }
+                    Page.Type.POPULAR-> {
+                        result = repo.readsPopular(order, offset, Constants.Limit.STATIONS)
+                    }
+                    Page.Type.RECENT-> {
+                        result = repo.readsRecent(order, offset, Constants.Limit.STATIONS)
+                    }
+                    Page.Type.CHANGE-> {
+                        result = repo.readsChange(order, offset, Constants.Limit.STATIONS)
+                    }
                 }
             } catch (error: SmartError) {
                 Timber.e(error)

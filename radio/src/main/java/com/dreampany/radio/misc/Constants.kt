@@ -68,8 +68,8 @@ class Constants {
     }
 
     object Values {
-        const val VIDEOS = "tube.videos"
-        const val SEARCH = "tube.search"
+        const val STATIONS = "radio.stations"
+        const val SEARCH = "radio.search"
     }
 
     object Limit {

@@ -18,6 +18,8 @@ class Constants {
                 "json/stations/bylanguageexact/{${Keys.Station.COUNTRY_CODE}}"
             const val TOP_CLICK = "json/stations/topclick/{${Keys.Station.LIMIT}}"
             const val TOP_VOTE = "json/stations/topvote/{${Keys.Station.LIMIT}}"
+            const val LAST_CLICK = "json/stations/lastclick/{${Keys.Station.LIMIT}}"
+            const val LAST_CHANGE = "json/stations/lastchange/{${Keys.Station.LIMIT}}"
             const val SEARCH = "json/stations/search"
         }
     }

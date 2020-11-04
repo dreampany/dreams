@@ -52,7 +52,7 @@ class StationRoomDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsByTopClick(
+    override suspend fun readsTrend(
         order: String,
         offset: Long,
         limit: Long
@@ -60,7 +60,7 @@ class StationRoomDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsByTopVote(
+    override suspend fun readsPopular(
         order: String,
         offset: Long,
         limit: Long
@@ -68,7 +68,7 @@ class StationRoomDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsByLastClick(
+    override suspend fun readsRecent(
         order: String,
         offset: Long,
         limit: Long
@@ -76,7 +76,7 @@ class StationRoomDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsByLastChange(
+    override suspend fun readsChange(
         order: String,
         offset: Long,
         limit: Long

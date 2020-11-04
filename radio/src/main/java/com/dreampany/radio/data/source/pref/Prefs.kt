@@ -4,13 +4,12 @@ import android.content.Context
 import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
+import com.dreampany.radio.R
 import com.dreampany.radio.data.model.Page
-import com.dreampany.radio.data.model.Station
 import com.dreampany.radio.misc.Constants
 import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton
-import com.dreampany.radio.R
 
 /**
  * Created by roman on 1/11/20
@@ -75,10 +74,10 @@ class Prefs
     }
 
     @Synchronized
-    fun writeExpireTime(type: Page.Type, order: Station.Order, offset: Long) {
+    fun writeExpireTime(type: Page.Type, order: String, offset: Long) {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(type.value)
-            append(order.value)
+            append(order)
             append(offset)
         }
         setPrivately(key.toString(), currentMillis)
@@ -87,14 +86,14 @@ class Prefs
     @Synchronized
     fun writeExpireTime(
         type: Page.Type,
-        order: Station.Order,
         countryCode: String,
+        order: String,
         offset: Long
     ) {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(type.value)
-            append(order.value)
             append(countryCode)
+            append(order)
             append(offset)
         }
         setPrivately(key.toString(), currentMillis)
@@ -110,11 +109,11 @@ class Prefs
 
     @Synchronized
     fun readExpireTime(
-        type: Page.Type, order: Station.Order, offset: Long
+        type: Page.Type, order: String, offset: Long
     ): Long {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(type.value)
-            append(order.value)
+            append(order)
             append(offset)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)
@@ -123,14 +122,14 @@ class Prefs
     @Synchronized
     fun readExpireTime(
         type: Page.Type,
-        order: Station.Order,
+        order: String,
         countryCode: String,
         offset: Long
     ): Long {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(type.value)
-            append(order.value)
             append(countryCode)
+            append(order)
             append(offset)
         }
         return getPrivately(key.toString(), Constant.Default.LONG)

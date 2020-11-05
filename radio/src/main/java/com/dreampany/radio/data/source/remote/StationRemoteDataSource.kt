@@ -185,13 +185,31 @@ class StationRemoteDataSource(
         throw SmartError()
     }
 
+    @Throws
     override suspend fun searchByName(
         name: String,
         order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
-        TODO("Not yet implemented")
+        try {
+            val response = service.searchByName(
+                name, order, offset, limit
+            ).execute()
+            if (response.isSuccessful) {
+                val data = response.body() ?: return null
+                return mapper.reads(data)
+            } else {
+                throw SmartError()
+            }
+        } catch (error: Throwable) {
+            if (error is SmartError) throw error
+            if (error is UnknownHostException) throw SmartError(
+                message = error.message,
+                error = error
+            )
+        }
+        throw SmartError()
     }
 
     override suspend fun searchByTag(

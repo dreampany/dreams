@@ -103,14 +103,16 @@ class StationRepo
         remote.readsChange(order, offset, limit)
     }
 
+    @Throws
     override suspend fun searchByName(
         name: String,
         order: String,
         offset: Long,
         limit: Long
-    ): List<Station>? {
-        TODO("Not yet implemented")
+    )= withContext(Dispatchers.IO) {
+        remote.searchByName(name, order, offset, limit)
     }
+
 
     override suspend fun searchByTag(
         tag: String,

@@ -31,10 +31,12 @@ interface StationService {
     @GET(value = Constants.Apis.Radio.LAST_CHANGE)
     fun readsByLastChange(@Path(value = Constants.Keys.Station.LIMIT) limit: Long): Call<List<RadioStation>>
 
-     @FormUrlEncoded
-     @POST(value = Constants.Apis.Radio.SEARCH)
-     fun search(
-         @Path(value = Constants.Keys.Station.COUNTRY_CODE) countryCode: String
-     ) : Call<List<RadioStation>>
+    @GET(value = Constants.Apis.Radio.SEARCH)
+    fun searchByName(
+        @Query(value = Constants.Keys.Station.NAME) name: String,
+        @Query(value = Constants.Keys.Station.ORDER) order: String,
+        @Query(value = Constants.Keys.Station.OFFSET) offset: Long,
+        @Query(value = Constants.Keys.Station.LIMIT) limit: Long
+    ): Call<List<RadioStation>>
 
 }

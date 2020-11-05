@@ -67,26 +67,45 @@ class StationViewModel
         }
     }
 
-    fun reads(type : Page.Type, order: String, offset: Long) {
+    fun reads(type: Page.Type, order: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Station>? = null
             var errors: SmartError? = null
             try {
-                when(type) {
-                    Page.Type.TREND-> {
+                when (type) {
+                    Page.Type.TREND -> {
                         result = repo.readsTrend(order, offset, Constants.Limit.STATIONS)
                     }
-                    Page.Type.POPULAR-> {
+                    Page.Type.POPULAR -> {
                         result = repo.readsPopular(order, offset, Constants.Limit.STATIONS)
                     }
-                    Page.Type.RECENT-> {
+                    Page.Type.RECENT -> {
                         result = repo.readsRecent(order, offset, Constants.Limit.STATIONS)
                     }
-                    Page.Type.CHANGE-> {
+                    Page.Type.CHANGE -> {
                         result = repo.readsChange(order, offset, Constants.Limit.STATIONS)
                     }
                 }
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun search(query: String, order: String, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Station>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.searchByName(query, order, offset, Constants.Limit.STATIONS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

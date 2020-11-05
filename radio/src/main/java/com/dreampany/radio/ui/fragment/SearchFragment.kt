@@ -120,7 +120,7 @@ class SearchFragment
         val value = query.trimValue
         if (value.isNotEmpty()) {
             this.query = value
-            searchArticles(value)
+            search(value)
             writeSearch()
         }
         return false
@@ -146,12 +146,6 @@ class SearchFragment
             }
         }
     }
-
-    override val backPressed: Boolean
-        get() {
-
-            return false
-        }
 
     private fun initUi() {
         if (::bind.isInitialized) return
@@ -196,8 +190,8 @@ class SearchFragment
         vm.toggleFavorite(item.input)
     }*/
 
-    private fun searchArticles(query: String) {
-        //vm.loadSearch(query)
+    private fun search(query: String) {
+        vm.search(query, pref.order, 0)
     }
 
     private fun processResponses(response: Response<Type, Subtype, State, Action, List<StationItem>>) {

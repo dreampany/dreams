@@ -120,12 +120,6 @@ class SearchFragment
         }
     }
 
-    override val backPressed: Boolean
-        get() {
-
-            return false
-        }
-
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()

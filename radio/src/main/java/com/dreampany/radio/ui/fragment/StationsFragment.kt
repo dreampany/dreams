@@ -63,12 +63,16 @@ class StationsFragment
         input = task.input ?: return
         initUi()
         initRecycler(state)
-        onRefresh()
         player.bind()
     }
 
     override fun onStopUi() {
         player.unbind()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onRefresh()
     }
 
     override fun onResume() {
@@ -107,17 +111,20 @@ class StationsFragment
     }
 
     private fun onItemPressed(view: View, input: StationItem) {
-         player.play(input.input)
+        player.play(input.input)
     }
 
     private fun loadStations() {
-        val order = pref.order
-        if (input.type.isLocal) {
-            vm.readsLocal(context.countryCode, order, adapter.itemCount.toLong())
-        } else {
-            vm.reads(input.type, order, adapter.itemCount.toLong())
+        if (adapter.isEmpty) {
+            val order = pref.order
+            if (input.type.isLocal) {
+                vm.readsLocal(context.countryCode, order, adapter.itemCount.toLong())
+            } else if (input.type.isCustom) {
+                vm.search(input.id, order, adapter.itemCount.toLong())
+            } else {
+                vm.reads(input.type, order, adapter.itemCount.toLong())
+            }
         }
-
     }
 
     private fun updatePlaying() {

@@ -39,6 +39,7 @@ class Constants {
         }
 
         object Station {
+            const val NAME = "name"
             const val COUNTRY_CODE = "country_code"
             const val ORDER = "order"
             const val REVERSE = "reverse"

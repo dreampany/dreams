@@ -60,16 +60,10 @@ class ArticlesFragment
         input = task.input ?: return
         initUi()
         initRecycler(state)
-        /*       if (adapter.isEmpty.not()) {
-                   adapter.notifyUi()
-               }*/
-        // onRefresh()
     }
 
     override fun onStopUi() {
-        Timber.v("")
-        //reset("bind")
-        //reset("adapter")
+
     }
 
     override fun onStart() {

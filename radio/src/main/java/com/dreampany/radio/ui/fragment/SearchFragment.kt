@@ -1,5 +1,9 @@
 package com.dreampany.radio.ui.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import com.dreampany.framework.data.model.Response
@@ -8,7 +12,6 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
-import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.radio.data.source.pref.Prefs
 import com.dreampany.stateful.StatefulLayout
 import kotlinx.android.synthetic.main.content_recycler.view.*
@@ -20,13 +23,13 @@ import com.dreampany.radio.data.enums.State
 import com.dreampany.radio.data.enums.Subtype
 import com.dreampany.radio.data.enums.Type
 import com.dreampany.radio.databinding.SearchFragmentBinding
+import com.dreampany.radio.manager.RadioPlayerManager
 import com.dreampany.radio.misc.Constants
 import com.dreampany.radio.ui.adapter.FastStationAdapter
 import com.dreampany.radio.ui.model.StationItem
 import com.dreampany.radio.ui.vm.PageViewModel
 import com.dreampany.radio.ui.vm.SearchViewModel
 import com.dreampany.radio.ui.vm.StationViewModel
-import com.dreampany.radio.ui.web.WebActivity
 
 /**
  * Created by roman on 30/10/20
@@ -40,6 +43,9 @@ class SearchFragment
 
     @Inject
     internal lateinit var pref: Prefs
+
+    @Inject
+    internal lateinit var player: RadioPlayerManager
 
     private lateinit var bind: SearchFragmentBinding
     private lateinit var searchVm: SearchViewModel
@@ -70,9 +76,25 @@ class SearchFragment
         initUi()
         initRecycler(state)
         bind.stateful.setState(StatefulLayout.State.DEFAULT)
+        player.bind()
     }
 
     override fun onStopUi() {
+        player.unbind()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val filter = IntentFilter(Constants.Service.PLAYER_SERVICE_UPDATE)
+        bindLocalCast(serviceUpdateReceiver, filter)
+    }
+
+    override fun onPause() {
+        debindLocalCast(serviceUpdateReceiver)
+        if (!player.isPlaying()) {
+            player.destroy()
+        }
+        super.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -104,11 +126,17 @@ class SearchFragment
         return false
     }
 
+    private val serviceUpdateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updatePlaying()
+        }
+    }
+
     private fun onItemPressed(view: View, input: StationItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openWeb(input.input.url)
+                 player.play(input.input)
             }
             /*R.id.favorite -> {
                 onFavoriteClicked(item)
@@ -138,13 +166,13 @@ class SearchFragment
         bind.swipe.init(this)
         bind.stateful.setStateView(
             StatefulLayout.State.DEFAULT,
-            R.layout.content_default_search_articles
+            R.layout.content_default_search_stations
         )
         bind.stateful.setStateView(
             StatefulLayout.State.EMPTY,
-            R.layout.content_empty_search_articles
+            R.layout.content_empty_search_stations
         )
-        bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_articles)
+        bind.stateful.setStateView(StatefulLayout.State.OFFLINE, R.layout.content_offline_stations)
 
         bind.layoutMake.setOnSafeClickListener {
             writePage()
@@ -246,5 +274,17 @@ class SearchFragment
 
     private fun writeSearch() {
         searchVm.write(query, Constants.Values.SEARCH)
+    }
+
+    private fun updatePlaying() {
+        if (player.isPlaying()) {
+            player.getStation()?.run {
+                /*mapper.getUiItem(this.id)?.run {
+                    adapter.setSelection(this, true)
+                }*/
+            }
+        } else {
+            //adapter.clearSelection()
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.dreampany.framework.inject.app.AppModule
 import com.dreampany.framework.inject.property.PropertyModule
 import com.dreampany.radio.app.App
 import com.dreampany.radio.inject.data.DataModule
+import com.dreampany.radio.inject.service.ServiceModule
 import com.dreampany.radio.inject.ui.activity.ActivityModule
 import com.dreampany.radio.inject.ui.vm.ViewModelModule
 import com.dreampany.radio.inject.worker.WorkerModule
@@ -26,6 +27,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         AppModule::class,
         PropertyModule::class,
+        ServiceModule::class,
         ActivityModule::class,
         ViewModelModule::class,
         WorkerModule::class,

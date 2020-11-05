@@ -133,15 +133,4 @@ class HomeFragment
             adapter.notifyDataSetChanged()
         }
     }
-
-    private fun openScanUi() {
-        /* val task = UiTask(
-             Type.CAMERA,
-             Subtype.DEFAULT,
-             State.DEFAULT,
-             Action.SCAN,
-             null
-         )
-         open(CameraActivity::class, task, REQUEST_CAMERA)*/
-    }
 }

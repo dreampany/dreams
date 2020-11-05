@@ -2,7 +2,7 @@ package com.dreampany.radio.inject.ui.activity
 
 import com.dreampany.radio.ui.web.WebActivity
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.news.ui.page.PagesActivity
+import com.dreampany.radio.ui.page.PagesActivity
 import com.dreampany.radio.inject.ui.home.HomeModule
 import com.dreampany.radio.inject.ui.more.MoreModule
 import com.dreampany.radio.inject.ui.settings.SettingsModule

@@ -35,7 +35,7 @@ class RadioPlayerManager
 
     override fun onServiceDisconnected(name: ComponentName) {
         Timber.v("Service offline")
-        debind()
+        unbind()
         service = null
     }
 
@@ -48,18 +48,18 @@ class RadioPlayerManager
         Timber.v("Bind Player Service")
     }
 
-    fun debind() {
+    fun unbind() {
         try {
             context.unbindService(this)
         } catch (error: Throwable) {
             Timber.e(error)
         }
         bound = false
-        Timber.v("Debind Player Service")
+        Timber.v("Unbind Player Service")
     }
 
     fun destroy() {
-        debind()
+        unbind()
         try {
             val intent = Intent(context, RadioPlayerService::class.java)
             context.stopService(intent)

@@ -45,7 +45,7 @@
                 android:layout_marginEnd="0dp"
                 auto:itemIconTint="@color/tab_color_light"
                 auto:itemTextColor="@color/tab_color_light"
-                auto:menu="@menu/menu_bottom_nav" />
+                auto:menu="@menu/bottom_nav_menu" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -39,13 +39,12 @@ class StationViewModel
     rm
 ) {
 
-    fun readsLocal(countryCode: String, offset: Long) {
+    fun readsLocal(countryCode: String, order: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Station>? = null
             var errors: SmartError? = null
             try {
-                val order = pref.order
                 result =
                     repo.readsByCountryCode(countryCode, order, offset, Constants.Limit.STATIONS)
                 if (result.isNullOrEmpty()) {

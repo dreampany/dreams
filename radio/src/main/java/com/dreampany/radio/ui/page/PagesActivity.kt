@@ -1,4 +1,4 @@
-package com.dreampany.news.ui.page
+package com.dreampany.radio.ui.page
 
 import android.os.Bundle
 import android.view.MenuItem

@@ -59,7 +59,7 @@ class StationsFragment
     }
 
     override fun onStopUi() {
-        player.debind()
+        player.unbind()
     }
 
     override fun onResume() {

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.View
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.FragmentScope
 import com.dreampany.framework.misc.exts.*
@@ -67,7 +68,7 @@ class StationsFragment
     }
 
     override fun onStopUi() {
-        player.debind()
+        player.unbind()
     }
 
     override fun onResume() {
@@ -105,14 +106,18 @@ class StationsFragment
         }
     }
 
-    private fun onStationClicked(item: StationItem) {
-        activityCallback?.onItem(item)
-        player.play(item.input)
+    private fun onItemPressed(view: View, input: StationItem) {
+         player.play(input.input)
     }
 
     private fun loadStations() {
         val order = pref.order
-        vm.reads(input.type, order, adapter.itemCount.toLong())
+        if (input.type.isLocal) {
+            vm.readsLocal(context.countryCode, order, adapter.itemCount.toLong())
+        } else {
+            vm.reads(input.type, order, adapter.itemCount.toLong())
+        }
+
     }
 
     private fun updatePlaying() {
@@ -141,17 +146,11 @@ class StationsFragment
 
     private fun initRecycler(state: Bundle?) {
         if (::adapter.isInitialized) return
-        adapter = FastStationAdapter(scrollListener = { currentPage: Int ->
+        adapter = FastStationAdapter({ currentPage: Int ->
             Timber.v("CurrentPage: %d", currentPage)
             onRefresh()
-        }, clickListener = { item: StationItem ->
-            Timber.v("StationItem: %s", item.input.toString())
-            onStationClicked(item)
-        })
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler
-        )
+        }, this::onItemPressed)
+        adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, List<StationItem>>) {

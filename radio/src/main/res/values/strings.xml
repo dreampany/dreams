@@ -12,7 +12,13 @@
     <string name="title_empty_stations" translatable="false">No Stations</string>
     <string name="message_empty_stations" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
 
+    <string name="title_offline_stations" translatable="false">No Internet!</string>
+    <string name="message_offline_stations" translatable="false">Please connect to internet and reload news articles again.</string>
+
     <string name="title_empty_favorite_stations" translatable="false">No Favorite Stations</string>
     <string name="message_empty_favorite_stations" translatable="false">It seems you have not made any favorite station yet.</string>
+
+    <string name="title_default_search_stations" translatable="false">Search Stations</string>
+    <string name="message_default_search_stations" translatable="false">Enter your query to search stations.</string>
 
 </resources>

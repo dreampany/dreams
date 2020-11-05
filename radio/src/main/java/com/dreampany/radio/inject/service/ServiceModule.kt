@@ -1,11 +1,11 @@
-package com.dreampany.tools.inject.service
+package com.dreampany.radio.inject.service
 
-import com.dreampany.tools.service.RadioPlayerService
+import com.dreampany.radio.service.RadioPlayerService
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 /**
- * Created by roman on 18/4/20
+ * Created by roman on 5/11/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

@@ -3,7 +3,7 @@ package com.dreampany.radio.ui.splash
 import android.os.Bundle
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
-import com.dreampany.news.ui.page.PagesActivity
+import com.dreampany.radio.ui.page.PagesActivity
 import com.dreampany.radio.R
 import com.dreampany.radio.data.source.pref.Prefs
 import com.dreampany.radio.databinding.SplashActivityBinding

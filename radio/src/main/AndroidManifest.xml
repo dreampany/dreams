@@ -45,7 +45,7 @@
         <activity
             android:name="com.dreampany.radio.ui.splash.SplashActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:label="@string/app_name"
+            android:label="@string/app_name" android:launchMode="singleTask"
             android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,11 +61,26 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- pages -->
+        <activity
+            android:name=".ui.page.PagesActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
+            android:label="@string/title_pages"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- web -->
         <activity
             android:name=".ui.web.WebActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout|smallestScreenSize"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- service -->
+        <service android:name=".service.RadioPlayerService">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
 
     </application>
 

@@ -33,7 +33,7 @@ class FeatureAdapter(listener: Any? = null) :
         }
 
         override fun bindView(item: Feature, position: Int) {
-            bind.card.setBackgroundColor(item.color)
+            bind.layout.setBackgroundColor(item.color)
             bind.icon.setImageResource(item.iconRes)
             bind.title.text = context.getText(item.titleRes)
         }

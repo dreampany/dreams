@@ -20,4 +20,6 @@
 
     <string name="title_dialog_features">Features</string>
     <string name="message_dialog_features_not_found">Not found!</string>
+
+    <string name="full">Full</string>
 </resources>

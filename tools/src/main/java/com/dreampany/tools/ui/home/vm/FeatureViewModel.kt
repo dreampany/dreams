@@ -49,21 +49,12 @@ class FeatureViewModel
         features.add(
             Feature(
                 Type.FEATURE,
-                Subtype.WIFI,
-                R.drawable.ic_signal_wifi_4_bar,
-                R.string.title_feature_wifi,
+                Subtype.NEWS,
+                R.drawable.ic_baseline_receipt_24,
+                R.string.title_feature_news,
                 colors.nextColor(Type.FEATURE.name)
             )
         )
-        /*features.add(
-            Feature(
-                Type.FEATURE,
-                Subtype.CALL_RECORD,
-                R.drawable.ic_baseline_record_voice_over_24,
-                R.string.title_feature_call_record,
-                colors.nextColor(Type.FEATURE.name)
-            )
-        )*/
         features.add(
             Feature(
                 Type.FEATURE,
@@ -76,27 +67,20 @@ class FeatureViewModel
         features.add(
             Feature(
                 Type.FEATURE,
-                Subtype.NEWS,
-                R.drawable.ic_baseline_receipt_24,
-                R.string.title_feature_news,
-                colors.nextColor(Type.FEATURE.name)
-            )
-        )
-        /*features.add(
-            Feature(
-                Type.FEATURE,
-                Subtype.QUESTION,
-                R.drawable.ic_crypto,
-                R.string.title_feature_question,
-                colors.nextColor(Type.FEATURE.name)
-            )
-        )*/
-        features.add(
-            Feature(
-                Type.FEATURE,
                 Subtype.RADIO,
                 R.drawable.ic_baseline_radio_24,
                 R.string.title_feature_radio,
+                colors.nextColor(Type.FEATURE.name),
+                true,
+                "com.dreampany.radio"
+            )
+        )
+        features.add(
+            Feature(
+                Type.FEATURE,
+                Subtype.WIFI,
+                R.drawable.ic_signal_wifi_4_bar,
+                R.string.title_feature_wifi,
                 colors.nextColor(Type.FEATURE.name)
             )
         )

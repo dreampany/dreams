@@ -159,8 +159,13 @@ fun Activity?.moreApps(devId: String) {
 
 fun Activity?.rateUs() {
     if (this == null) return
+    rateUs(this.packageName)
+}
+
+fun Activity?.rateUs(packageName: String?) {
+    if (this == null || packageName == null) return
     try {
-        val id: String = this.packageName
+        val id: String = packageName
         val uri = Uri.parse("market://details?id=$id")
         val market = Intent(Intent.ACTION_VIEW, uri)
         this.startActivity(market)

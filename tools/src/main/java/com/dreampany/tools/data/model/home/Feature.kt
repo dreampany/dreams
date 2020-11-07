@@ -22,7 +22,9 @@ data class Feature(
     val iconRes: Int,
     @StringRes
     val titleRes: Int,
-    val color: Int
+    val color: Int,
+    val full: Boolean = false,
+    val packageName: String? = null
 ) : BaseParcel() {
 
     override fun hashCode(): Int = Objects.hashCode(type, subtype)

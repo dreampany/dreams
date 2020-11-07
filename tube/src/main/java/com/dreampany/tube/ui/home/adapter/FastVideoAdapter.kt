@@ -95,7 +95,7 @@ class FastVideoAdapter(
                 false
             }*/
             fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
-                { bind -> bind.root }, { bind -> arrayListOf(bind.favorite) }
+                { bind -> bind.layout }, { bind -> arrayListOf(bind.favorite) }
             )
             { view, position, adapter, item ->
                 if (item is VideoItem) {

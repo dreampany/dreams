@@ -38,7 +38,7 @@ class FastStationAdapter(
     private lateinit var footerAdapter: GenericItemAdapter
 
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 
@@ -150,6 +150,29 @@ class FastStationAdapter(
 
     fun hideScrollProgress() {
         footerAdapter.clear()
+    }
+
+    fun updateItem(item: StationItem): Boolean {
+        var position = fastAdapter.getAdapterPosition(item)
+        position = fastAdapter.getGlobalPosition(position)
+        if (position >= 0) {
+            fastAdapter.set(position, item)
+            return true
+            //fastAdapter.notifyAdapterItemChanged(position)
+        }
+        return false
+    }
+
+    fun updateItems(items: List<StationItem>) {
+        items.forEach {
+            updateItem(it)
+        }
+    }
+
+    fun addItem(item: StationItem) {
+        val updated = updateItem(item)
+        if (!updated)
+            fastAdapter.add(item)
     }
 
     fun addItems(items: List<StationItem>) {

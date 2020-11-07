@@ -115,15 +115,13 @@ class StationsFragment
     }
 
     private fun loadStations() {
-        if (adapter.isEmpty) {
-            val order = pref.order
-            if (input.type.isLocal) {
-                vm.readsLocal(context.countryCode, order, adapter.itemCount.toLong())
-            } else if (input.type.isCustom) {
-                vm.search(input.id, order, adapter.itemCount.toLong())
-            } else {
-                vm.reads(input.type, order, adapter.itemCount.toLong())
-            }
+        val order = pref.order
+        if (input.type.isLocal) {
+            vm.readsLocal(context.countryCode, order, 0)
+        } else if (input.type.isCustom) {
+            vm.search(input.id, order, 0)
+        } else {
+            vm.reads(input.type, order, 0)
         }
     }
 
@@ -189,6 +187,7 @@ class StationsFragment
     }
 
     private fun processResults(result: List<StationItem>?) {
+        adapter.clearAll()
         if (result != null) {
             adapter.addItems(result)
         }

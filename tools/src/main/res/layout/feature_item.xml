@@ -5,26 +5,23 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         auto:cardCornerRadius="@dimen/cornerRadiusSmall"
         auto:cardElevation="@dimen/cornerRadiusSmall"
         auto:cardPreventCornerOverlap="false">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_4sdp">
+            android:layout_height="@dimen/_100sdp"
+            android:padding="@dimen/margin">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/icon"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toTopOf="parent"
+                android:layout_centerInParent="true"
                 auto:srcCompat="@drawable/ic_android_black_24dp"
                 auto:tint="@color/textColorPrimary" />
 
@@ -32,16 +29,30 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_below="@id/icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
                 auto:fontFamily="@font/roboto_slab_bold"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/icon"
                 tools:text="@string/title" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/full"
+                android:textColor="@color/material_white"
+                android:textSize="@dimen/_8ssp"
+                auto:backgroundTint="@color/textColorSecondary"
+                auto:cornerRadius="@dimen/cornerRadiusSmall"
+                auto:elevation="@dimen/cornerRadiusSmall"
+                auto:fontFamily="@font/roboto_slab_bold" />
+
+        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

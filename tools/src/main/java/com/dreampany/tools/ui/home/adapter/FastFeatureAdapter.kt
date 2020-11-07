@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.framework.misc.exts.addDecoration
-import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.framework.misc.exts.integer
 import com.dreampany.tools.R
+import com.dreampany.tools.databinding.FeatureItemBinding
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
@@ -16,6 +15,7 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.binding.listeners.addClickListener
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
@@ -29,7 +29,7 @@ import timber.log.Timber
  */
 class FastFeatureAdapter(
     val scrollListener: ((currentPage: Int) -> Unit)? = null,
-    val clickListener: ((item: FeatureItem) -> Unit)? = null
+    val clickListener: ((view: View, input: FeatureItem) -> Unit)? = null
 ) {
 
     private lateinit var scroller: EndlessRecyclerOnScrollListener
@@ -77,14 +77,31 @@ class FastFeatureAdapter(
         }
         fastAdapter.withSavedInstanceState(state)
 
-        clickListener?.let {
-            fastAdapter.onClickListener = { view, adapter, item, position ->
-                Timber.v("View %s", view.toString())
-                if (item is FeatureItem) {
-                    it(item)
-                }
+        clickListener?.let { listener ->
+            /*fastAdapter.onClickListener = { view, adapter, item, position ->
+                if (item is CoinItem)
+                    view?.let {
+                        listener(it, item)
+                    }
                 false
+            }*/
+            fastAdapter.addClickListener<FeatureItemBinding, GenericItem>(
+                { bind -> bind.layout }, { bind -> arrayListOf(bind.full) }
+            )
+            { view, position, adapter, item ->
+                if (item is FeatureItem) {
+                    listener(view, item)
+                }
             }
+            /*fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
+                { bind -> bind.root },
+                { bind -> arrayListOf(bind.root) }
+            )
+            { view, position, adapter, item ->
+                if (item is VideoItem) {
+                    listener(view, item)
+                }
+            }*/
         }
 
         fastAdapter.addEventHook(object : ClickEventHook<FeatureItem>() {

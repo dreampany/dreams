@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.home.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
@@ -68,6 +69,21 @@ class HomeFragment
     override fun onStopUi() {
     }
 
+    private fun onItemPressed(view: View, input: FeatureItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+               openUi(input.input)
+            }
+            R.id.full -> {
+                openPlayUi(input.input)
+            }
+            else -> {
+
+            }
+        }
+    }
+
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
@@ -80,10 +96,10 @@ class HomeFragment
 
     private fun initRecycler(state: Bundle?) {
         if (::adapter.isInitialized) return
-        adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
-            Timber.v("StationItem: %s", item.item.toString())
-            openUi(item.item)
-        })
+        adapter = FastFeatureAdapter({ currentPage: Int ->
+            Timber.v("CurrentPage: %d", currentPage)
+            onRefresh()
+        }, this::onItemPressed)
 
         adapter.initRecycler(state, bind.layoutRecycler.recycler)
     }
@@ -122,8 +138,8 @@ class HomeFragment
         }
     }
 
-    private fun openUi(item: Feature) {
-        when (item.subtype) {
+    private fun openUi(input: Feature) {
+        when (input.subtype) {
             Subtype.WIFI -> activity.open(WifisActivity::class)
             Subtype.CRYPTO -> activity.open(CoinsActivity::class)
             Subtype.RADIO -> activity.open(StationsActivity::class)
@@ -131,5 +147,9 @@ class HomeFragment
             Subtype.HISTORY -> activity.open(HistoriesActivity::class)
             Subtype.NEWS -> activity.open(NewsActivity::class)
         }
+    }
+
+    private fun openPlayUi(input: Feature) {
+        activity.rateUs(input.packageName)
     }
 }

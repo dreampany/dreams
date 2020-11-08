@@ -6,8 +6,9 @@ import com.dreampany.framework.misc.exts.versionCode
 import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
+import com.dreampany.tools.databinding.SettingsActivityBinding
 import com.dreampany.tools.manager.AdsManager
-import com.dreampany.tools.ui.news.fragment.SettingsFragment
+import com.dreampany.tools.ui.radio.fragment.SettingsFragment
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -24,6 +25,8 @@ class SettingsActivity : InjectActivity() {
 
     @Inject
     internal lateinit var settings: Lazy<SettingsFragment>
+
+    private lateinit var bind: SettingsActivityBinding
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.settings_activity
@@ -51,6 +54,7 @@ class SettingsActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         commitFragment(SettingsFragment::class, settings, R.id.layout)
     }
 }

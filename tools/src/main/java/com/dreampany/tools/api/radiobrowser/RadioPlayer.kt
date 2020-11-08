@@ -1,4 +1,4 @@
-package com.dreampany.tools.api.radio
+package com.dreampany.tools.api.radiobrowser
 
 import android.content.Context
 import androidx.annotation.StringRes
@@ -7,7 +7,6 @@ import com.dreampany.framework.misc.func.Executors
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.player.ExoPlayer
 import com.dreampany.tools.api.player.SmartPlayer
-import com.dreampany.tools.data.source.radio.pref.RadioPref
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import timber.log.Timber
@@ -24,7 +23,6 @@ class RadioPlayer
 @Inject constructor(
     private val context: Context,
     private val ex: Executors,
-    private val radioPref: RadioPref,
     private val network: NetworkManager,
     private val pool: ConnectionPool
 ) : SmartPlayer.Listener {

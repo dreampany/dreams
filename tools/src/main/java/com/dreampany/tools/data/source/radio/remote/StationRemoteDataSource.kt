@@ -3,8 +3,7 @@ package com.dreampany.tools.data.source.radio.remote
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.radio.StationService
-import com.dreampany.tools.data.enums.radio.StationOrder
+import com.dreampany.tools.api.radiobrowser.StationService
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.api.StationDataSource
 import com.dreampany.tools.data.source.radio.mapper.StationMapper
@@ -22,43 +21,79 @@ class StationRemoteDataSource(
     private val mapper: StationMapper,
     private val service: StationService
 ) : StationDataSource {
-    override suspend fun putItem(item: Station): Long {
+    override suspend fun write(input: Station): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun putItems(items: List<Station>): List<Long>? {
+    override suspend fun write(inputs: List<Station>): List<Long>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItems(): List<Station>? {
+    override suspend fun reads(): List<Station>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItems(countryCode: String, limit: Long): List<Station>? {
+    override suspend fun readsByCountry(
+        country: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getItemsOfCountry(
+    override suspend fun readsByCountryCode(
         countryCode: String,
-        hideBroken: Boolean,
-        order: StationOrder,
-        reverse: Boolean,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>? {
         try {
-            val response = service.getItemsOfCountry(
+            val response = service.readsByCountryCode(
                 countryCode,
-                hideBroken,
-                order.value,
-                reverse,
+                order,
                 offset,
                 limit
             ).execute()
             if (response.isSuccessful) {
                 val data = response.body() ?: return null
-                return mapper.getItems(data)
+                return mapper.reads(data)
+            } else {
+                throw SmartError()
+            }
+        } catch (error: Throwable) {
+            if (error is SmartError) throw error
+            if (error is UnknownHostException) throw SmartError(
+                message = error.message,
+                error = error
+            )
+        }
+        throw SmartError()
+    }
+
+    override suspend fun readsByLanguage(
+        language: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun readsTrend(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
+        try {
+            val response = service.readsByTopClick(
+                limit
+            ).execute()
+            if (response.isSuccessful) {
+                val data = response.body() ?: return null
+                return mapper.reads(data)
             } else {
                 throw SmartError()
             }
@@ -73,12 +108,18 @@ class StationRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getItemsOfTrends(limit: Long): List<Station>? {
+    override suspend fun readsPopular(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
         try {
-            val response = service.getItemsOfTrends(limit).execute()
+            val response = service.readsByTopVote(
+                limit
+            ).execute()
             if (response.isSuccessful) {
                 val data = response.body() ?: return null
-                return mapper.getItems(data)
+                return mapper.reads(data)
             } else {
                 throw SmartError()
             }
@@ -93,12 +134,18 @@ class StationRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getItemsOfPopular(limit: Long): List<Station>? {
+    override suspend fun readsRecent(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
         try {
-            val response = service.getItemsOfPopular(limit).execute()
+            val response = service.readsByLastClick(
+                limit
+            ).execute()
             if (response.isSuccessful) {
                 val data = response.body() ?: return null
-                return mapper.getItems(data)
+                return mapper.reads(data)
             } else {
                 throw SmartError()
             }
@@ -111,4 +158,67 @@ class StationRemoteDataSource(
         }
         throw SmartError()
     }
+
+    @Throws
+    override suspend fun readsChange(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
+        try {
+            val response = service.readsByLastChange(
+                limit
+            ).execute()
+            if (response.isSuccessful) {
+                val data = response.body() ?: return null
+                return mapper.reads(data)
+            } else {
+                throw SmartError()
+            }
+        } catch (error: Throwable) {
+            if (error is SmartError) throw error
+            if (error is UnknownHostException) throw SmartError(
+                message = error.message,
+                error = error
+            )
+        }
+        throw SmartError()
+    }
+
+    @Throws
+    override suspend fun searchByName(
+        name: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
+        try {
+            val response = service.searchByName(
+                name, order, offset, limit
+            ).execute()
+            if (response.isSuccessful) {
+                val data = response.body() ?: return null
+                return mapper.reads(data)
+            } else {
+                throw SmartError()
+            }
+        } catch (error: Throwable) {
+            if (error is SmartError) throw error
+            if (error is UnknownHostException) throw SmartError(
+                message = error.message,
+                error = error
+            )
+        }
+        throw SmartError()
+    }
+
+    override suspend fun searchByTag(
+        tag: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
+        TODO("Not yet implemented")
+    }
+
 }

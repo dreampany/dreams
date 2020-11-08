@@ -1,4 +1,4 @@
-package com.dreampany.tools.api.radio
+package com.dreampany.tools.api.radiobrowser
 
 import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base

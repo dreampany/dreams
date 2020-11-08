@@ -1,4 +1,4 @@
-package com.dreampany.tools.api.radio
+package com.dreampany.tools.service
 
 import android.content.Context
 import android.content.Intent
@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import com.dreampany.framework.api.cast.CastManager
-import com.dreampany.tools.misc.constants.RadioConstants
-import com.dreampany.tools.service.RadioPlayerService
+import com.dreampany.tools.api.radiobrowser.Constants
+import com.dreampany.tools.api.radiobrowser.RadioDroidBrowser
 
 /**
- * Created by roman on 2019-10-15
- * Copyright (c) 2019 bjit. All rights reserved.
+ * Created by roman on 8/11/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
@@ -54,7 +54,7 @@ constructor(
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle) {
         val stationId = RadioDroidBrowser.getStationIdOfMediaId(mediaId)
         if (stationId.isEmpty()) return
-        val extra = hashMapOf(RadioConstants.Keys.Radio.STATION_ID to stationId)
-        CastManager.castLocally(context, RadioConstants.Keys.Radio.PLAY_BY_STATION_ID, extra)
+        val extra = hashMapOf(Constants.Keys.Radio.STATION_ID to stationId)
+        CastManager.castLocally(context, Constants.Keys.Radio.PLAY_BY_STATION_ID, extra)
     }
 }

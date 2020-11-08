@@ -7,10 +7,10 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.theme.Colors
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.home.Action
-import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.home.Feature
 import com.dreampany.tools.ui.home.model.FeatureItem
 import kotlinx.coroutines.Dispatchers

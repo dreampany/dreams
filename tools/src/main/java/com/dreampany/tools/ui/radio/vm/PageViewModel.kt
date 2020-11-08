@@ -1,4 +1,4 @@
-package com.dreampany.radio.ui.vm
+package com.dreampany.tools.ui.radio.vm
 
 import android.app.Application
 import com.dreampany.framework.misc.constant.Constant
@@ -8,16 +8,15 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.radio.app.App
-import com.dreampany.radio.data.enums.Action
-import com.dreampany.radio.data.enums.State
-import com.dreampany.radio.data.enums.Subtype
-import com.dreampany.radio.data.enums.Type
-import com.dreampany.radio.data.model.Page
-import com.dreampany.radio.data.source.pref.Prefs
-import com.dreampany.radio.data.source.repo.PageRepo
-import com.dreampany.radio.ui.model.PageItem
 import com.dreampany.theme.Colors
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.model.radio.Page
+import com.dreampany.tools.data.source.radio.repo.PageRepo
+import com.dreampany.tools.data.source.radio.pref.Prefs
+import com.dreampany.tools.ui.radio.model.PageItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,7 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Created by roman on 2/11/20
+ * Created by roman on 8/11/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

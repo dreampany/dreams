@@ -4,10 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.R
-import com.dreampany.tools.api.radio.ShoutCast
-import com.dreampany.tools.api.radio.Stream
-import com.dreampany.tools.misc.constants.Constants
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.audio.AudioAttributes
@@ -20,6 +16,9 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import okhttp3.OkHttpClient
 import timber.log.Timber
+import com.dreampany.tools.R
+import com.dreampany.tools.api.radiobrowser.ShoutCast
+import com.dreampany.tools.api.radiobrowser.Stream
 import java.util.*
 
 /**

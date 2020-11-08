@@ -23,6 +23,13 @@ class Constants {
             const val MISC = "misc"
             const val EXPIRE = "expire"
 
+            object Radio {
+                const val PREF = "radio.pref"
+
+                const val PAGE = "radio.page"
+                const val PAGES = "radio.pages"
+            }
+
             object News {
                 const val CATEGORY = "news.category"
 
@@ -34,6 +41,22 @@ class Constants {
 
         object Room {
             const val MISC = "misc"
+            const val RADIO = "radio"
+        }
+
+        object Station {
+            const val CHANGE_UUID = "change_uuid"
+            const val STATION_UUID = "station_uuid"
+            const val URL_RESOLVED = "url_resolved"
+            const val COUNTRY_CODE = "country_code"
+            const val LAST_CHANGE_TIME = "last_change_time"
+            const val LAST_CHECK_OK = "last_check_ok"
+            const val LAST_CHECK_TIME = "last_check_time"
+            const val LAST_CHECK_OK_TIME = "last_check_ok_time"
+            const val LAST_LOCAL_CHECK_TIME = "last_local_check_time"
+            const val CLICK_TIMESTAMP = "click_timestamp"
+            const val CLICK_COUNT = "click_count"
+            const val CLICK_TREND = "click_trend"
         }
 
         object Coin {
@@ -75,6 +98,19 @@ class Constants {
         }
     }
 
+    object Values {
+        object News {
+            const val ARTICLES = "tools.news.articles"
+            const val SEARCH = "tools.news.search"
+        }
+
+        object Radio {
+            const val STATIONS = "tools.radio.stations"
+            const val SEARCH = "tools.radio.search"
+        }
+
+    }
+
     object Notify {
         const val PLAYER_FOREGROUND_ID = 104
         const val PLAYER_FOREGROUND_CHANNEL_ID = "player_" + Constant.Notify.FOREGROUND_CHANNEL_ID
@@ -84,11 +120,11 @@ class Constants {
         val HOUSE_ADS = TimeUnit.DAYS.toMillis(1)
         val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
-        val STATION = TimeUnit.DAYS.toMillis(10)
         val FIREBASE = TimeUnit.HOURS.toMillis(1)
 
-        object RADIO {
-            val LISTING = TimeUnit.HOURS.toMillis(1)
+        object Radio {
+            val STATION = TimeUnit.DAYS.toMillis(10)
+            val STATIONS = TimeUnit.DAYS.toMillis(1)
         }
 
         object Word {
@@ -108,9 +144,16 @@ class Constants {
     }
 
     object Count {
+        object Radio {
+            const val MIN_PAGES = 3
+        }
         object News {
             const val MIN_PAGES = 3
         }
+    }
+
+    object Limit {
+        const val STATIONS = 100L
     }
 
     object Service {
@@ -152,18 +195,5 @@ class Constants {
     object ContentType {
         const val APPLE_MPEGURL = "application/vnd.apple.mpegurl"
         const val X_MPEGURL = "application/x-mpegurl"
-    }
-
-    object Values {
-        object News {
-            const val ARTICLES = "tools.news.articles"
-            const val SEARCH = "tools.news.search"
-        }
-
-        object Radio {
-            const val STATIONS = "tools.radio.stations"
-            const val SEARCH = "tools.radio.search"
-        }
-
     }
 }

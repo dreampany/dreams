@@ -3,10 +3,9 @@ package com.dreampany.tools.api.player
 import android.net.Uri
 import com.dreampany.framework.misc.util.MediaUtil
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.tools.api.radio.Mapper
-import com.dreampany.tools.api.radio.ShoutCast
-import com.dreampany.tools.api.radio.Stream
-import com.dreampany.tools.misc.constants.Constants
+import com.dreampany.tools.api.radiobrowser.Mapper
+import com.dreampany.tools.api.radiobrowser.ShoutCast
+import com.dreampany.tools.api.radiobrowser.Stream
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener
@@ -36,8 +35,8 @@ class IcyDataSource(
 ) : HttpDataSource {
 
     companion object {
-        val DEFAULT_TIME_UNTIL_STOP_RECONNECTING: Long = Constants.Times.minuteToMillis(2)
-        val DEFAULT_DELAY_BETWEEN_RECONNECTIONS: Long = Constants.Times.minuteToMillis(0)
+        val DEFAULT_TIME_UNTIL_STOP_RECONNECTING: Long = Constants.Time.minuteToMillis(2)
+        val DEFAULT_DELAY_BETWEEN_RECONNECTIONS: Long = Constants.Time.minuteToMillis(0)
     }
 
     interface Listener {
@@ -73,7 +72,7 @@ class IcyDataSource(
         spec = dataSpec
 
         val allowGzip = (dataSpec.flags and DataSpec.FLAG_ALLOW_GZIP) != 0
-        val url =  dataSpec.uri.toString().toHttpUrlOrNull()
+        val url = dataSpec.uri.toString().toHttpUrlOrNull()
         if (url == null) return -1
 
         val builder = Request.Builder()

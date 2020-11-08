@@ -15,10 +15,10 @@ import com.dreampany.tools.data.enums.history.HistoryAction
 import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.enums.history.HistorySubtype
 import com.dreampany.tools.data.enums.history.HistoryType
-import com.dreampany.tools.data.enums.home.Action
-import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.ui.history.adapter.FastHistoryAdapter

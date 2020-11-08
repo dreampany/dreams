@@ -6,10 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.tools.data.model.radio.Page
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.room.converters.Converters
+import com.dreampany.tools.data.source.radio.room.dao.PageDao
 import com.dreampany.tools.data.source.radio.room.dao.StationDao
-import com.dreampany.tools.misc.constants.RadioConstants
+import com.dreampany.tools.misc.constants.Constants
 
 /**
  * Created by roman on 21/4/20
@@ -17,7 +19,7 @@ import com.dreampany.tools.misc.constants.RadioConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Station::class], version = 2)
+@Database(entities = [Page::class, Station::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -31,8 +33,8 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, RadioConstants.Keys.Room.TYPE_RADIO)
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                val database = Constant.database(context, Constants.Keys.Room.RADIO)
+                builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
             return builder
@@ -53,5 +55,6 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
+    abstract fun pageDao(): PageDao
     abstract fun stationDao(): StationDao
 }

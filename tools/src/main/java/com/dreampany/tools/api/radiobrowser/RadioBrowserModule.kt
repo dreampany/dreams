@@ -1,6 +1,5 @@
-package com.dreampany.tools.api.radio
+package com.dreampany.tools.api.radiobrowser
 
-import com.dreampany.tools.misc.constants.RadioConstants
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -21,17 +20,15 @@ class RadioBrowserModule {
     @Singleton
     @Provides
     @RadioBrowserAnnote
-    fun provideRadioBrowserRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provideRadioBrowserRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(RadioConstants.Apis.Radio.BASE_URL)
+            .baseUrl(Constants.Apis.Radio.BASE_URL)
             .client(httpClient)
             .build()
-    }
 
     @Singleton
     @Provides
-    fun provideStationService(@RadioBrowserAnnote retrofit: Retrofit): StationService {
-        return retrofit.create(StationService::class.java);
-    }
+    fun provideStationService(@RadioBrowserAnnote retrofit: Retrofit): StationService =
+        retrofit.create(StationService::class.java)
 }

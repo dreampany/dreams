@@ -2,6 +2,7 @@ package com.dreampany.tools.inject.ui.vm.radio
 
 import androidx.lifecycle.ViewModel
 import com.dreampany.framework.inject.annote.ViewModelKey
+import com.dreampany.tools.ui.radio.vm.PageViewModel
 import com.dreampany.tools.ui.radio.vm.StationViewModel
 import dagger.Binds
 import dagger.Module
@@ -15,6 +16,11 @@ import dagger.multibindings.IntoMap
  */
 @Module
 abstract class RadioViewModelModule {
+    @Binds
+    @IntoMap
+    @ViewModelKey(PageViewModel::class)
+    abstract fun bindPage(vm: PageViewModel): ViewModel
+
     @Binds
     @IntoMap
     @ViewModelKey(StationViewModel::class)

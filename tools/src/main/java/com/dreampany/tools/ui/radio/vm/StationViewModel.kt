@@ -5,19 +5,21 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.tools.data.enums.radio.RadioAction
-import com.dreampany.tools.data.enums.radio.RadioState
-import com.dreampany.tools.data.enums.radio.RadioSubtype
-import com.dreampany.tools.data.enums.radio.RadioType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.model.radio.Page
 import com.dreampany.tools.data.model.radio.Station
-import com.dreampany.tools.data.source.radio.pref.RadioPref
+import com.dreampany.tools.data.source.radio.pref.Prefs
 import com.dreampany.tools.data.source.radio.repo.StationRepo
-import com.dreampany.tools.misc.constants.RadioConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.ui.radio.model.StationItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -30,28 +32,29 @@ class StationViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val pref: RadioPref,
+    private val pref: Prefs,
     private val repo: StationRepo
-) : BaseViewModel<RadioType, RadioSubtype, RadioState, RadioAction, Station, StationItem, UiTask<RadioType, RadioSubtype, RadioState, RadioAction, Station>>(
+) : BaseViewModel<Type, Subtype, State, Action, Station, StationItem, UiTask<Type, Subtype, State, Action, Station>>(
     application,
     rm
 ) {
 
-    fun loadStations(state: RadioState, countryCode: String, offset: Long) {
+    fun readsLocal(countryCode: String, order: String, offset: Long) {
         uiScope.launch {
-            postProgress(true)
+            postProgressMultiple(true)
             var result: List<Station>? = null
             var errors: SmartError? = null
             try {
-                val order = pref.getStationOrder()
-                result = repo.getItemsOfCountry(
-                    countryCode,
-                    true,
-                    order,
-                    false,
-                    offset,
-                    RadioConstants.Limits.STATIONS
-                )
+                result =
+                    repo.readsByCountryCode(countryCode, order, offset, Constants.Limit.STATIONS)
+                if (result.isNullOrEmpty()) {
+                    result = repo.readsByCountryCode(
+                        Locale.US.country,
+                        order,
+                        offset,
+                        Constants.Limit.STATIONS
+                    )
+                }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -64,44 +67,72 @@ class StationViewModel
         }
     }
 
-    fun loadStations(state: RadioState, offset: Long) {
+    fun reads(type: Page.Type, order: String, offset: Long) {
         uiScope.launch {
-            postProgress(true)
+            postProgressMultiple(true)
             var result: List<Station>? = null
             var errors: SmartError? = null
             try {
-                result = if (state == RadioState.TRENDS) repo.getItemsOfTrends(
-                    RadioConstants.Limits.STATIONS
-                ) else
-                    repo.getItemsOfPopular(
-                        RadioConstants.Limits.STATIONS
-                    )
+                when (type) {
+                    Page.Type.TREND -> {
+                        result = repo.readsTrend(order, offset, Constants.Limit.STATIONS)
+                    }
+                    Page.Type.POPULAR -> {
+                        result = repo.readsPopular(order, offset, Constants.Limit.STATIONS)
+                    }
+                    Page.Type.RECENT -> {
+                        result = repo.readsRecent(order, offset, Constants.Limit.STATIONS)
+                    }
+                    Page.Type.CHANGE -> {
+                        result = repo.readsChange(order, offset, Constants.Limit.STATIONS)
+                    }
+                }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
             }
             if (errors != null) {
                 postError(errors)
-            } else if (result != null) {
-                postResult(result.toItems())
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun search(query: String, order: String, offset: Long) {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Station>? = null
+            var errors: SmartError? = null
+            try {
+                result = repo.searchByName(query, order, offset, Constants.Limit.STATIONS)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
             }
         }
     }
 
     private suspend fun List<Station>.toItems(): List<StationItem> {
-        val list = this
+        val input = this
         return withContext(Dispatchers.IO) {
-            val order = pref.getStationOrder()
-            list.map { StationItem(it, order) }
+            input.map { input ->
+                StationItem(input)
+            }
         }
     }
 
-    private fun postProgress(progress: Boolean) {
+    private fun postProgressMultiple(progress: Boolean) {
         postProgressMultiple(
-            RadioType.STATION,
-            RadioSubtype.DEFAULT,
-            RadioState.DEFAULT,
-            RadioAction.DEFAULT,
+            Type.STATION,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             progress = progress
         )
     }
@@ -109,10 +140,10 @@ class StationViewModel
 
     private fun postError(error: SmartError) {
         postMultiple(
-            RadioType.STATION,
-            RadioSubtype.DEFAULT,
-            RadioState.DEFAULT,
-            RadioAction.DEFAULT,
+            Type.STATION,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             error = error,
             showProgress = true
         )
@@ -120,10 +151,10 @@ class StationViewModel
 
     private fun postResult(result: List<StationItem>?) {
         postMultiple(
-            RadioType.STATION,
-            RadioSubtype.DEFAULT,
-            RadioState.DEFAULT,
-            RadioAction.DEFAULT,
+            Type.STATION,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             result = result,
             showProgress = true
         )

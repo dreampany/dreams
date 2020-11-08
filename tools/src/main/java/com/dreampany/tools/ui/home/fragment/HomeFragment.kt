@@ -10,10 +10,10 @@ import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.home.Action
-import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.home.Feature
 import com.dreampany.tools.databinding.HomeFragmentBinding
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
@@ -23,7 +23,7 @@ import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.ui.news.activity.NewsActivity
 import com.dreampany.tools.ui.note.activity.NotesActivity
-import com.dreampany.tools.ui.radio.activity.StationsActivity
+import com.dreampany.tools.ui.radio.activity.RadioActivity
 import com.dreampany.tools.ui.wifi.activity.WifisActivity
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
@@ -142,7 +142,7 @@ class HomeFragment
         when (input.subtype) {
             Subtype.WIFI -> activity.open(WifisActivity::class)
             Subtype.CRYPTO -> activity.open(CoinsActivity::class)
-            Subtype.RADIO -> activity.open(StationsActivity::class)
+            Subtype.RADIO -> activity.open(RadioActivity::class)
             Subtype.NOTE -> activity.open(NotesActivity::class)
             Subtype.HISTORY -> activity.open(HistoriesActivity::class)
             Subtype.NEWS -> activity.open(NewsActivity::class)

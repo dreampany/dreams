@@ -1,8 +1,8 @@
 package com.dreampany.tools.api.player
 
 import androidx.annotation.StringRes
-import com.dreampany.tools.api.radio.ShoutCast
-import com.dreampany.tools.api.radio.Stream
+import com.dreampany.tools.api.radiobrowser.ShoutCast
+import com.dreampany.tools.api.radiobrowser.Stream
 import okhttp3.OkHttpClient
 
 /**
@@ -13,7 +13,7 @@ import okhttp3.OkHttpClient
  */
 interface SmartPlayer : Recorder {
 
-    enum class State   {
+    enum class State {
         IDLE, PRE_PLAYING, PLAYING, PAUSED
     }
 

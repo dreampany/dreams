@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.framework.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
+import com.dreampany.tools.databinding.StationItemBinding
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
@@ -14,6 +15,7 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.binding.listeners.addClickListener
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
@@ -27,7 +29,7 @@ import timber.log.Timber
  */
 class FastStationAdapter(
     val scrollListener: ((currentPage: Int) -> Unit)? = null,
-    val clickListener : ((item: StationItem) -> Unit)? = null
+    val clickListener: ((view: View, item: StationItem) -> Unit)? = null
 ) {
 
     private lateinit var scroller: EndlessRecyclerOnScrollListener
@@ -36,7 +38,7 @@ class FastStationAdapter(
     private lateinit var footerAdapter: GenericItemAdapter
 
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 
@@ -78,14 +80,31 @@ class FastStationAdapter(
         }
         fastAdapter.withSavedInstanceState(state)
 
-        clickListener?.let {
-            fastAdapter.onClickListener = { view, adapter, item, position ->
-                Timber.v("View %s", view.toString())
-                if (item is StationItem) {
-                    it (item)
-                }
+        clickListener?.let { listener ->
+            /*fastAdapter.onClickListener = { view, adapter, item, position ->
+                if (item is CoinItem)
+                    view?.let {
+                        listener(it, item)
+                    }
                 false
+            }*/
+            fastAdapter.addClickListener<StationItemBinding, GenericItem>(
+                { bind -> bind.root }, { bind -> arrayListOf(bind.favorite) }
+            )
+            { view, position, adapter, item ->
+                if (item is StationItem) {
+                    listener(view, item)
+                }
             }
+            /*fastAdapter.addClickListener<VideoItemBinding, GenericItem>(
+                { bind -> bind.root },
+                { bind -> arrayListOf(bind.root) }
+            )
+            { view, position, adapter, item ->
+                if (item is VideoItem) {
+                    listener(view, item)
+                }
+            }*/
         }
 
         fastAdapter.addEventHook(object : ClickEventHook<StationItem>() {
@@ -110,6 +129,10 @@ class FastStationAdapter(
     fun destroy() {
     }
 
+    fun clearAll() {
+        fastAdapter.clear()
+    }
+
     fun saveInstanceState(outState: Bundle): Bundle {
         return fastAdapter.saveInstanceState(outState)
     }
@@ -127,6 +150,29 @@ class FastStationAdapter(
 
     fun hideScrollProgress() {
         footerAdapter.clear()
+    }
+
+    fun updateItem(item: StationItem): Boolean {
+        var position = fastAdapter.getAdapterPosition(item)
+        position = fastAdapter.getGlobalPosition(position)
+        if (position >= 0) {
+            fastAdapter.set(position, item)
+            return true
+            //fastAdapter.notifyAdapterItemChanged(position)
+        }
+        return false
+    }
+
+    fun updateItems(items: List<StationItem>) {
+        items.forEach {
+            updateItem(it)
+        }
+    }
+
+    fun addItem(item: StationItem) {
+        val updated = updateItem(item)
+        if (!updated)
+            fastAdapter.add(item)
     }
 
     fun addItems(items: List<StationItem>) {

@@ -1,7 +1,5 @@
 package com.dreampany.tools.data.source.radio.api
 
-import com.dreampany.tools.data.enums.radio.StationOrder
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.radio.Station
 
 /**
@@ -11,33 +9,80 @@ import com.dreampany.tools.data.model.radio.Station
  * Last modified $file.lastModified
  */
 interface StationDataSource {
+    @Throws
+    suspend fun write(input: Station): Long
 
     @Throws
-    suspend fun putItem(item: Station): Long
+    suspend fun write(inputs: List<Station>): List<Long>?
 
     @Throws
-    suspend fun putItems(items: List<Station>): List<Long>?
+    suspend fun reads(): List<Station>?
 
     @Throws
-    suspend fun getItems(): List<Station>?
-
-    @Throws
-    suspend fun getItems(countryCode: String, limit: Long): List<Station>?
-
-    @Throws
-    suspend fun getItemsOfCountry(
-        countryCode: String,
-        hideBroken: Boolean,
-        order: StationOrder,
-        reverse: Boolean,
+    suspend fun readsByCountry(
+        country: String,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Station>?
 
     @Throws
-    suspend fun getItemsOfTrends(limit: Long): List<Station>?
+    suspend fun readsByCountryCode(
+        countryCode: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
 
     @Throws
-    suspend fun getItemsOfPopular(limit: Long): List<Station>?
+    suspend fun readsByLanguage(
+        language: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
 
+    @Throws
+    suspend fun readsTrend(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun readsPopular(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun readsRecent(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun readsChange(
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun searchByName(
+        name: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
+
+    @Throws
+    suspend fun searchByTag(
+        tag: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>?
 }

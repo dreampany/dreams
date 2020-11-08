@@ -6,8 +6,8 @@ import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.framework.misc.util.Util
-import com.dreampany.tools.misc.constants.RadioConstants
+import com.dreampany.framework.misc.exts.currentMillis
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
@@ -24,82 +24,67 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [RadioConstants.Keys.Station.ID],
+        value = [Constant.Keys.ID],
         unique = true
     )],
-    primaryKeys = [RadioConstants.Keys.Station.ID]
+    primaryKeys = [Constant.Keys.ID]
 )
 data class Station(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.CHANGE_UUID)
-    @ColumnInfo(name = RadioConstants.Keys.Station.CHANGE_UUID)
+    @ColumnInfo(name = Constants.Keys.Station.CHANGE_UUID)
     private var changeUuid: String? = Constant.Default.NULL,
     var name: String? = Constant.Default.NULL,
     var url: String? = Constant.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.Station.URL_RESOLVED)
+    private var urlResolved: String? = Constant.Default.NULL,
     var homepage: String? = Constant.Default.NULL,
     var favicon: String? = Constant.Default.NULL,
-    var ip: String? = Constant.Default.NULL,
-    var codec: String? = Constant.Default.NULL,
-    var bitrate: Int = Constant.Default.INT,
-    var tags: String? = Constant.Default.NULL,
+    var tags: List<String>? = Constant.Default.NULL,
     var country: String? = Constant.Default.NULL,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.COUNTRY_CODE)
-    @ColumnInfo(name = RadioConstants.Keys.Station.COUNTRY_CODE)
+    @ColumnInfo(name = Constants.Keys.Station.COUNTRY_CODE)
     private var countryCode: String? = Constant.Default.NULL,
     var state: String? = Constant.Default.NULL,
-    var language: String? = Constant.Default.NULL,
+    var languages: List<String>? = Constant.Default.NULL,
     var votes: Int = Constant.Default.INT,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.NEGATIVE_VOTES)
-    @ColumnInfo(name = RadioConstants.Keys.Station.NEGATIVE_VOTES)
-    private var negativeVotes: Int = Constant.Default.INT,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_COUNT)
-    @ColumnInfo(name = RadioConstants.Keys.Station.CLICK_COUNT)
-    private var clickCount: Int = Constant.Default.INT,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TREND)
-    @ColumnInfo(name = RadioConstants.Keys.Station.CLICK_TREND)
-    private var clickTrend: Int = Constant.Default.INT,
-    var hls: Boolean = Constant.Default.BOOLEAN,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK)
-    @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHECK_OK)
-    private var lastCheckOk: Boolean = Constant.Default.BOOLEAN,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHANGE_TIME)
-    @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHANGE_TIME)
+    @ColumnInfo(name = Constants.Keys.Station.LAST_CHANGE_TIME)
     private var lastChangeTime: Long = Constant.Default.LONG,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_TIME)
-    @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHECK_TIME)
+    var codecs: List<String>? = Constant.Default.NULL,
+    var bitrate: Int = Constant.Default.INT,
+    var hls: Boolean = Constant.Default.BOOLEAN,
+    @ColumnInfo(name = Constants.Keys.Station.LAST_CHECK_OK)
+    private var lastCheckOk: Boolean = Constant.Default.BOOLEAN,
+    @ColumnInfo(name = Constants.Keys.Station.LAST_CHECK_TIME)
     private var lastCheckTime: Long = Constant.Default.LONG,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK_TIME)
-    @ColumnInfo(name = RadioConstants.Keys.Station.LAST_CHECK_OK_TIME)
+    @ColumnInfo(name = Constants.Keys.Station.LAST_CHECK_OK_TIME)
     private var lastCheckOkTime: Long = Constant.Default.LONG,
-
-    @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TIMESTAMP)
-    @ColumnInfo(name = RadioConstants.Keys.Station.CLICK_TIMESTAMP)
-    private var clickTimestamp: Long = Constant.Default.LONG
-
-
+    @ColumnInfo(name = Constants.Keys.Station.LAST_LOCAL_CHECK_TIME)
+    var lastLocalCheckTime: Long = Constant.Default.LONG,
+    @ColumnInfo(name = Constants.Keys.Station.CLICK_TIMESTAMP)
+    private var clickTimestamp: Long = Constant.Default.LONG,
+    @ColumnInfo(name = Constants.Keys.Station.CLICK_COUNT)
+    private var clickCount: Int = Constant.Default.INT,
+    @ColumnInfo(name = Constants.Keys.Station.CLICK_TREND)
+    private var clickTrend: Int = Constant.Default.INT
 ) : Base() {
 
+/*    @Parcelize
+    enum class Order(val value: String) : Parcelable {
+        NAME(Constants.Keys.Station.Order.NAME),
+        VOTES(Constants.Keys.Station.Order.VOTES),
+        CLICK_COUNT(Constants.Keys.Station.Order.CLICK_COUNT)
+    }*/
+
     @Ignore
-    constructor() : this(time = Util.currentMillis()) {
+    constructor() : this(time = currentMillis) {
 
     }
 
-    constructor(id: String) : this(time = Util.currentMillis(), id = id) {
+    constructor(id: String) : this(time = currentMillis, id = id) {
 
     }
 
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
-    }
+    override fun hashCode(): Int = Objects.hashCode(id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -108,103 +93,87 @@ data class Station(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String {
-        return "Station [$id] [$url] [$countryCode]"
-    }
+    override fun toString(): String =  "Station [$name] [$url]"
 
-    @PropertyName(RadioConstants.Keys.Station.CHANGE_UUID)
+    @PropertyName(Constants.Keys.Station.CHANGE_UUID)
     fun setChangeUuid(changeUuid: String?) {
         this.changeUuid = changeUuid
     }
 
-    @PropertyName(RadioConstants.Keys.Station.CHANGE_UUID)
-    fun getChangeUuid(): String? {
-        return changeUuid
+    @PropertyName(Constants.Keys.Station.CHANGE_UUID)
+    fun getChangeUuid(): String? = changeUuid
+
+    @PropertyName(Constants.Keys.Station.URL_RESOLVED)
+    fun setUrlResolved(urlResolved: String?) {
+        this.urlResolved = urlResolved
     }
 
-    @PropertyName(RadioConstants.Keys.Station.COUNTRY_CODE)
+    @PropertyName(Constants.Keys.Station.URL_RESOLVED)
+    fun getUrlResolved(): String? = urlResolved
+
+    @PropertyName(Constants.Keys.Station.COUNTRY_CODE)
     fun setCountryCode(countryCode: String?) {
         this.countryCode = countryCode
     }
 
-    @PropertyName(RadioConstants.Keys.Station.COUNTRY_CODE)
+    @PropertyName(Constants.Keys.Station.COUNTRY_CODE)
     fun getCountryCode(): String? {
         return countryCode
     }
 
-    @PropertyName(RadioConstants.Keys.Station.NEGATIVE_VOTES)
-    fun setNegativeVotes(negativeVotes: Int) {
-        this.negativeVotes = negativeVotes
-    }
-
-    @PropertyName(RadioConstants.Keys.Station.NEGATIVE_VOTES)
-    fun getNegativeVotes(): Int {
-        return negativeVotes
-    }
-
-    @PropertyName(RadioConstants.Keys.Station.CLICK_COUNT)
+    @PropertyName(Constants.Keys.Station.CLICK_COUNT)
     fun setClickCount(clickCount: Int) {
         this.clickCount = clickCount
     }
 
-    @PropertyName(RadioConstants.Keys.Station.CLICK_COUNT)
-    fun getClickCount(): Int {
-        return clickCount
-    }
+    @PropertyName(Constants.Keys.Station.CLICK_COUNT)
+    fun getClickCount(): Int = clickCount
 
-    @PropertyName(RadioConstants.Keys.Station.CLICK_TREND)
+    @PropertyName(Constants.Keys.Station.CLICK_TREND)
     fun setClickTrend(clickTrend: Int) {
         this.clickTrend = clickTrend
     }
 
-    @PropertyName(RadioConstants.Keys.Station.CLICK_TREND)
-    fun getClickTrend(): Int {
-        return clickTrend
-    }
+    @PropertyName(Constants.Keys.Station.CLICK_TREND)
+    fun getClickTrend(): Int = clickTrend
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_OK)
+    @PropertyName(Constants.Keys.Station.LAST_CHECK_OK)
     fun setLastCheckOk(lastCheckOk: Boolean) {
         this.lastCheckOk = lastCheckOk
     }
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_OK)
+    @PropertyName(Constants.Keys.Station.LAST_CHECK_OK)
     fun getLastCheckOk(): Boolean = lastCheckOk
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHANGE_TIME)
+    @PropertyName(Constants.Keys.Station.LAST_CHANGE_TIME)
     fun setLastChangeTime(lastChangeTime: Long) {
         this.lastChangeTime = lastChangeTime
     }
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHANGE_TIME)
+    @PropertyName(Constants.Keys.Station.LAST_CHANGE_TIME)
     fun getLastChangeTime(): Long = lastChangeTime
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_TIME)
+    @PropertyName(Constants.Keys.Station.LAST_CHECK_TIME)
     fun setLastCheckTime(lastCheckTime: Long) {
         this.lastCheckTime = lastCheckTime
     }
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_TIME)
-    fun getLastCheckTime(): Long {
-        return lastCheckTime
-    }
+    @PropertyName(Constants.Keys.Station.LAST_CHECK_TIME)
+    fun getLastCheckTime(): Long = lastCheckTime
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_OK_TIME)
+    @PropertyName(Constants.Keys.Station.LAST_CHECK_OK_TIME)
     fun setLastCheckOkTime(lastCheckOkTime: Long) {
         this.lastCheckOkTime = lastCheckOkTime
     }
 
-    @PropertyName(RadioConstants.Keys.Station.LAST_CHECK_OK_TIME)
-    fun getLastCheckOkTime(): Long {
-        return lastCheckOkTime
-    }
+    @PropertyName(Constants.Keys.Station.LAST_CHECK_OK_TIME)
+    fun getLastCheckOkTime(): Long = lastCheckOkTime
 
-    @PropertyName(RadioConstants.Keys.Station.CLICK_TIMESTAMP)
+    @PropertyName(Constants.Keys.Station.CLICK_TIMESTAMP)
     fun setClickTimestamp(clickTimestamp: Long) {
         this.clickTimestamp = clickTimestamp
     }
 
-    @PropertyName(RadioConstants.Keys.Station.CLICK_TIMESTAMP)
-    fun getClickTimestamp(): Long {
-        return clickTimestamp
-    }
+    @PropertyName(Constants.Keys.Station.CLICK_TIMESTAMP)
+    fun getClickTimestamp(): Long = clickTimestamp
 }

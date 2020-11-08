@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import com.dreampany.tools.api.radio.ShoutCast
-import com.dreampany.tools.api.radio.Stream
+import com.dreampany.tools.api.radiobrowser.ShoutCast
+import com.dreampany.tools.api.radiobrowser.Stream
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.service.RadioPlayerService
 import timber.log.Timber

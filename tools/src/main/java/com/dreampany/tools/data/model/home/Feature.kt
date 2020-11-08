@@ -3,8 +3,8 @@ package com.dreampany.tools.data.model.home
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 

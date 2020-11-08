@@ -1,4 +1,4 @@
-package com.dreampany.tools.api.radio
+package com.dreampany.tools.api.radiobrowser
 
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.constant.Constant.Sep.LEAF_SEPARATOR

@@ -5,12 +5,14 @@ import com.dreampany.framework.inject.annote.Remote
 import com.dreampany.framework.inject.annote.Room
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.radio.RadioBrowserModule
-import com.dreampany.tools.api.radio.StationService
+import com.dreampany.tools.api.radiobrowser.RadioBrowserModule
+import com.dreampany.tools.api.radiobrowser.StationService
+ import com.dreampany.tools.data.source.radio.api.PageDataSource
 import com.dreampany.tools.data.source.radio.api.StationDataSource
 import com.dreampany.tools.data.source.radio.mapper.StationMapper
 import com.dreampany.tools.data.source.radio.remote.StationRemoteDataSource
-import com.dreampany.tools.data.source.radio.room.StationRoomDataSource
+import com.dreampany.tools.data.source.radio.room.PageRoomDataSource
+import com.dreampany.tools.data.source.radio.room.dao.PageDao
 import com.dreampany.tools.data.source.radio.room.dao.StationDao
 import com.dreampany.tools.data.source.radio.room.database.DatabaseManager
 import dagger.Module
@@ -32,19 +34,19 @@ class RadioModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(application: Application): DatabaseManager = DatabaseManager.getInstance(application)
+    fun provideDatabase(application: Application): DatabaseManager =
+        DatabaseManager.getInstance(application)
 
     @Provides
     @Singleton
-    fun provideStationDao(database: DatabaseManager): StationDao = database.stationDao()
+    fun providePageDao(database: DatabaseManager): PageDao = database.pageDao()
 
     @Singleton
     @Provides
     @Room
-    fun provideStationRoomDataSource(
-        mapper: StationMapper,
-        dao: StationDao
-    ): StationDataSource = StationRoomDataSource(mapper, dao)
+    fun providePageRoomDataSource(
+        dao: PageDao
+    ): PageDataSource = PageRoomDataSource(dao)
 
     @Singleton
     @Provides

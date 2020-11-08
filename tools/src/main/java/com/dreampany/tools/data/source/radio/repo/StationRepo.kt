@@ -1,15 +1,12 @@
 package com.dreampany.tools.data.source.radio.repo
 
 import com.dreampany.framework.inject.annote.Remote
-import com.dreampany.framework.inject.annote.Room
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
-import com.dreampany.tools.data.enums.radio.RadioState
-import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.api.StationDataSource
 import com.dreampany.tools.data.source.radio.mapper.StationMapper
-import com.dreampany.tools.data.source.radio.pref.RadioPref
+import com.dreampany.tools.data.source.radio.pref.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,68 +23,104 @@ class StationRepo
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    private val pref: RadioPref,
+    private val pref: Prefs,
     private val mapper: StationMapper,
-    @Room private val room: StationDataSource,
     @Remote private val remote: StationDataSource
 ) : StationDataSource {
-    override suspend fun putItem(item: Station): Long {
+    override suspend fun write(input: Station): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun putItems(items: List<Station>): List<Long>? {
+    override suspend fun write(inputs: List<Station>): List<Long>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItems(): List<Station>? {
+    override suspend fun reads(): List<Station>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItems(countryCode: String, limit: Long): List<Station>? {
+    override suspend fun readsByCountry(
+        country: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getItemsOfCountry(
+    override suspend fun readsByCountryCode(
         countryCode: String,
-        hideBroken: Boolean,
-        order: StationOrder,
-        reverse: Boolean,
+        order: String,
         offset: Long,
         limit: Long
     ) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired(RadioState.LOCAL, countryCode, hideBroken, order, reverse, offset)) {
-            val result =
-                remote.getItemsOfCountry(countryCode, hideBroken, order, reverse, offset, limit)
-            if (!result.isNullOrEmpty()) {
-                mapper.commitExpire(RadioState.LOCAL, countryCode, hideBroken, order, reverse, offset)
-                room.putItems(result)
-            }
-        }
-        room.getItemsOfCountry(countryCode, hideBroken, order, reverse, offset, limit)
+        remote.readsByCountryCode(countryCode, order, offset, limit)
+    }
+
+    override suspend fun readsByLanguage(
+        language: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
+        TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getItemsOfTrends(limit: Long) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired(RadioState.TRENDS)) {
-            val result = remote.getItemsOfTrends(limit)
-            if (!result.isNullOrEmpty()) {
-                mapper.commitExpire(RadioState.TRENDS)
-                room.putItems(result)
-            }
-        }
-        room.getItemsOfTrends(limit)
+    override suspend fun readsTrend(
+        order: String,
+        offset: Long,
+        limit: Long
+    ) = withContext(Dispatchers.IO) {
+        remote.readsTrend(order, offset, limit)
     }
 
     @Throws
-    override suspend fun getItemsOfPopular(limit: Long) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired(RadioState.POPULAR)) {
-            val result = remote.getItemsOfPopular(limit)
-            if (!result.isNullOrEmpty()) {
-                mapper.commitExpire(RadioState.POPULAR)
-                room.putItems(result)
-            }
-        }
-        room.getItemsOfPopular(limit)
+    override suspend fun readsPopular(
+        order: String,
+        offset: Long,
+        limit: Long
+    ) = withContext(Dispatchers.IO) {
+        remote.readsPopular(order, offset, limit)
     }
+
+    @Throws
+    override suspend fun readsRecent(
+        order: String,
+        offset: Long,
+        limit: Long
+    ) = withContext(Dispatchers.IO) {
+        remote.readsRecent(order, offset, limit)
+    }
+
+    @Throws
+    override suspend fun readsChange(
+        order: String,
+        offset: Long,
+        limit: Long
+    ) = withContext(Dispatchers.IO) {
+        remote.readsChange(order, offset, limit)
+    }
+
+    @Throws
+    override suspend fun searchByName(
+        name: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    )= withContext(Dispatchers.IO) {
+        remote.searchByName(name, order, offset, limit)
+    }
+
+
+    override suspend fun searchByTag(
+        tag: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Station>? {
+        TODO("Not yet implemented")
+    }
+
 }

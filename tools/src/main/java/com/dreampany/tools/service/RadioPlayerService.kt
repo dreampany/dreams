@@ -28,13 +28,11 @@ import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.service.InjectService
 import com.dreampany.tools.R
 import com.dreampany.tools.api.player.SmartPlayer
-import com.dreampany.tools.api.radio.MediaSessionCallback
-import com.dreampany.tools.api.radio.RadioPlayer
-import com.dreampany.tools.api.radio.ShoutCast
-import com.dreampany.tools.api.radio.Stream
+import com.dreampany.tools.api.radiobrowser.RadioPlayer
+import com.dreampany.tools.api.radiobrowser.ShoutCast
+import com.dreampany.tools.api.radiobrowser.Stream
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.misc.constants.Constants
-import com.dreampany.tools.misc.constants.RadioConstants
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,8 +43,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RadioPlayerService
-    : InjectService(),
+class RadioPlayerService : InjectService(),
     AudioManager.OnAudioFocusChangeListener,
     RadioPlayer.Listener {
 
@@ -431,7 +428,7 @@ class RadioPlayerService
 
     private fun showNotify(title: String, message: String, ticker: String) {
         val notifyIntent = Intent(this, HomeActivity::class.java)
-        notifyIntent.putExtra(RadioConstants.Keys.Station.STATION_UUID, station?.id)
+        notifyIntent.putExtra(Constants.Keys.Station.STATION_UUID, station?.id)
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         val stopIntent = Intent(this, RadioPlayerService::class.java)
@@ -464,10 +461,10 @@ class RadioPlayerService
                 .setWhen(System.currentTimeMillis())
                 .setTicker(ticker)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.drawable.ic_play_arrow_black_24dp)
+                .setSmallIcon(R.drawable.ic_baseline_play_arrow_24)
                 //.setLargeIcon(radioIcon.getBitmap())
                 .addAction(
-                    R.drawable.ic_stop_black_24dp,
+                    R.drawable.ic_baseline_stop_24,
                     getString(R.string.stop),
                     pendingIntentStop
                 )
@@ -484,7 +481,7 @@ class RadioPlayerService
             val pendingIntentPause = PendingIntent.getService(this, 0, pauseIntent, 0)
 
             builder.addAction(
-                R.drawable.ic_pause_black_24dp,
+                R.drawable.ic_baseline_pause_24,
                 getString(R.string.pause),
                 pendingIntentPause
             )
@@ -497,7 +494,7 @@ class RadioPlayerService
             val pendingIntentResume = PendingIntent.getService(this, 0, resumeIntent, 0)
 
             builder.addAction(
-                R.drawable.ic_play_arrow_black_24dp,
+                R.drawable.ic_baseline_play_arrow_24,
                 getString(R.string.resume),
                 pendingIntentResume
             )

@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/_100sdp"
-        auto:cardCornerRadius="@dimen/cornerRadius"
-        auto:cardPreventCornerOverlap="false"
-        auto:cardElevation="@dimen/cornerRadius">
+        auto:cardCornerRadius="@dimen/cornerRadiusSmall"
+        auto:cardElevation="@dimen/cornerRadiusSmall"
+        auto:cardPreventCornerOverlap="false">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

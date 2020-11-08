@@ -29,7 +29,7 @@
                     android:id="@+id/layout_make"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/material_white"
+                    android:background="@color/material_grey200"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="@dimen/align_margin"
@@ -42,9 +42,10 @@
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
                         android:text="@string/message_add_page"
-                        android:textColor="@color/textColorPrimary"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/textSizePrimary"
                         auto:drawableStartCompat="@drawable/ic_add_black_24dp"
+                        auto:drawableTint="@color/colorAccent"
                         auto:fontFamily="@font/roboto_slab_bold" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

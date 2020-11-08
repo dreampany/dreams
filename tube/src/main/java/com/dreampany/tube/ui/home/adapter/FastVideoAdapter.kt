@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.addDecoration
 import com.dreampany.framework.misc.exts.dimension
+import com.dreampany.framework.misc.exts.integer
 import com.dreampany.tube.R
 import com.dreampany.tube.databinding.VideoItemBinding
 import com.dreampany.tube.ui.model.VideoItem
@@ -67,13 +69,7 @@ class FastVideoAdapter(
         recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
-            addItemDecoration(
-                SpacingItemDecoration(
-                    1,
-                    context.dimension(R.dimen.feature_recycler_spacing).toInt(),
-                    true
-                )
-            )
+            addDecoration(context.integer(R.integer.recycler_item_offset_small))
 
             scrollListener?.let {
                 scroller = object : EndlessRecyclerOnScrollListener(footerAdapter) {

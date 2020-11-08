@@ -3,7 +3,6 @@ package com.dreampany.tools.ui.news.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
@@ -57,7 +56,7 @@ class ArticlesFragment
     private lateinit var query: String
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
-    override val menuRes: Int = R.menu.menu_news
+    override val menuRes: Int = R.menu.news_menu
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
@@ -65,15 +64,14 @@ class ArticlesFragment
         input = task.input ?: return
         initUi()
         initRecycler(state)
-       // onRefresh()
     }
 
     override fun onStopUi() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         onRefresh()
     }
 
@@ -95,11 +93,6 @@ class ArticlesFragment
             ex.getUiHandler().removeCallbacks(runner)
             ex.getUiHandler().postDelayed(runner, 3000L)
         }
-        return false
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-
         return false
     }
 
@@ -128,8 +121,8 @@ class ArticlesFragment
         searchVm = createVm(SearchViewModel::class)
         vm = createVm(ArticleViewModel::class)
 
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        vm.subscribe(this, { this.processResponse(it) })
+        vm.subscribes(this, { this.processResponses(it) })
 
         bind.swipe.init(this)
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_articles)
@@ -219,7 +212,7 @@ class ArticlesFragment
         if (adapter.isEmpty) {
             if (input.type.isLocal) {
                 readLocalArticles()
-            }else if (input.type.isCategory) {
+            } else if (input.type.isCategory) {
                 vm.loadArticles(input)
             }
             /*if (input.id.length == 2) {

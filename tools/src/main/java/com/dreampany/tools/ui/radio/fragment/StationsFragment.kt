@@ -93,6 +93,16 @@ class StationsFragment
         loadStations()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onQueryTextChange(newText: String?): Boolean {
         adapter.filter(newText)
         val value = newText.trimValue

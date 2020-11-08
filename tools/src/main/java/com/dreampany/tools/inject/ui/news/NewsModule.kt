@@ -25,7 +25,4 @@ abstract class NewsModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [SettingsModule::class])
     abstract fun settings(): SettingsActivity
-
-/*    @ContributesAndroidInjector
-    abstract fun categories(): CategoriesActivity*/
 }

@@ -20,4 +20,7 @@
 
     <string name="title_radio_pages" translatable="false">Select Pages</string>
     <string name="subtitle_radio_pages" translatable="false">%d / %d</string>
+
+    <string name="title_radio_settings" translatable="false">Radio Settings</string>
+
 </resources>

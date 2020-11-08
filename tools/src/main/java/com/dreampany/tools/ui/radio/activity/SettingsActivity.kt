@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.news.activity
+package com.dreampany.tools.ui.radio.activity
 
 import android.os.Bundle
 import com.dreampany.framework.misc.constant.Constant
@@ -12,7 +12,7 @@ import dagger.Lazy
 import javax.inject.Inject
 
 /**
- * Created by roman on 17/10/20
+ * Created by roman on 8/11/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

@@ -11,10 +11,16 @@
         auto:showAsAction="collapseActionView|always" />
 
     <item
-        android:id="@+id/item_favorites"
+        android:id="@+id/item_favorite"
         android:icon="@drawable/ic_favorite_border_black_24dp"
-        android:title="@string/title_favorite_notes"
+        android:title="@string/title_favorite_stations"
         android:visible="false"
+        auto:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/title_radio_settings"
         auto:showAsAction="always" />
 
 </menu>

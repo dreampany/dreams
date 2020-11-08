@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.radio.activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.open
@@ -16,7 +17,6 @@ import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.source.radio.pref.Prefs
 import com.dreampany.tools.databinding.RadioActivityBinding
 import com.dreampany.tools.manager.AdsManager
-import com.dreampany.tools.ui.radio.activity.PagesActivity
 import com.dreampany.tools.ui.radio.adapter.PageAdapter
 import com.dreampany.tools.ui.radio.model.PageItem
 import com.dreampany.tools.ui.radio.vm.PageViewModel
@@ -88,6 +88,20 @@ class RadioActivity : InjectActivity() {
     override fun onPause() {
         ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_favorites -> {
+                //openFavoritesUi()
+                return true
+            }
+            R.id.item_settings -> {
+                openSettingsUi()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initAd() {
@@ -164,5 +178,9 @@ class RadioActivity : InjectActivity() {
         } else {
             adapter.notifyDataSetChanged()
         }
+    }
+
+    private fun openSettingsUi() {
+        open(SettingsActivity::class)
     }
 }

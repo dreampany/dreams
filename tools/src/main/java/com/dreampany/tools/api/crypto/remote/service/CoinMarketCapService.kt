@@ -1,6 +1,7 @@
 package com.dreampany.tools.api.crypto.remote.service
 
 import androidx.annotation.IntRange
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
@@ -16,13 +17,12 @@ import retrofit2.http.Query
  * Last modified $file.lastModified
  */
 interface CoinMarketCapService {
-    @GET(CryptoConstants.CoinMarketCap.LISTING)
-    fun getListing(
+    @GET(Constants.Apis.CoinMarketCap.COINS)
+    fun reads(
         @HeaderMap headers: Map<String, String>,
-        @Query(CryptoConstants.CoinMarketCap.CONVERT) currencies: String,
-        @Query(CryptoConstants.CoinMarketCap.SORT) sort: String,
-        @Query(CryptoConstants.CoinMarketCap.SORT_DIRECTION) sortDirection: String,
-        //@Query(Constants.CoinMarketCap.AUXILIARIES) auxiliaries: String,
+        @Query(Constants.Apis.CoinMarketCap.CONVERT) currencies: String,
+        @Query(Constants.Apis.CoinMarketCap.SORT) sort: String,
+        @Query(Constants.Apis.CoinMarketCap.SORT_DIRECTION) sortDirection: String,
         @Query(CryptoConstants.Common.START)
         @IntRange(from = 1, to = Long.MAX_VALUE)
         start: Long,

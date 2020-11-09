@@ -12,18 +12,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 /**
- * Created by roman on 2019-11-12
- * Copyright (c) 2019 bjit. All rights reserved.
+ * Created by roman on 9/11/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @Module
-class CoinMarketCapModule {
+class CoinMarketCapGraphModule {
 
     @Singleton
     @Provides
     @CoinMarketCapAnnote
-    fun provideCoinMarketCapRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
+    fun provideCoinMarketCapGraphRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(Constants.Apis.CoinMarketCap.BASE_URL)

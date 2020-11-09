@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import com.dreampany.framework.api.cast.CastManager
-import com.dreampany.tools.api.radiobrowser.Constants
+import com.dreampany.tools.api.radiobrowser.misc.Constants
 import com.dreampany.tools.api.radiobrowser.RadioDroidBrowser
 
 /**

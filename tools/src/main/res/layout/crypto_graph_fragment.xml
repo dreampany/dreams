@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/layout_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.dreampany.framework.ui.widget.NestedScrollView
+            android:id="@+id/smart_scroller"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:ignore="PrivateResource">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/textSizePrimary" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:focusableInTouchMode="true" />
+
+                <!--<androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price"
+                        android:textSize="16sp"
+                        auto:layout_constraintEnd_toEndOf="parent"
+                        auto:layout_constraintStart_toStartOf="parent"
+                        auto:layout_constraintTop_toTopOf="parent"
+                        auto:fontFamily="@font/roboto_slab_regular" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/time"
+                        android:textSize="12sp"
+                        auto:layout_constraintEnd_toEndOf="parent"
+                        auto:layout_constraintStart_toStartOf="parent"
+                        auto:layout_constraintTop_toBottomOf="@id/text_price"
+                        auto:fontFamily="@font/roboto_slab_regular" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/change"
+                        android:textSize="12sp"
+                        auto:layout_constraintEnd_toEndOf="parent"
+                        auto:layout_constraintStart_toStartOf="parent"
+                        auto:layout_constraintTop_toBottomOf="@id/text_time"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                    <com.beardedhen.androidbootstrap.BootstrapDropDown
+                        android:id="@+id/drop_down_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        auto:bootstrapBrand="success"
+                        auto:bootstrapExpandDirection="down"
+                        auto:bootstrapSize="md"
+                        auto:bootstrapText="@string/usd"
+                        auto:dropdownResource="@array/coin_graph_currencies"
+                        auto:layout_constraintEnd_toEndOf="parent"
+                        auto:layout_constraintTop_toTopOf="parent"
+                        auto:roundedCorners="true" />
+
+                    <include
+                        android:id="@+id/layout_toggle_date"
+                        layout="@layout/content_coin_graph_toggle_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        auto:layout_constraintEnd_toEndOf="parent"
+                        auto:layout_constraintStart_toStartOf="parent"
+                        auto:layout_constraintTop_toBottomOf="@id/text_change" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.dreampany.framework.ui.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

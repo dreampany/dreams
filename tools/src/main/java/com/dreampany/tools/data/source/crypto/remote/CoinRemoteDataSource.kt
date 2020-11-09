@@ -3,7 +3,6 @@ package com.dreampany.tools.data.source.crypto.remote
 import android.content.Context
 import androidx.annotation.IntRange
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
@@ -99,7 +98,7 @@ constructor(
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val response: Response<CoinsResponse> = service.getListing(
+                val response: Response<CoinsResponse> = service.reads(
                     getHeader(key),
                     currency.name,
                     sort.value,

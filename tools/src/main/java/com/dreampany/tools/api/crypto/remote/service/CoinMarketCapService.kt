@@ -29,10 +29,10 @@ interface CoinMarketCapService {
         @Query(CryptoConstants.Common.LIMIT) limit: Long
     ): Call<CoinsResponse>
 
-    @GET(CryptoConstants.CoinMarketCap.QUOTES)
+    @GET(Constants.Apis.CoinMarketCap.QUOTES)
     fun getQuotes(
         @HeaderMap headers: Map<String, String>,
-        @Query(CryptoConstants.CoinMarketCap.CONVERT) currencies: String,
-        @Query(CryptoConstants.CoinMarketCap.ID) ids: String // could be comma separated multiple coin_id
+        @Query(Constants.Apis.CoinMarketCap.CONVERT) currencies: String,
+        @Query(Constants.Apis.CoinMarketCap.ID) ids: String // could be comma separated multiple coin_id
     ): Call<QuotesResponse>
 }

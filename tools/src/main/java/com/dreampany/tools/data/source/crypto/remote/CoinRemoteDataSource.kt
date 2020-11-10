@@ -17,6 +17,7 @@ import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import retrofit2.Response
 import java.net.UnknownHostException
@@ -44,21 +45,21 @@ constructor(
 
         }*/
         keys.setKeys(
-            CryptoConstants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
-            CryptoConstants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
-            CryptoConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
-            CryptoConstants.CoinMarketCap.CMC_PRO_IFTE_NET,
-            CryptoConstants.CoinMarketCap.CMC_PRO_DREAMPANY
+            Constants.Apis.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
+            Constants.Apis.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
+            Constants.Apis.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
+            Constants.Apis.CoinMarketCap.CMC_PRO_IFTE_NET,
+            Constants.Apis.CoinMarketCap.CMC_PRO_DREAMPANY
         )
     }
 
     private fun getHeader(key: String): Map<String, String> {
         val header = Maps.newHashMap<String, String>()
         header.put(
-            CryptoConstants.CoinMarketCap.ACCEPT,
-            CryptoConstants.CoinMarketCap.ACCEPT_JSON
+            Constants.Apis.CoinMarketCap.ACCEPT,
+            Constants.Apis.CoinMarketCap.ACCEPT_JSON
         )
-        header.put(CryptoConstants.CoinMarketCap.API_KEY, key)
+        header.put(Constants.Apis.CoinMarketCap.API_KEY, key)
         return header
     }
 

@@ -23,7 +23,7 @@ class CryptoCompareModule {
     @Singleton
     @Provides
     @CryptoCompareAnnote
-    fun provideCryptoCompareRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
+    fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(CryptoConstants.CryptoCompare.BASE_URL)
@@ -33,8 +33,7 @@ class CryptoCompareModule {
 
     @Singleton
     @Provides
-    fun provideCryptoCompareService(@CryptoCompareAnnote retrofit: Retrofit): CryptoCompareService {
-        return retrofit.create(CryptoCompareService::class.java);
-    }
+    fun provideService(@CryptoCompareAnnote retrofit: Retrofit): CryptoCompareService =
+        retrofit.create(CryptoCompareService::class.java)
 
 }

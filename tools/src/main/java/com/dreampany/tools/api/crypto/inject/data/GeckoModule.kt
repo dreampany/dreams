@@ -22,7 +22,7 @@ class GeckoModule {
     @Singleton
     @Provides
     @GeckoAnnote
-    fun provideGeckoRetrofit(gson: Gson, httpClient: OkHttpClient) =
+    fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(CryptoConstants.Gecko.BASE_URL)
@@ -31,6 +31,6 @@ class GeckoModule {
 
     @Singleton
     @Provides
-    fun provideGeckoService(@GeckoAnnote retrofit: Retrofit) =
+    fun provideService(@GeckoAnnote retrofit: Retrofit): GeckoService =
         retrofit.create(GeckoService::class.java)
 }

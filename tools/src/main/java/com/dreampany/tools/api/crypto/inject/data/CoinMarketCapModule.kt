@@ -23,17 +23,15 @@ class CoinMarketCapModule {
     @Singleton
     @Provides
     @CoinMarketCapAnnote
-    fun provideCoinMarketCapRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(Constants.Apis.CoinMarketCap.BASE_URL)
             .client(httpClient)
             .build()
-    }
 
     @Singleton
     @Provides
-    fun provideCoinMarketCapService(@CoinMarketCapAnnote retrofit: Retrofit): CoinMarketCapService {
-        return retrofit.create(CoinMarketCapService::class.java);
-    }
+    fun provideService(@CoinMarketCapAnnote retrofit: Retrofit): CoinMarketCapService =
+        retrofit.create(CoinMarketCapService::class.java)
 }

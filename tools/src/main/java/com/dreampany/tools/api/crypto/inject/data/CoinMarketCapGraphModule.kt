@@ -1,8 +1,8 @@
 package com.dreampany.tools.api.crypto.inject.data
 
-import com.dreampany.tools.api.crypto.inject.CoinMarketCapAnnote
+import com.dreampany.tools.api.crypto.inject.CoinMarketCapGraphAnnote
 import com.dreampany.tools.api.crypto.misc.Constants
-import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
+import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapGraphService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -22,18 +22,16 @@ class CoinMarketCapGraphModule {
 
     @Singleton
     @Provides
-    @CoinMarketCapAnnote
-    fun provideCoinMarketCapGraphRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    @CoinMarketCapGraphAnnote
+    fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(Constants.Apis.CoinMarketCap.BASE_URL)
+            .baseUrl(Constants.Apis.CoinMarketCap.BASE_GRAPH_URL)
             .client(httpClient)
             .build()
-    }
 
     @Singleton
     @Provides
-    fun provideCoinMarketCapService(@CoinMarketCapAnnote retrofit: Retrofit): CoinMarketCapService {
-        return retrofit.create(CoinMarketCapService::class.java);
-    }
+    fun provideService(@CoinMarketCapGraphAnnote retrofit: Retrofit): CoinMarketCapGraphService =
+        retrofit.create(CoinMarketCapGraphService::class.java)
 }

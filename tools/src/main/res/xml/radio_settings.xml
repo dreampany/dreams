@@ -12,11 +12,11 @@
             auto:iconSpaceReserved="false" />
 
         <ListPreference
-            android:key="@string/key_radio_settings_order"
-            android:title="@string/title_radio_settings_order"
-            auto:defaultValue="@string/key_radio_settings_order_value_name"
-            auto:entries="@array/array_radio_order_labels"
-            auto:entryValues="@array/array_radio_order_values"
+            android:key="@string/key_radio_settings_sort"
+            android:title="@string/title_radio_settings_sort"
+            auto:defaultValue="@string/key_radio_settings_sort_value_name"
+            auto:entries="@array/array_radio_sort_labels"
+            auto:entryValues="@array/array_radio_sort_values"
             auto:iconSpaceReserved="false" />
     </PreferenceCategory>
 

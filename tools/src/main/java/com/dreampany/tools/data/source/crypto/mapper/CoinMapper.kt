@@ -1,6 +1,5 @@
 package com.dreampany.tools.data.source.crypto.mapper
 
-import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.isExpired
@@ -15,8 +14,9 @@ import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
+import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
@@ -36,7 +36,7 @@ class CoinMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
-    private val pref: CryptoPref
+    private val pref: Prefs
 ) {
     private val coins: MutableMap<String, Coin>
     private val quotes: MutableMap<Pair<String, Currency>, Quote>
@@ -51,24 +51,24 @@ class CoinMapper
     }
 
     @Synchronized
-    fun isExpired(currency: Currency, sort: CoinSort, order: Order, offset: Long): Boolean {
-        val time = pref.getExpireTime(currency, sort, order, offset)
-        return time.isExpired(CryptoConstants.Times.Crypto.LISTING)
+    fun isExpired(currency: Currency, sort: String, order: String, offset: Long): Boolean {
+        val time = pref.readExpireTime(currency, sort, order, offset)
+        return time.isExpired(Constants.Times.Crypto.COINS)
     }
 
     @Synchronized
-    fun commitExpire(currency: Currency, sort: CoinSort, order: Order, offset: Long) =
-        pref.commitExpireTime(currency, sort, order, offset)
+    fun writeExpire(currency: Currency, sort: String, order: String, offset: Long) =
+        pref.writeExpireTime(currency, sort, order, offset)
 
     @Synchronized
     fun isExpired(id: String, currency: Currency): Boolean {
-        val time = pref.getExpireTime(id, currency)
+        val time = pref.readExpireTime(currency, id)
         return time.isExpired(CryptoConstants.Times.Crypto.COIN)
     }
 
     @Synchronized
-    fun commitExpire(id: String, currency: Currency) =
-        pref.commitExpireTime(id, currency)
+    fun writeExpire(id: String, currency: Currency) =
+        pref.writeExpireTime(currency, id)
 
 
     @Synchronized
@@ -118,15 +118,15 @@ class CoinMapper
     @Synchronized
     suspend fun getItems(
         currency: Currency,
-        sort: CoinSort,
-        sortDirection: Order,
+        sort: String,
+        order: String,
         offset: Long,
         limit: Long,
         quoteDao: QuoteDao,
         source: CoinDataSource
     ): List<Coin>? {
         updateCache(source)
-        val cache = sortedCoins(coins.values.toList(), currency, sort, sortDirection)
+        val cache = sortedCoins(coins.values.toList(), currency, sort, order)
         val result = sub(cache, offset, limit)
         result?.forEach {
             bindQuote(currency, it, quoteDao)
@@ -278,8 +278,8 @@ class CoinMapper
     private fun sortedCoins(
         inputs: List<Coin>,
         currency: Currency,
-        sort: CoinSort,
-        order: Order
+        sort: String,
+        order: String
     ): List<Coin> {
         val temp = ArrayList(inputs)
         val comparator = CryptoComparator(currency, sort, order)
@@ -289,8 +289,8 @@ class CoinMapper
 
     class CryptoComparator(
         private val currency: Currency,
-        private val sort: CoinSort,
-        private val order: Order
+        private val sort: String,
+        private val order: String
     ) : Comparator<Coin> {
         override fun compare(left: Coin, right: Coin): Int {
             if (sort == CoinSort.MARKET_CAP) {

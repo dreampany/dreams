@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model.crypto
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -187,4 +188,12 @@ data class Coin(
         }
         return latest
     }
+
+/*    @Parcelize
+    enum class Sort(
+        val value: String
+    ) : Parcelable {
+        MARKET_CAP(Constants.Keys.Quote.MARKET_CAP),
+        RANK(Constants.Keys.Quote.MARKET_CAP)
+    }*/
 }

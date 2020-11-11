@@ -3,23 +3,53 @@
     <string name="title_settings_categories">Select Categories</string>
     <string name="key_settings_categories">categories</string>
 
+    <!-- crypto -->
+    <string name="title_crypto_settings_currency">Currency</string>
+    <string name="key_crypto_settings_currency">crypto.currency</string>
+
+    <string name="title_crypto_settings_sort">Sort</string>
+    <string name="key_crypto_settings_sort">crypto.sort</string>
+    <string name="key_crypto_settings_sort_value_market_cap">market_cap</string>
+
+    <array name="array_crypto_sort_labels">
+        <item>Market Cap</item>
+    </array>
+
+    <array name="array_crypto_sort_values">
+        <item>@string/key_crypto_settings_sort_value_market_cap</item>
+    </array>
+
+    <string name="title_crypto_settings_order">Order</string>
+    <string name="key_crypto_settings_order">crypto.order</string>
+    <string name="key_crypto_settings_order_value_descending">desc</string>
+
+    <array name="array_crypto_order_labels">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </array>
+
+    <array name="array_crypto_order_values">
+        <item>asc</item>
+        <item>@string/key_crypto_settings_order_value_descending</item>
+    </array>
+
     <!-- radio -->
     <string name="title_radio_settings_pages">Select Pages</string>
     <string name="key_radio_settings_pages">radio.pages</string>
 
-    <string name="title_radio_settings_order">Station Order</string>
-    <string name="key_radio_settings_order">radio.order</string>
+    <string name="title_radio_settings_sort">Station Sort</string>
+    <string name="key_radio_settings_sort">radio.sort</string>
 
-    <string name="key_radio_settings_order_value_name">name</string>
+    <string name="key_radio_settings_sort_value_name">name</string>
 
-    <array name="array_radio_order_labels">
+    <array name="array_radio_sort_labels">
         <item>Name</item>
         <item>Votes</item>
         <item>Trend</item>
     </array>
 
-    <array name="array_radio_order_values">
-        <item>@string/key_radio_settings_order_value_name</item>
+    <array name="array_radio_sort_values">
+        <item>@string/key_radio_settings_sort_value_name</item>
         <item>votes</item>
         <item>clickcount</item>
     </array>

@@ -26,10 +26,10 @@ class Prefs
 
     override fun getPrivateName(context: Context): String = Constants.Keys.Pref.Radio.PREF
 
-    val order: String
+    val sort: String
         get() = getPublicly(
-            context.getString(R.string.key_radio_settings_order),
-            context.getString(R.string.key_radio_settings_order_value_name)
+            context.getString(R.string.key_radio_settings_sort),
+            context.getString(R.string.key_radio_settings_sort_value_name)
         )
 
     @Synchronized

@@ -16,7 +16,6 @@ enum class Currency(
     val symbol: String = Constant.Default.STRING,
     val value: String = Constant.Default.STRING
 ) : Parcelable {
-
     AED(),
     ARS(),
     AUD(),

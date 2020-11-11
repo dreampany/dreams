@@ -125,7 +125,7 @@ class StationsFragment
     }
 
     private fun loadStations() {
-        val order = pref.order
+        val order = pref.sort
         if (input.type.isLocal) {
             vm.readsLocal(context.countryCode, order, 0)
         } else if (input.type.isCustom) {

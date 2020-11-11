@@ -1,3 +1,4 @@
+/*
 package com.dreampany.tools.data.source.crypto.pref
 
 import android.content.Context
@@ -11,12 +12,14 @@ import com.dreampany.tools.misc.constants.CryptoConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 
+*/
 /**
  * Created by roman on 21/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Singleton
 class CryptoPref
 @Inject constructor(
@@ -26,7 +29,8 @@ class CryptoPref
     override fun getPrivateName(context: Context): String =
         CryptoConstants.Keys.PrefKeys.CRYPTO
 
-    @Synchronized
+*/
+/*    @Synchronized
     fun getCurrency(): Currency {
         return getPrivately(
             CryptoConstants.Keys.PrefKeys.Crypto.CURRENCY,
@@ -51,7 +55,8 @@ class CryptoPref
             Order::class.java,
             null
         ) ?: Order.DESCENDING
-    }
+    }*//*
+
 
     @Synchronized
     fun getExpireTime(currency: Currency, sort: CoinSort, order: Order, offset: Long): Long {
@@ -92,4 +97,4 @@ class CryptoPref
         }
         setPrivately(key.toString(), Util.currentMillis())
     }
-}
+}*/

@@ -50,82 +50,12 @@ class GraphFragment
     override val layoutRes: Int = R.layout.crypto_graph_fragment
 
     override fun onStartUi(state: Bundle?) {
-        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Page>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
         input = task.input ?: return
-        initUi()
-        initRecycler(state)
-        onRefresh()
+
     }
 
     override fun onStopUi() {
-        adapter.destroy()
-    }
+     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRefresh() {
-        loadCoins()
-    }
-
-    private fun loadCoins() {
-        if (::input.isInitialized)
-            vm.loadCoin(input.id)
-    }
-
-    private fun initUi() {
-        bind = getBinding()
-        bind.swipe.init(this)
-        vm = createVm(CoinViewModel::class)
-        vm.subscribes(this, Observer { this.processResponse(it) })
-    }
-
-    private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter()
-        }
-
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
-        )
-    }
-
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
-        if (response is Response.Progress) {
-            bind.swipe.refresh(response.progress)
-        } else if (response is Response.Error) {
-            processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
-            Timber.v("Result [%s]", response.result)
-            processResults(response.result)
-        }
-    }
-
-    private fun processError(error: SmartError) {
-        showDialogue(
-            R.string.title_dialog_features,
-            message = error.message,
-            onPositiveClick = {
-
-            },
-            onNegativeClick = {
-
-            }
-        )
-    }
-
-    private fun processResults(result: List<CoinItem>?) {
-        if (result == null) {
-
-        } else {
-            adapter.addItems(result)
-        }
-    }
 }

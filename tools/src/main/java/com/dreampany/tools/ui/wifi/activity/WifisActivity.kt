@@ -13,13 +13,8 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
-import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.wifi.WifiAction
 import com.dreampany.tools.data.enums.wifi.WifiState
 import com.dreampany.tools.data.enums.wifi.WifiSubtype
@@ -27,7 +22,6 @@ import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdsManager
-import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.wifi.adapter.FastWifiAdapter
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import com.dreampany.tools.ui.wifi.vm.WifiViewModel
@@ -243,22 +237,6 @@ class WifisActivity : InjectActivity() {
         } else {
             bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
-    }
-
-    private fun onFavoriteClicked(item: CoinItem) {
-        //vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
-    }
-
-
-    private fun openCoinUi(item: CoinItem) {
-        val task = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.VIEW,
-            item.input
-        )
-        //open(CoinActivity::class, task)
     }
 
     private fun openFavoritesUi() {

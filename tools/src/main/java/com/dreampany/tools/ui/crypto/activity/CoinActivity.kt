@@ -9,14 +9,15 @@ import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
+import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.databinding.CoinActivityBinding
 import com.dreampany.tools.manager.AdsManager
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.misc.func.CurrencyFormatter
@@ -37,7 +38,7 @@ class CoinActivity : InjectActivity() {
     internal lateinit var ads: AdsManager
 
     @Inject
-    internal lateinit var pref: CryptoPref
+    internal lateinit var pref: Prefs
 
     @Inject
     internal lateinit var formatter: CurrencyFormatter
@@ -68,7 +69,7 @@ class CoinActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         val task =
-            (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
+            (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
         input = task.input ?: return
         initUi()
         initPager()
@@ -97,7 +98,7 @@ class CoinActivity : InjectActivity() {
         bind.icon.setUrl(
             String.format(
                 Locale.ENGLISH,
-                CryptoConstants.CoinMarketCap.IMAGE_URL,
+                Constants.Apis.CoinMarketCap.IMAGE_URL,
                 input.id
             )
         )
@@ -110,7 +111,7 @@ class CoinActivity : InjectActivity() {
                 input.name
             )
 
-        val currency = pref.getCurrency()
+        val currency = pref.currency
         val quote = input.getQuote(currency)
         val price = quote?.price.value
         val subtitle = formatter.formatPrice(price, currency)

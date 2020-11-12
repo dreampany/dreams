@@ -11,11 +11,11 @@ import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
@@ -37,7 +37,7 @@ class FavoriteCoinsActivity : InjectActivity() {
     internal lateinit var ads: AdsManager
 
     @Inject
-    internal lateinit var cryptoPref: CryptoPref
+    internal lateinit var pref: Prefs
 
     private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var vm: CoinViewModel
@@ -57,9 +57,9 @@ class FavoriteCoinsActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "Tools.FavoriteCoinsActivity")
+            param.put(Constant.Param.SCREEN, "FavoriteCoinsActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 
@@ -86,8 +86,12 @@ class FavoriteCoinsActivity : InjectActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -141,18 +145,18 @@ class FavoriteCoinsActivity : InjectActivity() {
         adapter.initRecycler(
             state,
             bind.layoutRecycler.recycler,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
+            pref.currency,
+            pref.sort,
+            pref.order
         )
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, List<CoinItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<CoinItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -204,10 +208,10 @@ class FavoriteCoinsActivity : InjectActivity() {
 
     private fun openCoinUi(item: CoinItem) {
         val task = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.VIEW,
+            Type.COIN,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
             item.input
         )
         open(CoinActivity::class, task)

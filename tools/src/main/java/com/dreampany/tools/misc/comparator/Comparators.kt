@@ -1,3 +1,4 @@
+/*
 package com.dreampany.tools.misc.comparator
 
 import com.dreampany.framework.data.enums.Order
@@ -6,12 +7,14 @@ import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.google.common.collect.Maps
 
+*/
 /**
  * Created by roman on 3/22/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class Comparators {
     object Crypto {
         private val comparators: HashMap<Pair<CoinSort, Order>, Comparator<Coin>> =
@@ -29,7 +32,8 @@ class Comparators {
             return comparators.get(pair)!!
         }
 
-        /*private fun createComparator(
+        */
+/*private fun createComparator(
             currency: Currency,
             sort: CoinSort,
             order: Order
@@ -62,6 +66,7 @@ class Comparators {
                     }
                 }
             }
-        }*/
+        }*//*
+
     }
-}
+}*/

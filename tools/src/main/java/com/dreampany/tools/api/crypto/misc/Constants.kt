@@ -13,7 +13,6 @@ class Constants {
             // api
             const val BASE_URL = "https://pro-api.coinmarketcap.com/v1/"
             const val BASE_GRAPH_URL = "https://graphs2.coinmarketcap.com/"
-            const val IMAGE_URL = "https://s2.coinmarketcap.com/static/img/coins/64x64/%s.png" //id
 
             const val COINS = "cryptocurrency/listings/latest"
             const val QUOTES = "cryptocurrency/quotes/latest"

@@ -36,6 +36,7 @@ class Constants {
             const val ACCEPT_ZIP = "deflate, gzip"
 
             const val API_KEY = "X-CMC_PRO_API_KEY"
+            const val IMAGE_URL = "https://s2.coinmarketcap.com/static/img/coins/64x64/%s.png" //id
         }
     }
 

@@ -10,6 +10,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
@@ -51,7 +52,7 @@ constructor(
 
     @Throws
     override suspend fun reads(
-        currency: String,
+        currency: Currency,
         sort: String,
         order: String,
         @IntRange(from = 0, to = Long.MAX_VALUE)
@@ -63,7 +64,7 @@ constructor(
                 val key = keys.nextKey ?: continue
                 val response: Response<CoinsResponse> = service.reads(
                     key.header,
-                    currency,
+                    currency.name,
                     sort.value,
                     order.value,
                     offset + 1, //Coin Market Cap start from 1 - IntRange
@@ -99,7 +100,7 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsFavorite(currency: String, sort: String, order: String): List<Coin>? {
+    override suspend fun readsFavorite(currency: Currency, sort: String, order: String): List<Coin>? {
         TODO("Not yet implemented")
     }
 
@@ -112,13 +113,13 @@ constructor(
     }
 
     @Throws
-    override suspend fun read(currency: String, id: String): Coin? {
+    override suspend fun read(currency: Currency, id: String): Coin? {
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
                 val response: Response<QuotesResponse> = service.getQuotes(
                     key.header,
-                    currency,
+                    currency.name,
                     id
                 ).execute()
                 if (response.isSuccessful) {

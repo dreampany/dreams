@@ -11,13 +11,13 @@ import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Trade
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinMarketFragmentBinding
 import com.dreampany.tools.ui.crypto.adapter.FastExchangeAdapter
 import com.dreampany.tools.ui.crypto.model.ExchangeItem
@@ -41,7 +41,7 @@ class MarketFragment
 @Inject constructor() : InjectFragment(), OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
-    internal lateinit var cryptoPref: CryptoPref
+    internal lateinit var pref: Prefs
 
     private lateinit var bind: CoinMarketFragmentBinding
     private lateinit var adapter: FastExchangeAdapter
@@ -60,8 +60,7 @@ class MarketFragment
     override val layoutRes: Int = R.layout.coin_market_fragment
 
     override fun onStartUi(state: Bundle?) {
-        val task: UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> =
-            (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
         input = task.input ?: return
         initUi()
         initRecycler(state)
@@ -138,23 +137,23 @@ class MarketFragment
         )
     }
 
-    private fun processResponsesOfTrade(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<Trade>>) {
+    private fun processResponsesOfTrade(response: Response<Type, Subtype, State, Action, List<Trade>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<Trade>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<Trade>>) {
             Timber.v("Result [%s]", response.result)
             processResultsOfTrade(response.result)
         }
     }
 
-    private fun processResponsesOfExchange(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<ExchangeItem>>) {
+    private fun processResponsesOfExchange(response: Response<Type, Subtype, State, Action, List<ExchangeItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<ExchangeItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<ExchangeItem>>) {
             Timber.v("Result [%s]", response.result)
             processResultsOfExchange(response.result)
         }

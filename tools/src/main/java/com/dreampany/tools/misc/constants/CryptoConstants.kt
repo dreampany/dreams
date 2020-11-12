@@ -9,11 +9,6 @@ import java.util.concurrent.TimeUnit
  * Last modified $file.lastModified
  */
 class CryptoConstants {
-
-    object CoinMarketCap {
-
-    }
-
     object CryptoCompare {
         const val AUTHORIZATION = "authorization"
 

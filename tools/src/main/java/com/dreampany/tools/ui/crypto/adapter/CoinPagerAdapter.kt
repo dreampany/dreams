@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment
 import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.ui.crypto.fragment.InfoFragment
 import com.dreampany.tools.ui.crypto.fragment.TickersFragment
@@ -23,17 +23,17 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
 
     fun addItems(input: Coin) {
         val info = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.INFO,
-            CryptoState.DEFAULT,
-            CryptoAction.DEFAULT,
+            Type.COIN,
+            Subtype.INFO,
+            State.DEFAULT,
+            Action.DEFAULT,
             input
         )
         val market = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.MARKET,
-            CryptoState.DEFAULT,
-            CryptoAction.DEFAULT,
+            Type.COIN,
+            Subtype.MARKET,
+            State.DEFAULT,
+            Action.DEFAULT,
             input
         )
         addItem(

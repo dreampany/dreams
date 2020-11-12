@@ -5,18 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.viewbinding.ViewBinding
-import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.exts.*
+ import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.R
 import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.misc.constants.CryptoConstants
-import com.dreampany.tools.data.enums.crypto.CoinSort
-import com.dreampany.tools.data.enums.crypto.Currency
+ import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.databinding.CoinQuoteItemBinding
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
@@ -34,8 +33,8 @@ private constructor(
     val input: Coin,
     val formatter: CurrencyFormatter,
     val currency: Currency,
-    val sort: CoinSort,
-    val order: Order,
+    val sort: String,
+    val order: String,
     var favorite: Boolean
 ) : ModelAbstractBindingItem<Coin, ViewBinding>(input) {
 
@@ -48,8 +47,8 @@ private constructor(
             item: Coin,
             formatter: CurrencyFormatter,
             currency: Currency,
-            sort: CoinSort,
-            order: Order,
+            sort: String,
+            order: String,
             favorite: Boolean = false
         ): CoinItem = CoinItem(ItemType.ITEM, item, formatter, currency, sort, order, favorite)
 
@@ -57,8 +56,8 @@ private constructor(
             item: Coin,
             formatter: CurrencyFormatter,
             currency: Currency,
-            sort: CoinSort,
-            order: Order,
+            sort: String,
+            order: String,
             favorite: Boolean = false
         ): CoinItem = CoinItem(ItemType.INFO, item, formatter, currency, sort, order, favorite)
 
@@ -66,8 +65,8 @@ private constructor(
             item: Coin,
             formatter: CurrencyFormatter,
             currency: Currency,
-            sort: CoinSort,
-            order: Order,
+            sort: String,
+            order: String,
             favorite: Boolean = false
         ): CoinItem = CoinItem(ItemType.QUOTE, item, formatter, currency, sort, order, favorite)
 
@@ -136,7 +135,7 @@ private constructor(
         bind.layoutSimple.icon.setUrl(
             String.format(
                 Locale.ENGLISH,
-                CryptoConstants.CoinMarketCap.IMAGE_URL,
+                Constants.Apis.CoinMarketCap.IMAGE_URL,
                 input.id
             )
         )

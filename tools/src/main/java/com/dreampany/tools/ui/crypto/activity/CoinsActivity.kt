@@ -12,11 +12,11 @@ import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
@@ -37,7 +37,7 @@ class CoinsActivity : InjectActivity() {
     internal lateinit var ads: AdsManager
 
     @Inject
-    internal lateinit var pref: CryptoPref
+    internal lateinit var pref: Prefs
 
     private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var vm: CoinViewModel
@@ -166,9 +166,9 @@ class CoinsActivity : InjectActivity() {
         adapter.initRecycler(
             state,
             bind.layoutRecycler.recycler,
-            pref.getCurrency(),
-            pref.getSort(),
-            pref.getOrder()
+            pref.currency,
+            pref.sort,
+            pref.order
         )
     }
 
@@ -176,23 +176,23 @@ class CoinsActivity : InjectActivity() {
         vm.loadCoins(adapter.itemCount.toLong())
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, CoinItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, CoinItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
     }
 
-    private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CoinItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<CoinItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -248,10 +248,10 @@ class CoinsActivity : InjectActivity() {
 
     private fun openCoinUi(item: CoinItem) {
         val task = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.VIEW,
+            Type.COIN,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
             item.input
         )
         open(CoinActivity::class, task)

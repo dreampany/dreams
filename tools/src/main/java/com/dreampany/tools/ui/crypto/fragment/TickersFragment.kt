@@ -18,10 +18,10 @@ import com.dreampany.tools.ui.crypto.vm.TickerViewModel
 import timber.log.Timber
 import javax.inject.Inject
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.ui.crypto.model.TickerItem
 import kotlinx.android.synthetic.main.content_recycler.view.*
 
@@ -44,7 +44,7 @@ class TickersFragment
     override val layoutRes: Int = R.layout.recycler_fragment
 
     override fun onStartUi(state: Bundle?) {
-        val task = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
         input = task.input ?: return
         initUi()
         initRecycler(state)
@@ -55,8 +55,12 @@ class TickersFragment
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -93,12 +97,12 @@ class TickersFragment
         }
     }
 
-    private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<TickerItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<TickerItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<TickerItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<TickerItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }

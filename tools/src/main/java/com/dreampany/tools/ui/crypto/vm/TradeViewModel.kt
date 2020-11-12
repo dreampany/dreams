@@ -5,12 +5,13 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Trade
 import com.dreampany.tools.data.source.crypto.repo.TradeRepo
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -27,7 +28,7 @@ class TradeViewModel
     application: Application,
     rm: ResponseMapper,
     private val repo: TradeRepo
-) : BaseViewModel<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Trade, Trade, UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Trade>>(
+) : BaseViewModel<Type, Subtype, State, Action, Trade, Trade, UiTask<Type, Subtype, State, Action, Trade>>(
     application,
     rm
 ) {
@@ -38,7 +39,7 @@ class TradeViewModel
             var result: List<Trade>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getTrades(fromSymbol, extraParams, CryptoConstants.Limits.TRADES)
+                result = repo.getTrades(fromSymbol, extraParams, Constants.Limits.TRADES)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -53,20 +54,20 @@ class TradeViewModel
 
     private fun postProgressMultiple(progress: Boolean) {
         postProgressMultiple(
-            CryptoType.TRADE,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.DEFAULT,
+            Type.TRADE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             progress = progress
         )
     }
 
     private fun postError(error: SmartError) {
         postMultiple(
-            CryptoType.TRADE,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.DEFAULT,
+            Type.TRADE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             error = error,
             showProgress = true
         )
@@ -74,10 +75,10 @@ class TradeViewModel
 
     private fun postResult(result: List<Trade>?) {
         postMultiple(
-            CryptoType.TRADE,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.DEFAULT,
+            Type.TRADE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             result = result,
             showProgress = true
         )

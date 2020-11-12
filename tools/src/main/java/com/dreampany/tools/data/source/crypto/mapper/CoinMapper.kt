@@ -1,15 +1,19 @@
 package com.dreampany.tools.data.source.crypto.mapper
 
+import android.content.Context
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.exts.sub
 import com.dreampany.framework.misc.exts.utc
 import com.dreampany.framework.misc.exts.value
+import com.dreampany.tools.R
 import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.CryptoQuote
-import com.dreampany.tools.data.enums.crypto.*
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
@@ -34,6 +38,7 @@ import kotlin.collections.ArrayList
 @Singleton
 class CoinMapper
 @Inject constructor(
+    private val context: Context,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
     private val pref: Prefs
@@ -79,9 +84,9 @@ class CoinMapper
         if (!favorites.containsKey(coin.id)) {
             val favorite = storeRepo.isExists(
                 coin.id,
-                CryptoType.COIN.value,
-                CryptoSubtype.DEFAULT.value,
-                CryptoState.FAVORITE.value
+                Type.COIN.value,
+                Subtype.DEFAULT.value,
+                State.FAVORITE.value
             )
             favorites.put(coin.id, favorite)
         }
@@ -93,9 +98,9 @@ class CoinMapper
         favorites.put(coin.id, true)
         val store = storeMapper.readStore(
             coin.id,
-            CryptoType.COIN.value,
-            CryptoSubtype.DEFAULT.value,
-            CryptoState.FAVORITE.value
+            Type.COIN.value,
+            Subtype.DEFAULT.value,
+            State.FAVORITE.value
         )
         store?.let { storeRepo.write(it) }
         return true
@@ -106,9 +111,9 @@ class CoinMapper
         favorites.put(coin.id, false)
         val store = storeMapper.readStore(
             coin.id,
-            CryptoType.COIN.value,
-            CryptoSubtype.DEFAULT.value,
-            CryptoState.FAVORITE.value
+            Type.COIN.value,
+            Subtype.DEFAULT.value,
+            State.FAVORITE.value
         )
         store?.let { storeRepo.delete(it) }
         return false
@@ -126,7 +131,7 @@ class CoinMapper
         source: CoinDataSource
     ): List<Coin>? {
         updateCache(source)
-        val cache = sortedCoins(coins.values.toList(), currency, sort, order)
+        val cache = sortedCoins(currency, coins.values.toList(), sort, order)
         val result = sub(cache, offset, limit)
         result?.forEach {
             bindQuote(currency, it, quoteDao)
@@ -137,8 +142,8 @@ class CoinMapper
     @Throws
     @Synchronized
     suspend fun getItem(
-        id: String,
         currency: Currency,
+        id: String,
         quoteDao: QuoteDao,
         source: CoinDataSource
     ): Coin? {
@@ -154,21 +159,21 @@ class CoinMapper
     @Synchronized
     suspend fun getFavoriteItems(
         currency: Currency,
-        sort: CoinSort,
-        sortDirection: Order,
+        sort: String,
+        order: String,
         quoteDao: QuoteDao,
         source: CoinDataSource
     ): List<Coin>? {
         updateCache(source)
         val stores = storeRepo.reads(
-            CryptoType.COIN.value,
-            CryptoSubtype.DEFAULT.value,
-            CryptoState.FAVORITE.value
+            Type.COIN.value,
+            Subtype.DEFAULT.value,
+            State.FAVORITE.value
         )
         val outputs = stores?.mapNotNull { input -> coins.get(input.id) }
         var result: List<Coin>? = null
         outputs?.let {
-            result = sortedCoins(it, currency, sort, sortDirection)
+            result = sortedCoins(currency, it, sort, order)
         }
         result?.forEach {
             bindQuote(currency, it, quoteDao)
@@ -267,7 +272,7 @@ class CoinMapper
     @Synchronized
     private suspend fun updateCache(source: CoinDataSource) {
         if (coins.isEmpty()) {
-            source.gets()?.let {
+            source.reads()?.let {
                 if (it.isNotEmpty())
                     it.forEach { add(it) }
             }
@@ -276,36 +281,45 @@ class CoinMapper
 
     @Synchronized
     private fun sortedCoins(
-        inputs: List<Coin>,
         currency: Currency,
+        inputs: List<Coin>,
         sort: String,
         order: String
     ): List<Coin> {
         val temp = ArrayList(inputs)
-        val comparator = CryptoComparator(currency, sort, order)
+        val comparator = CryptoComparator(context, currency, sort, order)
         temp.sortWith(comparator)
         return temp
     }
 
     class CryptoComparator(
+        private val context: Context,
         private val currency: Currency,
         private val sort: String,
         private val order: String
     ) : Comparator<Coin> {
+
+        val String.isMarketCap: Boolean
+            get() = this == context.getString(R.string.key_crypto_settings_sort_value_market_cap)
+
+        val String.isDescending: Boolean
+            get() = this == context.getString(R.string.key_crypto_settings_order_value_descending)
+
         override fun compare(left: Coin, right: Coin): Int {
-            if (sort == CoinSort.MARKET_CAP) {
+            if (sort.isMarketCap) {
                 val leftCap = left.getQuote(currency)
                 val rightCap = right.getQuote(currency)
                 if (leftCap != null && rightCap != null) {
-                    if (order == Order.ASCENDING) {
-                        return leftCap.getMarketCap().compareTo(rightCap.getMarketCap())
-                    } else {
+                    if (order.isDescending) {
                         return rightCap.getMarketCap().compareTo(leftCap.getMarketCap())
+                    } else {
+                        return leftCap.getMarketCap().compareTo(rightCap.getMarketCap())
                     }
                 }
             }
             return 0
         }
     }
+
 
 }

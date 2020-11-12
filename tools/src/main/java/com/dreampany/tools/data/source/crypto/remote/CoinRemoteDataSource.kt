@@ -2,18 +2,14 @@ package com.dreampany.tools.data.source.crypto.remote
 
 import android.content.Context
 import androidx.annotation.IntRange
-import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
-import com.dreampany.tools.data.enums.crypto.CoinSort
-import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
@@ -53,45 +49,11 @@ constructor(
         )
     }
 
-    private fun getHeader(key: String): Map<String, String> {
-        val header = Maps.newHashMap<String, String>()
-        header.put(
-            Constants.Apis.CoinMarketCap.ACCEPT,
-            Constants.Apis.CoinMarketCap.ACCEPT_JSON
-        )
-        header.put(Constants.Apis.CoinMarketCap.API_KEY, key)
-        return header
-    }
-
-    override suspend fun isFavorite(input: Coin): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun toggleFavorite(input: Coin): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun put(input: Coin): Long {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun put(inputs: List<Coin>): List<Long>? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun gets(): List<Coin>? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun gets(ids: List<String>, currency: Currency): List<Coin>? {
-        TODO("Not yet implemented")
-    }
-
     @Throws
-    override suspend fun gets(
-        currency: Currency,
-        sort: CoinSort,
-        order: Order,
+    override suspend fun reads(
+        currency: String,
+        sort: String,
+        order: String,
         @IntRange(from = 0, to = Long.MAX_VALUE)
         offset: Long,
         limit: Long
@@ -100,8 +62,8 @@ constructor(
             try {
                 val key = keys.nextKey ?: continue
                 val response: Response<CoinsResponse> = service.reads(
-                    getHeader(key),
-                    currency.name,
+                    key.header,
+                    currency,
                     sort.value,
                     order.value,
                     offset + 1, //Coin Market Cap start from 1 - IntRange
@@ -129,13 +91,34 @@ constructor(
         throw SmartError()
     }
 
-    override suspend fun get(id: String, currency: Currency): Coin? {
+    override suspend fun isFavorite(input: Coin): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun toggleFavorite(input: Coin): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun readsFavorite(currency: String, sort: String, order: String): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(input: Coin): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(inputs: List<Coin>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun read(currency: String, id: String): Coin? {
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
                 val response: Response<QuotesResponse> = service.getQuotes(
-                    getHeader(key),
-                    currency.name,
+                    key.header,
+                    currency,
                     id
                 ).execute()
                 if (response.isSuccessful) {
@@ -161,11 +144,22 @@ constructor(
         throw SmartError()
     }
 
-    override suspend fun getFavoriteCoins(
-        currency: Currency,
-        sort: CoinSort,
-        order: Order
-    ): List<Coin>? {
+    override suspend fun reads(): List<Coin>? {
         TODO("Not yet implemented")
     }
+
+    override suspend fun reads(currency: String, ids: List<String>): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    private val String.header: Map<String, String>
+        get() {
+            val header = Maps.newHashMap<String, String>()
+            header.put(
+                Constants.Apis.CoinMarketCap.ACCEPT,
+                Constants.Apis.CoinMarketCap.ACCEPT_JSON
+            )
+            header.put(Constants.Apis.CoinMarketCap.API_KEY, this)
+            return header
+        }
 }

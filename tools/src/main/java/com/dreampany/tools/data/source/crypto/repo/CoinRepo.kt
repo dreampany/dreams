@@ -1,14 +1,11 @@
 package com.dreampany.tools.data.source.crypto.repo
 
-import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.inject.annote.Remote
 import com.dreampany.framework.inject.annote.Room
-import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -23,7 +20,6 @@ import javax.inject.Singleton
 @Singleton
 class CoinRepo
 @Inject constructor(
-    private val pref: CryptoPref,
     private val mapper: CoinMapper,
     @Room private val room: CoinDataSource,
     @Remote private val remote: CoinDataSource
@@ -39,62 +35,62 @@ class CoinRepo
     }
 
     @Throws
-    override suspend fun put(input: Coin): Long {
+    override suspend fun write(input: Coin): Long {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun put(inputs: List<Coin>): List<Long>? {
+    override suspend fun write(inputs: List<Coin>): List<Long>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun gets(): List<Coin>? {
+    override suspend fun reads(): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun gets(ids: List<String>, currency: Currency): List<Coin>? {
+    override suspend fun reads(currency: Currency, ids: List<String>): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun gets(
+    override suspend fun reads(
         currency: Currency,
-        sort: CoinSort,
-        order: Order,
+        sort: String,
+        order: String,
         offset: Long,
         limit: Long
     ) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(currency, sort, order, offset)) {
-            val result = remote.gets(currency, sort, order, offset, limit)
+            val result = remote.reads(currency, sort, order, offset, limit)
             if (!result.isNullOrEmpty()) {
                 mapper.writeExpire(currency, sort, order, offset)
-                room.put(result)
+                room.write(result)
             }
         }
-        room.gets(currency, sort, order, offset, limit)
+        room.reads(currency, sort, order, offset, limit)
     }
 
     @Throws
-    override suspend fun get(id: String, currency: Currency) = withContext(Dispatchers.IO) {
+    override suspend fun read(currency: Currency, id: String) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(id, currency)) {
-            val result = remote.get(id, currency)
+            val result = remote.read(currency, id)
             if (result != null) {
                 mapper.writeExpire(id, currency)
-                room.put(result)
+                room.write(result)
             }
         }
-        room.get(id, currency)
+        room.read(currency, id)
     }
 
     @Throws
-    override suspend fun getFavoriteCoins(
+    override suspend fun readsFavorite(
         currency: Currency,
-        sort: CoinSort,
-        order: Order
+        sort: String,
+        order: String
     ) = withContext(Dispatchers.IO) {
-        room.getFavoriteCoins(currency, sort, order)
+        room.readsFavorite(currency, sort, order)
     }
 
 }

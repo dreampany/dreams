@@ -4,7 +4,7 @@ import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.tools.api.crypto.model.CryptoExchange
 import com.dreampany.tools.data.model.crypto.Exchange
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
+import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class ExchangeMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
-    private val pref: CryptoPref
+    private val pref: Prefs
 ) {
     private val exchanges: MutableMap<String, Exchange>
 

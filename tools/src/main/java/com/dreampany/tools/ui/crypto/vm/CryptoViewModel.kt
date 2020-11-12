@@ -7,14 +7,14 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
+import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
-import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import kotlinx.coroutines.*
@@ -36,7 +36,7 @@ class CryptoViewModel
     private val rm: ResponseMapper,
     private val notify: NotifyManager,
     private val formatter: CurrencyFormatter,
-    private val pref: CryptoPref,
+    private val pref: Prefs,
     private val repo: CoinRepo
 ) {
     protected val job: Job
@@ -55,12 +55,12 @@ class CryptoViewModel
         uiScope.launch {
             var result: List<Coin>? = null
             var errors: SmartError? = null
-            val currency = pref.getCurrency()
+            val currency = pref.currency
             try {
-                val sort = pref.getSort()
-                val order = pref.getOrder()
-                val offset = getRandOffset(CryptoConstants.Limits.COINS)
-                result = repo.gets(currency, sort, order, offset, CryptoConstants.Limits.COINS)
+                val sort = pref.sort
+                val order = pref.order
+                val offset = getRandOffset(Constants.Limits.COINS)
+                result = repo.reads(currency, sort, order, offset, Constants.Limits.COINS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -78,12 +78,12 @@ class CryptoViewModel
     }
 
     private fun getRandOffset(limit: Long): Long {
-        val max = CryptoConstants.Limits.MAX_COINS - limit
+        val max = Constants.Limits.MAX_COINS - limit
         return RandomUtils.nextLong(0, max - 1)
     }
 
     private fun showNotification(coin: Coin) {
-        val currency = pref.getCurrency()
+        val currency = pref.currency
         val quote = coin.getQuote(currency) ?: return
 
         val price = quote.price
@@ -98,10 +98,10 @@ class CryptoViewModel
             currency
         )
         val task = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.VIEW,
+            Type.COIN,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
             coin
         )
         notify.showNotification(

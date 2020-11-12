@@ -1,7 +1,5 @@
 package com.dreampany.tools.data.source.crypto.room
 
-import com.dreampany.framework.data.enums.Order
-import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
@@ -36,14 +34,14 @@ class CoinRoomDataSource(
     }
 
     @Throws
-    override suspend fun getFavoriteCoins(
+    override suspend fun readsFavorite(
         currency: Currency,
-        sort: CoinSort,
-        order: Order
+        sort: String,
+        order: String
     ): List<Coin>? = mapper.getFavoriteItems(currency, sort, order, quoteDao, this)
 
     @Throws
-    override suspend fun put(input: Coin): Long {
+    override suspend fun write(input: Coin): Long {
         mapper.add(input)
         if (input.hasQuote()) {
             quoteDao.insertOrReplace(input.getQuotesAsList())
@@ -52,29 +50,29 @@ class CoinRoomDataSource(
     }
 
     @Throws
-    override suspend fun put(inputs: List<Coin>): List<Long>? {
+    override suspend fun write(inputs: List<Coin>): List<Long>? {
         val result = arrayListOf<Long>()
-        inputs.forEach { result.add(put(it)) }
+        inputs.forEach { result.add(write(it)) }
         return result
     }
 
     @Throws
-    override suspend fun get(id: String, currency: Currency): Coin? =
-        mapper.getItem(id, currency, quoteDao, this)
+    override suspend fun read(currency: Currency, id: String): Coin? =
+        mapper.getItem(currency, id, quoteDao, this)
 
     @Throws
-    override suspend fun gets(): List<Coin>? = dao.items
+    override suspend fun reads(): List<Coin>? = dao.items
 
     @Throws
-    override suspend fun gets(ids: List<String>, currency: Currency): List<Coin>? {
+    override suspend fun reads(currency: Currency, ids: List<String>): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun gets(
+    override suspend fun reads(
         currency: Currency,
-        sort: CoinSort,
-        order: Order,
+        sort: String,
+        order: String,
         offset: Long,
         limit: Long
     ): List<Coin>? = mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)

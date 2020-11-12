@@ -46,13 +46,13 @@ class StationViewModel
             var errors: SmartError? = null
             try {
                 result =
-                    repo.readsByCountryCode(countryCode, order, offset, Constants.Limit.STATIONS)
+                    repo.readsByCountryCode(countryCode, order, offset, Constants.Limits.STATIONS)
                 if (result.isNullOrEmpty()) {
                     result = repo.readsByCountryCode(
                         Locale.US.country,
                         order,
                         offset,
-                        Constants.Limit.STATIONS
+                        Constants.Limits.STATIONS
                     )
                 }
             } catch (error: SmartError) {
@@ -75,16 +75,16 @@ class StationViewModel
             try {
                 when (type) {
                     Page.Type.TREND -> {
-                        result = repo.readsTrend(order, offset, Constants.Limit.STATIONS)
+                        result = repo.readsTrend(order, offset, Constants.Limits.STATIONS)
                     }
                     Page.Type.POPULAR -> {
-                        result = repo.readsPopular(order, offset, Constants.Limit.STATIONS)
+                        result = repo.readsPopular(order, offset, Constants.Limits.STATIONS)
                     }
                     Page.Type.RECENT -> {
-                        result = repo.readsRecent(order, offset, Constants.Limit.STATIONS)
+                        result = repo.readsRecent(order, offset, Constants.Limits.STATIONS)
                     }
                     Page.Type.CHANGE -> {
-                        result = repo.readsChange(order, offset, Constants.Limit.STATIONS)
+                        result = repo.readsChange(order, offset, Constants.Limits.STATIONS)
                     }
                 }
             } catch (error: SmartError) {
@@ -105,7 +105,7 @@ class StationViewModel
             var result: List<Station>? = null
             var errors: SmartError? = null
             try {
-                result = repo.searchByName(query, order, offset, Constants.Limit.STATIONS)
+                result = repo.searchByName(query, order, offset, Constants.Limits.STATIONS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

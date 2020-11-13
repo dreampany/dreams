@@ -101,3 +101,14 @@ fun Any.reset(filed: String) {
         set(input, null)
     }
 }
+
+fun <T> List<T>.second(): T {
+    if (isEmpty())
+        throw NoSuchElementException("List is empty.")
+    if (size < 1)
+        throw IndexOutOfBoundsException("List has no second item.")
+    return this[1]
+}
+
+val Float.isEmpty : Boolean
+    get() = this == float()

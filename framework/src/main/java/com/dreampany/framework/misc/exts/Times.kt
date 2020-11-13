@@ -115,10 +115,47 @@ val Long.time: String
         ).toString()
     }
 
-val Long.millisToSeconds : Long
+val Long.millisToSeconds: Long
     get() = TimeUnit.MILLISECONDS.toSeconds(this)
 
-val Long.secondsToMillis : Long
+val Long.secondsToMillis: Long
     get() = TimeUnit.SECONDS.toMillis(this)
 
+val previousDay: Long
+    get() {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
+        val time = calendar.timeInMillis
+        calendar.clear()
+        return time
+    }
 
+val previousWeek: Long
+    get() {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -7)
+        val time = calendar.timeInMillis
+        calendar.clear()
+        return time
+    }
+
+val previousMonth: Long
+    get() = 1.previousMonth
+
+val Int.previousMonth: Long
+    get() {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, -this)
+        val time = calendar.timeInMillis
+        calendar.clear()
+        return time
+    }
+
+val previousYear: Long
+    get() {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR, -1)
+        val time = calendar.timeInMillis
+        calendar.clear()
+        return time
+    }

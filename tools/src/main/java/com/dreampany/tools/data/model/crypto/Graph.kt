@@ -5,7 +5,9 @@ import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.framework.misc.util.Util
+import com.dreampany.framework.misc.exts.currentMillis
+import com.dreampany.tools.data.enums.crypto.Currency
+import com.github.mikephil.charting.data.LineData
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -35,11 +37,11 @@ data class Graph(
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = Util.currentMillis()) {
+    constructor() : this(time = currentMillis) {
 
     }
 
-    constructor(id: String) : this(time = Util.currentMillis(), id = id) {
+    constructor(id: String) : this(time = currentMillis, id = id) {
 
     }
 
@@ -52,5 +54,7 @@ data class Graph(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String = "Graph ($id) == $id"
+    override fun toString(): String = "Graph: $id"
+
+    var data: LineData? = null
 }

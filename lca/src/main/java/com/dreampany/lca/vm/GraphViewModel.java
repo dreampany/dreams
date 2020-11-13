@@ -169,6 +169,7 @@ public class GraphViewModel
             long currentTime = getCurrentTime(prices);
             float differencePrice = getDifferencePrice(prices);
             float changeInPercent = getChangeInPercent(prices);
+
             LineData lineData = getLineData(prices, changeInPercent);
             int changeInPercentColor = getChangeInPercentColor(changeInPercent);
             int changeInPercentFormat = getChangeInPercentFormat(changeInPercent);

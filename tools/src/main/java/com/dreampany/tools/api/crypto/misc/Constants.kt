@@ -26,6 +26,27 @@ class Constants {
             const val AUXILIARIES = "aux"
             const val ID = "id"
         }
+
+        object CryptoCompare {
+            const val BASE_URL = "https://min-api.cryptocompare.com/data/"
+            const val AUTHORIZATION = "authorization"
+
+            const val TRADES = "top/pairs"
+            const val EXCHANGES = "top/exchanges/full"
+
+            const val EXTRA_PARAMS = "extraParams"
+            const val FROM_SYMBOL = "fsym"
+            const val TO_SYMBOL = "tsym"
+
+        }
+
+        object Gecko {
+            const val BASE_URL = "https://api.coingecko.com/api/v3/"
+
+            const val TICKERS  = "coins/{id}/tickers"
+            const val ID  = "id"
+            const val INCLUDE_IMAGE  = "include_exchange_logo"
+        }
     }
 
     object Keys {
@@ -34,6 +55,18 @@ class Constants {
             const val LIMIT = "limit"
             const val STATUS = "status"
             const val DATA = "data"
+        }
+
+        object Exchange {
+            const val DATA = "Data"
+            const val EXCHANGES = "Exchanges"
+            const val MARKET = "MARKET"
+            const val FROM_SYMBOL = "FROMSYMBOL"
+            const val TO_SYMBOL = "TOSYMBOL"
+            const val PRICE = "PRICE"
+            const val VOLUME_24H = "VOLUME24HOUR"
+            const val CHANGE_24H = "CHANGE24HOUR"
+            const val CHANGE_PCT_24H = "CHANGEPCT24HOUR"
         }
 
         object CoinMarketCap {

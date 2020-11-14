@@ -10,6 +10,7 @@ import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.ui.crypto.fragment.GraphFragment
 import com.dreampany.tools.ui.crypto.fragment.InfoFragment
 import com.dreampany.tools.ui.crypto.fragment.TickersFragment
 
@@ -36,6 +37,13 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
             Action.DEFAULT,
             input
         )
+        val graph = UiTask(
+            Type.COIN,
+            Subtype.GRAPH,
+            State.DEFAULT,
+            Action.DEFAULT,
+            input
+        )
         addItem(
             com.dreampany.framework.misc.exts.createFragment(
                 InfoFragment::class,
@@ -50,6 +58,14 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
                 market
             ),
             R.string.title_coin_markets,
+            true
+        )
+        addItem(
+            com.dreampany.framework.misc.exts.createFragment(
+                GraphFragment::class,
+                market
+            ),
+            R.string.title_coin_graph,
             true
         )
     }

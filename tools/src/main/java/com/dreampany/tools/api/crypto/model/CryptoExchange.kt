@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.model
 
-import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -10,11 +10,11 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class CryptoExchange(
-    @SerializedName(value = CryptoConstants.Exchange.MARKET) val market: String,
-    @SerializedName(value = CryptoConstants.Exchange.FROM_SYMBOL) val fromSymbol: String,
-    @SerializedName(value = CryptoConstants.Exchange.TO_SYMBOL) val toSymbol: String,
-    @SerializedName(value = CryptoConstants.Exchange.PRICE) val price: Double,
-    @SerializedName(value = CryptoConstants.Exchange.VOLUME_24H) val volume24h: Double,
-    @SerializedName(value = CryptoConstants.Exchange.CHANGE_24H) val change24h: Double,
-    @SerializedName(value = CryptoConstants.Exchange.CHANGE_PCT_24H) val changePct24h: Double
+    @SerializedName(Constants.Keys.Exchange.MARKET) val market: String,
+    @SerializedName(Constants.Keys.Exchange.FROM_SYMBOL) val fromSymbol: String,
+    @SerializedName(Constants.Keys.Exchange.TO_SYMBOL) val toSymbol: String,
+    @SerializedName(Constants.Keys.Exchange.PRICE) val price: Double,
+    @SerializedName(Constants.Keys.Exchange.VOLUME_24H) val volume24h: Double,
+    @SerializedName(Constants.Keys.Exchange.CHANGE_24H) val change24h: Double,
+    @SerializedName(Constants.Keys.Exchange.CHANGE_PCT_24H) val changePct24h: Double
 )

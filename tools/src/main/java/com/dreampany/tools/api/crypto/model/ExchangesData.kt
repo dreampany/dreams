@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.model
 
-import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class ExchangesData(
-    @SerializedName(CryptoConstants.Exchange.EXCHANGES)
+    @SerializedName(Constants.Keys.Exchange.EXCHANGES)
     val exchanges: List<CryptoExchange>
 ) {
 }

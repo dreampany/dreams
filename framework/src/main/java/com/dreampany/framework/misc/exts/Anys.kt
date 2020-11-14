@@ -36,6 +36,8 @@ val Int?.value: Int get() = this ?: 0
 
 val Long?.value: Long get() = this ?: 0L
 
+val Float?.value: Float get() = this ?: 0.0f
+
 val Double?.value: Double get() = this ?: 0.toDouble()
 
 val String?.value: String get() = this ?: Constant.Default.STRING
@@ -112,3 +114,5 @@ fun <T> List<T>.second(): T {
 
 val Float.isEmpty : Boolean
     get() = this == float()
+
+

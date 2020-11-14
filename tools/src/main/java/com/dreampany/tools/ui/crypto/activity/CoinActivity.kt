@@ -46,7 +46,6 @@ class CoinActivity : InjectActivity() {
 
     private lateinit var bind: CoinActivityBinding
     private lateinit var adapter: CoinPagerAdapter
-
     private lateinit var input: Coin
 
     override val homeUp: Boolean = true
@@ -63,7 +62,7 @@ class CoinActivity : InjectActivity() {
             param.put(Constant.Param.VERSION_NAME, versionName)
             param.put(Constant.Param.SCREEN, "CoinActivity")
 
-            params.put(Constant.Event.ACTIVITY, param)
+            params.put(Constant.Event.activity(this), param)
             return params
         }
 
@@ -121,6 +120,7 @@ class CoinActivity : InjectActivity() {
     }
 
     private fun initPager() {
+        if (::adapter.isInitialized) return
         adapter = CoinPagerAdapter(this)
         bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(

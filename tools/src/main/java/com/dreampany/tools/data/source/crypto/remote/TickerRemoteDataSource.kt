@@ -5,11 +5,11 @@ import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.crypto.remote.service.GeckoService
+ import com.dreampany.tools.api.crypto.remote.service.GeckoService
 import com.dreampany.tools.data.model.crypto.Ticker
 import com.dreampany.tools.data.source.crypto.api.TickerDataSource
 import com.dreampany.tools.data.source.crypto.mapper.TickerMapper
-import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import java.net.UnknownHostException
 
@@ -53,7 +53,7 @@ class TickerRemoteDataSource(
     private val header: Map<String, String>
         get() {
             val header = Maps.newHashMap<String, String>()
-            header.put(CryptoConstants.Gecko.ACCEPT, CryptoConstants.Gecko.ACCEPT_JSON)
+            header.put(Constants.Apis.Gecko.ACCEPT, Constants.Apis.Gecko.ACCEPT_JSON)
             return header
         }
 }

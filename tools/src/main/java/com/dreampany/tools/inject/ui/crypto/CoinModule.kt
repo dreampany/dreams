@@ -1,5 +1,6 @@
 package com.dreampany.tools.inject.ui.crypto
 
+import com.dreampany.tools.ui.crypto.fragment.GraphFragment
 import com.dreampany.tools.ui.crypto.fragment.InfoFragment
 import com.dreampany.tools.ui.crypto.fragment.MarketFragment
 import com.dreampany.tools.ui.crypto.fragment.TickersFragment
@@ -22,4 +23,7 @@ abstract class CoinModule {
 
     @ContributesAndroidInjector
     abstract fun tickers(): TickersFragment
+
+    @ContributesAndroidInjector
+    abstract fun graph(): GraphFragment
 }

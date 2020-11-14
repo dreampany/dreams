@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.crypto.inject.data
 
 import com.dreampany.tools.api.crypto.inject.CryptoCompareAnnote
-import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
 import com.google.gson.Gson
 import dagger.Module
@@ -23,13 +23,12 @@ class CryptoCompareModule {
     @Singleton
     @Provides
     @CryptoCompareAnnote
-    fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(CryptoConstants.CryptoCompare.BASE_URL)
+            .baseUrl(Constants.Apis.CryptoCompare.BASE_URL)
             .client(httpClient)
             .build()
-    }
 
     @Singleton
     @Provides

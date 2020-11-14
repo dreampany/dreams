@@ -1,15 +1,14 @@
 package com.dreampany.tools.ui.crypto.adapter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
-import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.exts.dimension
+ import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CoinSort
-import com.dreampany.tools.data.enums.crypto.Currency
+ import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.ui.crypto.model.CoinItem
@@ -55,10 +54,10 @@ class FastCoinAdapter(
         state: Bundle?,
         recycler: RecyclerView,
         currency: Currency,
-        sort: CoinSort,
-        order: Order
+        sort: String,
+        order: String
     ) {
-        capComparator = CryptoComparator(currency, sort, order)
+        capComparator = CryptoComparator(recycler.context, currency, sort, order)
         val list = ComparableItemListImpl(comparator = capComparator)
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
@@ -172,20 +171,27 @@ class FastCoinAdapter(
     }
 
     class CryptoComparator(
+        private val context: Context,
         private val currency: Currency,
-        private val sort: CoinSort,
-        private val order: Order
+        private val sort: String,
+        private val order: String
     ) : Comparator<GenericItem> {
+        val String.isMarketCap: Boolean
+            get() = this == context.getString(R.string.key_crypto_settings_sort_value_market_cap)
+
+        val String.isDescending: Boolean
+            get() = this == context.getString(R.string.key_crypto_settings_order_value_descending)
+
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is CoinItem && right is CoinItem) {
-                if (sort == CoinSort.MARKET_CAP) {
+                if (sort.isMarketCap) {
                     val leftCap = left.input.getQuote(currency)
                     val rightCap = right.input.getQuote(currency)
                     if (leftCap != null && rightCap != null) {
-                        if (order == Order.ASCENDING) {
-                            return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
-                        } else {
+                        if (order.isDescending) {
                             return (rightCap.getMarketCap() - leftCap.getMarketCap()).toInt()
+                        } else {
+                            return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
                         }
                     }
                 }

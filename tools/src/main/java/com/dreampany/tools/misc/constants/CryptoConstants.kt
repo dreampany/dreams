@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit
  * Last modified $file.lastModified
  */
 class CryptoConstants {
-    object CryptoCompare {
-        const val AUTHORIZATION = "authorization"
+/*    object CryptoCompare {
+
 
         const val API_KEY_ROMAN_BJIT = "99cb2ed664b75035fe73b7f93d2e1e949c57f17f23f092260debf93ce1315c2d" //roman.bjit@gmail.com
 
@@ -37,7 +37,7 @@ class CryptoConstants {
         const val TICKERS  = "coins/{id}/tickers"
         const val ID  = "id"
         const val INCLUDE_IMAGE  = "include_exchange_logo"
-    }
+    }*/
 
     object Keys {
         object PrefKeys {
@@ -98,7 +98,7 @@ class CryptoConstants {
         const val VOLUME_24H_TO = "volume24hTo"
     }
 
-    object Exchange {
+/*    object Exchange {
         const val DATA = "Data"
         const val EXCHANGES = "Exchanges"
         const val MARKET = "MARKET"
@@ -108,7 +108,7 @@ class CryptoConstants {
         const val VOLUME_24H = "VOLUME24HOUR"
         const val CHANGE_24H = "CHANGE24HOUR"
         const val CHANGE_PCT_24H = "CHANGEPCT24HOUR"
-    }
+    }*/
 
 /*    object Limits {
         const val COINS = 100L

@@ -149,9 +149,10 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun reads(currency: String, ids: List<String>): List<Coin>? {
+    override suspend fun reads(currency: Currency, ids: List<String>): List<Coin>? {
         TODO("Not yet implemented")
     }
+
 
     private val String.header: Map<String, String>
         get() {

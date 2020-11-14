@@ -47,6 +47,7 @@
 
     <string name="title_coin_info">Info</string>
     <string name="title_coin_markets">Markets</string>
+    <string name="title_coin_graph">Graph</string>
     <string name="join_text">%s %s</string>
     <string name="title_favorite_coins">Favorite Coins</string>
 
@@ -68,4 +69,5 @@
 
     <string name="format_currency_pair">%s/%s</string>
     <string name="format_volume_price">Vol %s</string>
+
 </resources>

@@ -1,8 +1,8 @@
 package com.dreampany.tools.api.crypto.inject.data
 
 import com.dreampany.tools.api.crypto.inject.GeckoAnnote
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.remote.service.GeckoService
-import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -25,7 +25,7 @@ class GeckoModule {
     fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(CryptoConstants.Gecko.BASE_URL)
+            .baseUrl(Constants.Apis.Gecko.BASE_URL)
             .client(httpClient)
             .build()
 

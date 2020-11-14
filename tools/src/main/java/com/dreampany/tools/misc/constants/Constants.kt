@@ -38,6 +38,34 @@ class Constants {
             const val API_KEY = "X-CMC_PRO_API_KEY"
             const val IMAGE_URL = "https://s2.coinmarketcap.com/static/img/coins/64x64/%s.png" //id
         }
+
+        object CryptoCompare {
+            const val API_KEY_ROMAN_BJIT = "99cb2ed664b75035fe73b7f93d2e1e949c57f17f23f092260debf93ce1315c2d" //roman.bjit@gmail.com
+
+            const val ACCEPT = "Accept"
+            const val ACCEPT_ENCODING = "Accept-Encoding"
+
+            const val ACCEPT_JSON = "application/json"
+            const val ACCEPT_ZIP = "deflate, gzip"
+
+            const val AUTHORIZATION = "authorization"
+
+            const val TICKERS  = "coins/{id}/tickers"
+            const val ID  = "id"
+            const val INCLUDE_IMAGE  = "include_exchange_logo"
+        }
+
+        object Gecko {
+            const val ACCEPT = "Accept"
+            const val ACCEPT_ENCODING = "Accept-Encoding"
+
+            const val ACCEPT_JSON = "application/json"
+            const val ACCEPT_ZIP = "deflate, gzip"
+
+            const val TICKERS  = "coins/{id}/tickers"
+            const val ID  = "id"
+            const val INCLUDE_IMAGE  = "include_exchange_logo"
+        }
     }
 
     object Keys {

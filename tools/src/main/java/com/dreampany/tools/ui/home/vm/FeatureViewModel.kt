@@ -61,7 +61,9 @@ class FeatureViewModel
                 Subtype.CRYPTO,
                 R.drawable.ic_crypto,
                 R.string.title_feature_crypto,
-                colors.nextColor(Type.FEATURE.name)
+                colors.nextColor(Type.FEATURE.name),
+                true,
+                "com.dreampany.crypto"
             )
         )
         features.add(

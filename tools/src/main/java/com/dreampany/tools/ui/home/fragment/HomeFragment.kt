@@ -25,7 +25,6 @@ import com.dreampany.tools.ui.news.activity.NewsActivity
 import com.dreampany.tools.ui.note.activity.NotesActivity
 import com.dreampany.tools.ui.radio.activity.RadioActivity
 import com.dreampany.tools.ui.wifi.activity.WifisActivity
-import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -76,7 +75,7 @@ class HomeFragment
                openUi(input.input)
             }
             R.id.full -> {
-                openPlayUi(input.input)
+                openFullUi(input.input)
             }
             else -> {
 
@@ -149,7 +148,7 @@ class HomeFragment
         }
     }
 
-    private fun openPlayUi(input: Feature) {
+    private fun openFullUi(input: Feature) {
         activity.rateUs(input.packageName)
     }
 }

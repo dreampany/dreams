@@ -34,6 +34,13 @@ class Prefs
             null
         ) ?: Currency.USD
 
+    val graphCurrency: Currency
+        get() = getPublicly(
+            context.getString(R.string.key_crypto_settings_graph_currency),
+            Currency::class.java,
+            null
+        ) ?: Currency.USD
+
     val sort: String
         get() = getPublicly(
             context.getString(R.string.key_crypto_settings_sort),

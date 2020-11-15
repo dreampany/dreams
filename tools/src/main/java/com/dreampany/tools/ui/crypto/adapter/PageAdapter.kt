@@ -20,7 +20,7 @@ import com.dreampany.tools.ui.crypto.fragment.TickersFragment
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
+class PageAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
     fun addItems(input: Coin) {
         val info = UiTask(
@@ -60,13 +60,13 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
             R.string.title_coin_markets,
             true
         )
-        addItem(
+        /*addItem(
             com.dreampany.framework.misc.exts.createFragment(
                 GraphFragment::class,
                 market
             ),
             R.string.title_coin_graph,
             true
-        )
+        )*/
     }
 }

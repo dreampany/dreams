@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.inject.annote.Pref
 import com.dreampany.framework.misc.exts.init
 import com.dreampany.framework.misc.exts.refresh
 import com.dreampany.framework.misc.exts.task
@@ -23,7 +22,6 @@ import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
-import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -92,8 +90,8 @@ class InfoFragment
         bind = getBinding()
         bind.swipe.init(this)
         vm = createVm(CoinViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        vm.subscribe(this,   { this.processResponse(it) })
+        vm.subscribes(this,   { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {

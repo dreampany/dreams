@@ -7,6 +7,9 @@
     <string name="title_crypto_settings_currency">Currency</string>
     <string name="key_crypto_settings_currency">crypto.currency</string>
 
+    <string name="title_crypto_settings_graph_currency">Graph Currency</string>
+    <string name="key_crypto_settings_graph_currency">crypto.graph.currency</string>
+
     <string name="title_crypto_settings_sort">Sort</string>
     <string name="key_crypto_settings_sort">crypto.sort</string>
     <string name="key_crypto_settings_sort_value_market_cap">market_cap</string>

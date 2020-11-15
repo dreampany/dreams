@@ -18,10 +18,9 @@ import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.databinding.CoinActivityBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.misc.constants.Constants
-import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.misc.func.CurrencyFormatter
-import com.dreampany.tools.ui.crypto.adapter.CoinPagerAdapter
+import com.dreampany.tools.ui.crypto.adapter.PageAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
 import javax.inject.Inject
@@ -45,7 +44,7 @@ class CoinActivity : InjectActivity() {
 
 
     private lateinit var bind: CoinActivityBinding
-    private lateinit var adapter: CoinPagerAdapter
+    private lateinit var adapter: PageAdapter
     private lateinit var input: Coin
 
     override val homeUp: Boolean = true
@@ -121,7 +120,7 @@ class CoinActivity : InjectActivity() {
 
     private fun initPager() {
         if (::adapter.isInitialized) return
-        adapter = CoinPagerAdapter(this)
+        adapter = PageAdapter(this)
         bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
             bind.tabs,

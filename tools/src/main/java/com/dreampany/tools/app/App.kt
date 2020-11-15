@@ -51,7 +51,7 @@ class App : InjectApp() {
         initAd()
         initFresco()
         startAppIndex()
-        configWork()
+        //configWork()
     }
 
     override fun onClose() {

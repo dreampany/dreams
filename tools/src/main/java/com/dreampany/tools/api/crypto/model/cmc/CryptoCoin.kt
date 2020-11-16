@@ -1,5 +1,7 @@
-package com.dreampany.tools.api.crypto.model
+package com.dreampany.tools.api.crypto.model.cmc
 
+import com.dreampany.tools.api.crypto.model.CryptoCurrency
+import com.dreampany.tools.api.crypto.model.CryptoQuote
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.gson.annotations.SerializedName
 
@@ -10,7 +12,7 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class CryptoCoin(
-    val id: Long,
+    val id: String,
     val name: String,
     val symbol: String,
     val slug: String,
@@ -24,11 +26,11 @@ data class CryptoCoin(
     val marketPairs: Int,
     @SerializedName(value = CryptoConstants.Coin.RANK)
     val rank: Int,
-    @SerializedName(value = CryptoConstants.Coin.QUOTE)
-    val quotes: HashMap<CryptoCurrency, CryptoQuote>,
     val tags: ArrayList<String>,
     @SerializedName(value = CryptoConstants.Coin.DATE_ADDED)
     val dateAdded: String,
     @SerializedName(value = CryptoConstants.Coin.LAST_UPDATED)
-    val lastUpdated: String
+    val lastUpdated: String,
+    @SerializedName(value = CryptoConstants.Coin.QUOTE)
+    val quotes: HashMap<CryptoCurrency, CryptoQuote>
 )

@@ -7,8 +7,8 @@ import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
-import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
+import com.dreampany.tools.api.crypto.remote.response.cmc.CoinsResponse
+import com.dreampany.tools.api.crypto.remote.response.cmc.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin

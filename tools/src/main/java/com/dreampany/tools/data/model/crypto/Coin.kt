@@ -45,6 +45,7 @@ data class Coin(
     var tags: List<String>? = Constant.Default.NULL,
     @Embedded
     var platform: Platform? = Constant.Default.NULL,
+    var urls: Map<String, List<String>>?=  Constant.Default.NULL,
     @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = Constants.Keys.Coin.MAX_SUPPLY)

@@ -1,4 +1,4 @@
-package com.dreampany.tools.api.crypto.remote.response
+package com.dreampany.tools.api.crypto.remote.response.cmc
 
 import com.dreampany.framework.data.enums.Code
 

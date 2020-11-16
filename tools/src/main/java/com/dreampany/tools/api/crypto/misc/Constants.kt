@@ -14,6 +14,7 @@ class Constants {
             const val BASE_URL = "https://pro-api.coinmarketcap.com/v1/"
             const val BASE_GRAPH_URL = "https://graphs2.coinmarketcap.com/"
 
+            const val META = "cryptocurrency/info"
             const val COINS = "cryptocurrency/listings/latest"
             const val QUOTES = "cryptocurrency/quotes/latest"
             const val GRAPH =
@@ -57,6 +58,10 @@ class Constants {
             const val DATA = "data"
         }
 
+        object Meta {
+
+        }
+
         object Status {
             const val ERROR_CODE = "error_code"
             const val ERROR_MESSAGE = "error_message"
@@ -82,6 +87,8 @@ class Constants {
             const val PRICE_BTC = "price_btc"
             const val PRICE_USD = "price_usd"
             const val VOLUME_USD = "volume_usd"
+            const val DATE_ADDED = "date_added"
+            const val TOKEN_ADDRESS = "token_address"
         }
     }
 }

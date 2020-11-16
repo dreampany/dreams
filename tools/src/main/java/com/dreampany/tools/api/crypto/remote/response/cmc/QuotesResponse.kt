@@ -1,6 +1,6 @@
-package com.dreampany.tools.api.crypto.remote.response
+package com.dreampany.tools.api.crypto.remote.response.cmc
 
-import com.dreampany.tools.api.crypto.model.CryptoCoin
+import com.dreampany.tools.api.crypto.model.cmc.CryptoCoin
 
 /**
  * Created by roman on 2019-11-12

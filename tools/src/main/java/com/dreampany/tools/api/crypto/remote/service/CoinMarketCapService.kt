@@ -3,8 +3,9 @@ package com.dreampany.tools.api.crypto.remote.service
 import androidx.annotation.IntRange
 import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
-import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
-import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
+import com.dreampany.tools.api.crypto.remote.response.cmc.CoinsResponse
+import com.dreampany.tools.api.crypto.remote.response.cmc.MetasResponse
+import com.dreampany.tools.api.crypto.remote.response.cmc.QuotesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -17,6 +18,13 @@ import retrofit2.http.Query
  * Last modified $file.lastModified
  */
 interface CoinMarketCapService {
+
+    @GET(Constants.Apis.CoinMarketCap.META)
+    fun readsMeta(
+        @HeaderMap headers: Map<String, String>,
+        @Query(Constants.Apis.CoinMarketCap.ID) ids: String // could be comma separated multiple coin_id
+    ): Call<MetasResponse>
+
     @GET(Constants.Apis.CoinMarketCap.COINS)
     fun reads(
         @HeaderMap headers: Map<String, String>,

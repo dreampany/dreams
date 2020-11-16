@@ -8,7 +8,7 @@ import com.dreampany.framework.misc.exts.sub
 import com.dreampany.framework.misc.exts.utc
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
-import com.dreampany.tools.api.crypto.model.CryptoCoin
+import com.dreampany.tools.api.crypto.model.cmc.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.CryptoQuote
 import com.dreampany.tools.data.enums.State
@@ -193,7 +193,7 @@ class CoinMapper
     @Synchronized
     fun getItem(input: CryptoCoin): Coin {
         Timber.v("Resolved Coin: %s", input.name);
-        val id = input.id.toString()
+        val id = input.id
         var out: Coin? = coins.get(id)
         if (out == null) {
             out = Coin(id)

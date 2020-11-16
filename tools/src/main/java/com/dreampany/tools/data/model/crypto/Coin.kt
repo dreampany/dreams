@@ -1,13 +1,11 @@
 package com.dreampany.tools.data.model.crypto
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.Index
+import androidx.room.*
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.exts.value
-import com.dreampany.framework.misc.util.Util
+import com.dreampany.tools.data.enums.crypto.Category
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
@@ -39,6 +37,14 @@ data class Coin(
     var name: String = Constant.Default.STRING,
     var symbol: String = Constant.Default.STRING,
     var slug: String = Constant.Default.STRING,
+    @ColumnInfo(name = Constants.Keys.Coin.ICON)
+    private var icon: String? = Constant.Default.NULL,
+    var category: Category = Category.COIN,
+    var notice: String? = Constant.Default.NULL,
+    var description: String? = Constant.Default.NULL,
+    var tags: List<String>? = Constant.Default.NULL,
+    @Embedded
+    var platform: Platform? = Constant.Default.NULL,
     @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = Constants.Keys.Coin.MAX_SUPPLY)
@@ -48,22 +54,21 @@ data class Coin(
     @ColumnInfo(name = Constants.Keys.Coin.MARKET_PAIRS)
     private var marketPairs: Int = Constant.Default.INT,
     var rank: Int = Constant.Default.INT,
-    @Ignore
-    @Exclude
-    var quotes: HashMap<Currency, Quote> = Maps.newHashMap(),
-    var tags: List<String>? = Constant.Default.NULL,
     @ColumnInfo(name = Constants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Coin.LAST_UPDATED)
-    private var lastUpdated: Long = Constant.Default.LONG
+    private var lastUpdated: Long = Constant.Default.LONG,
+    @Ignore
+    @Exclude
+    var quotes: HashMap<Currency, Quote> = Maps.newHashMap()
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = Util.currentMillis()) {
+    constructor() : this(time = currentMillis) {
 
     }
 
-    constructor(id: String) : this(time = Util.currentMillis(), id = id) {
+    constructor(id: String) : this(time = currentMillis, id = id) {
 
     }
 
@@ -76,7 +81,15 @@ data class Coin(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String = "Coin ($id) == $id"
+    override fun toString(): String = "Coin: $id"
+
+    @PropertyName(Constants.Keys.Coin.ICON)
+    fun setIcon(icon: String?) {
+        this.icon = icon
+    }
+
+    @PropertyName(Constants.Keys.Coin.ICON)
+    fun getIcon(): String? = icon
 
     @PropertyName(Constants.Keys.Coin.CIRCULATING_SUPPLY)
     fun setCirculatingSupply(circulatingSupply: Double) {
@@ -94,9 +107,7 @@ data class Coin(
     }
 
     @PropertyName(Constants.Keys.Coin.TOTAL_SUPPLY)
-    fun getTotalSupply(): Double {
-        return totalSupply
-    }
+    fun getTotalSupply(): Double = totalSupply
 
     @PropertyName(Constants.Keys.Coin.MAX_SUPPLY)
     fun setMaxSupply(maxSupply: Double) {
@@ -104,9 +115,7 @@ data class Coin(
     }
 
     @PropertyName(Constants.Keys.Coin.MAX_SUPPLY)
-    fun getMaxSupply(): Double {
-        return maxSupply
-    }
+    fun getMaxSupply(): Double = maxSupply
 
     @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
     fun setMarketPairs(marketPairs: Int) {
@@ -114,9 +123,7 @@ data class Coin(
     }
 
     @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
-    fun getMarketPairs(): Int {
-        return marketPairs
-    }
+    fun getMarketPairs(): Int = marketPairs
 
     @PropertyName(Constants.Keys.Coin.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
@@ -124,9 +131,7 @@ data class Coin(
     }
 
     @PropertyName(Constants.Keys.Coin.LAST_UPDATED)
-    fun getLastUpdated(): Long {
-        return lastUpdated
-    }
+    fun getLastUpdated(): Long = lastUpdated
 
     @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun setDateAdded(dateAdded: Long) {

@@ -57,6 +57,12 @@ class Constants {
             const val DATA = "data"
         }
 
+        object Status {
+            const val ERROR_CODE = "error_code"
+            const val ERROR_MESSAGE = "error_message"
+            const val CREDIT_COUNT = "credit_count"
+        }
+
         object Exchange {
             const val DATA = "Data"
             const val EXCHANGES = "Exchanges"

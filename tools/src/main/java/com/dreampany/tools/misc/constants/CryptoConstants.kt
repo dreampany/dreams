@@ -63,12 +63,6 @@ class CryptoConstants {
         const val DATA = "data"
     }
 
-    object Status {
-        const val ERROR_CODE = "error_code"
-        const val ERROR_MESSAGE = "error_message"
-        const val CREDIT_COUNT = "credit_count"
-    }
-
     object Quote {
         const val VOLUME_24H = "volume_24h"
         const val MARKET_CAP = "market_cap"

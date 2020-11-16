@@ -2,6 +2,7 @@ package com.dreampany.tools.data.source.crypto.room.converters
 
 import androidx.room.TypeConverter
 import com.dreampany.framework.data.source.room.converter.Converter
+import com.dreampany.tools.data.enums.crypto.Category
 import com.dreampany.tools.data.enums.crypto.Currency
 
 /**
@@ -22,5 +23,17 @@ class Converters : Converter() {
     @TypeConverter
     fun toCurrency(input: String?): Currency? {
         return if (input.isNullOrEmpty()) null else Currency.valueOf(input)
+    }
+
+    @Synchronized
+    @TypeConverter
+    fun toString(input: Category?): String? {
+        return if (input == null) null else input.name
+    }
+
+    @Synchronized
+    @TypeConverter
+    fun toCategory(input: String?): Category? {
+        return if (input.isNullOrEmpty()) null else Category.valueOf(input)
     }
 }

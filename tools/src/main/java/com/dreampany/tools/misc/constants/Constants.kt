@@ -99,6 +99,14 @@ class Constants {
             const val RADIO = "radio"
         }
 
+        object Platform {
+            const val ID = "platform_id"
+            const val NAME = "platform_name"
+            const val SYMBOL = "platform_symbol"
+            const val SLUG = "platform_slug"
+            const val TOKEN_ADDRESS = "platform_token_address"
+        }
+
         object Station {
             const val CHANGE_UUID = "change_uuid"
             const val STATION_UUID = "station_uuid"
@@ -118,6 +126,8 @@ class Constants {
             const val CRYPTO = "crypto"
             const val COINS = "coins"
             const val QUOTES = "quotes"
+
+            const val ICON = "logo"
 
             const val MARKET_PAIRS = "market_pairs"
             const val CIRCULATING_SUPPLY = "circulating_supply"
@@ -164,6 +174,12 @@ class Constants {
             const val SEARCH = "tools.radio.search"
         }
 
+        object Crypto {
+            object Category {
+                const val COIN = "coin"
+                const val TOKEN = "token"
+            }
+        }
     }
 
     object Notify {

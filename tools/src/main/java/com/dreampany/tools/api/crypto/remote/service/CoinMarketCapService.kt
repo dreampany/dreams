@@ -9,6 +9,7 @@ import com.dreampany.tools.api.crypto.remote.response.cmc.QuotesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 /**

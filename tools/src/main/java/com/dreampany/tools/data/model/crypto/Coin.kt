@@ -37,31 +37,37 @@ data class Coin(
     var name: String = Constant.Default.STRING,
     var symbol: String = Constant.Default.STRING,
     var slug: String = Constant.Default.STRING,
+    var category: Category = Category.COIN,
     @ColumnInfo(name = Constants.Keys.Coin.ICON)
     private var icon: String? = Constant.Default.NULL,
-    var category: Category = Category.COIN,
-    var notice: String? = Constant.Default.NULL,
     var description: String? = Constant.Default.NULL,
+    var notice: String? = Constant.Default.NULL,
     var tags: List<String>? = Constant.Default.NULL,
     @Embedded
     var platform: Platform? = Constant.Default.NULL,
     var urls: Map<String, List<String>>?=  Constant.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
-    private var circulatingSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Keys.Coin.MAX_SUPPLY)
-    private var maxSupply: Double = Constant.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Keys.Coin.TOTAL_SUPPLY)
-    private var totalSupply: Double = Constant.Default.DOUBLE,
+
+    var rank: Int = Constant.Default.INT,
     @ColumnInfo(name = Constants.Keys.Coin.MARKET_PAIRS)
     private var marketPairs: Int = Constant.Default.INT,
-    var rank: Int = Constant.Default.INT,
-    @ColumnInfo(name = Constants.Keys.Coin.DATE_ADDED)
-    private var dateAdded: Long = Constant.Default.LONG,
+
+    @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
+    private var circulatingSupply: Double = Constant.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Keys.Coin.TOTAL_SUPPLY)
+    private var totalSupply: Double = Constant.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Keys.Coin.MAX_SUPPLY)
+    private var maxSupply: Double = Constant.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Keys.Coin.MARKET_CAP)
+    private var marketCap: Double = Constant.Default.DOUBLE,
+
     @ColumnInfo(name = Constants.Keys.Coin.LAST_UPDATED)
     private var lastUpdated: Long = Constant.Default.LONG,
+    @ColumnInfo(name = Constants.Keys.Coin.DATE_ADDED)
+    private var dateAdded: Long = Constant.Default.LONG,
+
     @Ignore
     @Exclude
-    var quotes: HashMap<Currency, Quote> = Maps.newHashMap()
+    var quote: HashMap<String, Quote> = Maps.newHashMap()
 ) : Base() {
 
     @Ignore
@@ -92,6 +98,15 @@ data class Coin(
     @PropertyName(Constants.Keys.Coin.ICON)
     fun getIcon(): String? = icon
 
+    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
+    fun setMarketPairs(marketPairs: Int) {
+        this.marketPairs = marketPairs
+    }
+
+    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
+    fun getMarketPairs(): Int = marketPairs
+
+
     @PropertyName(Constants.Keys.Coin.CIRCULATING_SUPPLY)
     fun setCirculatingSupply(circulatingSupply: Double) {
         this.circulatingSupply = circulatingSupply
@@ -118,13 +133,13 @@ data class Coin(
     @PropertyName(Constants.Keys.Coin.MAX_SUPPLY)
     fun getMaxSupply(): Double = maxSupply
 
-    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
-    fun setMarketPairs(marketPairs: Int) {
-        this.marketPairs = marketPairs
+    @PropertyName(Constants.Keys.Coin.MARKET_CAP)
+    fun setMarketCap(marketCap: Double) {
+        this.marketCap = marketCap
     }
 
-    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
-    fun getMarketPairs(): Int = marketPairs
+    @PropertyName(Constants.Keys.Coin.MARKET_CAP)
+    fun getMarketCap(): Double = marketCap
 
     @PropertyName(Constants.Keys.Coin.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
@@ -142,31 +157,25 @@ data class Coin(
     @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun getDateAdded(): Long = dateAdded
 
-    @Exclude
-    fun getLastUpdatedDate(): Date = Date(getLastUpdated())
-
-    fun addQuote(quote: Quote) = quotes.put(quote.currency, quote)
+    fun addQuote(quote: Quote) = this.quote.put(quote.currency, quote)
 
     @Exclude
-    fun getQuotes(): Map<Currency, Quote> = quotes
+    fun getQuotesAsList(): List<Quote> = quote.values.toList()
 
-    @Exclude
-    fun getQuotesAsList(): List<Quote> = quotes.values.toList()
+    fun clearQuote() = quote.clear()
 
-    fun clearQuote() = quotes.clear()
+    fun hasQuote(): Boolean = quote.isNotEmpty()
 
-    fun hasQuote(): Boolean = quotes.isNotEmpty()
+    fun hasQuote(currency: String): Boolean = quote.containsKey(Currency.valueOf(currency))
 
-    fun hasQuote(currency: String): Boolean = quotes.containsKey(Currency.valueOf(currency))
-
-    fun hasQuote(currency: Currency): Boolean = quotes.containsKey(currency)
+    fun hasQuote(currency: Currency): Boolean = quote.containsKey(currency)
 
     fun hasQuote(currencies: Array<Currency>): Boolean {
-        if (quotes.isEmpty()) {
+        if (quote.isEmpty()) {
             return false
         }
         for (currency in currencies) {
-            if (!quotes.containsKey(currency)) {
+            if (!quote.containsKey(currency)) {
                 return false
             }
         }
@@ -180,14 +189,14 @@ data class Coin(
     }
 
     fun getQuote(currency: Currency): Quote? {
-        if (quotes.isEmpty()) return null
-        return quotes.get(currency)
+        if (quote.isEmpty()) return null
+        return quote.get(currency)
     }
 
     @Exclude
     fun getLatestQuote(): Quote? {
         var latest: Quote? = null
-        quotes.forEach { entry ->
+        quote.forEach { entry ->
             if (latest?.time.value < entry.value.time)
                 latest = entry.value
         }

@@ -207,7 +207,7 @@ class CoinMapper
         out.setTotalSupply(input.totalSupply)
         out.setMarketPairs(input.marketPairs)
         out.rank = input.rank
-        out.quotes = getQuotes(id, input.quotes)
+        out.quote = getQuotes(id, input.quotes)
         out.tags = input.tags
         out.setDateAdded(input.dateAdded.utc)
         out.setLastUpdated(input.lastUpdated.utc)
@@ -264,7 +264,7 @@ class CoinMapper
     @Synchronized
     private fun bindQuote(currency: Currency, item: Coin, dao: QuoteDao) {
         if (!item.hasQuote(currency)) {
-            dao.getItem(item.id, currency.name)?.let { item.addQuote(it) }
+            dao.read(item.id, currency.name)?.let { item.addQuote(it) }
         }
     }
 

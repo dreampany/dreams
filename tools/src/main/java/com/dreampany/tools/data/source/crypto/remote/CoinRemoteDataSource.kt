@@ -2,6 +2,7 @@ package com.dreampany.tools.data.source.crypto.remote
 
 import android.content.Context
 import androidx.annotation.IntRange
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
@@ -36,18 +37,19 @@ constructor(
 ) : CoinDataSource {
 
     init {
-        /*if (context.isDebug) {
-            keys.setKeys(CryptoConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT)
+        if (context.isDebug) {
+            keys.setKeys(
+                Constants.Apis.CoinMarketCap.CMC_PRO_ROMAN_BJIT
+            )
         } else {
-
-        }*/
-        keys.setKeys(
-            Constants.Apis.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
-            Constants.Apis.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
-            Constants.Apis.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
-            Constants.Apis.CoinMarketCap.CMC_PRO_IFTE_NET,
-            Constants.Apis.CoinMarketCap.CMC_PRO_DREAMPANY
-        )
+            keys.setKeys(
+                Constants.Apis.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
+                Constants.Apis.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
+                Constants.Apis.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
+                Constants.Apis.CoinMarketCap.CMC_PRO_IFTE_NET,
+                Constants.Apis.CoinMarketCap.CMC_PRO_DREAMPANY
+            )
+        }
     }
 
     @Throws
@@ -100,7 +102,11 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsFavorite(currency: Currency, sort: String, order: String): List<Coin>? {
+    override suspend fun readsFavorite(
+        currency: Currency,
+        sort: String,
+        order: String
+    ): List<Coin>? {
         TODO("Not yet implemented")
     }
 

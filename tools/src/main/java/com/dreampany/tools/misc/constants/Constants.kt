@@ -133,6 +133,7 @@ class Constants {
             const val CIRCULATING_SUPPLY = "circulating_supply"
             const val TOTAL_SUPPLY = "total_supply"
             const val MAX_SUPPLY = "max_supply"
+            const val MARKET_CAP = "market_cap"
             const val LAST_UPDATED = "last_updated"
             const val DATE_ADDED = "date_added"
         }
@@ -140,6 +141,11 @@ class Constants {
         object Quote {
             const val CURRENCY = "currency"
             const val VOLUME_24H = "volume_24h"
+            const val VOLUME_24H_REPORTED = "volume_24h_reported"
+            const val VOLUME_7D = "volume_7d"
+            const val VOLUME_7D_REPORTED  = "volume_7d_reported"
+            const val VOLUME_30D = "volume_30d"
+            const val VOLUME_30D_REPORTED  = "volume_30d_reported"
             const val MARKET_CAP = "market_cap"
             const val CHANGE_1H = "percent_change_1h"
             const val CHANGE_24H = "percent_change_24h"

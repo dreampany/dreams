@@ -42,7 +42,6 @@ class CoinActivity : InjectActivity() {
     @Inject
     internal lateinit var formatter: CurrencyFormatter
 
-
     private lateinit var bind: CoinActivityBinding
     private lateinit var adapter: PageAdapter
     private lateinit var input: Coin
@@ -66,13 +65,11 @@ class CoinActivity : InjectActivity() {
         }
 
     override fun onStartUi(state: Bundle?) {
-        val task =
-            (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
         input = task.input ?: return
         initUi()
         initPager()
         initAd()
-        //setTitle(input.name)
         loadUi()
         ads.loadBanner(this.javaClass.simpleName)
     }

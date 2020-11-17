@@ -16,8 +16,8 @@ interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplace(t: T): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplaceRx(t: T): Maybe<Long>
+/*    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrReplaceRx(t: T): Maybe<Long>*/
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertOrAbort(t: T): Long

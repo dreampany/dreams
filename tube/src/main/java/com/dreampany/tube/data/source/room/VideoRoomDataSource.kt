@@ -69,10 +69,10 @@ class VideoRoomDataSource(
     }
 
     @Throws
-    override suspend fun isExists(id: String): Boolean = dao.getCount(id) > 0
+    override suspend fun isExists(id: String): Boolean = dao.count(id) > 0
 
     @Throws
-    override suspend fun get(id: String): Video? = dao.get(id)
+    override suspend fun get(id: String): Video? = dao.read(id)
 
     @Throws
     override suspend fun gets(): List<Video>? {
@@ -81,7 +81,7 @@ class VideoRoomDataSource(
     }
 
     @Throws
-    override suspend fun gets(ids: List<String>): List<Video>? = dao.gets(ids)
+    override suspend fun gets(ids: List<String>): List<Video>? = dao.reads(ids)
 
     override suspend fun gets(offset: Long, limit: Long): List<Video>? {
         TODO("Not yet implemented")

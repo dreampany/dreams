@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.crypto.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.tools.api.crypto.model.CryptoExchange
+import com.dreampany.tools.api.crypto.model.cc.CryptoExchange
 import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.google.common.collect.Maps

@@ -10,7 +10,7 @@ import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
 import com.dreampany.tools.api.crypto.model.cmc.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
-import com.dreampany.tools.api.crypto.model.CryptoQuote
+import com.dreampany.tools.api.crypto.model.cmc.CryptoQuote
 import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type

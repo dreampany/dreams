@@ -283,4 +283,10 @@ class Constants {
         const val APPLE_MPEGURL = "application/vnd.apple.mpegurl"
         const val X_MPEGURL = "application/x-mpegurl"
     }
+
+    object Pattern {
+        object Crypto {
+            const val CMC_DATE_TIME = "yyyy-mm-ddThh:mm:ss.mmmZ" //coin market cap
+        }
+    }
 }

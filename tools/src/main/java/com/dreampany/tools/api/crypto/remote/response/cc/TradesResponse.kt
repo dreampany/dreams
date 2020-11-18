@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.crypto.remote.response.cc
 
 import com.dreampany.tools.misc.constants.CryptoConstants
-import com.dreampany.tools.api.crypto.model.CryptoTrade
+import com.dreampany.tools.api.crypto.model.cc.CryptoTrade
 import com.google.gson.annotations.SerializedName
 
 /**

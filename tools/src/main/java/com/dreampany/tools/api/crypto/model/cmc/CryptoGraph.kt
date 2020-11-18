@@ -1,4 +1,4 @@
-package com.dreampany.tools.api.crypto.model
+package com.dreampany.tools.api.crypto.model.cmc
 
 import com.dreampany.tools.api.crypto.misc.Constants
 import com.google.gson.annotations.SerializedName

@@ -53,6 +53,16 @@ val String.simpleUtc: Long
         }
     }
 
+fun String.utc(pattern : String): Long {
+    val format = SimpleDateFormat(pattern, Locale.getDefault())
+    try {
+        return format.parse(this)?.time ?: 0L
+    } catch (error: ParseException) {
+        Timber.e(error)
+        return 0L
+    }
+}
+
 val String.isoMillis: Long
     get() {
         val format = this.substring(2)

@@ -1,15 +1,18 @@
+/*
 package com.dreampany.crypto.data.enums
 
 import android.os.Parcelable
 import com.dreampany.framework.misc.constant.Constant
 import kotlinx.android.parcel.Parcelize
 
+*/
 /**
  * Created by roman on 2019-10-01
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Parcelize
 enum class Currency(
     val type: Type,
@@ -94,4 +97,4 @@ enum class Currency(
             return cryptos!!
         }
     }
-}
+}*/

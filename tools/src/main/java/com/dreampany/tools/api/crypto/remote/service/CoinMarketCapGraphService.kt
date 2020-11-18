@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.crypto.remote.service
 
 import com.dreampany.tools.api.crypto.misc.Constants
-import com.dreampany.tools.api.crypto.model.CryptoGraph
+import com.dreampany.tools.api.crypto.model.cmc.CryptoGraph
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

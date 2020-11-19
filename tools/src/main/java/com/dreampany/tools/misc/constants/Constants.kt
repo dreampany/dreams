@@ -76,6 +76,7 @@ class Constants {
 
             object Crypto {
                 const val PREF = "crypto.pref"
+                const val CURRENCY = "crypto.currency"
             }
 
             object Radio {
@@ -200,6 +201,7 @@ class Constants {
         val FIREBASE = TimeUnit.HOURS.toMillis(1)
 
         object Crypto {
+            val CURRENCY = TimeUnit.DAYS.toMillis(30)
             val COINS = TimeUnit.MINUTES.toMillis(30)
             val COIN = TimeUnit.MINUTES.toMillis(5)
             val WORKER = TimeUnit.HOURS.toMillis(1)

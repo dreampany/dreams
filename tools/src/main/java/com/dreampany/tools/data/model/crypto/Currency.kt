@@ -29,10 +29,10 @@ import kotlinx.android.parcel.Parcelize
 data class Currency(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
-    var name : String = Constant.Default.STRING,
-    var sign : String = Constant.Default.STRING,
-    var symbol : String = Constant.Default.STRING,
-    var type : Type = Type.FIAT
+    var name: String = Constant.Default.STRING,
+    var sign: String = Constant.Default.STRING,
+    var symbol: String = Constant.Default.STRING,
+    var type: Type = Type.FIAT
 ) : Base() {
 
     @Parcelize
@@ -59,4 +59,8 @@ data class Currency(
     override fun toString(): String = "Currency: $id"
 
     val isFiat: Boolean get() = type == Type.FIAT
+
+    companion object {
+        val USD = Currency(currentMillis, "2781", "United States Dollar", "$", "USD")
+    }
 }

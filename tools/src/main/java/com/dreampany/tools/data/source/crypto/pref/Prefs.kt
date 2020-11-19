@@ -5,9 +5,8 @@ import com.dreampany.framework.data.source.pref.Pref
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.misc.constants.Constants
-import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -52,6 +51,22 @@ class Prefs
             context.getString(R.string.key_crypto_settings_order),
             context.getString(R.string.key_crypto_settings_order_value_descending)
         )
+
+    @Synchronized
+    fun writeExpireTimeOfCurrency() {
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.Crypto.CURRENCY)
+        }
+        setPrivately(key.toString(), currentMillis)
+    }
+
+    @Synchronized
+    fun readExpireTimeOfCurrency(): Long {
+        val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
+            append(Constants.Keys.Pref.Crypto.CURRENCY)
+        }
+        return getPrivately(key.toString(), Constant.Default.LONG)
+    }
 
     @Synchronized
     fun writeExpireTime(currency: Currency, sort: String, order: String, offset: Long) {

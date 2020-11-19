@@ -84,7 +84,7 @@ class Prefs
     }
 
     @Synchronized
-    fun commitExpireTimeOfCategoryId(categoryId: String, offset: Long) {
+    fun writeExpireTimeOfCategoryId(categoryId: String, offset: Long) {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(Constants.Keys.Pref.VIDEO)
             append(categoryId)
@@ -94,7 +94,7 @@ class Prefs
     }
 
     @Synchronized
-    fun getExpireTimeOfCategoryId(categoryId: String, offset: Long): Long {
+    fun readExpireTimeOfCategoryId(categoryId: String, offset: Long): Long {
         val key = StringBuilder(Constants.Keys.Pref.EXPIRE).apply {
             append(Constants.Keys.Pref.VIDEO)
             append(categoryId)

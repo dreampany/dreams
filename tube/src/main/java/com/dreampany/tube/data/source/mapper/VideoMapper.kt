@@ -47,17 +47,17 @@ class VideoMapper
     }
 
     @Synchronized
-    fun commitExpire(categoryId: String, offset: Long) =
-        pref.commitExpireTimeOfCategoryId(categoryId, offset)
+    fun writeExpire(categoryId: String, offset: Long) =
+        pref.writeExpireTimeOfCategoryId(categoryId, offset)
 
     @Synchronized
     fun isExpired(categoryId: String, offset: Long): Boolean {
-        val time = pref.getExpireTimeOfCategoryId(categoryId, offset)
+        val time = pref.readExpireTimeOfCategoryId(categoryId, offset)
         return time.isExpired(Constants.Times.VIDEOS)
     }
 
     @Throws
-    suspend fun commitExpire(id: String) {
+    suspend fun writeExpire(id: String) {
         val time = Time(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
         timeRepo.write(time)
     }

@@ -11,12 +11,13 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class Status(
-    var timestamp: String? = Constant.Default.NULL,
+    val timestamp: String = Constant.Default.STRING,
     @SerializedName(value = Constants.Keys.Status.ERROR_CODE)
-    var errorCode: Int = Constant.Default.INT,
+    val errorCode: Int = Constant.Default.INT,
     @SerializedName(value = Constants.Keys.Status.ERROR_MESSAGE)
-    var errorMessage: String = Constant.Default.STRING,
-    var elapsed: Int = Constant.Default.INT,
+    val errorMessage: String? = Constant.Default.NULL,
+    val elapsed: Int = Constant.Default.INT,
     @SerializedName(value = Constants.Keys.Status.CREDIT_COUNT)
-    var creditCount: Int = Constant.Default.INT
+    val creditCount: Int = Constant.Default.INT,
+    val notice : String? = Constant.Default.NULL
 )

@@ -111,7 +111,7 @@ class VideoRepo
             var result = remote.getsOfCategoryId(categoryId, offset, limit)
             if (!result.isNullOrEmpty()) {
                 room.putIf(result)
-                mapper.commitExpire(categoryId, offset)
+                mapper.writeExpire(categoryId, offset)
                 result.expiredIds()?.let {
                     if (it.isNotEmpty()) {
                         result = remote.gets(it)
@@ -120,7 +120,7 @@ class VideoRepo
                             Timber.v("")
                         }
                         result?.forEach {
-                            mapper.commitExpire(it.id)
+                            mapper.writeExpire(it.id)
                         }
                     }
                 }
@@ -140,7 +140,7 @@ class VideoRepo
             if (!result.isNullOrEmpty()) {
                 room.putIf(result)
                 mapper.setRegionVideos(regionCode, result)
-                mapper.commitExpire(regionCode, offset)
+                mapper.writeExpire(regionCode, offset)
                 result.expiredIds()?.let {
                     if (it.isNotEmpty()) {
                         result = remote.gets(it)
@@ -148,7 +148,7 @@ class VideoRepo
                             val puts = room.put(it)
                         }
                         result?.forEach {
-                            mapper.commitExpire(it.id)
+                            mapper.writeExpire(it.id)
                         }
                     }
                 }
@@ -175,7 +175,7 @@ class VideoRepo
                 if (!result.isNullOrEmpty()) {
                     room.putIf(result)
                     mapper.setEventVideos(eventType, result)
-                    mapper.commitExpire(eventType, offset)
+                    mapper.writeExpire(eventType, offset)
                     result.expiredIds()?.let {
                         if (it.isNotEmpty()) {
                             result = remote.gets(it)
@@ -184,7 +184,7 @@ class VideoRepo
                                 Timber.v("")
                             }
                             result?.forEach {
-                                mapper.commitExpire(it.id)
+                                mapper.writeExpire(it.id)
                             }
                         }
                     }
@@ -210,7 +210,7 @@ class VideoRepo
                                 Timber.v("")
                             }
                             result?.forEach {
-                                mapper.commitExpire(it.id)
+                                mapper.writeExpire(it.id)
                             }
                         }
                     }

@@ -140,7 +140,7 @@ class Constants {
         }
 
         object Quote {
-            const val CURRENCY = "currency"
+            const val CURRENCY_ID = "currency_id"
             const val VOLUME_24H = "volume_24h"
             const val VOLUME_24H_REPORTED = "volume_24h_reported"
             const val VOLUME_7D = "volume_7d"

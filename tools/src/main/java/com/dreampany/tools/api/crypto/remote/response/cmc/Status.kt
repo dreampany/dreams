@@ -13,11 +13,13 @@ import com.google.gson.annotations.SerializedName
 data class Status(
     val timestamp: String = Constant.Default.STRING,
     @SerializedName(value = Constants.Keys.Status.ERROR_CODE)
-    val errorCode: Int = Constant.Default.INT,
+    val code: Int = Constant.Default.INT,
     @SerializedName(value = Constants.Keys.Status.ERROR_MESSAGE)
-    val errorMessage: String? = Constant.Default.NULL,
+    val message: String? = Constant.Default.NULL,
     val elapsed: Int = Constant.Default.INT,
     @SerializedName(value = Constants.Keys.Status.CREDIT_COUNT)
-    val creditCount: Int = Constant.Default.INT,
+    val credit: Int = Constant.Default.INT,
+    @SerializedName(value = Constants.Keys.Status.TOTAL_COUNT)
+    val total: Int = Constant.Default.INT,
     val notice : String? = Constant.Default.NULL
 )

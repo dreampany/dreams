@@ -6,7 +6,6 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.data.enums.crypto.Category
-import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import com.google.common.collect.Maps
@@ -157,7 +156,7 @@ data class Coin(
     @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun getDateAdded(): Long = dateAdded
 
-    fun addQuote(quote: Quote) = this.quote.put(quote.currency, quote)
+    fun addQuote(quote: Quote) = this.quote.put(quote.getCurrencyId(), quote)
 
     @Exclude
     fun getQuotesAsList(): List<Quote> = quote.values.toList()
@@ -166,16 +165,14 @@ data class Coin(
 
     fun hasQuote(): Boolean = quote.isNotEmpty()
 
-    fun hasQuote(currency: String): Boolean = quote.containsKey(Currency.valueOf(currency))
-
-    fun hasQuote(currency: Currency): Boolean = quote.containsKey(currency)
+    fun hasQuote(currency: Currency): Boolean = quote.containsKey(currency.id)
 
     fun hasQuote(currencies: Array<Currency>): Boolean {
         if (quote.isEmpty()) {
             return false
         }
         for (currency in currencies) {
-            if (!quote.containsKey(currency)) {
+            if (!quote.containsKey(currency.id)) {
                 return false
             }
         }
@@ -190,7 +187,7 @@ data class Coin(
 
     fun getQuote(currency: Currency): Quote? {
         if (quote.isEmpty()) return null
-        return quote.get(currency)
+        return quote.get(currency.id)
     }
 
     @Exclude

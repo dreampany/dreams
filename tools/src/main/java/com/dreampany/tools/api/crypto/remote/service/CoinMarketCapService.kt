@@ -1,6 +1,7 @@
 package com.dreampany.tools.api.crypto.remote.service
 
 import androidx.annotation.IntRange
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.remote.response.cmc.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.response.cmc.CurrenciesResponse
@@ -28,27 +29,26 @@ interface CoinMarketCapService {
     ): Call<CurrenciesResponse>
 
     @GET(Constants.Apis.CoinMarketCap.META)
-    fun readsMeta(
+    fun metas(
         @HeaderMap headers: Map<String, String>,
-        @Query(Constants.Apis.CoinMarketCap.ID) ids: String // could be comma separated multiple coin_id
+        @Query(Constant.Keys.ID) ids: String // could be comma separated multiple coin_id
     ): Call<MetasResponse>
 
     @GET(Constants.Apis.CoinMarketCap.COINS)
-    fun reads(
+    fun coins(
         @HeaderMap headers: Map<String, String>,
-        @Query(Constants.Apis.CoinMarketCap.CONVERT) currencies: String,
-        @Query(Constants.Apis.CoinMarketCap.SORT) sort: String,
-        @Query(Constants.Apis.CoinMarketCap.SORT_DIRECTION) sortDirection: String,
-        @Query(CryptoConstants.Common.START)
+        @Query(Constants.Keys.CoinMarketCap.CONVERT_ID) currencies: String,
+        @Query(Constants.Keys.CoinMarketCap.SORT) sort: String,
+        @Query(Constants.Keys.CoinMarketCap.SORT_DIRECTION) order: String,
         @IntRange(from = 1, to = Long.MAX_VALUE)
-        start: Long,
+        @Query(CryptoConstants.Common.START) start: Long,
         @Query(CryptoConstants.Common.LIMIT) limit: Long
     ): Call<CoinsResponse>
 
     @GET(Constants.Apis.CoinMarketCap.QUOTES)
-    fun getQuotes(
+    fun quotes(
         @HeaderMap headers: Map<String, String>,
-        @Query(Constants.Apis.CoinMarketCap.CONVERT) currencies: String,
-        @Query(Constants.Apis.CoinMarketCap.ID) ids: String // could be comma separated multiple coin_id
+        @Query(Constants.Keys.CoinMarketCap.CONVERT_ID) currencies: String,
+        @Query(Constant.Keys.ID) ids: String // could be comma separated multiple coin_id
     ): Call<QuotesResponse>
 }

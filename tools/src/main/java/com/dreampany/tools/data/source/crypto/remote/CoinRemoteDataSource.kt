@@ -64,7 +64,7 @@ constructor(
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val response: Response<CoinsResponse> = service.reads(
+                val response: Response<CoinsResponse> = service.coins(
                     key.header,
                     currency.name,
                     sort.value,
@@ -78,8 +78,8 @@ constructor(
                 } else {
                     val error = parser.parseError(response, CoinsResponse::class)
                     throw SmartError(
-                        message = error?.status?.errorMessage,
-                        code = error?.status?.errorCode.value
+                        message = error?.status?.message,
+                        code = error?.status?.code.value
                     )
                 }
             } catch (error: Throwable) {
@@ -123,11 +123,7 @@ constructor(
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val response: Response<QuotesResponse> = service.getQuotes(
-                    key.header,
-                    currency.name,
-                    id
-                ).execute()
+                val response = service.quotes(key.header, currency.id, id).execute()
                 if (response.isSuccessful) {
                     val data = response.body()?.data ?: return null
                     val inputData = data.get(id) ?: return null
@@ -135,8 +131,8 @@ constructor(
                 } else {
                     val error = parser.parseError(response, QuotesResponse::class)
                     throw SmartError(
-                        message = error?.status?.errorMessage,
-                        code = error?.status?.errorCode.value
+                        message = error?.status?.message,
+                        code = error?.status?.code.value
                     )
                 }
             } catch (error: Throwable) {

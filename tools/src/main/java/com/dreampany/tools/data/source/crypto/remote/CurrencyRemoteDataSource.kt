@@ -68,8 +68,8 @@ constructor(
                 } else {
                     val error = parser.parseError(response, CurrenciesResponse::class)
                     throw SmartError(
-                        message = error?.status?.errorMessage,
-                        code = error?.status?.errorCode.value
+                        message = error?.status?.message,
+                        code = error?.status?.code.value
                     )
                 }
             } catch (error: Throwable) {

@@ -63,16 +63,16 @@ class CryptoConstants {
         const val DATA = "data"
     }
 
-    object Quote {
+/*    object Quote {
         const val VOLUME_24H = "volume_24h"
         const val MARKET_CAP = "market_cap"
         const val CHANGE_1H = "percent_change_1h"
         const val CHANGE_24H = "percent_change_24h"
         const val CHANGE_7D = "percent_change_7d"
         const val LAST_UPDATED = "last_updated"
-    }
+    }*/
 
-    object Coin {
+/*    object Coin {
         const val CIRCULATING_SUPPLY = "circulating_supply"
         const val TOTAL_SUPPLY = "total_supply"
         const val MAX_SUPPLY = "max_supply"
@@ -81,7 +81,7 @@ class CryptoConstants {
         const val QUOTE = "quote"
         const val LAST_UPDATED = "last_updated"
         const val DATE_ADDED = "date_added"
-    }
+    }*/
 
     object Trade {
         const val DATA = "Data"

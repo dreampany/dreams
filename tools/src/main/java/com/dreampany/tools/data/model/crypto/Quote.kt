@@ -23,15 +23,16 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY],
+        value = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY_ID],
         unique = true
     )],
-    primaryKeys = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY]
+    primaryKeys = [Constant.Keys.ID, Constants.Keys.Quote.CURRENCY_ID]
 )
 data class Quote(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
-    var currency: String = Constant.Default.STRING,
+    @ColumnInfo(name = Constants.Keys.Quote.CURRENCY_ID)
+    private var currencyId: String = Constant.Default.STRING,
     var price: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = Constants.Keys.Quote.VOLUME_24H)
     private var volume24h: Double = Constant.Default.DOUBLE,
@@ -66,14 +67,24 @@ data class Quote(
 
     }
 
-    override fun hashCode(): Int = Objects.hashCode(id, currency)
+    override fun hashCode(): Int = Objects.hashCode(id, currencyId)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as Quote
-        return Objects.equal(item.id, id) && Objects.equal(item.currency, currency)
+        return Objects.equal(item.id, id) && Objects.equal(item.currencyId, currencyId)
     }
+
+    override fun toString(): String = "Quote: $id"
+
+    @PropertyName(Constants.Keys.Quote.CURRENCY_ID)
+    fun setCurrencyId(currencyId: String) {
+        this.currencyId = currencyId
+    }
+
+    @PropertyName(Constants.Keys.Quote.CURRENCY_ID)
+    fun getCurrencyId(): String = currencyId
 
     @PropertyName(Constants.Keys.Quote.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {

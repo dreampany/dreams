@@ -21,12 +21,6 @@ class Constants {
             const val GRAPH =
                 "currencies/{slug}/{${Keys.CoinMarketCap.START_TIME}}/{${Keys.CoinMarketCap.END_TIME}}"
 
-            // keys
-            const val CONVERT = "convert"
-            const val SORT = "sort"
-            const val SORT_DIRECTION = "sort_dir"
-            const val AUXILIARIES = "aux"
-            const val ID = "id"
         }
 
         object CryptoCompare {
@@ -59,12 +53,11 @@ class Constants {
             const val DATA = "data"
         }
 
-
-
         object Status {
             const val ERROR_CODE = "error_code"
             const val ERROR_MESSAGE = "error_message"
             const val CREDIT_COUNT = "credit_count"
+            const val TOTAL_COUNT = "total_count"
         }
 
         object Exchange {
@@ -89,6 +82,22 @@ class Constants {
             const val VOLUME_USD = "volume_usd"
             const val DATE_ADDED = "date_added"
             const val TOKEN_ADDRESS = "token_address"
+            const val VOLUME_24H = "volume_24h"
+            const val VOLUME_24H_REPORTED = "volume_24h_reported"
+            const val VOLUME_7D = "volume_7d"
+            const val VOLUME_7D_REPORTED  = "volume_7d_reported"
+            const val VOLUME_30D = "volume_30d"
+            const val VOLUME_30D_REPORTED  = "volume_30d_reported"
+            const val MARKET_CAP = "market_cap"
+            const val CHANGE_1H = "percent_change_1h"
+            const val CHANGE_24H = "percent_change_24h"
+            const val CHANGE_7D = "percent_change_7d"
+            const val LAST_UPDATED = "last_updated"
+
+            const val CONVERT_ID = "convert_id"
+            const val SORT = "sort"
+            const val SORT_DIRECTION = "sort_dir"
+            const val AUXILIARIES = "aux"
         }
     }
 }

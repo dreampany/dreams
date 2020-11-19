@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.crypto.repo
 
 import com.dreampany.framework.inject.annote.Remote
 import com.dreampany.framework.inject.annote.Room
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
@@ -61,7 +61,7 @@ class CoinRepo
         order: String,
         offset: Long,
         limit: Long
-    ) = withContext(Dispatchers.IO) {
+    ): List<Coin>? = withContext(Dispatchers.IO) {
         if (mapper.isExpired(currency, sort, order, offset)) {
             val result = remote.reads(currency, sort, order, offset, limit)
             if (!result.isNullOrEmpty()) {

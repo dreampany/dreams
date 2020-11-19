@@ -110,7 +110,7 @@ class VideoRemoteDataSource(
                 ).execute()
                 if (response.isSuccessful) {
                     val data = response.body()?.items ?: return null
-                    return mapper.gets(data)
+                    return mapper.reads(data)
                 } else {
                     val error = parser.parseError(response, VideoListResponse::class)
                     throw SmartError(

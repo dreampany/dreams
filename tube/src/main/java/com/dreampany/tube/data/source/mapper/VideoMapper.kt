@@ -108,7 +108,7 @@ class VideoMapper
 
 
     @Synchronized
-    fun add(input: Video) {
+    fun write(input: Video) {
         val categoryId = input.categoryId ?: return
         if (!videos.containsKey(categoryId)) {
             videos[categoryId] = Maps.newConcurrentMap()
@@ -158,7 +158,7 @@ class VideoMapper
 
     @Throws
     @Synchronized
-    suspend fun gets(
+    suspend fun reads(
         categoryId: String,
         offset: Long,
         limit: Long,
@@ -173,7 +173,7 @@ class VideoMapper
 
     @Throws
     @Synchronized
-    suspend fun get(
+    suspend fun read(
         id: String,
         source: VideoDataSource
     ): Video? {
@@ -185,7 +185,7 @@ class VideoMapper
 
     @Throws
     @Synchronized
-    suspend fun getFavorites(
+    suspend fun favorites(
         source: VideoDataSource
     ): List<Video>? {
         //updateCache(source)
@@ -206,7 +206,7 @@ class VideoMapper
     fun getsOfSearch(categoryId: String, inputs: List<SearchResult>): List<Video> {
         val result = arrayListOf<Video>()
         inputs.forEach { input ->
-            result.add(get(categoryId, input))
+            result.add(read(categoryId, input))
         }
         return result
     }
@@ -215,28 +215,28 @@ class VideoMapper
     fun getsOfSearch(inputs: List<SearchResult>): List<Video> {
         val result = arrayListOf<Video>()
         inputs.forEach { input ->
-            result.add(get(input))
+            result.add(read(input))
         }
         return result
     }
 
     @Synchronized
-    fun gets(inputs: List<VideoResult>): List<Video> {
+    fun reads(inputs: List<VideoResult>): List<Video> {
         val result = arrayListOf<Video>()
         inputs.forEach { input ->
-            result.add(get(input))
+            result.add(read(input))
         }
         return result
     }
 
     @Synchronized
-    fun get(categoryId: String, input: SearchResult): Video {
+    fun read(categoryId: String, input: SearchResult): Video {
         Timber.v("Resolved Video: %s", input.id)
         val id = input.id.videoId
         var output: Video? = videos[categoryId]?.get(id)
         if (output == null) {
             output = Video(id)
-            add(output)
+            write(output)
         }
         output.categoryId = categoryId
         bindSnippet(input.snippet, output)
@@ -244,13 +244,13 @@ class VideoMapper
     }
 
     @Synchronized
-    fun get(input: SearchResult): Video {
+    fun read(input: SearchResult): Video {
         Timber.v("Resolved Video: %s", input.id)
         val id = input.id.videoId
         var output: Video? = null
         if (output == null) {
             output = Video(id)
-            add(output)
+            write(output)
         }
         //output.categoryId = categoryId
         bindSnippet(input.snippet, output)
@@ -258,14 +258,14 @@ class VideoMapper
     }
 
     @Synchronized
-    fun get(input: VideoResult): Video {
+    fun read(input: VideoResult): Video {
         Timber.v("Resolved Video: %s", input.id)
         val categoryId = input.snippet.categoryId
         val id = input.id
         var output: Video? = videos[categoryId]?.get(id)
         if (output == null) {
             output = Video(id)
-            add(output)
+            write(output)
         }
         bindSnippet(input.snippet, output)
         bindContentDetails(input.contentDetails, output)
@@ -316,7 +316,7 @@ class VideoMapper
         if (videos.get(categoryId).isNullOrEmpty()) {
             source.getsOfCategoryId(categoryId)?.let {
                 if (it.isNotEmpty())
-                    it.forEach { add(it) }
+                    it.forEach { write(it) }
             }
         }
     }

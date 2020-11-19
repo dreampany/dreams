@@ -14,4 +14,7 @@ interface CurrencyDataSource {
 
     @Throws
     suspend fun write(inputs: List<Currency>): List<Long>?
+
+    @Throws
+    suspend fun reads(): List<Currency>?
 }

@@ -9,13 +9,12 @@ import com.dreampany.framework.misc.exts.utc
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
 import com.dreampany.tools.api.crypto.model.cmc.CryptoCoin
-import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.cmc.CryptoQuote
 import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.Prefs
@@ -24,7 +23,6 @@ import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
@@ -121,7 +119,7 @@ class CoinMapper
 
     @Throws
     @Synchronized
-    suspend fun getItems(
+    suspend fun read(
         currency: Currency,
         sort: String,
         order: String,
@@ -141,7 +139,7 @@ class CoinMapper
 
     @Throws
     @Synchronized
-    suspend fun getItem(
+    suspend fun read(
         currency: Currency,
         id: String,
         quoteDao: QuoteDao,
@@ -182,16 +180,10 @@ class CoinMapper
     }
 
     @Synchronized
-    fun getItems(inputs: List<CryptoCoin>): List<Coin> {
-        val result = arrayListOf<Coin>()
-        inputs.forEach { input ->
-            result.add(getItem(input))
-        }
-        return result
-    }
+    fun read(inputs: List<CryptoCoin>): List<Coin> = inputs.map { read(it) }
 
     @Synchronized
-    fun getItem(input: CryptoCoin): Coin {
+    fun read(input: CryptoCoin): Coin {
         Timber.v("Resolved Coin: %s", input.name);
         val id = input.id
         var out: Coin? = coins.get(id)

@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.crypto.room
 
-import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
@@ -50,15 +50,11 @@ class CoinRoomDataSource(
     }
 
     @Throws
-    override suspend fun write(inputs: List<Coin>): List<Long>? {
-        val result = arrayListOf<Long>()
-        inputs.forEach { result.add(write(it)) }
-        return result
-    }
+    override suspend fun write(inputs: List<Coin>): List<Long>? = inputs.map { write(it) }
 
     @Throws
     override suspend fun read(currency: Currency, id: String): Coin? =
-        mapper.getItem(currency, id, quoteDao, this)
+        mapper.read(currency, id, quoteDao, this)
 
     @Throws
     override suspend fun reads(): List<Coin>? = dao.items
@@ -75,5 +71,5 @@ class CoinRoomDataSource(
         order: String,
         offset: Long,
         limit: Long
-    ): List<Coin>? = mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
+    ): List<Coin>? = mapper.read(currency, sort, order, offset, limit, quoteDao, this)
 }

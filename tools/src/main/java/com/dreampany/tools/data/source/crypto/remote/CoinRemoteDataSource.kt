@@ -11,7 +11,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.remote.response.cmc.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.response.cmc.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
@@ -74,7 +74,7 @@ constructor(
                 ).execute()
                 if (response.isSuccessful) {
                     val data = response.body()?.data ?: return null
-                    return mapper.getItems(data)
+                    return mapper.read(data)
                 } else {
                     val error = parser.parseError(response, CoinsResponse::class)
                     throw SmartError(
@@ -131,7 +131,7 @@ constructor(
                 if (response.isSuccessful) {
                     val data = response.body()?.data ?: return null
                     val inputData = data.get(id) ?: return null
-                    return mapper.getItem(inputData)
+                    return mapper.read(inputData)
                 } else {
                     val error = parser.parseError(response, QuotesResponse::class)
                     throw SmartError(

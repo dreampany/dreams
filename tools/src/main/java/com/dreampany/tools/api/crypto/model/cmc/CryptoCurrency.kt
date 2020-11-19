@@ -7,5 +7,8 @@ package com.dreampany.tools.api.crypto.model.cmc
  * Last modified $file.lastModified
  */
 data class CryptoCurrency(
-    val id: String, val name: String, val sign: String, val symbol: String
+    val id: String,
+    val name: String,
+    val sign: String,
+    val symbol: String
 )

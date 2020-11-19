@@ -23,7 +23,7 @@ interface CoinMarketCapService {
     @GET(Constants.Apis.CoinMarketCap.CURRENCIES)
     fun currencies(
         @HeaderMap headers: Map<String, String>,
-        @Query(Constants.Keys.Common.LIMIT) limit: Int,
+        @Query(Constants.Keys.Common.LIMIT) limit: Int = Int.MAX_VALUE,
         @Query(Constants.Keys.CoinMarketCap.METALS) metals: Boolean = true,
     ): Call<CurrenciesResponse>
 

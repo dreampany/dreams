@@ -34,11 +34,11 @@ class VideoRoomDataSource(
     }
 
     @Throws
-    override suspend fun getFavorites(): List<Video>? = mapper.getFavorites(this)
+    override suspend fun getFavorites(): List<Video>? = mapper.favorites(this)
 
     @Throws
     override suspend fun put(input: Video): Long {
-        mapper.add(input)
+        mapper.write(input)
         return dao.insertOrReplace(input)
     }
 
@@ -112,7 +112,7 @@ class VideoRoomDataSource(
         categoryId: String,
         offset: Long,
         limit: Long
-    ): List<Video>? = mapper.gets(categoryId, offset, limit, this)
+    ): List<Video>? = mapper.reads(categoryId, offset, limit, this)
 
     @Throws
     override suspend fun getsOfRegionCode(

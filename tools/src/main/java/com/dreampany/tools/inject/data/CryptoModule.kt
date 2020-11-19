@@ -19,7 +19,9 @@ import com.dreampany.tools.data.source.crypto.api.*
 import com.dreampany.tools.data.source.crypto.mapper.*
 import com.dreampany.tools.data.source.crypto.remote.*
 import com.dreampany.tools.data.source.crypto.room.CoinRoomDataSource
+import com.dreampany.tools.data.source.crypto.room.CurrencyRoomDataSource
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
+import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.data.source.crypto.room.database.DatabaseManager
 import dagger.Module
@@ -49,16 +51,41 @@ class CryptoModule {
 
     @Provides
     @Singleton
-    fun provideCoinDao(database: DatabaseManager): CoinDao = database.coinDao()
+    fun provideCurrency(database: DatabaseManager): CurrencyDao = database.currency()
 
     @Provides
     @Singleton
-    fun provideQuoteDao(database: DatabaseManager): QuoteDao = database.quoteDao()
+    fun provideCoin(database: DatabaseManager): CoinDao = database.coin()
+
+    @Provides
+    @Singleton
+    fun provideQuote(database: DatabaseManager): QuoteDao = database.quote()
 
     @Singleton
     @Provides
     @Room
-    fun provideCoinRoomDataSource(
+    fun provideCurrencyRoom(
+        mapper: CurrencyMapper,
+        dao: CurrencyDao
+    ): CurrencyDataSource = CurrencyRoomDataSource(mapper, dao)
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideCurrencyRemote(
+        context: Context,
+        network: NetworkManager,
+        parser: Parser,
+        keys: Keys,
+        mapper: CurrencyMapper,
+        service: CoinMarketCapService
+    ): CurrencyDataSource =
+        CurrencyRemoteDataSource(context, network, parser, keys, mapper, service)
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideCoinRoom(
         mapper: CoinMapper,
         dao: CoinDao,
         quoteDao: QuoteDao
@@ -67,7 +94,7 @@ class CryptoModule {
     @Singleton
     @Provides
     @Remote
-    fun provideCoinRemoteDataSource(
+    fun provideCoinRemote(
         context: Context,
         network: NetworkManager,
         parser: Parser,
@@ -79,7 +106,7 @@ class CryptoModule {
     @Singleton
     @Provides
     @Remote
-    fun provideGraphRemoteDataSource(
+    fun provideGraphRemote(
         context: Context,
         network: NetworkManager,
         parser: Parser,
@@ -91,7 +118,7 @@ class CryptoModule {
     @Singleton
     @Provides
     @Remote
-    fun provideTradeRemoteDataSource(
+    fun provideTradeRemote(
         context: Context,
         network: NetworkManager,
         parser: Parser,
@@ -103,7 +130,7 @@ class CryptoModule {
     @Singleton
     @Provides
     @Remote
-    fun provideExchangeRemoteDataSource(
+    fun provideExchangeRemote(
         context: Context,
         network: NetworkManager,
         parser: Parser,
@@ -116,7 +143,7 @@ class CryptoModule {
     @Singleton
     @Provides
     @Remote
-    fun provideTickerRemoteDataSource(
+    fun provideTickerRemote(
         context: Context,
         network: NetworkManager,
         parser: Parser,

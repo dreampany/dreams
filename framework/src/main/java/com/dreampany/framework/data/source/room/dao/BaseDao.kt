@@ -4,7 +4,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Update
-import io.reactivex.Maybe
 
 /**
  * Created by roman on 14/3/20
@@ -14,29 +13,29 @@ import io.reactivex.Maybe
  */
 interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(t: T): Long
+    fun insertOrReplace(input: T): Long
 
 /*    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplaceRx(t: T): Maybe<Long>*/
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertOrAbort(t: T): Long
+    fun insertOrAbort(input: T): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertOrIgnore(t: T): Long
+    fun insertOrIgnore(input: T): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(ts: List<T>): List<Long>
+    fun insertOrReplace(inputs: List<T>): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertOrAbort(ts: List<T>): List<Long>
+    fun insertOrAbort(inputs: List<T>): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertOrIgnore(ts: List<T>): List<Long>
+    fun insertOrIgnore(inputs: List<T>): List<Long>
 
     @Update
-    fun update(t: T): Int
+    fun update(input: T): Int
 
     @Delete
-    fun delete(t: T): Int
+    fun delete(input: T): Int
 }

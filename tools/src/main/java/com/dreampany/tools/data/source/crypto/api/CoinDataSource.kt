@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.crypto.api
 
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 
 /**

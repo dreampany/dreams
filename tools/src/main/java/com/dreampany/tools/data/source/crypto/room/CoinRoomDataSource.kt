@@ -5,7 +5,6 @@ import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
-import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 
 /**
  * Created by roman on 3/21/20
@@ -15,8 +14,7 @@ import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
  */
 class CoinRoomDataSource(
     private val mapper: CoinMapper,
-    private val dao: CoinDao,
-    private val quoteDao: QuoteDao
+    private val dao: CoinDao
 ) : CoinDataSource {
 
     @Throws
@@ -38,14 +36,14 @@ class CoinRoomDataSource(
         currency: Currency,
         sort: String,
         order: String
-    ): List<Coin>? = mapper.getFavoriteItems(currency, sort, order, quoteDao, this)
+    ): List<Coin>? = mapper.readFavorites(currency, sort, order, quoteDao, this)
 
     @Throws
     override suspend fun write(input: Coin): Long {
         mapper.add(input)
-        if (input.hasQuote()) {
+/*        if (input.hasQuote()) {
             quoteDao.insertOrReplace(input.getQuotesAsList())
-        }
+        }*/
         return dao.insertOrReplace(input)
     }
 

@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.crypto.remote.response.cmc.CurrenciesResponse
+import com.dreampany.tools.api.crypto.remote.response.cmc.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Quote
@@ -62,12 +62,14 @@ constructor(
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val response  = service.currencies(key.header,).execute()
+                val response = service.quotes(key.header, id, currency.id).execute()
                 if (response.isSuccessful) {
                     val data = response.body()?.data ?: return null
-                    return mapper.reads(data)
+                    val coin = data.get(id) ?: return null
+                    val quote = coin.quote.get(currency.id) ?: return null
+                    return mapper.read(id, currency, quote)
                 } else {
-                    val error = parser.parseError(response, CurrenciesResponse::class)
+                    val error = parser.parseError(response, QuotesResponse::class)
                     throw SmartError(
                         message = error?.status?.message,
                         code = error?.status?.code.value

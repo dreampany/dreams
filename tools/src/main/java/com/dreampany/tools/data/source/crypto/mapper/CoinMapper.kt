@@ -42,14 +42,10 @@ class CoinMapper
     private val pref: Prefs
 ) {
     private val coins: MutableMap<String, Coin>
-    private val quotes: MutableMap<Pair<String, Currency>, Quote>
-    private val currencies: MutableMap<String, Currency>
     private val favorites: MutableMap<String, Boolean>
 
     init {
         coins = Maps.newConcurrentMap()
-        quotes = Maps.newConcurrentMap()
-        currencies = Maps.newConcurrentMap()
         favorites = Maps.newConcurrentMap()
     }
 
@@ -155,11 +151,10 @@ class CoinMapper
 
     @Throws
     @Synchronized
-    suspend fun getFavoriteItems(
+    suspend fun readFavorites(
         currency: Currency,
         sort: String,
         order: String,
-        quoteDao: QuoteDao,
         source: CoinDataSource
     ): List<Coin>? {
         updateCache(source)
@@ -173,9 +168,9 @@ class CoinMapper
         outputs?.let {
             result = sortedCoins(currency, it, sort, order)
         }
-        result?.forEach {
+/*        result?.forEach {
             bindQuote(currency, it, quoteDao)
-        }
+        }*/
         return result
     }
 

@@ -13,6 +13,8 @@ import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.pref.Prefs
+import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
+import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import com.google.gson.Gson
@@ -43,17 +45,18 @@ class QuoteMapper
 
     @Throws
     suspend fun writeExpire(id: String, currency: Currency) {
-        val time = Time(id, Type.QUOTE.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+        val time = Time(id.plus(currency.id), Type.QUOTE.value, Subtype.DEFAULT.value, State.DEFAULT.value)
         timeRepo.write(time)
     }
 
     @Throws
-    suspend fun isExpired(id: String): Boolean {
+    suspend fun isExpired(id: String, currency: Currency): Boolean {
         val time =
-            timeRepo.readTime(id, Type.QUOTE.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+            timeRepo.readTime(id.plus(currency.id), Type.QUOTE.value, Subtype.DEFAULT.value, State.DEFAULT.value)
         return time.isExpired(Constants.Times.Crypto.QUOTE)
     }
 
+    @Throws
     fun write(input: Quote) = quotes.put(input.id.plus(input.getCurrencyId()), input)
 
     @Synchronized
@@ -80,5 +83,22 @@ class QuoteMapper
         output.setLastUpdated(input.lastUpdated.utc(Constants.Pattern.Crypto.CMC_DATE_TIME))
 
         return output
+    }
+
+    @Synchronized
+    suspend fun read(id: String, currency: Currency, dao: QuoteDao): Quote? {
+        update(id, currency, dao)
+        val key = id.plus(currency.id)
+        return quotes.get(key)
+    }
+
+    @Throws
+    @Synchronized
+    private suspend fun update(id: String, currency: Currency, dao: QuoteDao) {
+        val key = id.plus(currency.id)
+        if (!quotes.containsKey(key)) {
+            val quote = dao.read(id, currency.id)
+            quote?.let { write(it) }
+        }
     }
 }

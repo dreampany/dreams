@@ -20,6 +20,7 @@ import com.dreampany.tools.data.source.crypto.mapper.*
 import com.dreampany.tools.data.source.crypto.remote.*
 import com.dreampany.tools.data.source.crypto.room.CoinRoomDataSource
 import com.dreampany.tools.data.source.crypto.room.CurrencyRoomDataSource
+import com.dreampany.tools.data.source.crypto.room.QuoteRoomDataSource
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
@@ -87,9 +88,8 @@ class CryptoModule {
     @Room
     fun provideCoinRoom(
         mapper: CoinMapper,
-        dao: CoinDao,
-        quoteDao: QuoteDao
-    ): CoinDataSource = CoinRoomDataSource(mapper, dao, quoteDao)
+        dao: CoinDao
+    ): CoinDataSource = CoinRoomDataSource(mapper, dao)
 
     @Singleton
     @Provides
@@ -102,6 +102,26 @@ class CryptoModule {
         mapper: CoinMapper,
         service: CoinMarketCapService
     ): CoinDataSource = CoinRemoteDataSource(context, network, parser, keys, mapper, service)
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideQuoteRoom(
+        mapper: QuoteMapper,
+        dao: QuoteDao
+    ): QuoteDataSource = QuoteRoomDataSource(mapper, dao)
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideQuoteRemote(
+        context: Context,
+        network: NetworkManager,
+        parser: Parser,
+        keys: Keys,
+        mapper: QuoteMapper,
+        service: CoinMarketCapService
+    ): QuoteDataSource = QuoteRemoteDataSource(context, network, parser, keys, mapper, service)
 
     @Singleton
     @Provides

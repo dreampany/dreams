@@ -1,12 +1,9 @@
 package com.dreampany.tools.api.crypto.model.cmc
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.data.enums.crypto.Category
 import com.dreampany.tools.data.model.crypto.Platform
-import com.dreampany.tools.data.model.crypto.Quote
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -47,5 +44,5 @@ data class CryptoCoin(
     val lastUpdated: Long = Constant.Default.LONG,
     @SerializedName(Constants.Keys.CoinMarketCap.DATE_ADDED)
     val dateAdded: Long = Constant.Default.LONG,
-    val quote: HashMap<String, Quote>
+    val quote: HashMap<String, CryptoQuote>
 )

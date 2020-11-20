@@ -13,6 +13,6 @@ import com.dreampany.tools.data.model.crypto.Quote
  */
 @Dao
 interface QuoteDao : BaseDao<Quote> {
-    @Query("select * from quote where id = :id and currency = :currency limit 1")
-    fun read(id: String, currency: String): Quote?
+    @Query("select * from quote where id = :id and currency_id = :currencyId limit 1")
+    fun read(id: String, currencyId: String): Quote?
 }

@@ -13,9 +13,15 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.dreampany.framework.data.enums.BaseAction
+import com.dreampany.framework.data.enums.BaseState
+import com.dreampany.framework.data.enums.BaseSubtype
+import com.dreampany.framework.data.enums.BaseType
+import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.func.Executors
+import com.dreampany.framework.ui.model.UiTask
 import kotlinx.coroutines.Runnable
 import timber.log.Timber
 import kotlin.reflect.KClass
@@ -144,6 +150,31 @@ val Intent?.task: Task<*, *, *, *, *>?
 
 val Activity?.task: Task<*, *, *, *, *>?
     get() = this.bundle?.getParcelable<Parcelable>(Constant.Keys.TASK) as Task<*, *, *, *, *>?
+
+fun Activity?.finish(okay: Boolean) {
+    this?.finish(this.task, okay)
+}
+
+fun <T : BaseParcel> Activity?.finish(
+    input: T,
+    okay: Boolean
+) {
+    val task = task as? UiTask<BaseType, BaseSubtype, BaseState, BaseAction, T>
+    task?.input = input
+    finish(task, okay)
+}
+
+fun Activity?.finish(task: Task<*, *, *, *, *>?, okay: Boolean = true) {
+    if (this.alive().not()) return
+    val intent = Intent()
+    intent.putExtra(Constant.Keys.TASK, task as Parcelable?)
+    if (okay) {
+        this?.setResult(Activity.RESULT_OK, intent)
+    } else {
+        this?.setResult(Activity.RESULT_CANCELED, intent)
+    }
+    this?.finish()
+}
 
 fun Activity?.moreApps(devId: String) {
     if (this == null) return

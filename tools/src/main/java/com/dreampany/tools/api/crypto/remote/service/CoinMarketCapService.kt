@@ -48,7 +48,7 @@ interface CoinMarketCapService {
     @GET(Constants.Apis.CoinMarketCap.QUOTES)
     fun quotes(
         @HeaderMap headers: Map<String, String>,
-        @Query(Constants.Keys.CoinMarketCap.CONVERT_ID) currencies: String,
-        @Query(Constant.Keys.ID) ids: String // could be comma separated multiple coin_id
+        @Query(Constant.Keys.ID) ids: String,
+        @Query(Constants.Keys.CoinMarketCap.CONVERT_ID) convertIds: String
     ): Call<QuotesResponse>
 }

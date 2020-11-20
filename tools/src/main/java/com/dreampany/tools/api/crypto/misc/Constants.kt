@@ -98,6 +98,17 @@ class Constants {
             const val SORT = "sort"
             const val SORT_DIRECTION = "sort_dir"
             const val AUXILIARIES = "aux"
+
+            const val CRYPTO = "crypto"
+            const val COINS = "coins"
+            const val QUOTES = "quotes"
+
+            const val ICON = "logo"
+
+            const val MARKET_PAIRS = "market_pairs"
+            const val CIRCULATING_SUPPLY = "circulating_supply"
+            const val TOTAL_SUPPLY = "total_supply"
+            const val MAX_SUPPLY = "max_supply"
         }
     }
 }

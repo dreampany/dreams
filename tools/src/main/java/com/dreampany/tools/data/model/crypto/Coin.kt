@@ -63,10 +63,6 @@ data class Coin(
     private var lastUpdated: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constant.Default.LONG,
-
-    @Ignore
-    @Exclude
-    var quote: HashMap<String, Quote> = Maps.newHashMap()
 ) : Base() {
 
     @Ignore
@@ -156,7 +152,7 @@ data class Coin(
     @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun getDateAdded(): Long = dateAdded
 
-    fun addQuote(quote: Quote) = this.quote.put(quote.getCurrencyId(), quote)
+/*    fun addQuote(quote: Quote) = this.quote.put(quote.getCurrencyId(), quote)
 
     @Exclude
     fun getQuotesAsList(): List<Quote> = quote.values.toList()
@@ -198,5 +194,5 @@ data class Coin(
                 latest = entry.value
         }
         return latest
-    }
+    }*/
 }

@@ -204,6 +204,7 @@ class Constants {
             val CURRENCY = TimeUnit.DAYS.toMillis(30)
             val COINS = TimeUnit.MINUTES.toMillis(30)
             val COIN = TimeUnit.MINUTES.toMillis(5)
+            val QUOTE = TimeUnit.MINUTES.toMillis(5)
             val WORKER = TimeUnit.HOURS.toMillis(1)
         }
 

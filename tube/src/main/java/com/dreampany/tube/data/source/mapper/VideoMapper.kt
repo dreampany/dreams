@@ -62,6 +62,7 @@ class VideoMapper
         timeRepo.write(time)
     }
 
+    @Throws
     suspend fun isExpired(id: String): Boolean {
         val time =
             timeRepo.readTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.DEFAULT.value)
@@ -74,6 +75,7 @@ class VideoMapper
         timeRepo.write(time)
     }
 
+    @Throws
     suspend fun isExpiredOfRelated(id: String): Boolean {
         val time =
             timeRepo.readTime(id, Type.VIDEO.value, Subtype.DEFAULT.value, State.RELATED.value)

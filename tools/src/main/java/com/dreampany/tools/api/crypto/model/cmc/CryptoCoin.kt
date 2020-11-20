@@ -1,7 +1,14 @@
 package com.dreampany.tools.api.crypto.model.cmc
 
-import com.dreampany.tools.misc.constants.CryptoConstants
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.tools.api.crypto.misc.Constants
+import com.dreampany.tools.data.enums.crypto.Category
+import com.dreampany.tools.data.model.crypto.Platform
+import com.dreampany.tools.data.model.crypto.Quote
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 /**
  * Created by roman on 2019-11-11
@@ -10,25 +17,35 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class CryptoCoin(
-    val id: String,
-    val name: String,
-    val symbol: String,
-    val slug: String,
-    @SerializedName(value = CryptoConstants.Coin.CIRCULATING_SUPPLY)
-    val circulatingSupply: Double,
-    @SerializedName(value = CryptoConstants.Coin.MAX_SUPPLY)
-    val maxSupply: Double,
-    @SerializedName(value = CryptoConstants.Coin.TOTAL_SUPPLY)
-    val totalSupply: Double,
-    @SerializedName(value = CryptoConstants.Coin.MARKET_PAIRS)
-    val marketPairs: Int,
-    @SerializedName(value = CryptoConstants.Coin.RANK)
-    val rank: Int,
-    val tags: ArrayList<String>,
-    @SerializedName(value = CryptoConstants.Coin.DATE_ADDED)
-    val dateAdded: String,
-    @SerializedName(value = CryptoConstants.Coin.LAST_UPDATED)
-    val lastUpdated: String,
-    @SerializedName(value = CryptoConstants.Coin.QUOTE)
-    val quotes: HashMap<CryptoCurrency, CryptoQuote>
+    val name: String = Constant.Default.STRING,
+    val symbol: String = Constant.Default.STRING,
+    val slug: String = Constant.Default.STRING,
+    val category: Category = Category.COIN,
+    @SerializedName(Constants.Keys.CoinMarketCap.ICON)
+    val icon: String? = Constant.Default.NULL,
+    val description: String? = Constant.Default.NULL,
+    val notice: String? = Constant.Default.NULL,
+    val tags: List<String>? = Constant.Default.NULL,
+
+    val platform: Platform? = Constant.Default.NULL,
+    val urls: Map<String, List<String>>? = Constant.Default.NULL,
+
+    val rank: Int = Constant.Default.INT,
+    @SerializedName(Constants.Keys.CoinMarketCap.MARKET_PAIRS)
+    val marketPairs: Int = Constant.Default.INT,
+
+    @SerializedName(Constants.Keys.CoinMarketCap.CIRCULATING_SUPPLY)
+    val circulatingSupply: Double = Constant.Default.DOUBLE,
+    @SerializedName(Constants.Keys.CoinMarketCap.TOTAL_SUPPLY)
+    val totalSupply: Double = Constant.Default.DOUBLE,
+    @SerializedName(Constants.Keys.CoinMarketCap.MAX_SUPPLY)
+    val maxSupply: Double = Constant.Default.DOUBLE,
+    @SerializedName(Constants.Keys.CoinMarketCap.MARKET_CAP)
+    val marketCap: Double = Constant.Default.DOUBLE,
+
+    @SerializedName(Constants.Keys.CoinMarketCap.LAST_UPDATED)
+    val lastUpdated: Long = Constant.Default.LONG,
+    @SerializedName(Constants.Keys.CoinMarketCap.DATE_ADDED)
+    val dateAdded: Long = Constant.Default.LONG,
+    val quote: HashMap<String, Quote>
 )

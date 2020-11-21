@@ -259,13 +259,15 @@ constructor(
                     limit = limit
                 ).execute()
                 if (response.isSuccessful) {
-                    val inputCoins : List<CryptoCoin> = response.body()?.data ?: return null
+                    val inputCoins: List<CryptoCoin> = response.body()?.data ?: return null
 
                     return inputCoins.mapNotNull {
                         val inputPlatform: CryptoPlatform? = it.platform
                         val inputQuote: CryptoQuote? = it.quote.get(currency.id)
 
-                        if (inputQuote != null) {
+                        if (inputQuote == null) {
+                            null
+                        } else {
                             val coin = mapper.read(it)
                             val platform = platformMapper.read(inputPlatform)
                             val quote = quoteMapper.read(it.id, currency, inputQuote)
@@ -273,7 +275,6 @@ constructor(
                             coin.platform = platform
                             Pair(coin, quote)
                         }
-                        null
                     }
                 } else {
                     val error = parser.parseError(response, CoinsResponse::class)

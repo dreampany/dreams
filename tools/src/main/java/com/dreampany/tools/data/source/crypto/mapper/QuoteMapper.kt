@@ -90,14 +90,14 @@ class QuoteMapper
     @Throws
     @Synchronized
     suspend fun read(id: String, currency: Currency, dao: QuoteDao): Quote? {
-        update(id, currency, dao)
+        cache(id, currency, dao)
         val key = id.plus(currency.id)
         return quotes.get(key)
     }
 
     @Throws
     @Synchronized
-    private suspend fun update(id: String, currency: Currency, dao: QuoteDao) {
+    private suspend fun cache(id: String, currency: Currency, dao: QuoteDao) {
         val key = id.plus(currency.id)
         if (!quotes.containsKey(key)) {
             val quote = dao.read(id, currency.id)

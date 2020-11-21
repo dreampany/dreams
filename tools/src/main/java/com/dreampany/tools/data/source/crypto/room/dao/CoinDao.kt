@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.framework.data.source.room.dao.BaseDao
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
 
 /**
  * Created by roman on 14/3/20
@@ -18,4 +19,7 @@ interface CoinDao : BaseDao<Coin> {
 
     @get:Query("select * from coin")
     val all: List<Coin>?
+
+    @Query("select * from coin where id = :id limit 1")
+    fun read(id: String): Coin?
 }

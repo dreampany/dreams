@@ -18,6 +18,7 @@ import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.Prefs
+import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
@@ -147,37 +148,29 @@ class CoinMapper
 
     @Throws
     @Synchronized
+    suspend fun read(
+        id: String,
+        currency: Currency,
+        dao: CoinDao
+    ): Coin? {
+        cache(id, currency, dao)
+        val result = coins.get(id)
+        return result
+    }
+
+    @Throws
+    @Synchronized
     suspend fun reads(
         currency: Currency,
         sort: String,
         order: String,
         offset: Long,
         limit: Long,
-        quoteDao: QuoteDao,
-        source: CoinDataSource
+        dao: CoinDao
     ): List<Coin>? {
-       // updateCache(source)
+        cache(dao)
         val cache = sortedCoins(currency, coins.values.toList(), sort, order)
         val result = sub(cache, offset, limit)
-        result?.forEach {
-            //bindQuote(currency, it, quoteDao)
-        }
-        return result
-    }
-
-    @Throws
-    @Synchronized
-    suspend fun read(
-        currency: Currency,
-        id: String,
-        quoteDao: QuoteDao,
-        source: CoinDataSource
-    ): Coin? {
-        //updateCache(source)
-        val result = coins.get(id)
-        result?.let {
-            //bindQuote(currency, it, quoteDao)
-        }
         return result
     }
 
@@ -239,18 +232,18 @@ class CoinMapper
         return output
     }
 
-   /* @Synchronized
-    fun getQuotes(
-        coinId: String,
-        input: Map<CryptoCurrency, CryptoQuote>
-    ): HashMap<Currency, Quote> {
-        val result = Maps.newHashMap<Currency, Quote>()
-        input.forEach { entry ->
-            val currency = getCurrency(entry.key)
-            result.put(currency, getQuote(coinId, currency, entry.value))
-        }
-        return result
-    }*/
+    /* @Synchronized
+     fun getQuotes(
+         coinId: String,
+         input: Map<CryptoCurrency, CryptoQuote>
+     ): HashMap<Currency, Quote> {
+         val result = Maps.newHashMap<Currency, Quote>()
+         input.forEach { entry ->
+             val currency = getCurrency(entry.key)
+             result.put(currency, getQuote(coinId, currency, entry.value))
+         }
+         return result
+     }*/
 
     /*@Synchronized
     fun getQuote(
@@ -293,16 +286,25 @@ class CoinMapper
         }
     }*/
 
-/*    @Throws
+    @Throws
     @Synchronized
-    private suspend fun cache(dao: CurrencyDao) {
+    private suspend fun cache(dao: CoinDao) {
         if (cached) return
         cached = true
         dao.all?.let {
             if (it.isNotEmpty())
                 it.forEach { write(it) }
         }
-    }*/
+    }
+
+    @Throws
+    @Synchronized
+    private suspend fun cache(id: String, currency: Currency, dao: CoinDao) {
+        if (!coins.containsKey(id)) {
+            val result = dao.read(id)
+            result?.let { write(it) }
+        }
+    }
 
     @Synchronized
     private fun sortedCoins(

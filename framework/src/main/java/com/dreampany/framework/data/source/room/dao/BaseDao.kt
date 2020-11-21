@@ -34,8 +34,8 @@ interface BaseDao<T> {
     fun insertOrIgnore(inputs: List<T>): List<Long>
 
     @Update
-    fun update(input: T): Int
+    fun update(input: T): Long
 
     @Delete
-    fun delete(input: T): Int
+    fun delete(input: T): Long
 }

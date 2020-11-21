@@ -48,6 +48,17 @@ constructor(
         }
     }
 
+    private val String.header: Map<String, String>
+        get() {
+            val header = Maps.newHashMap<String, String>()
+            header.put(
+                Constants.Apis.CoinMarketCap.ACCEPT,
+                Constants.Apis.CoinMarketCap.ACCEPT_JSON
+            )
+            header.put(Constants.Apis.CoinMarketCap.API_KEY, this)
+            return header
+        }
+
     override suspend fun write(input: Currency): Long {
         TODO("Not yet implemented")
     }
@@ -83,15 +94,4 @@ constructor(
         }
         throw SmartError()
     }
-
-    private val String.header: Map<String, String>
-        get() {
-            val header = Maps.newHashMap<String, String>()
-            header.put(
-                Constants.Apis.CoinMarketCap.ACCEPT,
-                Constants.Apis.CoinMarketCap.ACCEPT_JSON
-            )
-            header.put(Constants.Apis.CoinMarketCap.API_KEY, this)
-            return header
-        }
 }

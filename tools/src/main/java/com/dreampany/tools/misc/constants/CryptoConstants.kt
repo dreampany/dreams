@@ -39,22 +39,12 @@ class CryptoConstants {
         const val INCLUDE_IMAGE  = "include_exchange_logo"
     }*/
 
-    object Keys {
-        object PrefKeys {
-            const val CRYPTO = "crypto"
-
-            object Crypto {
-                const val CURRENCY = "crypto-currency"
-                const val SORT = "crypto-sort"
-                const val ORDER = "crypto-order"
-                const val EXPIRE = "crypto-expire"
-            }
-        }
+/*    object Keys {
 
         object Room {
             const val TYPE_CRYPTO = "crypto"
         }
-    }
+    }*/
 
     object Common {
         const val START = "start"

@@ -13,6 +13,7 @@ import com.dreampany.tools.data.source.crypto.room.converters.Converters
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
 
 /**
@@ -35,7 +36,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, CryptoConstants.Keys.Room.TYPE_CRYPTO)
+                val DATABASE = Constant.database(context, Constants.Keys.Room.CRYPTO)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

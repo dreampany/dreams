@@ -21,6 +21,6 @@ data class CryptoMeta(
     val tags: List<String>?,
     val platform: CryptoPlatform?,
     val urls: Map<String, List<String>>?= null,
-    @SerializedName(Constants.Keys.CoinMarketCap.DATE_ADDED)
+    @SerializedName(Constants.Keys.CMC.DATE_ADDED)
     val dateAdded: String
 )

@@ -49,6 +49,17 @@ constructor(
         }
     }
 
+    private val String.header: Map<String, String>
+        get() {
+            val header = Maps.newHashMap<String, String>()
+            header.put(
+                Constants.Apis.CoinMarketCap.ACCEPT,
+                Constants.Apis.CoinMarketCap.ACCEPT_JSON
+            )
+            header.put(Constants.Apis.CoinMarketCap.API_KEY, this)
+            return header
+        }
+
     override suspend fun write(input: Quote): Long {
         TODO("Not yet implemented")
     }
@@ -90,17 +101,5 @@ constructor(
     override suspend fun reads(ids: List<String>, currencies: List<Currency>): List<Quote>? {
         TODO("Not yet implemented")
     }
-
-
-    private val String.header: Map<String, String>
-        get() {
-            val header = Maps.newHashMap<String, String>()
-            header.put(
-                Constants.Apis.CoinMarketCap.ACCEPT,
-                Constants.Apis.CoinMarketCap.ACCEPT_JSON
-            )
-            header.put(Constants.Apis.CoinMarketCap.API_KEY, this)
-            return header
-        }
 
 }

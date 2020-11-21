@@ -15,26 +15,26 @@ import com.google.gson.annotations.SerializedName
  */
 data class CryptoQuote(
     val price: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.VOLUME_24H)
+    @SerializedName(Constants.Keys.CMC.VOLUME_24H)
     val volume24h: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.VOLUME_24H_REPORTED)
+    @SerializedName(Constants.Keys.CMC.VOLUME_24H_REPORTED)
     val volume24hReported: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.VOLUME_7D)
+    @SerializedName(Constants.Keys.CMC.VOLUME_7D)
     val volume7d: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.VOLUME_7D_REPORTED)
+    @SerializedName(Constants.Keys.CMC.VOLUME_7D_REPORTED)
     val volume7dReported: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.VOLUME_30D)
+    @SerializedName(Constants.Keys.CMC.VOLUME_30D)
     val volume30d: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.VOLUME_30D_REPORTED)
+    @SerializedName(Constants.Keys.CMC.VOLUME_30D_REPORTED)
     val volume30dReported: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.MARKET_CAP)
+    @SerializedName(Constants.Keys.CMC.MARKET_CAP)
     val marketCap: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.CHANGE_1H)
+    @SerializedName(Constants.Keys.CMC.CHANGE_1H)
     val percentChange1h: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.CHANGE_24H)
+    @SerializedName(Constants.Keys.CMC.CHANGE_24H)
     val percentChange24h: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.CHANGE_7D)
+    @SerializedName(Constants.Keys.CMC.CHANGE_7D)
     val percentChange7d: Double = Constant.Default.DOUBLE,
-    @SerializedName(Constants.Keys.CoinMarketCap.LAST_UPDATED)
+    @SerializedName(Constants.Keys.CMC.LAST_UPDATED)
     val lastUpdated: String = Constant.Default.STRING
 )

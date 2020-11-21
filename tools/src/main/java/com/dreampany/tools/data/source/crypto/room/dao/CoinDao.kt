@@ -17,5 +17,5 @@ interface CoinDao : BaseDao<Coin> {
     val count: Int
 
     @get:Query("select * from coin")
-    val items: List<Coin>?
+    val all: List<Coin>?
 }

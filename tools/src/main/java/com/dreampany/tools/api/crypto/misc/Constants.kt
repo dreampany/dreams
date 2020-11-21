@@ -19,7 +19,7 @@ class Constants {
             const val COINS = "cryptocurrency/listings/latest"
             const val QUOTES = "cryptocurrency/quotes/latest"
             const val GRAPH =
-                "currencies/{slug}/{${Keys.CoinMarketCap.START_TIME}}/{${Keys.CoinMarketCap.END_TIME}}"
+                "currencies/{slug}/{${Keys.CMC.START_TIME}}/{${Keys.CMC.END_TIME}}"
 
         }
 
@@ -72,7 +72,7 @@ class Constants {
             const val CHANGE_PCT_24H = "CHANGEPCT24HOUR"
         }
 
-        object CoinMarketCap {
+        object CMC {
             const val METALS = "include_metals"
             const val SLUG = "slug"
             const val START_TIME = "start_time"
@@ -104,6 +104,7 @@ class Constants {
             const val QUOTES = "quotes"
 
             const val ICON = "logo"
+            const val RANK = "cmc_rank"
 
             const val MARKET_PAIRS = "market_pairs"
             const val CIRCULATING_SUPPLY = "circulating_supply"

@@ -4,16 +4,12 @@ import androidx.room.*
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
-import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.data.enums.crypto.Category
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
-import com.google.common.collect.Maps
-import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 /**
  * Created by roman on 2019-10-01
@@ -36,6 +32,7 @@ data class Coin(
     var name: String = Constant.Default.STRING,
     var symbol: String = Constant.Default.STRING,
     var slug: String = Constant.Default.STRING,
+
     var category: Category = Category.COIN,
     @ColumnInfo(name = Constants.Keys.Coin.ICON)
     private var icon: String? = Constant.Default.NULL,
@@ -46,9 +43,9 @@ data class Coin(
     var platform: Platform? = Constant.Default.NULL,
     var urls: Map<String, List<String>>?=  Constant.Default.NULL,
 
-    var rank: Int = Constant.Default.INT,
+    var rank: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Coin.MARKET_PAIRS)
-    private var marketPairs: Int = Constant.Default.INT,
+    private var marketPairs: Long = Constant.Default.LONG,
 
     @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constant.Default.DOUBLE,

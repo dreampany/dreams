@@ -14,6 +14,6 @@ data class CryptoPlatform(
     val name: String,
     val symbol: String,
     val slug: String,
-    @SerializedName(Constants.Keys.CoinMarketCap.TOKEN_ADDRESS)
+    @SerializedName(Constants.Keys.CMC.TOKEN_ADDRESS)
     val tokenAddress: String
 )

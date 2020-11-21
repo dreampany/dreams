@@ -14,7 +14,6 @@ import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.func.CurrencyFormatter
-import com.dreampany.tools.misc.constants.CryptoConstants
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -93,7 +92,7 @@ class CoinViewModel
                 val currency = pref.currency
                 val sort = pref.sort
                 val order = pref.order
-                result = repo.readsFavorite(currency, sort, order)
+                result = repo.favorites(currency, sort, order)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

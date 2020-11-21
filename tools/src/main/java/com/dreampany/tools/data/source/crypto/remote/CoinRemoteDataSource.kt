@@ -1,23 +1,22 @@
 package com.dreampany.tools.data.source.crypto.remote
 
 import android.content.Context
-import androidx.annotation.IntRange
 import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.crypto.remote.response.cmc.CoinsResponse
+import com.dreampany.tools.api.crypto.model.cmc.CryptoCoin
 import com.dreampany.tools.api.crypto.remote.response.cmc.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
-import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
-import retrofit2.Response
 import java.net.UnknownHostException
 
 /**
@@ -52,7 +51,7 @@ constructor(
         }
     }
 
-    @Throws
+/*    @Throws
     override suspend fun reads(
         currency: Currency,
         sort: String,
@@ -102,7 +101,7 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readsFavorite(
+    override suspend fun favorites(
         currency: Currency,
         sort: String,
         order: String
@@ -153,7 +152,7 @@ constructor(
 
     override suspend fun reads(currency: Currency, ids: List<String>): List<Coin>? {
         TODO("Not yet implemented")
-    }
+    }*/
 
 
     private val String.header: Map<String, String>
@@ -166,4 +165,102 @@ constructor(
             header.put(Constants.Apis.CoinMarketCap.API_KEY, this)
             return header
         }
+
+    override suspend fun isFavorite(input: Coin): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun toggleFavorite(input: Coin): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun favorites(currency: Currency, sort: String, order: String): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(input: Coin): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(inputs: List<Coin>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun read(id: String, currency: Currency): Pair<Coin, Quote>? {
+        for (index in 0..keys.length) {
+            try {
+                val key = keys.nextKey ?: continue
+                val response = service.quotes(key.header, currency.id, id).execute()
+                if (response.isSuccessful) {
+                    val data : Map<String, CryptoCoin> = response.body()?.data ?: return null
+                    val cryptoCoin : CryptoCoin = data.get(id) ?: return null
+                    return mapper.read(inputData)
+                } else {
+                    val error = parser.parseError(response, QuotesResponse::class)
+                    throw SmartError(
+                        message = error?.status?.message,
+                        code = error?.status?.code.value
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
+
+    override suspend fun reads(): List<Pair<Coin, Quote>>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reads(ids: List<String>, currency: Currency): List<Pair<Coin, Quote>>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun reads(
+        currency: Currency,
+        sort: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Pair<Coin, Quote>>? {
+        for (index in 0..keys.length) {
+            try {
+                val key = keys.nextKey ?: continue
+                val response = service.coins(
+                    key.header,
+                    currency.name,
+                    sort.value,
+                    order.value,
+                    offset + 1, //Coin Market Cap start from 1 - IntRange
+                    limit
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.data ?: return null
+                    return mapper.read(data)
+                } else {
+                    val error = parser.parseError(response, CoinsResponse::class)
+                    throw SmartError(
+                        message = error?.status?.message,
+                        code = error?.status?.code.value
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
+    }
 }

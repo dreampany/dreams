@@ -15,8 +15,8 @@ import retrofit2.http.Path
 interface CoinMarketCapGraphService {
     @GET(Constants.Apis.CoinMarketCap.GRAPH)
     fun read(
-        @Path(Constants.Keys.CoinMarketCap.SLUG) slug: String,
-        @Path(Constants.Keys.CoinMarketCap.START_TIME) startTime: Long,
-        @Path(Constants.Keys.CoinMarketCap.END_TIME) endTime: Long
+        @Path(Constants.Keys.CMC.SLUG) slug: String,
+        @Path(Constants.Keys.CMC.START_TIME) startTime: Long,
+        @Path(Constants.Keys.CMC.END_TIME) endTime: Long
      ): Call<CryptoGraph>
 }

@@ -97,6 +97,7 @@ class Constants {
 
         object Room {
             const val MISC = "misc"
+            const val CRYPTO = "crypto"
             const val RADIO = "radio"
         }
 

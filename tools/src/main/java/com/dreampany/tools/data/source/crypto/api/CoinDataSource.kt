@@ -2,6 +2,7 @@ package com.dreampany.tools.data.source.crypto.api
 
 import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
 
 /**
  * Created by roman on 3/21/20
@@ -18,11 +19,7 @@ interface CoinDataSource {
     suspend fun toggleFavorite(input: Coin): Boolean
 
     @Throws
-    suspend fun readsFavorite(
-        currency: Currency,
-        sort: String,
-        order: String
-    ): List<Coin>?
+    suspend fun favorites(currency: Currency, sort: String, order: String): List<Coin>?
 
     @Throws
     suspend fun write(input: Coin): Long
@@ -31,13 +28,13 @@ interface CoinDataSource {
     suspend fun write(inputs: List<Coin>): List<Long>?
 
     @Throws
-    suspend fun read(currency: Currency, id: String): Coin?
+    suspend fun read(id: String, currency: Currency): Pair<Coin, Quote>?
 
     @Throws
-    suspend fun reads(): List<Coin>?
+    suspend fun reads(): List<Pair<Coin, Quote>>?
 
     @Throws
-    suspend fun reads(currency: Currency, ids: List<String>): List<Coin>?
+    suspend fun reads(ids: List<String>, currency: Currency): List<Pair<Coin, Quote>>?
 
     @Throws
     suspend fun reads(
@@ -46,5 +43,5 @@ interface CoinDataSource {
         order: String,
         offset: Long,
         limit: Long
-    ): List<Coin>?
+    ): List<Pair<Coin, Quote>>?
 }

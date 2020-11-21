@@ -18,6 +18,7 @@ import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.Prefs
+import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
@@ -41,6 +42,8 @@ class CoinMapper
     private val storeRepo: StoreRepo,
     private val pref: Prefs
 ) {
+    @Transient
+    private var cached : Boolean = false
     private val coins: MutableMap<String, Coin>
     private val favorites: MutableMap<String, Boolean>
 
@@ -71,7 +74,7 @@ class CoinMapper
 
 
     @Synchronized
-    fun add(input: Coin) = coins.put(input.id, input)
+    fun write(input: Coin) = coins.put(input.id, input)
 
     @Throws
     suspend fun isFavorite(coin: Coin): Boolean {
@@ -181,24 +184,25 @@ class CoinMapper
     fun read(input: CryptoCoin): Coin {
         Timber.v("Resolved Coin: %s", input.name);
         val id = input.id
-        var out: Coin? = coins.get(id)
-        if (out == null) {
-            out = Coin(id)
-            coins.put(id, out)
+        var output: Coin? = coins.get(id)
+        if (output == null) {
+            output = Coin(id)
+            coins.put(id, output)
         }
-        out.name = input.name
-        out.symbol = input.symbol
-        out.slug = input.slug
-        out.setCirculatingSupply(input.circulatingSupply)
-        out.setMaxSupply(input.maxSupply)
-        out.setTotalSupply(input.totalSupply)
-        out.setMarketPairs(input.marketPairs)
-        out.rank = input.rank
-        out.quote = getQuotes(id, input.quotes)
-        out.tags = input.tags
-        out.setDateAdded(input.dateAdded.utc)
-        out.setLastUpdated(input.lastUpdated.utc)
-        return out
+        output.name = input.name
+        output.symbol = input.symbol
+        output.slug = input.slug
+
+        output.setCirculatingSupply(input.circulatingSupply)
+        output.setMaxSupply(input.maxSupply)
+        output.setTotalSupply(input.totalSupply)
+        output.setMarketPairs(input.marketPairs)
+        output.rank = input.rank
+        output.quote = getQuotes(id, input.quotes)
+        output.tags = input.tags
+        output.setDateAdded(input.dateAdded.utc(Constants.Pattern.Crypto.CMC_DATE_TIME))
+        output.setLastUpdated(input.lastUpdated.utc)
+        return output
     }
 
     @Synchronized
@@ -257,12 +261,12 @@ class CoinMapper
 
     @Throws
     @Synchronized
-    private suspend fun updateCache(source: CoinDataSource) {
-        if (coins.isEmpty()) {
-            source.reads()?.let {
-                if (it.isNotEmpty())
-                    it.forEach { add(it) }
-            }
+    private suspend fun cache(dao : CurrencyDao) {
+        if (cached) return
+        cached = true
+        dao.all?.let {
+            if (it.isNotEmpty())
+                it.forEach { write(it) }
         }
     }
 

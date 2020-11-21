@@ -13,10 +13,10 @@ data class CryptoGraph(
     val slug: String,
     val startTime: Long,
     val endTime: Long,
-    @SerializedName(Constants.Keys.CoinMarketCap.PRICE_BTC)
+    @SerializedName(Constants.Keys.CMC.PRICE_BTC)
     val priceBtc: List<List<Float>>?,
-    @SerializedName(Constants.Keys.CoinMarketCap.PRICE_USD)
+    @SerializedName(Constants.Keys.CMC.PRICE_USD)
     val priceUsd: List<List<Float>>?,
-    @SerializedName(Constants.Keys.CoinMarketCap.VOLUME_USD)
+    @SerializedName(Constants.Keys.CMC.VOLUME_USD)
     val volumeUsd: List<List<Float>>?
 )

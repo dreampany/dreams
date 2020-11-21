@@ -32,7 +32,7 @@ class CoinRoomDataSource(
     }
 
     @Throws
-    override suspend fun readsFavorite(
+    override suspend fun favorites(
         currency: Currency,
         sort: String,
         order: String
@@ -40,7 +40,7 @@ class CoinRoomDataSource(
 
     @Throws
     override suspend fun write(input: Coin): Long {
-        mapper.add(input)
+        mapper.write(input)
 /*        if (input.hasQuote()) {
             quoteDao.insertOrReplace(input.getQuotesAsList())
         }*/
@@ -55,7 +55,7 @@ class CoinRoomDataSource(
         mapper.read(currency, id, quoteDao, this)
 
     @Throws
-    override suspend fun reads(): List<Coin>? = dao.items
+    override suspend fun reads(): List<Coin>? = dao.all
 
     @Throws
     override suspend fun reads(currency: Currency, ids: List<String>): List<Coin>? {

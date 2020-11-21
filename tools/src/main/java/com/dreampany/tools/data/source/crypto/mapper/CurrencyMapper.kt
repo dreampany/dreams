@@ -7,7 +7,6 @@ import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.tools.api.crypto.model.cmc.CryptoCurrency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Currency
-import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.misc.constants.Constants
@@ -31,7 +30,8 @@ class CurrencyMapper
     private val pref: Prefs,
     private val gson: Gson
 ) {
-
+    @Transient
+    private var cached : Boolean = false
     private val currencies: MutableMap<String, Currency>
 
     init {
@@ -86,18 +86,18 @@ class CurrencyMapper
 
     @Synchronized
     suspend fun reads(dao : CurrencyDao): List<Currency>? {
-        updateCache(dao)
+        cache(dao)
         return currencies.values.toList()
     }
 
     @Throws
     @Synchronized
-    private suspend fun updateCache(dao : CurrencyDao) {
-        if (currencies.isEmpty()) {
-            dao.all?.let {
-                if (it.isNotEmpty())
-                    it.forEach { write(it) }
-            }
+    private fun cache(dao : CurrencyDao) {
+        if (cached) return
+        cached = true
+        dao.all?.let {
+            if (it.isNotEmpty())
+                it.forEach { write(it) }
         }
     }
 }

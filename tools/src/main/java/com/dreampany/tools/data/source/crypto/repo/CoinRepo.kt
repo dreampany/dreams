@@ -85,12 +85,12 @@ class CoinRepo
     }
 
     @Throws
-    override suspend fun readsFavorite(
+    override suspend fun favorites(
         currency: Currency,
         sort: String,
         order: String
     ) = withContext(Dispatchers.IO) {
-        room.readsFavorite(currency, sort, order)
+        room.favorites(currency, sort, order)
     }
 
 }

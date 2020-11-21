@@ -36,7 +36,8 @@ class QuoteMapper
     private val pref: Prefs,
     private val gson: Gson
 ) {
-
+    @Transient
+    private var cached : Boolean = false
     private val quotes: MutableMap<String, Quote> // key will be id plus currency id
 
     init {
@@ -99,6 +100,17 @@ class QuoteMapper
         if (!quotes.containsKey(key)) {
             val quote = dao.read(id, currency.id)
             quote?.let { write(it) }
+        }
+    }
+
+    @Throws
+    @Synchronized
+    private fun cache(dao : QuoteDao) {
+        if (cached) return
+        cached = true
+        dao.all?.let {
+            if (it.isNotEmpty())
+                it.forEach { write(it) }
         }
     }
 }

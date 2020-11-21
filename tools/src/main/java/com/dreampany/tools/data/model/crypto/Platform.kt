@@ -1,8 +1,11 @@
 package com.dreampany.tools.data.model.crypto
 
 import androidx.room.ColumnInfo
+import androidx.room.Ignore
+import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.misc.constant.Constant
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -15,8 +18,9 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Platform(
+    override var time: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Platform.ID)
-    var id: String = Constant.Default.STRING,
+    override var id: String = Constant.Default.STRING,
     @ColumnInfo(name = Constants.Keys.Platform.NAME)
     var name: String = Constant.Default.STRING,
     @ColumnInfo(name = Constants.Keys.Platform.SYMBOL)
@@ -25,7 +29,16 @@ data class Platform(
     var slug: String = Constant.Default.STRING,
     @ColumnInfo(name = Constants.Keys.Platform.TOKEN_ADDRESS)
     var tokenAddress: String = Constant.Default.STRING
-) : BaseParcel() {
+) : Base() {
+
+    @Ignore
+    constructor() : this(time = currentMillis) {
+
+    }
+
+    constructor(id: String) : this(time = currentMillis, id = id) {
+
+    }
 
     override fun hashCode(): Int = Objects.hashCode(id)
 

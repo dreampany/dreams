@@ -8,6 +8,9 @@ import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.model.cmc.CryptoCoin
+import com.dreampany.tools.api.crypto.model.cmc.CryptoPlatform
+import com.dreampany.tools.api.crypto.model.cmc.CryptoQuote
+import com.dreampany.tools.api.crypto.remote.response.cmc.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.response.cmc.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.model.crypto.Coin
@@ -15,6 +18,8 @@ import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
+import com.dreampany.tools.data.source.crypto.mapper.PlatformMapper
+import com.dreampany.tools.data.source.crypto.mapper.QuoteMapper
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import java.net.UnknownHostException
@@ -32,6 +37,8 @@ constructor(
     private val parser: Parser,
     private val keys: Keys,
     private val mapper: CoinMapper,
+    private val platformMapper: PlatformMapper,
+    private val quoteMapper: QuoteMapper,
     private val service: CoinMarketCapService
 ) : CoinDataSource {
 
@@ -178,11 +185,11 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun write(input: Coin): Long {
+    override suspend fun write(input: Pair<Coin, Quote>): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun write(inputs: List<Coin>): List<Long>? {
+    override suspend fun write(inputs: List<Pair<Coin, Quote>>): List<Long>? {
         TODO("Not yet implemented")
     }
 
@@ -191,11 +198,20 @@ constructor(
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
-                val response = service.quotes(key.header, currency.id, id).execute()
+                val response =
+                    service.quotes(header = key.header, id = id, convertId = currency.id).execute()
                 if (response.isSuccessful) {
-                    val data : Map<String, CryptoCoin> = response.body()?.data ?: return null
-                    val cryptoCoin : CryptoCoin = data.get(id) ?: return null
-                    return mapper.read(inputData)
+                    val data: Map<String, CryptoCoin> = response.body()?.data ?: return null
+                    val inputCoin: CryptoCoin = data.get(id) ?: return null
+                    val inputPlatform: CryptoPlatform? = inputCoin.platform
+                    val inputQuote: CryptoQuote = inputCoin.quote.get(currency.id) ?: return null
+
+                    val coin = mapper.read(inputCoin)
+                    val platform = platformMapper.read(inputPlatform)
+                    val quote = quoteMapper.read(id, currency, inputQuote)
+
+                    coin.platform = platform
+                    return Pair(coin, quote)
                 } else {
                     val error = parser.parseError(response, QuotesResponse::class)
                     throw SmartError(
@@ -235,16 +251,30 @@ constructor(
             try {
                 val key = keys.nextKey ?: continue
                 val response = service.coins(
-                    key.header,
-                    currency.name,
-                    sort.value,
-                    order.value,
-                    offset + 1, //Coin Market Cap start from 1 - IntRange
-                    limit
+                    header = key.header,
+                    convertId = currency.id,
+                    sort = sort.value,
+                    order = order.value,
+                    offset = offset.inc(), //Coin Market Cap start from 1 - IntRange
+                    limit = limit
                 ).execute()
                 if (response.isSuccessful) {
-                    val data = response.body()?.data ?: return null
-                    return mapper.read(data)
+                    val inputCoins : List<CryptoCoin> = response.body()?.data ?: return null
+
+                    return inputCoins.mapNotNull {
+                        val inputPlatform: CryptoPlatform? = it.platform
+                        val inputQuote: CryptoQuote? = it.quote.get(currency.id)
+
+                        if (inputQuote != null) {
+                            val coin = mapper.read(it)
+                            val platform = platformMapper.read(inputPlatform)
+                            val quote = quoteMapper.read(it.id, currency, inputQuote)
+
+                            coin.platform = platform
+                            Pair(coin, quote)
+                        }
+                        null
+                    }
                 } else {
                     val error = parser.parseError(response, CoinsResponse::class)
                     throw SmartError(

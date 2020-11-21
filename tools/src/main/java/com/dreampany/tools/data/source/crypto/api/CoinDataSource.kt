@@ -22,10 +22,10 @@ interface CoinDataSource {
     suspend fun favorites(currency: Currency, sort: String, order: String): List<Coin>?
 
     @Throws
-    suspend fun write(input: Coin): Long
+    suspend fun write(input: Pair<Coin, Quote>): Long
 
     @Throws
-    suspend fun write(inputs: List<Coin>): List<Long>?
+    suspend fun write(inputs: List<Pair<Coin, Quote>>): List<Long>?
 
     @Throws
     suspend fun read(id: String, currency: Currency): Pair<Coin, Quote>?

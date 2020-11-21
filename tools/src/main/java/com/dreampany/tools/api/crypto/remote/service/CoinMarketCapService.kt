@@ -21,7 +21,7 @@ interface CoinMarketCapService {
 
     @GET(Constants.Apis.CoinMarketCap.CURRENCIES)
     fun currencies(
-        @HeaderMap headers: Map<String, String>,
+        @HeaderMap header: Map<String, String>,
         @Query(Constants.Keys.CMC.METALS) metals: Boolean = true,
         @IntRange(from = 1, to = Long.MAX_VALUE)
         @Query(Constants.Keys.Common.LIMIT) limit: Long = Long.MAX_VALUE
@@ -29,21 +29,23 @@ interface CoinMarketCapService {
 
     @GET(Constants.Apis.CoinMarketCap.COINS)
     fun coins(
-        @HeaderMap headers: Map<String, String>,
-        @Query(Constants.Keys.CMC.CONVERT_ID) convertIds: String,
+        @HeaderMap header: Map<String, String>,
+        @Query(Constants.Keys.CMC.CONVERT_ID) convertId: String,
         @Query(Constants.Keys.CMC.SORT) sort: String,
         @Query(Constants.Keys.CMC.SORT_DIRECTION) order: String,
+        @Query(Constants.Keys.CMC.AUX) aux: String = Constants.Values.CMC.COIN_AUX,
         @IntRange(from = 1, to = Long.MAX_VALUE)
-        @Query(Constants.Keys.Common.START) start: Long,
+        @Query(Constants.Keys.Common.START) offset: Long,
         @IntRange(from = 1, to = Long.MAX_VALUE)
         @Query(Constants.Keys.Common.LIMIT) limit: Long
     ): Call<CoinsResponse>
 
     @GET(Constants.Apis.CoinMarketCap.QUOTES)
     fun quotes(
-        @HeaderMap headers: Map<String, String>,
-        @Query(Constant.Keys.ID) ids: String,
-        @Query(Constants.Keys.CMC.CONVERT_ID) convertIds: String
+        @HeaderMap header: Map<String, String>,
+        @Query(Constant.Keys.ID) id: String,
+        @Query(Constants.Keys.CMC.CONVERT_ID) convertId: String,
+        @Query(Constants.Keys.CMC.AUX) aux: String = Constants.Values.CMC.COIN_AUX
     ): Call<QuotesResponse>
 
     /*@GET(Constants.Apis.CoinMarketCap.META)

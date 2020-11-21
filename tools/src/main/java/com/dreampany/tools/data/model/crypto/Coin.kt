@@ -91,12 +91,12 @@ data class Coin(
     fun getIcon(): String? = icon
 
     @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
-    fun setMarketPairs(marketPairs: Int) {
+    fun setMarketPairs(marketPairs: Long) {
         this.marketPairs = marketPairs
     }
 
     @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
-    fun getMarketPairs(): Int = marketPairs
+    fun getMarketPairs(): Long = marketPairs
 
 
     @PropertyName(Constants.Keys.Coin.CIRCULATING_SUPPLY)

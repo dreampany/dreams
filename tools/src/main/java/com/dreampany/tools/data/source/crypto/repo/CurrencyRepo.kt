@@ -33,9 +33,10 @@ class CurrencyRepo
     }
 
     @Throws
+    @Synchronized
     override suspend fun reads(): List<Currency>? = withContext(Dispatchers.IO) {
         var result: List<Currency>? = null
-        if (mapper.isExpired) {
+        if (mapper.isExpired()) {
             result = remote.reads()
             if (!result.isNullOrEmpty()) {
                 mapper.writeExpire()

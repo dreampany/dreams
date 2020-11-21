@@ -1,5 +1,7 @@
 package com.dreampany.tools.api.crypto.misc
 
+import com.dreampany.framework.misc.constant.Constant
+
 /**
  * Created by roman on 9/11/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -39,9 +41,9 @@ class Constants {
         object Gecko {
             const val BASE_URL = "https://api.coingecko.com/api/v3/"
 
-            const val TICKERS  = "coins/{id}/tickers"
-            const val ID  = "id"
-            const val INCLUDE_IMAGE  = "include_exchange_logo"
+            const val TICKERS = "coins/{id}/tickers"
+            const val ID = "id"
+            const val INCLUDE_IMAGE = "include_exchange_logo"
         }
     }
 
@@ -60,6 +62,47 @@ class Constants {
             const val TOTAL_COUNT = "total_count"
         }
 
+        object CMC {
+
+            const val MARKET_PAIRS = "num_market_pairs"
+            const val RANK = "cmc_rank"
+            const val DATE_ADDED = "date_added"
+            const val TAGS = "tags"
+            const val PLATFORM = "platform"
+            const val MAX_SUPPLY = "max_supply"
+            const val CIRCULATING_SUPPLY = "circulating_supply"
+            const val TOTAL_SUPPLY = "total_supply"
+            const val MARKET_CAP = "market_cap_by_total_supply"
+
+            const val VOLUME_24H = "volume_24h"
+            const val VOLUME_24H_REPORTED = "volume_24h_reported"
+            const val VOLUME_7D = "volume_7d"
+            const val VOLUME_7D_REPORTED = "volume_7d_reported"
+            const val VOLUME_30D = "volume_30d"
+            const val VOLUME_30D_REPORTED = "volume_30d_reported"
+
+            const val METALS = "include_metals"
+            const val SLUG = "slug"
+            const val START_TIME = "start_time"
+            const val END_TIME = "end_time"
+            const val PRICE_BTC = "price_btc"
+            const val PRICE_USD = "price_usd"
+            const val VOLUME_USD = "volume_usd"
+            const val TOKEN_ADDRESS = "token_address"
+            const val CHANGE_1H = "percent_change_1h"
+            const val CHANGE_24H = "percent_change_24h"
+            const val CHANGE_7D = "percent_change_7d"
+            const val LAST_UPDATED = "last_updated"
+
+            const val CONVERT_ID = "convert_id"
+            const val SORT = "sort"
+            const val SORT_DIRECTION = "sort_dir"
+            const val AUX = "aux"
+
+            const val ICON = "logo"
+
+        }
+
         object Exchange {
             const val DATA = "Data"
             const val EXCHANGES = "Exchanges"
@@ -72,44 +115,24 @@ class Constants {
             const val CHANGE_PCT_24H = "CHANGEPCT24HOUR"
         }
 
+    }
+
+    object Values {
         object CMC {
-            const val METALS = "include_metals"
-            const val SLUG = "slug"
-            const val START_TIME = "start_time"
-            const val END_TIME = "end_time"
-            const val PRICE_BTC = "price_btc"
-            const val PRICE_USD = "price_usd"
-            const val VOLUME_USD = "volume_usd"
-            const val DATE_ADDED = "date_added"
-            const val TOKEN_ADDRESS = "token_address"
-            const val VOLUME_24H = "volume_24h"
-            const val VOLUME_24H_REPORTED = "volume_24h_reported"
-            const val VOLUME_7D = "volume_7d"
-            const val VOLUME_7D_REPORTED  = "volume_7d_reported"
-            const val VOLUME_30D = "volume_30d"
-            const val VOLUME_30D_REPORTED  = "volume_30d_reported"
-            const val MARKET_CAP = "market_cap"
-            const val CHANGE_1H = "percent_change_1h"
-            const val CHANGE_24H = "percent_change_24h"
-            const val CHANGE_7D = "percent_change_7d"
-            const val LAST_UPDATED = "last_updated"
-
-            const val CONVERT_ID = "convert_id"
-            const val SORT = "sort"
-            const val SORT_DIRECTION = "sort_dir"
-            const val AUXILIARIES = "aux"
-
-            const val CRYPTO = "crypto"
-            const val COINS = "coins"
-            const val QUOTES = "quotes"
-
-            const val ICON = "logo"
-            const val RANK = "cmc_rank"
-
-            const val MARKET_PAIRS = "market_pairs"
-            const val CIRCULATING_SUPPLY = "circulating_supply"
-            const val TOTAL_SUPPLY = "total_supply"
-            const val MAX_SUPPLY = "max_supply"
+            val COIN_AUX = StringBuilder(Keys.CMC.MARKET_PAIRS).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.RANK).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.DATE_ADDED).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.TAGS).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.PLATFORM).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.MAX_SUPPLY).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.CIRCULATING_SUPPLY).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.TOTAL_SUPPLY).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.MARKET_CAP).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.VOLUME_24H_REPORTED).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.VOLUME_7D).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.VOLUME_7D_REPORTED).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.VOLUME_30D).append(Constant.Sep.COMMA)
+                .append(Keys.CMC.VOLUME_30D_REPORTED).toString()
         }
     }
 }

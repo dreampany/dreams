@@ -1,8 +1,6 @@
 package com.dreampany.tools.data.source.crypto.mapper
 
 import com.dreampany.framework.data.model.Time
-import com.dreampany.framework.data.source.mapper.StoreMapper
-import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.data.source.repo.TimeRepo
 import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.exts.utc
@@ -12,12 +10,9 @@ import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Quote
-import com.dreampany.tools.data.source.crypto.pref.Prefs
-import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
-import com.google.gson.Gson
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,14 +25,10 @@ import javax.inject.Singleton
 @Singleton
 class QuoteMapper
 @Inject constructor(
-    private val storeMapper: StoreMapper,
-    private val storeRepo: StoreRepo,
-    private val timeRepo: TimeRepo,
-    private val pref: Prefs,
-    private val gson: Gson
+    private val timeRepo: TimeRepo
 ) {
     @Transient
-    private var cached : Boolean = false
+    private var cached: Boolean = false
     private val quotes: MutableMap<String, Quote> // key will be id plus currency id
 
     init {
@@ -45,21 +36,31 @@ class QuoteMapper
     }
 
     @Throws
-    suspend fun writeExpire(id: String, currency: Currency) {
-        val time = Time(id.plus(currency.id), Type.QUOTE.value, Subtype.DEFAULT.value, State.DEFAULT.value)
-        timeRepo.write(time)
+    @Synchronized
+    suspend fun writeExpire(id: String, currency: Currency): Long {
+        val time =
+            Time(id.plus(currency.id), Type.QUOTE.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+        return timeRepo.write(time)
     }
 
     @Throws
+    @Synchronized
     suspend fun isExpired(id: String, currency: Currency): Boolean {
         val time =
-            timeRepo.readTime(id.plus(currency.id), Type.QUOTE.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+            timeRepo.readTime(
+                id.plus(currency.id),
+                Type.QUOTE.value,
+                Subtype.DEFAULT.value,
+                State.DEFAULT.value
+            )
         return time.isExpired(Constants.Times.Crypto.QUOTE)
     }
 
     @Throws
+    @Synchronized
     fun write(input: Quote) = quotes.put(input.id.plus(input.getCurrencyId()), input)
 
+    @Throws
     @Synchronized
     fun read(id: String, currency: Currency, input: CryptoQuote): Quote {
         val key = id.plus(currency.id)
@@ -78,14 +79,15 @@ class QuoteMapper
         output.setVolume30d(input.volume30d)
         output.setVolume30dReported(input.volume30dReported)
         output.setMarketCap(input.marketCap)
-        output.setPercentChange1h(input.marketCap)
-        output.setPercentChange24h(input.marketCap)
-        output.setPercentChange7d(input.marketCap)
+        output.setPercentChange1h(input.percentChange1h)
+        output.setPercentChange24h(input.percentChange24h)
+        output.setPercentChange7d(input.percentChange7d)
         output.setLastUpdated(input.lastUpdated.utc(Constants.Pattern.Crypto.CMC_DATE_TIME))
 
         return output
     }
 
+    @Throws
     @Synchronized
     suspend fun read(id: String, currency: Currency, dao: QuoteDao): Quote? {
         update(id, currency, dao)
@@ -105,7 +107,7 @@ class QuoteMapper
 
     @Throws
     @Synchronized
-    private fun cache(dao : QuoteDao) {
+    private fun cache(dao: QuoteDao) {
         if (cached) return
         cached = true
         dao.all?.let {

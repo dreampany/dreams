@@ -1,24 +1,23 @@
 package com.dreampany.tools.data.source.crypto.mapper
 
 import android.content.Context
+import com.dreampany.framework.data.model.Time
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
+import com.dreampany.framework.data.source.repo.TimeRepo
 import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.exts.sub
 import com.dreampany.framework.misc.exts.utc
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.R
 import com.dreampany.tools.api.crypto.model.cmc.CryptoCoin
-import com.dreampany.tools.api.crypto.model.cmc.CryptoQuote
 import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Currency
-import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.Prefs
-import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
@@ -26,7 +25,6 @@ import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 21/3/20
@@ -40,10 +38,11 @@ class CoinMapper
     private val context: Context,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
+    private val timeRepo: TimeRepo,
     private val pref: Prefs
 ) {
     @Transient
-    private var cached : Boolean = false
+    private var cached: Boolean = false
     private val coins: MutableMap<String, Coin>
     private val favorites: MutableMap<String, Boolean>
 
@@ -52,29 +51,59 @@ class CoinMapper
         favorites = Maps.newConcurrentMap()
     }
 
+    @Throws
     @Synchronized
-    fun isExpired(currency: Currency, sort: String, order: String, offset: Long): Boolean {
-        val time = pref.readExpireTime(currency, sort, order, offset)
+    suspend fun writeExpire(currency: Currency, sort: String, order: String, offset: Long): Long {
+        val key =
+            StringBuilder(Constants.Keys.Pref.EXPIRE).append(currency.id).append(sort).append(order)
+                .append(offset)
+        val time = Time(key.toString(), Type.COIN.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+        return timeRepo.write(time)
+    }
+
+    @Throws
+    @Synchronized
+    suspend fun isExpired(currency: Currency, sort: String, order: String, offset: Long): Boolean {
+        val key =
+            StringBuilder(Constants.Keys.Pref.EXPIRE).append(currency.id).append(sort).append(order)
+                .append(offset)
+        val time =
+            timeRepo.readTime(
+                key.toString(),
+                Type.COIN.value,
+                Subtype.DEFAULT.value,
+                State.DEFAULT.value
+            )
         return time.isExpired(Constants.Times.Crypto.COINS)
     }
 
+    @Throws
     @Synchronized
-    fun writeExpire(currency: Currency, sort: String, order: String, offset: Long) =
-        pref.writeExpireTime(currency, sort, order, offset)
+    suspend fun writeExpire(id: String, currency: Currency): Long {
+        val key =
+            StringBuilder(Constants.Keys.Pref.EXPIRE).append(id).append(currency.id)
+        val time = Time(key.toString(), Type.COIN.value, Subtype.DEFAULT.value, State.DEFAULT.value)
+        return timeRepo.write(time)
+    }
 
+    @Throws
     @Synchronized
-    fun isExpired(id: String, currency: Currency): Boolean {
-        val time = pref.readExpireTime(currency, id)
+    suspend fun isExpired(id: String, currency: Currency): Boolean {
+        val key =
+            StringBuilder(Constants.Keys.Pref.EXPIRE).append(id).append(currency.id)
+        val time =
+            timeRepo.readTime(
+                key.toString(),
+                Type.COIN.value,
+                Subtype.DEFAULT.value,
+                State.DEFAULT.value
+            )
         return time.isExpired(CryptoConstants.Times.Crypto.COIN)
     }
 
+    @Throws
     @Synchronized
-    fun writeExpire(id: String, currency: Currency) =
-        pref.writeExpireTime(currency, id)
-
-
-    @Synchronized
-    fun write(input: Coin) = coins.put(input.id, input)
+    suspend fun write(input: Coin) = coins.put(input.id, input)
 
     @Throws
     suspend fun isFavorite(coin: Coin): Boolean {
@@ -118,7 +147,7 @@ class CoinMapper
 
     @Throws
     @Synchronized
-    suspend fun read(
+    suspend fun reads(
         currency: Currency,
         sort: String,
         order: String,
@@ -127,11 +156,11 @@ class CoinMapper
         quoteDao: QuoteDao,
         source: CoinDataSource
     ): List<Coin>? {
-        updateCache(source)
+       // updateCache(source)
         val cache = sortedCoins(currency, coins.values.toList(), sort, order)
         val result = sub(cache, offset, limit)
         result?.forEach {
-            bindQuote(currency, it, quoteDao)
+            //bindQuote(currency, it, quoteDao)
         }
         return result
     }
@@ -144,10 +173,10 @@ class CoinMapper
         quoteDao: QuoteDao,
         source: CoinDataSource
     ): Coin? {
-        updateCache(source)
+        //updateCache(source)
         val result = coins.get(id)
         result?.let {
-            bindQuote(currency, it, quoteDao)
+            //bindQuote(currency, it, quoteDao)
         }
         return result
     }
@@ -160,7 +189,7 @@ class CoinMapper
         order: String,
         source: CoinDataSource
     ): List<Coin>? {
-        updateCache(source)
+        //updateCache(source)
         val stores = storeRepo.reads(
             Type.COIN.value,
             Subtype.DEFAULT.value,
@@ -177,11 +206,13 @@ class CoinMapper
         return result
     }
 
+    @Throws
     @Synchronized
-    fun read(inputs: List<CryptoCoin>): List<Coin> = inputs.map { read(it) }
+    suspend fun read(inputs: List<CryptoCoin>): List<Coin> = inputs.map { read(it) }
 
+    @Throws
     @Synchronized
-    fun read(input: CryptoCoin): Coin {
+    suspend fun read(input: CryptoCoin): Coin {
         Timber.v("Resolved Coin: %s", input.name);
         val id = input.id
         var output: Coin? = coins.get(id)
@@ -193,19 +224,22 @@ class CoinMapper
         output.symbol = input.symbol
         output.slug = input.slug
 
-        output.setCirculatingSupply(input.circulatingSupply)
-        output.setMaxSupply(input.maxSupply)
-        output.setTotalSupply(input.totalSupply)
-        output.setMarketPairs(input.marketPairs)
         output.rank = input.rank
-        output.quote = getQuotes(id, input.quotes)
-        output.tags = input.tags
+        output.setMarketPairs(input.marketPairs)
+
+        output.setCirculatingSupply(input.circulatingSupply)
+        output.setTotalSupply(input.totalSupply)
+        output.setMarketCap(input.marketCap)
+        output.setMaxSupply(input.maxSupply)
+
+        output.setLastUpdated(input.lastUpdated.utc(Constants.Pattern.Crypto.CMC_DATE_TIME))
         output.setDateAdded(input.dateAdded.utc(Constants.Pattern.Crypto.CMC_DATE_TIME))
-        output.setLastUpdated(input.lastUpdated.utc)
+
+        output.tags = input.tags
         return output
     }
 
-    @Synchronized
+   /* @Synchronized
     fun getQuotes(
         coinId: String,
         input: Map<CryptoCurrency, CryptoQuote>
@@ -216,9 +250,9 @@ class CoinMapper
             result.put(currency, getQuote(coinId, currency, entry.value))
         }
         return result
-    }
+    }*/
 
-    @Synchronized
+    /*@Synchronized
     fun getQuote(
         coinId: String,
         currency: Currency,
@@ -250,25 +284,25 @@ class CoinMapper
             currencies.put(input.name, out)
         }
         return out
-    }
+    }*/
 
-    @Synchronized
+/*    @Synchronized
     private fun bindQuote(currency: Currency, item: Coin, dao: QuoteDao) {
         if (!item.hasQuote(currency)) {
             dao.read(item.id, currency.name)?.let { item.addQuote(it) }
         }
-    }
+    }*/
 
-    @Throws
+/*    @Throws
     @Synchronized
-    private suspend fun cache(dao : CurrencyDao) {
+    private suspend fun cache(dao: CurrencyDao) {
         if (cached) return
         cached = true
         dao.all?.let {
             if (it.isNotEmpty())
                 it.forEach { write(it) }
         }
-    }
+    }*/
 
     @Synchronized
     private fun sortedCoins(
@@ -298,7 +332,7 @@ class CoinMapper
 
         override fun compare(left: Coin, right: Coin): Int {
             if (sort.isMarketCap) {
-                val leftCap = left.getQuote(currency)
+                /*val leftCap = left.getQuote(currency)
                 val rightCap = right.getQuote(currency)
                 if (leftCap != null && rightCap != null) {
                     if (order.isDescending) {
@@ -306,7 +340,7 @@ class CoinMapper
                     } else {
                         return leftCap.getMarketCap().compareTo(rightCap.getMarketCap())
                     }
-                }
+                }*/
             }
             return 0
         }

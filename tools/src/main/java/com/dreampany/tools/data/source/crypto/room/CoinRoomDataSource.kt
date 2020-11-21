@@ -2,9 +2,12 @@ package com.dreampany.tools.data.source.crypto.room
 
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
+import com.dreampany.tools.data.source.crypto.mapper.QuoteMapper
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
+import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 
 /**
  * Created by roman on 3/21/20
@@ -14,36 +17,80 @@ import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
  */
 class CoinRoomDataSource(
     private val mapper: CoinMapper,
-    private val dao: CoinDao
+    private val quoteMapper: QuoteMapper,
+    private val dao: CoinDao,
+    private val quoteDao: QuoteDao
 ) : CoinDataSource {
 
-    @Throws
-    override suspend fun isFavorite(input: Coin): Boolean = mapper.isFavorite(input)
-
-    @Throws
-    override suspend fun toggleFavorite(input: Coin): Boolean {
-        val favorite = isFavorite(input)
-        if (favorite) {
-            mapper.deleteFavorite(input)
-        } else {
-            mapper.writeFavorite(input)
-        }
-        return favorite.not()
+    override suspend fun isFavorite(input: Coin): Boolean {
+        TODO("Not yet implemented")
     }
 
-    @Throws
-    override suspend fun favorites(
+    override suspend fun toggleFavorite(input: Coin): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun favorites(currency: Currency, sort: String, order: String): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(input: Pair<Coin, Quote>): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(inputs: List<Pair<Coin, Quote>>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun read(id: String, currency: Currency): Pair<Coin, Quote>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reads(): List<Pair<Coin, Quote>>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reads(ids: List<String>, currency: Currency): List<Pair<Coin, Quote>>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reads(
         currency: Currency,
         sort: String,
-        order: String
-    ): List<Coin>? = mapper.readFavorites(currency, sort, order, quoteDao, this)
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Pair<Coin, Quote>>? {
+        TODO("Not yet implemented")
+    }
 
-    @Throws
-    override suspend fun write(input: Coin): Long {
-        mapper.write(input)
-/*        if (input.hasQuote()) {
+    /* @Throws
+     override suspend fun isFavorite(input: Coin): Boolean = mapper.isFavorite(input)
+
+     @Throws
+     override suspend fun toggleFavorite(input: Coin): Boolean {
+         val favorite = isFavorite(input)
+         if (favorite) {
+             mapper.deleteFavorite(input)
+         } else {
+             mapper.writeFavorite(input)
+         }
+         return favorite.not()
+     }
+
+     @Throws
+     override suspend fun favorites(
+         currency: Currency,
+         sort: String,
+         order: String
+     ): List<Coin>? = mapper.readFavorites(currency, sort, order, quoteDao, this)
+
+     @Throws
+     override suspend fun write(input: Coin): Long {
+         mapper.write(input)
+ *//*        if (input.hasQuote()) {
             quoteDao.insertOrReplace(input.getQuotesAsList())
-        }*/
+        }*//*
         return dao.insertOrReplace(input)
     }
 
@@ -69,5 +116,5 @@ class CoinRoomDataSource(
         order: String,
         offset: Long,
         limit: Long
-    ): List<Coin>? = mapper.read(currency, sort, order, offset, limit, quoteDao, this)
+    ): List<Coin>? = mapper.read(currency, sort, order, offset, limit, quoteDao, this)*/
 }

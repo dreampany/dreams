@@ -19,7 +19,7 @@ interface CoinDataSource {
     suspend fun toggleFavorite(input: Coin): Boolean
 
     @Throws
-    suspend fun favorites(currency: Currency, sort: String, order: String): List<Coin>?
+    suspend fun favorites(currency: Currency, sort: String, order: String): List<Pair<Coin, Quote>>?
 
     @Throws
     suspend fun write(input: Pair<Coin, Quote>): Long

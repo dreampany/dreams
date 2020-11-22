@@ -212,7 +212,7 @@ class FavoriteCoinsActivity : InjectActivity() {
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.VIEW,
-            item.input
+            item.input.first
         )
         open(CoinActivity::class, task)
     }

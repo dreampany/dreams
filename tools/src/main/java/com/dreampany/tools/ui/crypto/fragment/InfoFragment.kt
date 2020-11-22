@@ -77,7 +77,7 @@ class InfoFragment
     }
 
     private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.input, CoinItem.ItemType.INFO)
+        vm.toggleFavorite(item.input)
     }
 
     private fun loadCoins() {

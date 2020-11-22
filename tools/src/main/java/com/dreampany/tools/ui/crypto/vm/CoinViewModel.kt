@@ -10,6 +10,7 @@ import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
 import com.dreampany.tools.misc.constants.Constants
@@ -42,7 +43,7 @@ class CoinViewModel
     fun loadCoins(offset: Long) {
         uiScope.launch {
             postProgressMultiple(true)
-            var result: List<Coin>? = null
+            var result: List<Pair<Coin, Quote>>? = null
             var errors: SmartError? = null
             try {
                 val currency = pref.currency
@@ -64,13 +65,13 @@ class CoinViewModel
     fun loadCoin(id: String) {
         uiScope.launch {
             postProgressSingle(true)
-            var result: Coin? = null
+            var result: Pair<Coin, Quote>? = null
             var errors: SmartError? = null
             var favorite: Boolean = false
             try {
                 val currency = pref.currency
-                result = repo.read(currency, id)
-                result?.let { favorite = repo.isFavorite(it) }
+                result = repo.read(id, currency)
+                result?.let { favorite = repo.isFavorite(it.first) }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -78,7 +79,7 @@ class CoinViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItems(favorite))
+                postResult(result?.toItem(favorite))
             }
         }
     }
@@ -86,7 +87,7 @@ class CoinViewModel
     fun loadFavoriteCoins() {
         uiScope.launch {
             postProgressMultiple(true)
-            var result: List<Coin>? = null
+            var result: List<Pair<Coin, Quote>>? = null
             var errors: SmartError? = null
             try {
                 val currency = pref.currency
@@ -105,14 +106,14 @@ class CoinViewModel
         }
     }
 
-    fun toggleFavorite(input: Coin, itemType: CoinItem.ItemType) {
+    fun toggleFavorite(input: Pair<Coin, Quote>) {
         uiScope.launch {
             postProgressSingle(true)
-            var result: Coin? = null
+            var result: Pair<Coin, Quote>? = null
             var errors: SmartError? = null
             var favorite: Boolean = false
             try {
-                favorite = repo.toggleFavorite(input)
+                favorite = repo.toggleFavorite(input.first)
                 result = input
             } catch (error: SmartError) {
                 Timber.e(error)
@@ -121,76 +122,39 @@ class CoinViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem(itemType, favorite), state = State.FAVORITE)
+                postResult(result?.toItem(favorite), state = State.FAVORITE)
             }
         }
     }
 
-    private suspend fun List<Coin>.toItems(): List<CoinItem> {
+    private suspend fun List<Pair<Coin, Quote>>.toItems(): List<CoinItem> {
         val input = this
         return withContext(Dispatchers.IO) {
             val currency = pref.currency
             val sort = pref.sort
             val order = pref.order
             input.map { input ->
-                val favorite = repo.isFavorite(input)
-                CoinItem.getItem(input, formatter, currency, sort, order, favorite)
+                val favorite = repo.isFavorite(input.first)
+                CoinItem(input, currency, formatter, favorite)
             }
         }
     }
 
-    private suspend fun Coin.toItems(favorite: Boolean): List<CoinItem> {
+    private suspend fun Pair<Coin, Quote>.toItem(favorite: Boolean): CoinItem {
         val input = this
         return withContext(Dispatchers.IO) {
             val currency = pref.currency
             val sort = pref.sort
             val order = pref.order
-            val result = arrayListOf<CoinItem>()
-            result.add(CoinItem.getInfoItem(input, formatter, currency, sort, order, favorite))
-            result.add(CoinItem.getQuoteItem(input, formatter, currency, sort, order, favorite))
-            result
-        }
-    }
-
-    private suspend fun Coin.toItem(itemType: CoinItem.ItemType, favorite: Boolean): CoinItem {
-        val input = this
-        return withContext(Dispatchers.IO) {
-            val currency = pref.currency
-            val sort = pref.sort
-            val order = pref.order
-            when (itemType) {
-                CoinItem.ItemType.ITEM -> {
-                    CoinItem.getItem(input, formatter, currency, sort, order, favorite = favorite)
-                }
-                CoinItem.ItemType.INFO -> {
-                    CoinItem.getInfoItem(
-                        input,
-                        formatter,
-                        currency,
-                        sort,
-                        order,
-                        favorite = favorite
-                    )
-                }
-                CoinItem.ItemType.QUOTE -> {
-                    CoinItem.getQuoteItem(
-                        input,
-                        formatter,
-                        currency,
-                        sort,
-                        order,
-                        favorite = favorite
-                    )
-                }
-            }
+            CoinItem(input, currency, formatter, favorite = favorite)
         }
     }
 
     private fun postProgressSingle(progress: Boolean) {
         postProgressSingle(
-             Type.COIN,
-           Subtype.DEFAULT,
-             State.DEFAULT,
+            Type.COIN,
+            Subtype.DEFAULT,
+            State.DEFAULT,
             Action.DEFAULT,
             progress = progress
         )

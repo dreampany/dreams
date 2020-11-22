@@ -242,7 +242,7 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.input, CoinItem.ItemType.ITEM)
+        vm.toggleFavorite(item.input)
     }
 
 
@@ -252,7 +252,7 @@ class CoinsActivity : InjectActivity() {
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.VIEW,
-            item.input
+            item.input.first
         )
         open(CoinActivity::class, task)
     }

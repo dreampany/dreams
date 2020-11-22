@@ -60,6 +60,8 @@ data class Currency(
 
     val isFiat: Boolean get() = type == Type.FIAT
 
+    val isCrypto: Boolean get() = type == Type.CRYPTO
+
     companion object {
         val USD = Currency(currentMillis, "2781", "United States Dollar", "$", "USD")
     }

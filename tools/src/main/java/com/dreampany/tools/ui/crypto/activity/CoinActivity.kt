@@ -107,12 +107,12 @@ class CoinActivity : InjectActivity() {
             )
 
         val currency = pref.currency
-        val quote = input.getQuote(currency)
+       /* val quote = input.getQuote(currency)
         val price = quote?.price.value
         val subtitle = formatter.formatPrice(price, currency)
 
         bind.title.text = title
-        bind.subtitle.text = subtitle
+        bind.subtitle.text = subtitle*/
     }
 
     private fun initPager() {

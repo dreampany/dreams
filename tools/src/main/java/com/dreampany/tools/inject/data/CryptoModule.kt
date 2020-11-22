@@ -88,8 +88,10 @@ class CryptoModule {
     @Room
     fun provideCoinRoom(
         mapper: CoinMapper,
-        dao: CoinDao
-    ): CoinDataSource = CoinRoomDataSource(mapper, dao)
+        quoteMapper: QuoteMapper,
+        dao: CoinDao,
+        quoteDao: QuoteDao
+    ): CoinDataSource = CoinRoomDataSource(mapper, quoteMapper, dao, quoteDao)
 
     @Singleton
     @Provides
@@ -100,8 +102,10 @@ class CryptoModule {
         parser: Parser,
         keys: Keys,
         mapper: CoinMapper,
+        platformMapper: PlatformMapper,
+        quoteMapper: QuoteMapper,
         service: CoinMarketCapService
-    ): CoinDataSource = CoinRemoteDataSource(context, network, parser, keys, mapper, service)
+    ): CoinDataSource = CoinRemoteDataSource(context, network, parser, keys, mapper, platformMapper, quoteMapper, service)
 
     @Singleton
     @Provides

@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model.crypto
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -32,7 +33,7 @@ data class Quote(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     @ColumnInfo(name = Constants.Keys.Quote.CURRENCY_ID)
-    private var currencyId: String = Constant.Default.STRING,
+    var currencyId: String = Constant.Default.STRING,
     var price: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = Constants.Keys.Quote.VOLUME_24H)
     private var volume24h: Double = Constant.Default.DOUBLE,
@@ -78,13 +79,13 @@ data class Quote(
 
     override fun toString(): String = "Quote: $id"
 
-    @PropertyName(Constants.Keys.Quote.CURRENCY_ID)
+/*    @PropertyName(Constants.Keys.Quote.CURRENCY_ID)
     fun setCurrencyId(currencyId: String) {
         this.currencyId = currencyId
     }
 
     @PropertyName(Constants.Keys.Quote.CURRENCY_ID)
-    fun getCurrencyId(): String = currencyId
+    fun getCurrencyId(): String = currencyId*/
 
     @PropertyName(Constants.Keys.Quote.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {
@@ -117,7 +118,6 @@ data class Quote(
 
     @PropertyName(Constants.Keys.Quote.VOLUME_7D_REPORTED)
     fun getVolume7dReported(): Double = volume7dReported
-
 
 
     @PropertyName(Constants.Keys.Quote.VOLUME_30D)

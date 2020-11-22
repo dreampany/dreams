@@ -6,7 +6,7 @@ import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Currency
 import com.github.mikephil.charting.data.LineData
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize

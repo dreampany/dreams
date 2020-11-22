@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.color
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Currency
 import com.google.common.collect.Maps
 import com.google.common.collect.Sets
 import java.math.BigDecimal
@@ -29,8 +29,9 @@ class CurrencyFormatter
     private val context: Context
 ) {
 
+    private val formatRes : Int
     private val formats: MutableMap<String, String>
-    private val cryptos: Set<Currency>
+    //private val cryptos: Set<Currency>
     private val formatter: DecimalFormat
 
     private val THOUSAND = BigInteger.valueOf(1000)
@@ -48,8 +49,10 @@ class CurrencyFormatter
     private val negativeRatio: Int
 
     init {
+        formatRes = R.string.currency_symbol_format
+
         formats = Maps.newConcurrentMap()
-        cryptos = Sets.newHashSet(*Currency.getCryptos())
+       // cryptos = Sets.newHashSet(*Currency.getCryptos())
         formatter = DecimalFormat(context.getString(R.string.crypto_formatter))
         symbols = Maps.newConcurrentMap()
         MAP = TreeMap()
@@ -72,7 +75,7 @@ class CurrencyFormatter
         context.color(if (value >= 0.0f) R.color.material_green700 else R.color.material_red700)
 
     private fun loadFormats() {
-        formats[Currency.BTC.name] = context.getString(R.string.btc_format)
+/*        formats[Currency.BTC.name] = context.getString(R.string.btc_format)
         formats[Currency.ETH.name] = context.getString(R.string.eth_format)
         formats[Currency.LTC.name] = context.getString(R.string.ltc_format)
 
@@ -84,7 +87,7 @@ class CurrencyFormatter
         formats[Currency.CNY.name] = getString(R.string.cny_format)
         formats[Currency.CZK.name] = getString(R.string.czk_format)
         formats[Currency.DKK.name] = getString(R.string.dkk_format)
-        formats[Currency.GBP.name] = getString(R.string.gbp_format)
+        formats[Currency.GBP.name] = getString(R.string.gbp_format)*/
         formats[Currency.USD.name] = getString(R.string.usd_format)
     }
 
@@ -97,10 +100,10 @@ class CurrencyFormatter
     }
 
     fun format(currency: Currency, price: Double): String {
-        if (cryptos.contains(currency)) {
+        /*if (cryptos.contains(currency)) {
             val priceValue = getCryptoString(price)
             return String.format(formats.get(currency.name)!!, priceValue)
-        }
+        }*/
         val format = formats.get(currency.name)
         if (format != null) {
             return String.format(format, price)
@@ -134,11 +137,11 @@ class CurrencyFormatter
         if (!symbols.containsKey(currency)) {
             var symbol: String? = null
             if (currency.isCrypto) {
-                when (currency) {
+                /*when (currency) {
                     Currency.BTC -> symbol = context.getString(R.string.btc_symbol)
                     Currency.ETH -> symbol = context.getString(R.string.eth_symbol)
                     Currency.LTC -> symbol = context.getString(R.string.ltc_symbol)
-                }
+                }*/
             } else {
                 symbol = java.util.Currency.getInstance(currency.name).symbol
             }
@@ -163,8 +166,7 @@ class CurrencyFormatter
     }
 
     fun formatPrice(price: Double, currency: Currency): String? {
-        val priceResId = getPriceResId(currency)
-        return context.getString(priceResId, price)
+        return context.getString(formatRes, currency.sign, price)
     }
 
     fun formatPrice(
@@ -186,7 +188,7 @@ class CurrencyFormatter
 
     fun getPriceResId(currency: Currency): Int {
         var resId = 0
-        when (currency) {
+        /*when (currency) {
             Currency.BRL -> resId = R.string.brl_format
             Currency.CAD, Currency.HKD, Currency.SEK, Currency.USD -> resId = R.string.usd_format
             Currency.CHF -> resId = R.string.chf_format
@@ -198,7 +200,7 @@ class CurrencyFormatter
             Currency.KRW -> resId = R.string.krw_format
             Currency.TRY -> resId = R.string.try_format
             Currency.ZAR -> resId = R.string.zar_format
-        }
+        }*/
         return resId
     }
 

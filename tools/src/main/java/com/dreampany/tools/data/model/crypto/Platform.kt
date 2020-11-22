@@ -3,7 +3,6 @@ package com.dreampany.tools.data.model.crypto
 import androidx.room.ColumnInfo
 import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.tools.misc.constants.Constants
@@ -18,6 +17,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Platform(
+    @ColumnInfo(name = Constants.Keys.Platform.TIME)
     override var time: Long = Constant.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Platform.ID)
     override var id: String = Constant.Default.STRING,

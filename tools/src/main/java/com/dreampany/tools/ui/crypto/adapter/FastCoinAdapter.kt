@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
  import com.dreampany.framework.misc.exts.dimension
 import com.dreampany.tools.R
- import com.dreampany.tools.data.enums.crypto.Currency
+ import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.ui.crypto.model.CoinItem
@@ -62,7 +62,8 @@ class FastCoinAdapter(
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is CoinItem)
-                item.input.name.toString().contains(constraint.toString(), ignoreCase = true)
+                true
+                //item.input.name.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }
@@ -185,7 +186,7 @@ class FastCoinAdapter(
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is CoinItem && right is CoinItem) {
                 if (sort.isMarketCap) {
-                    val leftCap = left.input.getQuote(currency)
+                   /* val leftCap = left.input.getQuote(currency)
                     val rightCap = right.input.getQuote(currency)
                     if (leftCap != null && rightCap != null) {
                         if (order.isDescending) {
@@ -193,7 +194,7 @@ class FastCoinAdapter(
                         } else {
                             return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
                         }
-                    }
+                    }*/
                 }
             }
             return 0
@@ -202,9 +203,9 @@ class FastCoinAdapter(
 
     class RankComparator : Comparator<GenericItem> {
         override fun compare(left: GenericItem, right: GenericItem): Int {
-            if (left is CoinItem && right is CoinItem) {
+           /* if (left is CoinItem && right is CoinItem) {
                 return left.input.rank - right.input.rank
-            }
+            }*/
             return 0
         }
     }

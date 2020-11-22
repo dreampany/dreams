@@ -2,21 +2,13 @@ package com.dreampany.tools.ui.crypto.vm
 
 import android.app.Application
 import com.dreampany.framework.api.notify.NotifyManager
-import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
-import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.Action
-import com.dreampany.tools.data.enums.State
-import com.dreampany.tools.data.enums.Subtype
-import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.func.CurrencyFormatter
-import com.dreampany.tools.ui.home.activity.HomeActivity
 import kotlinx.coroutines.*
 import org.apache.commons.lang3.RandomUtils
 import timber.log.Timber
@@ -60,7 +52,7 @@ class CryptoViewModel
                 val sort = pref.sort
                 val order = pref.order
                 val offset = getRandOffset(Constants.Limits.COINS)
-                result = repo.reads(currency, sort, order, offset, Constants.Limits.COINS)
+                //result = repo.reads(currency, sort, order, offset, Constants.Limits.COINS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -69,10 +61,10 @@ class CryptoViewModel
                 //postError(errors)
             } else {
                 //postResult(result?.toItems())
-                val result = result?.maxBy { it.getQuote(currency)?.getChange24h().value }
+               /* val result = result?.maxBy { it.getQuote(currency)?.getChange24h().value }
                 if (result != null) {
                     showNotification(result)
-                }
+                }*/
             }
         }
     }
@@ -84,9 +76,9 @@ class CryptoViewModel
 
     private fun showNotification(coin: Coin) {
         val currency = pref.currency
-        val quote = coin.getQuote(currency) ?: return
+        //val quote = coin.getQuote(currency) ?: return
 
-        val price = quote.price
+        /*val price = quote.price
         val dayChange: Double = quote.getChange24h()
 
         val title: String = app.getString(R.string.notify_title_profit)
@@ -110,6 +102,6 @@ class CryptoViewModel
             R.drawable.ic_notification,
             HomeActivity::class.java,
             task
-        )
+        )*/
     }
 }

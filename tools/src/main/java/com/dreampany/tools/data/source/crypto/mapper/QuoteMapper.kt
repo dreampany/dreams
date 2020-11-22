@@ -58,7 +58,7 @@ class QuoteMapper
 
     @Throws
     @Synchronized
-    fun write(input: Quote) = quotes.put(input.id.plus(input.getCurrencyId()), input)
+    fun write(input: Quote) = quotes.put(input.id.plus(input.currencyId), input)
 
     @Throws
     @Synchronized
@@ -70,7 +70,7 @@ class QuoteMapper
             quotes.put(key, output)
         }
 
-        output.setCurrencyId(currency.id)
+        output.currencyId = currency.id
         output.price = input.price
         output.setVolume24h(input.volume24h)
         output.setVolume24hReported(input.volume24hReported)

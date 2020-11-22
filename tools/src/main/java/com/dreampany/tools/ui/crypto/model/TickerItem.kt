@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.context
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Ticker
 import com.dreampany.tools.databinding.TickerItemBinding
 import com.dreampany.tools.misc.exts.setUrl

@@ -32,7 +32,7 @@ class CoinRoomDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun favorites(currency: Currency, sort: String, order: String): List<Coin>? {
+    override suspend fun favorites(currency: Currency, sort: String, order: String): List<Pair<Coin, Quote>>? {
         TODO("Not yet implemented")
     }
 

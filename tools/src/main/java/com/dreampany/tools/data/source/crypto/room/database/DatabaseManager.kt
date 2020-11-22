@@ -14,7 +14,6 @@ import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.data.source.crypto.room.dao.CurrencyDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constants.Constants
-import com.dreampany.tools.misc.constants.CryptoConstants
 
 /**
  * Created by roman on 14/3/20
@@ -22,7 +21,7 @@ import com.dreampany.tools.misc.constants.CryptoConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Currency::class, Coin::class, Quote::class], version = 3, exportSchema = false)
+@Database(entities = [Currency::class, Coin::class, Quote::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -31,13 +30,13 @@ abstract class DatabaseManager : RoomDatabase() {
 
         @Synchronized
         fun newInstance(context: Context, memoryOnly: Boolean): DatabaseManager {
-            val builder: RoomDatabase.Builder<DatabaseManager>
+            val builder: Builder<DatabaseManager>
 
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, Constants.Keys.Room.CRYPTO)
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                val database = Constant.database(context, Constants.Keys.Room.CRYPTO)
+                builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
             return builder

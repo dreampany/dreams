@@ -11,9 +11,9 @@ import com.dreampany.tools.data.enums.Action
 import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.enums.crypto.Times
 import com.dreampany.tools.data.enums.crypto.Times.Companion.startTime
+import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Graph
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.repo.GraphRepo
@@ -111,8 +111,8 @@ class GraphViewModel
 
     private fun Graph.prices(currency: Currency): List<Entry>? {
         var prices = this.priceUsd
-        if (currency == Currency.BTC)
-            prices = this.priceBtc
+        //if (currency == Currency.BTC)
+            //prices = this.priceBtc
         return prices?.map { Entry(it.first(), it.second()) }
     }
 

@@ -102,6 +102,7 @@ class Constants {
         }
 
         object Platform {
+            const val TIME = "platform_time"
             const val ID = "platform_id"
             const val NAME = "platform_name"
             const val SYMBOL = "platform_symbol"

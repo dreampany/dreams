@@ -30,6 +30,10 @@ fun float() = 0f
 fun double() = 0.0
 fun string() = ""
 
+val Double.isEmpty : Boolean get() = this == default
+val Double.isPositive : Boolean get() = this >= default
+val Double.isNegative : Boolean get() = this < default
+
 val Boolean?.value: Boolean get() = this ?: false
 
 val Int?.value: Int get() = this ?: 0

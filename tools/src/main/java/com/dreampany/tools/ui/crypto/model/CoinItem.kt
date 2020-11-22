@@ -125,7 +125,7 @@ constructor(
 
         binding.layoutSimple.textPrice.text = formatter.formatPrice(price, currency)
         binding.layoutPrice.textMarketCap.text = formatter.roundPrice(marketCap, currency)
-        binding.layoutPrice.textVolume24h.text = formatter.roundPrice(volume24h, currency)
+        binding.layoutPrice.textVolume24h.text = formatter.formatPrice(volume24h, currency)
 
         val change1hFormat = if (change1h.isPositive) positiveRatio else negativeRatio
         val change24hFormat = if (change24h.isPositive) positiveRatio else negativeRatio

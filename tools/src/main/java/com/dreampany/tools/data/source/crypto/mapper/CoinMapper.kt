@@ -19,7 +19,6 @@ import com.dreampany.tools.data.model.crypto.Currency
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
-import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.common.collect.Maps

@@ -24,9 +24,7 @@ class CoinRoomDataSource(
 
     @Throws
     @Synchronized
-    override suspend fun isFavorite(input: Coin): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun isFavorite(input: Coin): Boolean = mapper.isFavorite(input)
 
     override suspend fun toggleFavorite(input: Coin): Boolean {
         TODO("Not yet implemented")

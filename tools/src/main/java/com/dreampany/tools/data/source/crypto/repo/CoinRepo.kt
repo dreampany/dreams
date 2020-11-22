@@ -25,15 +25,22 @@ class CoinRepo
     @Room private val room: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : CoinDataSource {
-    override suspend fun isFavorite(input: Coin): Boolean {
-        TODO("Not yet implemented")
+
+    @Throws
+    @Synchronized
+    override suspend fun isFavorite(input: Coin): Boolean = withContext(Dispatchers.IO) {
+        room.isFavorite(input)
     }
 
     override suspend fun toggleFavorite(input: Coin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun favorites(currency: Currency, sort: String, order: String): List<Pair<Coin, Quote>>? {
+    override suspend fun favorites(
+        currency: Currency,
+        sort: String,
+        order: String
+    ): List<Pair<Coin, Quote>>? {
         TODO("Not yet implemented")
     }
 
@@ -75,7 +82,7 @@ class CoinRepo
             }
         }
         if (result.isNullOrEmpty())
-            room.reads(currency, sort, order, offset, limit)
+            result = room.reads(currency, sort, order, offset, limit)
         result
     }
 

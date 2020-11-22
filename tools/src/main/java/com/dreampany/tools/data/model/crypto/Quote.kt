@@ -33,6 +33,7 @@ data class Quote(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     @ColumnInfo(name = Constants.Keys.Quote.CURRENCY_ID)
+    @PropertyName(Constants.Keys.Quote.CURRENCY_ID)
     var currencyId: String = Constant.Default.STRING,
     var price: Double = Constant.Default.DOUBLE,
     @ColumnInfo(name = Constants.Keys.Quote.VOLUME_24H)

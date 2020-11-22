@@ -116,7 +116,6 @@ fun <T> List<T>.second(): T {
     return this[1]
 }
 
-val Float.isEmpty : Boolean
-    get() = this == float()
+val Float.isEmpty : Boolean get() = this == float()
 
 

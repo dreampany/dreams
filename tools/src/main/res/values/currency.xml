@@ -3,6 +3,7 @@
     <string name="crypto_formatter">#,###.########</string>
     <string name="currency_format">%.3f</string>
     <string name="currency_symbol_format">%s %.3f</string>
+    <string name="currency_symbol_join_format">%s %s</string>
 
 
     <!--AIC, USDT, NZD, CAD, CLP, COP, HKD, MXN, TTD, XCD, ARS-->

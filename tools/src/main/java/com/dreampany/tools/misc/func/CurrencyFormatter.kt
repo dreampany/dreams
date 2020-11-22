@@ -5,6 +5,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.color
+import com.dreampany.framework.misc.exts.isEmpty
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.crypto.Currency
 import com.google.common.collect.Maps
@@ -29,8 +30,10 @@ class CurrencyFormatter
     private val context: Context
 ) {
 
-    private val formatRes : Int
+    private val formatRes: Int
+    private val formatJoinRes: Int
     private val formats: MutableMap<String, String>
+
     //private val cryptos: Set<Currency>
     private val formatter: DecimalFormat
 
@@ -50,14 +53,15 @@ class CurrencyFormatter
 
     init {
         formatRes = R.string.currency_symbol_format
+        formatJoinRes = R.string.currency_symbol_join_format
 
         formats = Maps.newConcurrentMap()
-       // cryptos = Sets.newHashSet(*Currency.getCryptos())
+        // cryptos = Sets.newHashSet(*Currency.getCryptos())
         formatter = DecimalFormat(context.getString(R.string.crypto_formatter))
         symbols = Maps.newConcurrentMap()
         MAP = TreeMap()
-        for (i in NAMES.indices) {
-            MAP[THOUSAND.pow(i + 1)] = NAMES[i]
+        for (index in NAMES.indices) {
+            MAP[THOUSAND.pow(index.inc())] = NAMES[index]
         }
         loadFormats()
 
@@ -121,16 +125,15 @@ class CurrencyFormatter
 
     fun roundPrice(price: Double): String {
         val number = BigDecimal.valueOf(price).toBigInteger()
-        //BigInteger number = new BigInteger(String.valueOf(price));
-        val entry = MAP.floorEntry(number) ?: return "0"
+        val entry = MAP.floorEntry(number) ?: return 0.toString()
         val key = entry.key
         val d = key.divide(THOUSAND)
         val m = number.divide(d)
         val f = m.toFloat() / 1000.0f
         val rounded = (f * 100.0).toInt() / 100.0f
-        return if (rounded % 1 == 0f) {
-            rounded.toInt().toString() + " " + entry.value
-        } else rounded.toString() + " " + entry.value
+        val result = StringBuilder(if ((rounded % 1).isEmpty) rounded.toInt().toString() else rounded.toString())
+        result.append(Constant.Sep.SPACE).append(entry.value)
+        return result.toString()
     }
 
     fun getSymbol(currency: Currency): String? {
@@ -153,20 +156,23 @@ class CurrencyFormatter
     }
 
     fun roundPrice(price: Double, currency: Currency): String {
-        val symbol = getSymbol(currency)
         val amount = roundPrice(price)
-        return symbol + Constant.Sep.SPACE + amount
+        return formatPrice(amount, currency)
     }
 
-    fun roundPrice(@StringRes formatRes : Int, price: Double, currency: Currency): String {
+    fun roundPrice(@StringRes formatRes: Int, price: Double, currency: Currency): String {
         val symbol = getSymbol(currency)
         val amount = roundPrice(price)
         //return symbol + Constants.Sep.SPACE + amount
         return context.getString(formatRes, symbol, amount)
     }
 
-    fun formatPrice(price: Double, currency: Currency): String? {
+    fun formatPrice(price: Double, currency: Currency): String {
         return context.getString(formatRes, currency.sign, price)
+    }
+
+    fun formatPrice(price: String, currency: Currency): String {
+        return context.getString(formatJoinRes, currency.sign, price)
     }
 
     fun formatPrice(

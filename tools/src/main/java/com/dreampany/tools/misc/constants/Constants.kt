@@ -291,7 +291,7 @@ class Constants {
 
     object Pattern {
         object Crypto {
-            const val CMC_DATE_TIME = "yyyy-mm-ddThh:mm:ss.mmmZ" //coin market cap
+            const val CMC_DATE_TIME = "yyyy-mm-dd'T'hh:mm:ss.mmm'Z'" //coin market cap
         }
     }
 }

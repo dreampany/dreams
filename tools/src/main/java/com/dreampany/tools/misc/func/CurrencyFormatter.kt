@@ -9,7 +9,6 @@ import com.dreampany.framework.misc.exts.isEmpty
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.crypto.Currency
 import com.google.common.collect.Maps
-import com.google.common.collect.Sets
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.text.DecimalFormat
@@ -182,7 +181,7 @@ class CurrencyFormatter
         dayChange: Double,
         currency: Currency
     ): String {
-        val coin = context.getString(R.string.crypto_symbol_name, symbol, name)
+        val coin = context.getString(R.string.crypto_name_symbol, symbol, name)
         val priceValue = getText(R.string.with_price, formatPrice(price, currency)!!)
         val change =
             getText(R.string.with_change, getText(R.string.positive_ratio_format, dayChange) as Any)

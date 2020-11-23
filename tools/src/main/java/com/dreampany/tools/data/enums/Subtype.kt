@@ -13,7 +13,7 @@ import kotlinx.android.parcel.Parcelize
 enum class Subtype : BaseSubtype {
     DEFAULT, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT,
     WIFI, CRYPTO, RADIO, NOTE, HISTORY, NEWS,
-    INFO, MARKET, GRAPH;
+    DETAILS, MARKET, GRAPH;
 
     override val value: String get() = name
 }

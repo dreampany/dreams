@@ -2,7 +2,6 @@ package com.dreampany.tools.ui.crypto.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.init
@@ -32,7 +31,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class InfoFragment
+class DetailsFragment
 @Inject constructor() : InjectFragment() {
 
     @Inject
@@ -50,11 +49,11 @@ class InfoFragment
         input = task.input ?: return
         initUi()
         initRecycler(state)
-        onRefresh()
+        //onRefresh()
     }
 
     override fun onStopUi() {
-        adapter.destroy()
+        //adapter.destroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -64,7 +63,7 @@ class InfoFragment
     }
 
     override fun onRefresh() {
-        loadCoins()
+        loadCoin()
     }
 
     private fun onItemPressed(view: View, item: CoinItem) {
@@ -80,7 +79,7 @@ class InfoFragment
         vm.toggleFavorite(item.input)
     }
 
-    private fun loadCoins() {
+    private fun loadCoin() {
         if (::input.isInitialized)
             vm.loadCoin(input.id)
     }
@@ -88,10 +87,10 @@ class InfoFragment
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = getBinding()
-        bind.swipe.init(this)
         vm = createVm(CoinViewModel::class)
+
+        bind.swipe.init(this)
         vm.subscribe(this,   { this.processResponse(it) })
-        vm.subscribes(this,   { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -110,10 +109,10 @@ class InfoFragment
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
-            processError(response.error)
+            process(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, CoinItem>) {
             Timber.v("Result [%s]", response.result)
-            processResult(response.result)
+            process(response.result)
         }
     }
 
@@ -121,14 +120,14 @@ class InfoFragment
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
-            processError(response.error)
+            process(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, List<CoinItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
     }
 
-    private fun processError(error: SmartError) {
+    private fun process(error: SmartError) {
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
         val message =
             if (error.hostError) getString(R.string.message_no_internet) else error.message
@@ -145,7 +144,7 @@ class InfoFragment
         )
     }
 
-    private fun processResult(result: CoinItem?) {
+    private fun process(result: CoinItem?) {
         if (result != null) {
             adapter.updateItem(result)
         }

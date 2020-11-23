@@ -17,118 +17,142 @@
             android:theme="@style/AppBarOverlay"
             auto:elevation="0dp">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                auto:contentScrim="?attr/colorPrimary"
-                auto:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                auto:titleEnabled="false"
-                tools:ignore="NewApi">
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:theme="@style/Theme.Toolbar.Light"
+                auto:contentInsetLeft="0dp"
+                auto:contentInsetStart="0dp"
+                auto:contentInsetStartWithNavigation="0dp"
+                auto:layout_collapseMode="pin"
+                auto:popupTheme="@style/PopupOverlay">
 
-                <!--<com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/icon"
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    auto:layout_collapseMode="parallax" />-->
+                    android:orientation="horizontal">
 
-                <!-- <View
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:alpha="0.3"
-                     android:background="@android:color/black"
-                     android:fitsSystemWindows="true"
-                     android:visibility="gone" />-->
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/textSizePrimary"
+                        auto:fontFamily="@font/roboto_slab_bold"
+                        tools:text="@string/title" />
 
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="top"
-                    android:theme="@style/Theme.Toolbar.Light"
-                    auto:contentInsetLeft="0dp"
-                    auto:contentInsetStart="0dp"
-                    auto:contentInsetStartWithNavigation="0dp"
-                    auto:layout_collapseMode="pin"
-                    auto:popupTheme="@style/PopupOverlay">
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/icon"
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/align_margin"
+                        android:adjustViewBounds="true"
+                        android:cropToPadding="true"
+                        auto:actualImageScaleType="centerCrop"
+                        auto:failureImage="@color/material_red500"
+                        auto:failureImageScaleType="centerInside"
+                        auto:placeholderImage="@drawable/ic_coin"
+                        auto:placeholderImageScaleType="centerCrop"
+                        auto:roundAsCircle="true" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/align_margin"
+                        android:orientation="vertical">
 
-                        <com.facebook.drawee.view.SimpleDraweeView
-                            android:id="@+id/icon"
-                            android:layout_width="@dimen/_26sdp"
-                            android:layout_height="@dimen/_26sdp"
-                            android:layout_gravity="center_vertical"
-                            android:adjustViewBounds="true"
-                            android:cropToPadding="true"
-                            auto:actualImageScaleType="centerCrop"
-                            auto:failureImage="@color/material_red500"
-                            auto:failureImageScaleType="centerInside"
-                            auto:placeholderImage="@drawable/ic_coin"
-                            auto:placeholderImageScaleType="centerCrop"
-                            auto:roundAsCircle="true" />
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="vertical">
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/textSizePrimary"
+                            auto:fontFamily="@font/roboto_slab_bold"
+                            tools:text="@string/title" />
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_8sdp"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/_12ssp"
-                                auto:fontFamily="@font/roboto_slab_bold"
-                                tools:text="@string/title" />
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/subtitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/_8sdp"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/_10ssp"
-                                auto:fontFamily="@font/roboto_slab_regular"
-                                tools:text="@string/title" />
-
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/_10ssp"
+                            android:visibility="gone"
+                            auto:fontFamily="@font/roboto_slab_regular"
+                            tools:text="@string/title" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </com.google.android.material.appbar.MaterialToolbar>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                auto:tabGravity="fill"
-                auto:tabIndicator="@drawable/tab_indicator"
-                auto:tabIndicatorColor="@color/textColorPrimary"
-                auto:tabIndicatorHeight="@dimen/tabSize"
-                auto:tabMode="scrollable"
-                auto:tabSelectedTextColor="@color/textColorPrimary"
-                auto:tabTextAppearance="@style/TabTextLight" />
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include
-            android:id="@+id/layout_pager"
-            layout="@layout/content_pager_ad"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            auto:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:orientation="vertical"
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/align_margin">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/textSizeHeader"
+                    auto:fontFamily="@font/roboto_slab_bold"
+                    tools:text="@string/title" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/textSizePrimary"
+                    auto:fontFamily="@font/roboto_slab_bold"
+                    tools:text="@string/title" />
+
+            </RelativeLayout>
+
+            <com.dreampany.framework.ui.widget.RoundView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                auto:topLeftCornerRadius="@dimen/para_margin"
+                auto:topRightCornerRadius="@dimen/para_margin">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
+                    auto:tabGravity="fill"
+                    auto:tabIndicator="@drawable/tab_indicator"
+                    auto:tabIndicatorColor="@color/textColorPrimary"
+                    auto:tabIndicatorHeight="@dimen/tabSize"
+                    auto:tabMode="scrollable"
+                    auto:tabSelectedTextColor="@color/textColorPrimary"
+                    auto:tabTextAppearance="@style/TabTextLight" />
+            </com.dreampany.framework.ui.widget.RoundView>
+
+            <include
+                android:id="@+id/layout_pager"
+                layout="@layout/content_pager_ad"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

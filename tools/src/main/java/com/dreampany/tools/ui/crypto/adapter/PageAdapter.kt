@@ -10,8 +10,8 @@ import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
-import com.dreampany.tools.ui.crypto.fragment.GraphFragment
-import com.dreampany.tools.ui.crypto.fragment.InfoFragment
+import com.dreampany.tools.data.model.crypto.Quote
+import com.dreampany.tools.ui.crypto.fragment.DetailsFragment
 import com.dreampany.tools.ui.crypto.fragment.TickersFragment
 
 /**
@@ -22,10 +22,16 @@ import com.dreampany.tools.ui.crypto.fragment.TickersFragment
  */
 class PageAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
+    private lateinit var details : DetailsFragment
+
+    fun update(input: Coin, quote: Quote) {
+
+    }
+
     fun addItems(input: Coin) {
-        val info = UiTask(
+        val detailsTask = UiTask(
             Type.COIN,
-            Subtype.INFO,
+            Subtype.DETAILS,
             State.DEFAULT,
             Action.DEFAULT,
             input
@@ -44,12 +50,13 @@ class PageAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(acti
             Action.DEFAULT,
             input
         )
+        details =  com.dreampany.framework.misc.exts.createFragment(
+            DetailsFragment::class,
+            detailsTask
+        )
         addItem(
-            com.dreampany.framework.misc.exts.createFragment(
-                InfoFragment::class,
-                info
-            ),
-            R.string.title_coin_info,
+           details,
+            R.string.title_coin_details,
             true
         )
         addItem(

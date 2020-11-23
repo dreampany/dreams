@@ -52,9 +52,22 @@ class CoinRepo
         TODO("Not yet implemented")
     }
 
-    override suspend fun read(id: String, currency: Currency): Pair<Coin, Quote>? {
-        TODO("Not yet implemented")
-    }
+    @Throws
+    @Synchronized
+    override suspend fun read(id: String, currency: Currency): Pair<Coin, Quote>? =
+        withContext(Dispatchers.IO) {
+            var result: Pair<Coin, Quote>? = null
+            if (mapper.isExpired(id, currency)) {
+                result = remote.read(id, currency)
+                if (result != null) {
+                    mapper.writeExpire(id, currency)
+                    room.write(result)
+                }
+            }
+            if (result == null)
+                result = room.read(id, currency)
+            result
+        }
 
     override suspend fun reads(): List<Pair<Coin, Quote>>? {
         TODO("Not yet implemented")

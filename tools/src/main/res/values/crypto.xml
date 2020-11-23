@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="crypto_symbol_name">%s (%s)</string>
+    <string name="crypto_name_symbol">%s (%s)</string>
     <string name="time">Time</string>
     <string name="symbol">Symbol</string>
+    <string name="volume">Volume</string>
+    <string name="supply">Supple</string>
+
     <string name="price">Price</string>
+
+
+
     <string name="usd">USD</string>
     <string name="btc">BTC</string>
     <string name="volume_24h">Volume</string>
@@ -45,7 +51,7 @@
     <string name="trade_pairs">Trade Pairs</string>
     <string name="trade_pairs_sep">-</string>
 
-    <string name="title_coin_info">Info</string>
+    <string name="title_coin_details">Details</string>
     <string name="title_coin_markets">Markets</string>
     <string name="title_coin_graph">Graph</string>
     <string name="join_text">%s %s</string>

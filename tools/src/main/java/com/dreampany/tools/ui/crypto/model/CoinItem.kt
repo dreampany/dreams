@@ -31,36 +31,6 @@ constructor(
     var favorite: Boolean
 ) : ModelAbstractBindingItem<Pair<Coin, Quote>, CoinItemBinding>(input) {
 
-/*    companion object {
-        fun getItem(
-            item: Coin,
-            formatter: CurrencyFormatter,
-            currency: Currency,
-            sort: String,
-            order: String,
-            favorite: Boolean = false
-        ): CoinItem = CoinItem(ItemType.ITEM, item, formatter, currency, sort, order, favorite)
-
-        fun getInfoItem(
-            item: Coin,
-            formatter: CurrencyFormatter,
-            currency: Currency,
-            sort: String,
-            order: String,
-            favorite: Boolean = false
-        ): CoinItem = CoinItem(ItemType.INFO, item, formatter, currency, sort, order, favorite)
-
-        fun getQuoteItem(
-            item: Coin,
-            formatter: CurrencyFormatter,
-            currency: Currency,
-            sort: String,
-            order: String,
-            favorite: Boolean = false
-        ): CoinItem = CoinItem(ItemType.QUOTE, item, formatter, currency, sort, order, favorite)
-
-    }*/
-
     @StringRes
     private val btcFormat: Int
 
@@ -110,9 +80,9 @@ constructor(
         val name =
             String.format(
                 Locale.ENGLISH,
-                binding.context.getString(R.string.crypto_symbol_name),
-                coin.symbol,
-                coin.name
+                binding.context.getString(R.string.crypto_name_symbol),
+                coin.name,
+                coin.symbol
             )
         binding.layoutSimple.textName.text = name
 
@@ -125,7 +95,7 @@ constructor(
 
         binding.layoutSimple.textPrice.text = formatter.formatPrice(price, currency)
         binding.layoutPrice.textMarketCap.text = formatter.roundPrice(marketCap, currency)
-        binding.layoutPrice.textVolume24h.text = formatter.formatPrice(volume24h, currency)
+        binding.layoutPrice.textVolume24h.text = formatter.roundPrice(volume24h, currency)
 
         val change1hFormat = if (change1h.isPositive) positiveRatio else negativeRatio
         val change24hFormat = if (change24h.isPositive) positiveRatio else negativeRatio
@@ -145,9 +115,9 @@ constructor(
             if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
         //bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))
 
-        val dayChangeColor =
+        val change24hColor =
             if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        binding.layoutPrice.textChange24h.setTextColor(binding.color(dayChangeColor))
+        binding.layoutPrice.textChange24h.setTextColor(binding.color(change24hColor))
 
         val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700

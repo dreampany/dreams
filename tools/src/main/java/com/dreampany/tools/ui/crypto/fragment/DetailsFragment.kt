@@ -16,8 +16,11 @@ import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.pref.Prefs
+import com.dreampany.tools.databinding.CryptoDetailsFragmentBinding
 import com.dreampany.tools.databinding.RecyclerFragmentBinding
+import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
@@ -37,18 +40,20 @@ class DetailsFragment
     @Inject
     internal lateinit var pref: Prefs
 
-    private lateinit var bind: RecyclerFragmentBinding
-    private lateinit var vm: CoinViewModel
-    private lateinit var adapter: FastCoinAdapter
-    private lateinit var input: Coin
+    @Inject
+    internal lateinit var formatter: CurrencyFormatter
 
-    override val layoutRes: Int = R.layout.recycler_fragment
+    private lateinit var bind: CryptoDetailsFragmentBinding
+    private lateinit var vm: CoinViewModel
+    private lateinit var input: Coin
+    private lateinit var quote: Quote
+
+    override val layoutRes: Int = R.layout.crypto_details_fragment
 
     override fun onStartUi(state: Bundle?) {
         val task  = (task ?: return) as UiTask<Type, Subtype, State, Action, Coin>
         input = task.input ?: return
         initUi()
-        initRecycler(state)
         //onRefresh()
     }
 
@@ -56,14 +61,15 @@ class DetailsFragment
         //adapter.destroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
-        super.onSaveInstanceState(outState)
-    }
 
     override fun onRefresh() {
-        loadCoin()
+        //loadCoin()
+    }
+
+    fun updateUi(input : Coin, quote: Quote) {
+        this.input = input
+        this.quote = quote
+        loadUi()
     }
 
     private fun onItemPressed(view: View, item: CoinItem) {
@@ -89,41 +95,17 @@ class DetailsFragment
         bind = getBinding()
         vm = createVm(CoinViewModel::class)
 
-        bind.swipe.init(this)
         vm.subscribe(this,   { this.processResponse(it) })
-    }
-
-    private fun initRecycler(state: Bundle?) {
-        if (::adapter.isInitialized) return
-        adapter = FastCoinAdapter(clickListener = this::onItemPressed)
-        adapter.initRecycler(
-            state,
-            bind.layoutRecycler.recycler,
-            pref.currency,
-            pref.sort,
-            pref.order
-        )
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, CoinItem>) {
         if (response is Response.Progress) {
-            bind.swipe.refresh(response.progress)
+            //bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             process(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, CoinItem>) {
             Timber.v("Result [%s]", response.result)
             process(response.result)
-        }
-    }
-
-    private fun processResponses(response: Response<Type, Subtype, State, Action, List<CoinItem>>) {
-        if (response is Response.Progress) {
-            bind.swipe.refresh(response.progress)
-        } else if (response is Response.Error) {
-            process(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<CoinItem>>) {
-            Timber.v("Result [%s]", response.result)
-            processResults(response.result)
         }
     }
 
@@ -146,17 +128,30 @@ class DetailsFragment
 
     private fun process(result: CoinItem?) {
         if (result != null) {
-            adapter.updateItem(result)
+
         }
     }
 
-    private fun processResults(result: List<CoinItem>?) {
-        if (result != null) {
-            if (adapter.isEmpty) {
-                adapter.addItems(result)
-            } else {
-                adapter.updateItems(result)
-            }
-        }
+    private fun loadUi() {
+        val currency = pref.currency
+        
+        bind.volume24hLayout.title.setText(R.string.volume_24h)
+        bind.volume24hLayout.price.text = formatter.roundPrice(quote.getVolume24h(), currency)
+        
+        bind.volume7dLayout.title.setText(R.string.volume_7d)
+        bind.volume7dLayout.price.text = formatter.roundPrice(quote.getVolume7d(), currency)
+
+        bind.volume30dLayout.title.setText(R.string.volume_30d)
+        bind.volume30dLayout.price.text = formatter.roundPrice(quote.getVolume30d(), currency)
+
+        bind.circulatingSupplyLayout.title.setText(R.string.circulating_supply)
+        bind.circulatingSupplyLayout.price.text = formatter.roundPrice(input.getCirculatingSupply(), currency)
+
+        bind.totalSupplyLayout.title.setText(R.string.total_supply)
+        bind.totalSupplyLayout.price.text = formatter.roundPrice(input.getTotalSupply(), currency)
+
+        bind.maxSupplyLayout.title.setText(R.string.max_supply)
+        bind.maxSupplyLayout.price.text = formatter.roundPrice(input.getMaxSupply(), currency)
     }
+
 }

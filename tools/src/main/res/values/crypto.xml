@@ -9,17 +9,19 @@
 
     <string name="price">Price</string>
 
+    <string name="volume_24h">Volume 24H</string>
+    <string name="volume_7d">Volume 7D</string>
+    <string name="volume_30d">Volume 30D</string>
 
-
-    <string name="usd">USD</string>
-    <string name="btc">BTC</string>
-    <string name="volume_24h">Volume</string>
-    <string name="market_cap">Market Cap</string>
-    <string name="volume_24h_min">Vol</string>
-    <string name="market_cap_min">Cap</string>
     <string name="circulating_supply">Circulating Supply</string>
     <string name="total_supply">Total Supply</string>
     <string name="max_supply">Max Supply</string>
+
+    <string name="usd">USD</string>
+    <string name="btc">BTC</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="volume_24h_min">Vol</string>
+    <string name="market_cap_min">Cap</string>
     <string name="change">Change</string>
     <string name="change_1h">1H</string>
     <string name="change_24h">24H</string>

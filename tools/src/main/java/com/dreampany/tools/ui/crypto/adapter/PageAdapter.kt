@@ -24,8 +24,8 @@ class PageAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(acti
 
     private lateinit var details : DetailsFragment
 
-    fun update(input: Coin, quote: Quote) {
-
+    fun updateUi(input: Coin, quote: Quote) {
+        details.updateUi(input, quote)
     }
 
     fun addItems(input: Coin) {

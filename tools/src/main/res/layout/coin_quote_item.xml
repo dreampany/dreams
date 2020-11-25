@@ -7,9 +7,9 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_4sdp"
+        auto:cardCornerRadius="@dimen/cornerRadiusSmall"
         auto:cardPreventCornerOverlap="false"
-        auto:cardElevation="@dimen/_4sdp">
+        auto:cardElevation="@dimen/cornerRadiusSmall">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

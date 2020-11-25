@@ -156,7 +156,6 @@ class CoinActivity : InjectActivity() {
         val positiveRatio = R.string.positive_ratio_format
         val negativeRatio = R.string.negative_ratio_format
 
-
         val currency = pref.currency
         val price = quote.price
         val change24h = quote.getPercentChange24h()
@@ -206,8 +205,10 @@ class CoinActivity : InjectActivity() {
         if (result != null) {
             input = result.input.first
             quote = result.input.second
-            adapter.update(input, quote)
+            loadUi()
+            adapter.updateUi(input, quote)
+        } else {
+            loadUi()
         }
-        loadUi()
     }
 }

@@ -26,12 +26,29 @@ class CoinRoomDataSource(
     @Synchronized
     override suspend fun isFavorite(input: Coin): Boolean = mapper.isFavorite(input)
 
+    @Throws
+    @Synchronized
     override suspend fun toggleFavorite(input: Coin): Boolean {
-        TODO("Not yet implemented")
-    }
+        val favorite = isFavorite(input)
+        if (favorite) {
+            mapper.deleteFavorite(input)
+        } else {
+            mapper.writeFavorite(input)
+        }
+        return favorite.not()    }
 
-    override suspend fun favorites(currency: Currency, sort: String, order: String): List<Pair<Coin, Quote>>? {
-        TODO("Not yet implemented")
+    @Throws
+    @Synchronized
+    override suspend fun favorites(
+        currency: Currency,
+        sort: String,
+        order: String
+    ): List<Pair<Coin, Quote>>? {
+        val coins = mapper.favorites(currency, sort, order, dao)
+        return coins?.mapNotNull {
+            val quote = quoteMapper.read(it.id, currency, quoteDao)
+            if (quote == null) null else Pair(it, quote)
+        }
     }
 
     @Throws

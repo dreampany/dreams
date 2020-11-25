@@ -25,10 +25,10 @@ data class CryptoCoin(
     val circulatingSupply: Double,
     @SerializedName(Constants.Keys.CMC.TOTAL_SUPPLY)
     val totalSupply: Double,
-    @SerializedName(Constants.Keys.CMC.MARKET_CAP)
-    val marketCap: Double,
     @SerializedName(Constants.Keys.CMC.MAX_SUPPLY)
     val maxSupply: Double,
+    @SerializedName(Constants.Keys.CMC.MARKET_CAP)
+    val marketCap: Double,
 
     @SerializedName(Constants.Keys.CMC.LAST_UPDATED)
     val lastUpdated: String,

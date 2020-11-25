@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
@@ -18,6 +19,7 @@ import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.databinding.CoinActivityBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.misc.constants.Constants
+import com.dreampany.tools.misc.exts.favoriteIcon
 import com.dreampany.tools.misc.exts.setUrl
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.ui.crypto.adapter.PageAdapter
@@ -53,6 +55,7 @@ class CoinActivity : InjectActivity() {
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.coin_activity
+    override val menuRes: Int = R.menu.coin_menu
     override val toolbarId: Int = R.id.toolbar
 
     override val params: Map<String, Map<String, Any>?>?
@@ -95,6 +98,16 @@ class CoinActivity : InjectActivity() {
     override fun onPause() {
         ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_favorite -> {
+                toggleFavorite()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initUi() {
@@ -152,7 +165,7 @@ class CoinActivity : InjectActivity() {
         adapter.addItems(input)
     }
 
-    private fun loadUi() {
+    private fun loadUi(favorite: Boolean) {
         val positiveRatio = R.string.positive_ratio_format
         val negativeRatio = R.string.negative_ratio_format
 
@@ -160,6 +173,7 @@ class CoinActivity : InjectActivity() {
         val price = quote.price
         val change24h = quote.getPercentChange24h()
 
+        findMenuItemById(R.id.item_favorite)?.setIcon(favorite.favoriteIcon)
         bind.price.text = formatter.formatPrice(price, currency)
 
         val change24hFormat = if (change24h.isPositive) positiveRatio else negativeRatio
@@ -180,7 +194,7 @@ class CoinActivity : InjectActivity() {
             process(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, CoinItem>) {
             Timber.v("Result [%s]", response.result)
-            process(response.result)
+            process(response.result, response.state)
         }
     }
 
@@ -201,14 +215,23 @@ class CoinActivity : InjectActivity() {
         )
     }
 
-    private fun process(result: CoinItem?) {
+    private fun process(result: CoinItem?, state: State) {
+        if (state == State.FAVORITE) {
+            findMenuItemById(R.id.item_favorite)?.setIcon(result?.favorite?.favoriteIcon.value)
+            return
+        }
         if (result != null) {
             input = result.input.first
             quote = result.input.second
-            loadUi()
+            loadUi(result.favorite)
             adapter.updateUi(input, quote)
         } else {
-            loadUi()
+            loadUi(false)
         }
+    }
+
+    private fun toggleFavorite() {
+        if (::quote.isInitialized.not()) return
+        vm.toggleFavorite(Pair(input, quote))
     }
 }

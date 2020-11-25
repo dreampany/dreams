@@ -175,27 +175,24 @@ class CoinMapper
 
     @Throws
     @Synchronized
-    suspend fun readFavorites(
+    suspend fun favorites(
         currency: Currency,
         sort: String,
         order: String,
-        source: CoinDataSource
+        dao: CoinDao
     ): List<Coin>? {
-        //updateCache(source)
+        cache(dao)
         val stores = storeRepo.reads(
             Type.COIN.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value
         )
         val outputs = stores?.mapNotNull { input -> coins.get(input.id) }
-        var result: List<Coin>? = null
-        outputs?.let {
+        //var result: List<Coin>? = null
+       /* outputs?.let {
             result = sortedCoins(currency, it, sort, order)
-        }
-/*        result?.forEach {
-            bindQuote(currency, it, quoteDao)
         }*/
-        return result
+        return outputs
     }
 
     @Throws
@@ -221,8 +218,8 @@ class CoinMapper
 
         output.setCirculatingSupply(input.circulatingSupply)
         output.setTotalSupply(input.totalSupply)
-        output.setMarketCap(input.marketCap)
         output.setMaxSupply(input.maxSupply)
+        output.setMarketCap(input.marketCap)
 
         output.setLastUpdated(input.lastUpdated.utc(Constants.Pattern.Crypto.CMC_DATE_TIME))
         output.setDateAdded(input.dateAdded.utc(Constants.Pattern.Crypto.CMC_DATE_TIME))
@@ -333,6 +330,13 @@ class CoinMapper
 
         override fun compare(left: Coin, right: Coin): Int {
             if (sort.isMarketCap) {
+                /*val leftCap = left.input.second
+                val rightCap = right.input.second
+                if (order.isDescending) {
+                    return (rightCap.getMarketCap() - leftCap.getMarketCap()).toInt()
+                } else {
+                    return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
+                }*/
                 /*val leftCap = left.getQuote(currency)
                 val rightCap = right.getQuote(currency)
                 if (leftCap != null && rightCap != null) {

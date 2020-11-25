@@ -32,16 +32,20 @@ class CoinRepo
         room.isFavorite(input)
     }
 
-    override suspend fun toggleFavorite(input: Coin): Boolean {
-        TODO("Not yet implemented")
+    @Throws
+    @Synchronized
+    override suspend fun toggleFavorite(input: Coin): Boolean = withContext(Dispatchers.IO) {
+        room.toggleFavorite(input)
     }
 
+    @Throws
+    @Synchronized
     override suspend fun favorites(
         currency: Currency,
         sort: String,
         order: String
-    ): List<Pair<Coin, Quote>>? {
-        TODO("Not yet implemented")
+    ): List<Pair<Coin, Quote>>? = withContext(Dispatchers.IO) {
+        room.favorites(currency, sort, order)
     }
 
     override suspend fun write(input: Pair<Coin, Quote>): Long {

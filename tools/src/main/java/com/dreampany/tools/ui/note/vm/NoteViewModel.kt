@@ -5,12 +5,11 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.tools.data.enums.note.NoteAction
-import com.dreampany.tools.data.enums.note.NoteState
-import com.dreampany.tools.data.enums.note.NoteSubtype
-import com.dreampany.tools.data.enums.note.NoteType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.note.Note
-import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.data.source.note.repo.NoteRepo
 import com.dreampany.tools.data.source.note.room.mapper.NoteMapper
 import com.dreampany.tools.ui.note.model.NoteItem
@@ -31,9 +30,8 @@ class NoteViewModel
     application: Application,
     rm: ResponseMapper,
     private val mapper: NoteMapper,
-    private val pref: NotePref,
     private val repo: NoteRepo
-) : BaseViewModel<NoteType, NoteSubtype, NoteState, NoteAction, Note, NoteItem, UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>>(
+) : BaseViewModel<Type, Subtype, State, Action, Note, NoteItem, UiTask<Type, Subtype, State, Action, Note>>(
     application,
     rm
 ) {
@@ -73,7 +71,7 @@ class NoteViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem(favorite), NoteState.LOADED)
+                postResult(result?.toItem(favorite), State.LOADED)
             }
         }
     }
@@ -113,7 +111,7 @@ class NoteViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem(favorite), state = NoteState.FAVORITE)
+                postResult(result?.toItem(favorite), state = State.FAVORITE)
             }
         }
     }
@@ -121,7 +119,7 @@ class NoteViewModel
     fun saveNote(id: String?, title: String, description: String?) {
         uiScope.launch {
             postProgressSingle(true)
-            val state = if (id.isNullOrEmpty()) NoteState.ADDED else NoteState.EDITED
+            val state = if (id.isNullOrEmpty()) State.ADDED else State.EDITED
             var result: Note? = null
             var errors: SmartError? = null
             var favorite: Boolean = false
@@ -165,20 +163,20 @@ class NoteViewModel
 
     private fun postProgressSingle(progress: Boolean) {
         postProgressSingle(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.DEFAULT,
+            Type.NOTE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             progress = progress
         )
     }
 
     private fun postProgressMultiple(progress: Boolean) {
         postProgressMultiple(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.DEFAULT,
+            Type.NOTE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             progress = progress
         )
     }
@@ -186,10 +184,10 @@ class NoteViewModel
 
     private fun postError(error: SmartError) {
         postMultiple(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.DEFAULT,
+            Type.NOTE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             error = error,
             showProgress = true
         )
@@ -197,21 +195,21 @@ class NoteViewModel
 
     private fun postResult(result: List<NoteItem>?) {
         postMultiple(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.DEFAULT,
+            Type.NOTE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
             result = result,
             showProgress = true
         )
     }
 
-    private fun postResult(result: NoteItem?, state: NoteState = NoteState.DEFAULT) {
+    private fun postResult(result: NoteItem?, state: State = State.DEFAULT) {
         postSingle(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
+            Type.NOTE,
+            Subtype.DEFAULT,
             state,
-            NoteAction.DEFAULT,
+            Action.DEFAULT,
             result = result,
             showProgress = true
         )

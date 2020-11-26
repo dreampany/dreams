@@ -1,25 +1,23 @@
 package com.dreampany.tools.ui.note.activity
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
-import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.func.SimpleTextWatcher
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.note.NoteAction
-import com.dreampany.tools.data.enums.note.NoteState
-import com.dreampany.tools.data.enums.note.NoteSubtype
-import com.dreampany.tools.data.enums.note.NoteType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.note.Note
-import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.databinding.NoteActivityBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.note.model.NoteItem
@@ -37,17 +35,14 @@ class NoteActivity : InjectActivity() {
     @Inject
     internal lateinit var ads: AdsManager
 
-    @Inject
-    internal lateinit var notePref: NotePref
-
     private lateinit var bind: NoteActivityBinding
     private lateinit var vm: NoteViewModel
 
-    private var action: NoteAction = NoteAction.DEFAULT
+    private var action: Action = Action.DEFAULT
     private var input: Note? = null
 
     private var changed: Boolean = false
-    private var state: NoteState = NoteState.DEFAULT
+    private var state: State = State.DEFAULT
 
     private var noteTitle: String = Constant.Default.STRING
     private var noteDescription: String = Constant.Default.STRING
@@ -57,21 +52,39 @@ class NoteActivity : InjectActivity() {
     override val menuRes: Int = R.menu.menu_note
     override val toolbarId: Int = R.id.toolbar
 
+    override val params: Map<String, Map<String, Any>?>
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, "NoteActivity")
+
+            params.put(Constant.Event.activity(this), param)
+            return params
+        }
+
     private val isEdit: Boolean
         get() {
-            return action == NoteAction.ADD || action == NoteAction.EDIT
+            return action == Action.ADD || action == Action.EDIT
         }
 
     override fun onStartUi(state: Bundle?) {
-        resolveTask()
+        val task =
+            (task ?: return) as UiTask<Type, Subtype, State, Action, Note>
+        action = task.action
+        input = task.input
         initUi()
         initAd()
         input?.run {
-            ex.postToUi(Runnable {
+            ex.postToUi({
                 vm.loadNote(id)
             })
         }
         ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
     }
 
     override fun onStopUi() {
@@ -91,8 +104,8 @@ class NoteActivity : InjectActivity() {
         val favItem = findMenuItemById(R.id.item_favorite)
         val editItem = findMenuItemById(R.id.item_edit)
         val doneItem = findMenuItemById(R.id.item_done)
-        //resolveTask()
-        favItem?.isVisible = action != NoteAction.ADD
+
+        favItem?.isVisible = action != Action.ADD
         editItem?.isVisible = !isEdit
         //doneItem?.isVisible = isEdit
     }
@@ -121,9 +134,8 @@ class NoteActivity : InjectActivity() {
                 saveDialog()
                 return
             }
-            if (state == NoteState.ADDED || state == NoteState.EDITED) {
-                val currentTask: UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note> =
-                    (task ?: return) as UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>
+            if (state == State.ADDED || state == State.EDITED) {
+                val currentTask = (task ?: return) as UiTask<Type, Subtype, State, Action, Note>
                 val task = UiTask(
                     currentTask.type,
                     currentTask.subtype,
@@ -139,29 +151,6 @@ class NoteActivity : InjectActivity() {
         super.onBackPressed()
     }
 
-    private fun resolveTask() {
-        //if (::action.isInitialized) return
-        val task: UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note> =
-            (task ?: return) as UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>
-        action = task.action
-        input = task.input ?: return
-    }
-
-    private fun onItemPressed(view: View, item: NoteItem) {
-        Timber.v("Pressed $view")
-        when (view.id) {
-            R.id.layout -> {
-                openUi(item)
-            }
-            R.id.button_favorite -> {
-                onFavoriteClicked(item)
-            }
-            else -> {
-
-            }
-        }
-    }
-
     private fun initAd() {
         ads.initAd(
             this,
@@ -173,44 +162,44 @@ class NoteActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
-
         vm = createVm(NoteViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
+
+        vm.subscribe(this, { this.processResponse(it) })
 
         val titleRes =
-            if (action == NoteAction.ADD) R.string.title_add_note else R.string.title_edit_note
+            if (action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
         setTitle(titleRes)
 
         input?.title?.let { noteTitle = it }
         input?.description?.let { noteDescription = it }
 
         bind.layoutNote.inputEditTitle.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (noteTitle != s.trimValue) {
+            override fun afterTextChanged(text: Editable?) {
+                if (noteTitle != text.trimValue) {
                     changed = true
                 }
-                noteTitle = s.trimValue
+                noteTitle = text.trimValue
             }
-
         })
         bind.layoutNote.inputEditDescription.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (noteDescription != s.trimValue) {
+            override fun afterTextChanged(text: Editable?) {
+                if (noteDescription != text.trimValue) {
                     changed = true
                 }
-                noteDescription = s.trimValue
+                noteDescription = text.trimValue
             }
         })
         resolveUi()
     }
 
-    private fun processResponse(response: Response<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, NoteItem>) {
         if (response is Response.Progress) {
             //bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, NoteItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.state, response.result)
         }
@@ -233,19 +222,19 @@ class NoteActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(state: NoteState, result: NoteItem?) {
+    private fun processResult(state: State, result: NoteItem?) {
         if (result == null) return
         this.state = state
         input = result.input
         changed = false
         when (state) {
-            NoteState.FAVORITE -> {
+            State.FAVORITE -> {
                 findMenuItemById(R.id.item_favorite)?.let {
                     it.setIcon(result.favoriteRes)
                     it.toTint(this, R.color.material_white)
                 }
             }
-            NoteState.LOADED -> {
+            State.LOADED -> {
                 if (isEdit) {
                     bind.layoutNote.inputEditTitle.setText(result.input.title)
                     bind.layoutNote.inputEditDescription.setText(result.input.description)
@@ -258,8 +247,8 @@ class NoteActivity : InjectActivity() {
                     it.toTint(this, R.color.material_white)
                 }
             }
-            NoteState.ADDED,
-            NoteState.EDITED -> {
+            State.ADDED,
+            State.EDITED -> {
                 NotifyUtil.shortToast(this, R.string.dialog_saved_note)
                 hideKeyboard()
                 input = result.input
@@ -278,8 +267,8 @@ class NoteActivity : InjectActivity() {
     }
 
     private fun switchToEdit() {
-        if (action == NoteAction.EDIT) return
-        action = NoteAction.EDIT
+        if (action == Action.EDIT) return
+        action = Action.EDIT
         bind.layoutNote.inputEditTitle.setText(input?.title)
         bind.layoutNote.inputEditDescription.setText(input?.description)
         resolveUi()
@@ -310,34 +299,7 @@ class NoteActivity : InjectActivity() {
         )
     }
 
-    private fun openAddNoteUi() {
-        val task = UiTask(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.ADD,
-            null as Note?
-        )
-        //open(CoinActivity::class, task)
-    }
-
     private fun onFavoriteClicked(item: NoteItem) {
         vm.toggleFavorite(item.input)
-    }
-
-
-    private fun openUi(item: NoteItem) {
-        val task = UiTask(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.VIEW,
-            item.input
-        )
-        //open(CoinActivity::class, task)
-    }
-
-    private fun openFavoritesUi() {
-        // open(FavoriteCoinsActivity::class)
     }
 }

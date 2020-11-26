@@ -12,7 +12,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 enum class Type : BaseType {
     DEFAULT, MORE, SITE, SEARCH,
-    FEATURE, PAGE, STATION, CURRENCY, COIN, QUOTE, TRADE, EXCHANGE, TICKER, GRAPH;
+    FEATURE, PAGE, STATION,
+    CURRENCY, COIN, QUOTE, TRADE, EXCHANGE, TICKER, GRAPH,
+    NOTE;
 
     override val value: String get() = name
 }

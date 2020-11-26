@@ -13,12 +13,11 @@ import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.note.NoteAction
-import com.dreampany.tools.data.enums.note.NoteState
-import com.dreampany.tools.data.enums.note.NoteSubtype
-import com.dreampany.tools.data.enums.note.NoteType
+import com.dreampany.tools.data.enums.Action
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.note.Note
-import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
@@ -40,9 +39,6 @@ class NotesActivity : InjectActivity() {
     @Inject
     internal lateinit var ads: AdsManager
 
-    @Inject
-    internal lateinit var notePref: NotePref
-
     private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var vm: NoteViewModel
     private lateinit var adapter: FastNoteAdapter
@@ -54,7 +50,7 @@ class NotesActivity : InjectActivity() {
     override val toolbarId: Int = R.id.toolbar
     override val searchMenuItemId: Int = R.id.item_search
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -78,7 +74,7 @@ class NotesActivity : InjectActivity() {
     }
 
     override fun onStopUi() {
-        adapter.destroy()
+
     }
 
     override fun onResume() {
@@ -92,8 +88,12 @@ class NotesActivity : InjectActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        var outState = outState
-        outState = adapter.saveInstanceState(outState)
+        if (::adapter.isInitialized) {
+            var outState = outState
+            outState = adapter.saveInstanceState(outState)
+            super.onSaveInstanceState(outState)
+            return
+        }
         super.onSaveInstanceState(outState)
     }
 
@@ -128,11 +128,10 @@ class NotesActivity : InjectActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_NOTE) {
-            val task: UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note> =
-                (data.task ?: return) as UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>
+            val task = (data.task ?: return) as UiTask<Type, Subtype, State, Action, Note>
             when (task.state) {
-                NoteState.ADDED,
-                NoteState.EDITED -> {
+                State.ADDED,
+                State.EDITED -> {
                     val input = task.input ?: return
                     vm.loadNote(input.id)
                 }
@@ -166,26 +165,28 @@ class NotesActivity : InjectActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = getBinding()
+        vm = createVm(NoteViewModel::class)
+
+        vm.subscribe(this, Observer { this.processResponse(it) })
+        vm.subscribes(this, Observer { this.processResponses(it) })
+
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_notes)
+
         bind.swipe.init(this)
         bind.fab.visible()
         bind.fab.setOnSafeClickListener { openAddNoteUi() }
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_notes)
-        vm = createVm(NoteViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
-        if (!::adapter.isInitialized) {
-            adapter = FastNoteAdapter(
-                { currentPage ->
-                    Timber.v("CurrentPage: %d", currentPage)
-                    onRefresh()
-                }, this::onItemPressed
-            )
-        }
-
+        if (::adapter.isInitialized) return
+        adapter = FastNoteAdapter(
+            { currentPage ->
+                Timber.v("CurrentPage: %d", currentPage)
+                onRefresh()
+            }, this::onItemPressed
+        )
         adapter.initRecycler(
             state,
             bind.layoutRecycler.recycler
@@ -196,23 +197,23 @@ class NotesActivity : InjectActivity() {
         vm.loadNotes()
     }
 
-    private fun processResponse(response: Response<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, NoteItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, NoteItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
     }
 
-    private fun processResponses(response: Response<NoteType, NoteSubtype, NoteState, NoteAction, List<NoteItem>>) {
+    private fun processResponses(response: Response<Type, Subtype, State, Action, List<NoteItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<NoteType, NoteSubtype, NoteState, NoteAction, List<NoteItem>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<NoteItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -237,7 +238,7 @@ class NotesActivity : InjectActivity() {
 
     private fun processResult(result: NoteItem?) {
         if (result != null) {
-            adapter.updateItem(result)
+            adapter.addItem(result)
         }
     }
 
@@ -259,10 +260,10 @@ class NotesActivity : InjectActivity() {
 
     private fun openAddNoteUi() {
         val task = UiTask(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.ADD,
+            Type.NOTE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.ADD,
             null as Note?
         )
         open(NoteActivity::class, task, REQUEST_NOTE)
@@ -270,10 +271,10 @@ class NotesActivity : InjectActivity() {
 
     private fun openEditNoteUi(item: NoteItem) {
         val task = UiTask(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.EDIT,
+            Type.NOTE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.EDIT,
             item.input
         )
         open(NoteActivity::class, task, REQUEST_NOTE)
@@ -281,10 +282,10 @@ class NotesActivity : InjectActivity() {
 
     private fun openNoteUi(item: NoteItem) {
         val task = UiTask(
-            NoteType.NOTE,
-            NoteSubtype.DEFAULT,
-            NoteState.DEFAULT,
-            NoteAction.VIEW,
+            Type.NOTE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.VIEW,
             item.input
         )
         open(NoteActivity::class, task, REQUEST_NOTE)

@@ -4,12 +4,11 @@ import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.randomId
 import com.dreampany.framework.misc.exts.value
-import com.dreampany.tools.data.enums.note.NoteState
-import com.dreampany.tools.data.enums.note.NoteSubtype
-import com.dreampany.tools.data.enums.note.NoteType
+import com.dreampany.tools.data.enums.State
+import com.dreampany.tools.data.enums.Subtype
+import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.api.NoteDataSource
-import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.data.source.note.room.dao.NoteDao
 import com.google.common.collect.Maps
 import javax.inject.Inject
@@ -25,8 +24,7 @@ import javax.inject.Singleton
 class NoteMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
-    private val storeRepo: StoreRepo,
-    private val pref: NotePref
+    private val storeRepo: StoreRepo
 ) {
     private val notes: MutableMap<String, Note>
     private val favorites: MutableMap<String, Boolean>
@@ -64,9 +62,9 @@ class NoteMapper
         if (!favorites.containsKey(input.id)) {
             val favorite = storeRepo.isExists(
                 input.id,
-                NoteType.NOTE.value,
-                NoteSubtype.DEFAULT.value,
-                NoteState.FAVORITE.value
+                Type.NOTE.value,
+                Subtype.DEFAULT.value,
+                State.FAVORITE.value
             )
             favorites.put(input.id, favorite)
         }
@@ -78,9 +76,9 @@ class NoteMapper
         favorites.put(input.id, true)
         val store = storeMapper.readStore(
             input.id,
-            NoteType.NOTE.value,
-            NoteSubtype.DEFAULT.value,
-            NoteState.FAVORITE.value
+            Type.NOTE.value,
+            Subtype.DEFAULT.value,
+            State.FAVORITE.value
         )
         store?.let { storeRepo.write(it) }
         return true
@@ -91,9 +89,9 @@ class NoteMapper
         favorites.put(input.id, false)
         val store = storeMapper.readStore(
             input.id,
-            NoteType.NOTE.value,
-            NoteSubtype.DEFAULT.value,
-            NoteState.FAVORITE.value
+            Type.NOTE.value,
+            Subtype.DEFAULT.value,
+            State.FAVORITE.value
         )
         store?.let { storeRepo.delete(it) }
         return false
@@ -115,9 +113,9 @@ class NoteMapper
     ): List<Note>? {
         updateCache(source)
         val stores = storeRepo.reads(
-            NoteType.NOTE.value,
-            NoteSubtype.DEFAULT.value,
-            NoteState.FAVORITE.value
+            Type.NOTE.value,
+            Subtype.DEFAULT.value,
+            State.FAVORITE.value
         )
         val outputs = stores?.mapNotNull { input -> notes.get(input.id) }
         var result: List<Note>? = null

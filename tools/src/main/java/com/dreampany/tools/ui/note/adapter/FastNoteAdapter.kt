@@ -5,7 +5,9 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
+import com.dreampany.framework.misc.exts.addDecoration
 import com.dreampany.framework.misc.exts.dimension
+import com.dreampany.framework.misc.exts.integer
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.NoteItemBinding
 import com.dreampany.tools.ui.note.model.NoteItem
@@ -17,6 +19,7 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.binding.listeners.addClickListener
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
+import com.mikepenz.fastadapter.utils.ComparableItemListImpl
 
 /**
  * Created by roman on 13/4/20
@@ -34,8 +37,14 @@ class FastNoteAdapter(
     private lateinit var itemAdapter: GenericItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
 
+    private val timeComparator: Comparator<GenericItem>
+
+    init {
+        timeComparator = TimeComparator()
+    }
+
     val itemCount: Int
-        get() = fastAdapter.itemCount
+        get() = fastAdapter.adapterItems.size
 
     val isEmpty: Boolean get() = itemCount == 0
 
@@ -43,7 +52,8 @@ class FastNoteAdapter(
         state: Bundle?,
         recycler: RecyclerView
     ) {
-        itemAdapter = ItemAdapter.items()
+        val list = ComparableItemListImpl(comparator = timeComparator)
+        itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is NoteItem)
                 item.input.title.contains(constraint.toString(), ignoreCase = true)
@@ -57,13 +67,7 @@ class FastNoteAdapter(
         recycler.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = fastAdapter
-            addItemDecoration(
-                SpacingItemDecoration(
-                    2,
-                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
-                    true
-                )
-            )
+            addDecoration(context.integer(R.integer.recycler_item_offset_small))
 
             scrollListener?.let {
                 scroller = object : EndlessRecyclerOnScrollListener(footerAdapter) {
@@ -132,15 +136,15 @@ class FastNoteAdapter(
         footerAdapter.clear()
     }
 
-    fun updateItem(item: NoteItem) {
+    fun updateItem(item: NoteItem): Boolean {
         var position = fastAdapter.getAdapterPosition(item)
         position = fastAdapter.getGlobalPosition(position)
         if (position >= 0) {
             fastAdapter.set(position, item)
+            return true
             //fastAdapter.notifyAdapterItemChanged(position)
-        } else {
-            fastAdapter.add(item)
         }
+        return false
     }
 
     fun updateItems(items: List<NoteItem>) {
@@ -149,7 +153,23 @@ class FastNoteAdapter(
         }
     }
 
+    fun addItem(item: NoteItem) {
+        val updated = updateItem(item)
+        if (!updated)
+            fastAdapter.add(item)
+    }
+
     fun addItems(items: List<NoteItem>) {
         fastAdapter.add(items)
+    }
+
+    class TimeComparator(
+    ) : Comparator<GenericItem> {
+        override fun compare(left: GenericItem, right: GenericItem): Int {
+            if (left is NoteItem && right is NoteItem) {
+                return (right.input.time - left.input.time).toInt()
+            }
+            return 0
+        }
     }
 }

@@ -5,7 +5,6 @@ import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.api.NoteDataSource
-import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.data.source.note.room.mapper.NoteMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,7 +22,6 @@ class NoteRepo
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    private val pref: NotePref,
     private val mapper: NoteMapper,
     @Room private val room: NoteDataSource
 ) : NoteDataSource {
@@ -58,7 +56,8 @@ class NoteRepo
     }
 
     @Throws
-    override suspend fun getNote(id: String) = withContext(Dispatchers.IO) {
+    @Synchronized
+    override suspend fun getNote(id: String) : Note? = withContext(Dispatchers.IO) {
         room.getNote(id)
     }
 

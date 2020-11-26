@@ -54,10 +54,10 @@
                     android:paddingTop="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_4sdp"
                     android:paddingBottom="@dimen/_2sdp"
-                    android:text="4:03"
+                    tools:text="4:03"
                     android:textColor="@color/material_white"
                     android:textSize="@dimen/_10ssp"
-                    auto:backgroundTint="@color/colorAccent"
+                    auto:backgroundTint="@color/textColorPrimary"
                     auto:cornerRadius="@dimen/_2sdp"
                     auto:elevation="@dimen/_2sdp" />
 
@@ -74,14 +74,28 @@
                     android:paddingTop="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_4sdp"
                     android:paddingBottom="@dimen/_2sdp"
-                    android:text="4:03"
+                    tools:text="4:03"
                     android:textColor="@color/material_white"
                     android:textSize="@dimen/_10ssp"
-                    auto:backgroundTint="@color/colorAccent"
+                    auto:backgroundTint="@color/textColorPrimary"
                     auto:cornerRadius="@dimen/_2sdp"
                     auto:elevation="@dimen/_2sdp" />
 
             </FrameLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_slab_regular"
+                android:singleLine="true"
+                tools:text="Channel Title"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/_12ssp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
@@ -93,7 +107,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_slab_bold"
                 android:maxLines="2"
-                android:text="Youtube Title"
+                tools:text="Youtube Title"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/_12ssp" />
 
@@ -113,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_slab_regular"
-                    android:text="Youtube Info"
+                    tools:text="Youtube Info"
                     android:textColor="@color/material_grey600"
                     android:textSize="@dimen/_10ssp" />
 

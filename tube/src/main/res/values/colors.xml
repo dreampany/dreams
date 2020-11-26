@@ -9,5 +9,5 @@
     <color name="contentBackground">@color/material_white</color>
 
     <color name="textColorPrimary">@color/material_black</color>
-    <color name="textColorSecondary">@color/material_grey500</color>
+    <color name="textColorSecondary">@color/material_grey600</color>
 </resources>

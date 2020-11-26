@@ -1,5 +1,11 @@
 package com.dreampany.tube.ui.model
 
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.framework.misc.exts.*
@@ -39,23 +45,40 @@ class VideoItem(
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): VideoItemBinding =
         VideoItemBinding.inflate(inflater, parent, false)
 
-    override fun bindView(bind: VideoItemBinding, payloads: List<Any>) {
-        bind.thumb.setUrl(input.thumbnail)
-        bind.definition.text = input.definition
-        bind.definition.visible(input.definition.isNullOrEmpty().not())
-        bind.title.text = input.title
-        bind.info.text = bind.context.getString(
+    override fun bindView(binding: VideoItemBinding, payloads: List<Any>) {
+        binding.thumb.setUrl(input.thumbnail)
+        binding.definition.text = input.definition
+        binding.definition.visible(input.definition.isNullOrEmpty().not())
+        binding.channel.text = input.channelTitle
+        binding.title.text = input.title
+        val count = input.viewCount.count
+        val info = binding.context.getString(
             R.string.video_info_format,
-            input.channelTitle,
-            input.viewCount.count,
+            count,
             input.publishedAt.time
         )
+        val builder = SpannableStringBuilder()
+        val span = SpannableString(info)
+        span.setSpan(
+            ForegroundColorSpan(binding.color(R.color.textColorPrimary)),
+            0,
+            count.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        span.setSpan(
+            StyleSpan(Typeface.BOLD),
+            0,
+            count.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.info.text = span
+
         if (input.isLive || input.duration.isNullOrEmpty()) {
-            bind.duration.text = input.liveBroadcastContent?.toUpperCase(Locale.getDefault())
+            binding.duration.text = input.liveBroadcastContent?.toUpperCase(Locale.getDefault())
         } else {
-            bind.duration.text = input.duration
+            binding.duration.text = input.duration
         }
-        bind.favorite.isLiked = favorite
+        binding.favorite.isLiked = favorite
     }
 
     override fun unbindView(binding: VideoItemBinding) {

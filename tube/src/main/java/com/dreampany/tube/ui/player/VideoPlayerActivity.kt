@@ -1,6 +1,12 @@
 package com.dreampany.tube.ui.player
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
@@ -52,7 +58,7 @@ class VideoPlayerActivity : InjectActivity() {
     override val menuRes: Int = R.menu.videos_menu
     override val searchMenuItemId: Int = R.id.item_search
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -95,7 +101,6 @@ class VideoPlayerActivity : InjectActivity() {
     }
 
     private fun onItemPressed(view: View, item: VideoItem) {
-        Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
                 reInit(item)
@@ -117,6 +122,7 @@ class VideoPlayerActivity : InjectActivity() {
         input = item.input
         updateUi()
         timeVm.read(input.id, Type.VIDEO, Subtype.DEFAULT, State.DEFAULT)
+        vm.loadRelated(input.id, pref.order)
     }
 
     private fun initUi() {
@@ -125,9 +131,9 @@ class VideoPlayerActivity : InjectActivity() {
         timeVm = createVm(TimeViewModel::class)
         vm = createVm(VideoViewModel::class)
 
-        timeVm.subscribe(this, Observer { this.processTimeResponse(it) })
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        timeVm.subscribe(this, { this.processTimeResponse(it) })
+        vm.subscribe(this, { this.processResponse(it) })
+        vm.subscribes(this, { this.processResponses(it) })
 
         bind.swipe.init(this)
         bind.swipe.disable()
@@ -146,7 +152,6 @@ class VideoPlayerActivity : InjectActivity() {
             override fun onReady(player: YouTubePlayer) {
                 this@VideoPlayerActivity.player = player
                 timeVm.read(input.id, Type.VIDEO, Subtype.DEFAULT, State.DEFAULT)
-                //player.loadOrCueVideo(lifecycle, input.id, 0f)
             }
 
             override fun onCurrentSecond(player: YouTubePlayer, second: Float) {
@@ -169,13 +174,29 @@ class VideoPlayerActivity : InjectActivity() {
     }
 
     private fun updateUi() {
-        bind.title.text = input.title
-        bind.info.text = getString(
+        bind.title.text = input.title.html
+        val count = input.viewCount.count
+        val info = getString(
             R.string.video_info_format,
-            input.channelTitle,
-            input.viewCount.count,
+            count,
             input.publishedAt.time
         )
+        val builder = SpannableStringBuilder()
+        val span = SpannableString(info)
+        span.setSpan(
+            ForegroundColorSpan(bind.color(R.color.textColorPrimary)),
+            0,
+            count.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        span.setSpan(
+            StyleSpan(Typeface.BOLD),
+            0,
+            count.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        bind.info.text = span
+
         bind.player.getPlayerUiController().apply {
             enableLiveVideoUi(input.isLive)
             setVideoTitle(input.title.value)

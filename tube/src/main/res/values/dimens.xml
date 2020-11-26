@@ -1,9 +1,9 @@
 <resources>
-    <dimen name="textSizePrimary">@dimen/_14ssp</dimen>
-    <dimen name="textSizeSecondary">@dimen/_12ssp</dimen>
-    <dimen name="textSizeSmall">@dimen/_10ssp</dimen>
-    <dimen name="textSizeHeader">@dimen/_16ssp</dimen>
-    <dimen name="textSizeHighlight">@dimen/_26ssp</dimen>
+    <dimen name="textSizePrimary">@dimen/_12ssp</dimen>
+    <dimen name="textSizeSecondary">@dimen/_10ssp</dimen>
+    <dimen name="textSizeSmall">@dimen/_8ssp</dimen>
+    <dimen name="textSizeHeader">@dimen/_14ssp</dimen>
+    <dimen name="textSizeHighlight">@dimen/_18ssp</dimen>
 
     <dimen name="buttonSizePrimary">@dimen/_48sdp</dimen>
     <dimen name="buttonRadius">@dimen/_20sdp</dimen>

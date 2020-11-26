@@ -1,9 +1,7 @@
 package com.dreampany.tools.ui.note.activity
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.*
@@ -16,7 +14,7 @@ import com.dreampany.tools.data.enums.Action
 import com.dreampany.tools.data.enums.State
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.databinding.RecyclerActivityBinding
+import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
 import com.dreampany.tools.ui.note.model.NoteItem
@@ -35,7 +33,7 @@ class FavoriteNotesActivity : InjectActivity() {
     @Inject
     internal lateinit var ads: AdsManager
 
-    private lateinit var bind: RecyclerActivityBinding
+    private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var vm: NoteViewModel
     private lateinit var adapter: FastNoteAdapter
 

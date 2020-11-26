@@ -43,6 +43,8 @@
                             android:layout_marginStart="@dimen/align_margin"
                             android:layout_marginTop="@dimen/align_margin"
                             android:layout_marginEnd="@dimen/align_margin"
+                            android:ellipsize="end"
+                            android:maxLines="2"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/textSizeHeader"
                             auto:fontFamily="@font/roboto_slab_bold" />

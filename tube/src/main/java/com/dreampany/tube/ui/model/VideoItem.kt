@@ -47,10 +47,10 @@ class VideoItem(
 
     override fun bindView(binding: VideoItemBinding, payloads: List<Any>) {
         binding.thumb.setUrl(input.thumbnail)
-        binding.definition.text = input.definition
+        binding.definition.text = input.definition.html
         binding.definition.visible(input.definition.isNullOrEmpty().not())
         binding.channel.text = input.channelTitle
-        binding.title.text = input.title
+        binding.title.text = input.title.html
         val count = input.viewCount.count
         val info = binding.context.getString(
             R.string.video_info_format,

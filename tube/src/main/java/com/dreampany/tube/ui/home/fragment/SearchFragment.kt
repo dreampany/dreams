@@ -2,7 +2,6 @@ package com.dreampany.tube.ui.home.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.constant.Constant
@@ -53,7 +52,7 @@ class SearchFragment
     override val menuRes: Int = R.menu.search_menu
     override val searchMenuItemId: Int = R.id.item_search
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 

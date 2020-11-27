@@ -115,6 +115,7 @@ class Constant {
         const val LEAF_SEPARATOR = '|'
         const val PLUS = '+'
         const val SLASH = "/"
+        const val SHARP = "#"
     }
 
     object Room {

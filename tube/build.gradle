@@ -10,14 +10,14 @@ apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.1'
+    buildToolsVersion '30.0.2'
 
     defaultConfig {
         applicationId 'com.dreampany.tube'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 53
-        versionName '0.5.3'
+        versionCode 54
+        versionName '0.5.4'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -195,5 +195,6 @@ dependencies {
     implementation 'com.patloew.colocation:colocation:1.0.0'
     implementation 'com.afollestad.assent:core:3.0.0-RC4'
     implementation 'com.afollestad.assent:rationales:3.0.0-RC4'
+    implementation 'com.klinkerapps:link_builder:2.0.5'
     //implementation 'com.jcminarro:RoundKornerLayouts:0.4.0'
 }

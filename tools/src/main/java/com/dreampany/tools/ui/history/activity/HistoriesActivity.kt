@@ -31,7 +31,7 @@ class HistoriesActivity : InjectActivity() {
     override val layoutRes: Int = R.layout.histories_activity
     override val toolbarId: Int = R.id.toolbar
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 

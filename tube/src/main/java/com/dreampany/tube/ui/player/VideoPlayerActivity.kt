@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.data.model.Time
@@ -25,10 +26,13 @@ import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.VideoPlayerActivityBinding
 import com.dreampany.tube.misc.PlayerListener
+import com.dreampany.tube.misc.addPrefix
+import com.dreampany.tube.misc.setSpan
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.model.VideoItem
 import com.dreampany.tube.ui.vm.VideoViewModel
 import com.dreampany.tube.ui.vm.TimeViewModel
+import com.klinker.android.link_builder.Link
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import kotlinx.android.synthetic.main.content_recycler.view.*
@@ -197,6 +201,12 @@ class VideoPlayerActivity : InjectActivity() {
         )
         bind.info.text = span
 
+        val tag = input.tags?.take(5)?.addPrefix(Constant.Sep.SHARP)
+        bind.tags.text = tag?.joinToString(Constant.Sep.SPACE.toString())
+        tag?.let {
+            setSpan(bind.tags, it)
+        }
+
         bind.player.getPlayerUiController().apply {
             enableLiveVideoUi(input.isLive)
             setVideoTitle(input.title.value)
@@ -275,5 +285,33 @@ class VideoPlayerActivity : InjectActivity() {
                 adapter.addItem(result)
             }
         }
+    }
+
+    private fun setSpan(view: TextView, tags: List<String>) {
+        view.setSpan(
+            tags,
+            R.color.material_blue700,
+            R.color.colorAccent,
+            object : Link.OnClickListener {
+                override fun onClick(clickedText: String) {
+                    onClickOnText(clickedText)
+                }
+            },
+            object : Link.OnLongClickListener {
+                override fun onLongClick(clickedText: String) {
+                    onLongClickOnText(clickedText)
+                }
+            }
+        )
+    }
+
+    private fun onClickOnText(text: String) {
+        Timber.v("Tag %s", text)
+
+    }
+
+    private fun onLongClickOnText(text: String) {
+        Timber.v("Tag %s", text)
+
     }
 }

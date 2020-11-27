@@ -44,7 +44,7 @@ class HomeFragment
 
     override val layoutRes: Int = R.layout.home_fragment
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -69,8 +69,7 @@ class HomeFragment
     }
 
     private fun onItemPressed(view: View, input: FeatureItem) {
-        Timber.v("Pressed $view")
-        when (view.id) {
+         when (view.id) {
             R.id.layout -> {
                openUi(input.input)
             }

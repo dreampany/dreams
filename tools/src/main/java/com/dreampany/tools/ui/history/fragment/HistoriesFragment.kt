@@ -45,9 +45,7 @@ class HistoriesFragment
     private lateinit var adapter: FastHistoryAdapter
 
     override val layoutRes: Int = R.layout.recycler_child_fragment
-
     override val menuRes: Int = R.menu.menu_histories
-
     override val searchMenuItemId: Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {

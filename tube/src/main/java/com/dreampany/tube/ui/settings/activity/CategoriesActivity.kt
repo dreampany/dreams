@@ -95,7 +95,7 @@ class CategoriesActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(CategoryViewModel::class)
 
         //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)

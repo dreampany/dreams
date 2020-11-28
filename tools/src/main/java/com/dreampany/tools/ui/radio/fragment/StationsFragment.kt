@@ -149,7 +149,7 @@ class StationsFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         searchVm = createVm(SearchViewModel::class)
         vm = createVm(StationViewModel::class)
 

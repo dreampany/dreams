@@ -46,7 +46,7 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
         }
     }
 
-    protected fun <T : ViewDataBinding> getBinding(): T = binding as T
+    protected fun <T : ViewDataBinding> binding(): T = binding as T
 
     protected fun <T : ViewModel> createVm(clazz: KClass<T>): T =
         ViewModelProvider(this, factory).get(clazz.java)

@@ -80,7 +80,7 @@ class TickersFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         bind.swipe.init(this)
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_tickers)
         vm = createVm(TickerViewModel::class)

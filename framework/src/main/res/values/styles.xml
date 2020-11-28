@@ -76,6 +76,15 @@
         <item name="android:textColorHint">#5000</item>
     </style>-->
 
+    <!-- dialog -->
+    <style name="Style.Dialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">60%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+
     <style name="TabTextLight">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>

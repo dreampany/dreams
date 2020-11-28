@@ -83,7 +83,7 @@ class HistoriesActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
     }
 
     private fun initPager() {

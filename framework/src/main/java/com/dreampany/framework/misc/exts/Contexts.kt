@@ -116,7 +116,7 @@ fun Context?.dpToPx(dp: Float): Int = (dp * density).toInt()
 fun Context?.color(@ColorRes resId: Int): Int =
     if (this == null) 0 else ContextCompat.getColor(this, resId)
 
-fun Context?.integer(@IntegerRes resId: Int) : Int =
+fun Context?.integer(@IntegerRes resId: Int): Int =
     if (this == null) 0 else resources.getInteger(resId)
 
 
@@ -343,3 +343,6 @@ val Context?.locationManager: LocationManager?
 
 fun Context?.spanHeight(spans: Int, offset: Int): Int =
     (screenWidth / spans) - (dpToPx(offset.toFloat()) * spans)
+
+fun Context?.arraysOf(@ArrayRes resId: Int): Array<String> =
+    this?.resources?.getStringArray(resId) ?: arrayOf()

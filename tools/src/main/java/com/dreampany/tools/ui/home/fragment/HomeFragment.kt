@@ -84,7 +84,7 @@ class HomeFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(FeatureViewModel::class)
 
         vm.subscribes(this, Observer { this.processResponse(it) })

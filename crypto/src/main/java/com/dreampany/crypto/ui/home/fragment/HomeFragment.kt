@@ -106,7 +106,7 @@ class HomeFragment
 
     private fun initUi() {
         if (!::bind.isInitialized) {
-            bind = getBinding()
+            bind = binding()
             bind.swipe.init(this)
             bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
             vm = createVm(CoinViewModel::class)

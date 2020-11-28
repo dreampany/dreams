@@ -57,7 +57,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         authVm = createVm(AuthViewModel::class)
         userVm = createVm(UserViewModel::class)
         authVm.subscribe(this, { this.processAuthResponse(it) })

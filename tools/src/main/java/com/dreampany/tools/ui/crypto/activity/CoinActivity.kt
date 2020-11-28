@@ -112,7 +112,7 @@ class CoinActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(CoinViewModel::class)
 
         vm.subscribe(this, { this.processResponse(it) })

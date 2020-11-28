@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.history.fragment
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
@@ -89,7 +88,7 @@ class HistoriesFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
         bind.swipe.init(this)
         vm = createVm(HistoryViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })

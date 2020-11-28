@@ -93,7 +93,7 @@ class InfoFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         bind.swipe.init(this)
         vm = createVm(CoinViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })

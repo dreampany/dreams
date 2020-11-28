@@ -1,9 +1,6 @@
 package com.dreampany.tools.ui.home.activity
 
 import android.os.Bundle
-import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.framework.misc.exts.versionCode
-import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HomeActivityBinding
@@ -82,6 +79,6 @@ class HomeActivity : InjectBottomNavigationActivity() {
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
     }
 }

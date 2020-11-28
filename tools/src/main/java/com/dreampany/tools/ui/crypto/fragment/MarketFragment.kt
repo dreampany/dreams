@@ -113,7 +113,7 @@ class MarketFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
         tvm = createVm(TradeViewModel::class)
         evm = createVm(ExchangeViewModel::class)
         tvm.subscribes(this, Observer { this.processResponsesOfTrade(it) })

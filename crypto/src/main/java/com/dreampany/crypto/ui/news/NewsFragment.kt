@@ -1,7 +1,6 @@
 package com.dreampany.crypto.ui.news
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
@@ -18,7 +17,6 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.init
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.misc.exts.refresh
-import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -102,7 +100,7 @@ class NewsFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
         bind.swipe.init(this)
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
         vm = createVm(ArticleViewModel::class)

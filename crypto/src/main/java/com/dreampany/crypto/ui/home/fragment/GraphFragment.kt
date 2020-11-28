@@ -73,7 +73,7 @@ class GraphFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
         bind.swipe.init(this)
         vm = createVm(CoinViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })

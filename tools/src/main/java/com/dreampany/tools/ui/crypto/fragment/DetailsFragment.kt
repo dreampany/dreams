@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.framework.misc.exts.init
-import com.dreampany.framework.misc.exts.refresh
 import com.dreampany.framework.misc.exts.task
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
@@ -19,9 +17,7 @@ import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.databinding.CryptoDetailsFragmentBinding
-import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.misc.func.CurrencyFormatter
-import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import timber.log.Timber
@@ -92,7 +88,7 @@ class DetailsFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(CoinViewModel::class)
 
         vm.subscribe(this,   { this.processResponse(it) })

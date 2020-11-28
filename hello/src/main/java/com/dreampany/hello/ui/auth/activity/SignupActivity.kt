@@ -86,7 +86,7 @@ class SignupActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(UserViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
 

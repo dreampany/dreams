@@ -18,7 +18,6 @@ import com.dreampany.news.ui.more.vm.MoreViewModel
 import com.dreampany.framework.misc.exts.moreApps
 import com.dreampany.framework.misc.exts.rateUs
 import com.mikepenz.aboutlibraries.LibsBuilder
-import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -51,7 +50,7 @@ class MoreFragment
 
     private fun initUi() {
         if (!::bind.isInitialized) {
-            bind = getBinding()
+            bind = binding()
             vm = createVm(MoreViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
         }

@@ -11,7 +11,6 @@ import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.news.data.source.pref.Prefs
 import com.dreampany.stateful.StatefulLayout
-import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import javax.inject.Inject
 import com.dreampany.news.R
@@ -122,7 +121,7 @@ class SearchFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         searchVm = createVm(SearchViewModel::class)
         pageVm = createVm(PageViewModel::class)
         vm = createVm(ArticleViewModel::class)

@@ -107,7 +107,7 @@ class FavoriteNotesActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(NoteViewModel::class)
 
         vm.subscribes(this, { this.processResponse(it) })

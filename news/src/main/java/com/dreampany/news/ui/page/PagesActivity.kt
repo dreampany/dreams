@@ -17,7 +17,6 @@ import com.dreampany.news.databinding.RecyclerActivityBinding
 import com.dreampany.news.misc.Constants
 import com.dreampany.news.ui.model.PageItem
 import com.dreampany.news.ui.vm.PageViewModel
-import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
 import com.dreampany.news.R
 import com.dreampany.news.data.enums.Action
@@ -99,7 +98,7 @@ class PagesActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(PageViewModel::class)
 
         //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)

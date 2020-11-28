@@ -1,6 +1,7 @@
 package com.dreampany.tube.ui.home.fragment
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
@@ -18,6 +19,7 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.databinding.SearchFragmentBinding
 import com.dreampany.tube.misc.Constants
+import com.dreampany.tube.ui.dialog.FilterDialog
 import com.dreampany.tube.ui.home.adapter.FastVideoAdapter
 import com.dreampany.tube.ui.model.VideoItem
 import com.dreampany.tube.ui.player.VideoPlayerActivity
@@ -104,6 +106,16 @@ class SearchFragment
         return false
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_filter -> {
+                openFilterUi()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun onItemPressed(view: View, item: VideoItem) {
         Timber.v("Pressed $view")
         when (view.id) {
@@ -121,7 +133,7 @@ class SearchFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         searchVm = createVm(SearchViewModel::class)
         pageVm = createVm(PageViewModel::class)
         vm = createVm(VideoViewModel::class)
@@ -247,5 +259,9 @@ class SearchFragment
 
     private fun writeSearch() {
         searchVm.write(query, Constants.Values.SEARCH)
+    }
+
+    private fun openFilterUi() {
+        FilterDialog().show(this)
     }
 }

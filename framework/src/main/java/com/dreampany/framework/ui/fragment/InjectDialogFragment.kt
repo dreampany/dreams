@@ -17,12 +17,12 @@ import javax.inject.Inject
 import kotlin.reflect.KClass
 
 /**
- * Created by roman on 15/3/20
+ * Created by roman on 11/28/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class InjectFragment : BaseFragment(), HasAndroidInjector {
+abstract class InjectDialogFragment : BaseDialogFragment(), HasAndroidInjector {
 
     @Inject
     internal lateinit var injector: DispatchingAndroidInjector<Any>
@@ -44,9 +44,6 @@ abstract class InjectFragment : BaseFragment(), HasAndroidInjector {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (prefLayoutRes != 0) {
-            return super.onCreateView(inflater, container, savedInstanceState)
-        }
         if (currentView != null) {
             currentView?.parent?.let { (it as ViewGroup).removeView(currentView) }
             return currentView
@@ -63,5 +60,4 @@ abstract class InjectFragment : BaseFragment(), HasAndroidInjector {
 
     protected fun <T : ViewModel> createVm(clazz: KClass<T>): T =
         ViewModelProvider(this, factory).get(clazz.java)
-
 }

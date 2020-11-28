@@ -52,7 +52,7 @@ class GraphFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(GraphViewModel::class)
 
         vm.subscribe(this,   { this.processResponse(it) })

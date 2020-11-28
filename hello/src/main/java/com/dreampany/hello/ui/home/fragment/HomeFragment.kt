@@ -41,7 +41,7 @@ class HomeFragment
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
 
         bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
         bind.fab.visible()

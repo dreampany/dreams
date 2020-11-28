@@ -2,6 +2,7 @@ package com.dreampany.tube.inject.ui.activity
 
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.tube.inject.ui.home.HomeModule
+import com.dreampany.tube.inject.ui.search.SearchModule
 import com.dreampany.tube.inject.ui.settings.SettingsModule
 import com.dreampany.tube.ui.home.activity.FavoriteVideosActivity
 import com.dreampany.tube.ui.home.activity.HomeActivity
@@ -30,11 +31,11 @@ abstract class ActivityModule {
     abstract fun pages(): PagesActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [HomeModule::class, SettingsModule::class])
+    @ContributesAndroidInjector(modules = [HomeModule::class, SearchModule::class, SettingsModule::class])
     abstract fun home(): HomeActivity
 
     @ContributesAndroidInjector
-    abstract fun videoPlayer(): VideoPlayerActivity
+    abstract fun player(): VideoPlayerActivity
 
     @ContributesAndroidInjector
     abstract fun favorites(): FavoriteVideosActivity

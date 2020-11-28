@@ -108,7 +108,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         bind.web.setListener(this, this)
 
         bind.bottomBar.imageBack.setOnSafeClickListener {

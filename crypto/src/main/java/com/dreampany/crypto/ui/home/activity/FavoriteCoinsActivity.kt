@@ -92,7 +92,7 @@ class FavoriteCoinsActivity : InjectActivity() {
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
         bind.swipe.init(this)
         bind.stateful.setStateView(
             StatefulLayout.State.EMPTY,

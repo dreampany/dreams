@@ -25,7 +25,6 @@ import com.dreampany.radio.data.enums.State
 import com.dreampany.radio.data.enums.Subtype
 import com.dreampany.radio.data.enums.Type
 import com.dreampany.radio.ui.home.activity.HomeActivity
-import com.dreampany.radio.ui.page.FastPageAdapter
 import javax.inject.Inject
 
 /**
@@ -100,7 +99,7 @@ class PagesActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(PageViewModel::class)
 
         //bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)

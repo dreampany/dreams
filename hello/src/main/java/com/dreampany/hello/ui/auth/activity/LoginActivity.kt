@@ -94,7 +94,7 @@ class LoginActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(AuthViewModel::class)
         vm.subscribe(this, { this.processAuthResponse(it) })
 

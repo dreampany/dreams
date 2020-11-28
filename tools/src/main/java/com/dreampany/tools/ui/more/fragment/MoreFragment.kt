@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.more.fragment
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.exts.disable
@@ -61,7 +60,7 @@ class MoreFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(MoreViewModel::class)
 
         vm.subscribes(this, { this.processResponse(it) })

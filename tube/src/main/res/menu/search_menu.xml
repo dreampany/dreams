@@ -10,4 +10,11 @@
         auto:actionViewClass="androidx.appcompat.widget.SearchView"
         auto:showAsAction="always" />
 
+    <item
+        android:id="@+id/item_filter"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/filter"
+        auto:showAsAction="always" />
+
 </menu>

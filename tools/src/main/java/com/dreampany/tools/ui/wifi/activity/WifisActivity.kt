@@ -149,7 +149,7 @@ class WifisActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(WifiViewModel::class)
 
         vm.subscribes(this, Observer { this.processResponses(it) })

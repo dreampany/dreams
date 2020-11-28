@@ -29,7 +29,6 @@ import com.dreampany.news.ui.web.WebActivity
 import com.dreampany.stateful.StatefulLayout
 import com.google.android.gms.location.LocationRequest
 import com.patloew.colocation.CoLocation
-import kotlinx.android.synthetic.main.content_recycler_ad.view.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -116,7 +115,7 @@ class ArticlesFragment
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         searchVm = createVm(SearchViewModel::class)
         vm = createVm(ArticleViewModel::class)
 

@@ -3,9 +3,7 @@ package com.dreampany.hello.ui.web
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.task
-import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.hello.R
 import com.dreampany.hello.databinding.WebActivityBinding
@@ -104,7 +102,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
         bind.web.setListener(this, this)
 
         bind.bottomBar.imageBack.setOnSafeClickListener {

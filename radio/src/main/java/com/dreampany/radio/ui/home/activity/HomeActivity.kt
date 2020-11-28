@@ -87,6 +87,6 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
     }
 }

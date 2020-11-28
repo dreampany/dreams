@@ -52,7 +52,7 @@ class MoreFragment
 
     private fun initUi() {
         if (!::bind.isInitialized) {
-            bind = getBinding()
+            bind = binding()
             bind.swipe.disable()
             vm = createVm(MoreViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })

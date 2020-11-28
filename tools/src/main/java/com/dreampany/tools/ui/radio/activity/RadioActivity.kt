@@ -116,7 +116,7 @@ class RadioActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         vm = createVm(PageViewModel::class)
 
         vm.subscribes(this, { this.processResponses(it) })

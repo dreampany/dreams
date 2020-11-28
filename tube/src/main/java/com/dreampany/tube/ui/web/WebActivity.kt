@@ -3,9 +3,7 @@ package com.dreampany.tube.ui.web
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.setOnSafeClickListener
-import com.dreampany.framework.misc.exts.task
-import com.dreampany.framework.misc.exts.toTint
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
 import com.dreampany.tube.databinding.WebActivityBinding
@@ -104,7 +102,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
         bind.web.setListener(this, this)
 
         bind.bottomBar.imageBack.setOnSafeClickListener {

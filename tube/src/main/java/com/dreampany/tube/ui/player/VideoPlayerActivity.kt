@@ -9,7 +9,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.data.model.Time
 import com.dreampany.framework.misc.constant.Constant
@@ -131,7 +130,7 @@ class VideoPlayerActivity : InjectActivity() {
 
     private fun initUi() {
         if (::bind.isInitialized) return
-        bind = getBinding()
+        bind = binding()
         timeVm = createVm(TimeViewModel::class)
         vm = createVm(VideoViewModel::class)
 

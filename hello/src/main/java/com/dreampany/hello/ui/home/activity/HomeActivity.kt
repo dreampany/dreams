@@ -78,6 +78,6 @@ class HomeActivity : InjectBottomNavigationActivity() {
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = binding()
     }
 }

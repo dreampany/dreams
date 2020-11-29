@@ -3,7 +3,9 @@ package com.dreampany.tube.ui.web
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.*
+import com.dreampany.framework.misc.exts.setOnSafeClickListener
+import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.toTint
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
 import com.dreampany.tube.databinding.WebActivityBinding
@@ -38,6 +40,7 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
         bind.web.loadUrl(url)
 
         ads.loadBanner(this.javaClass.simpleName)
+        ads.showInHouseAds(this)
         showProgress()
     }
 
@@ -48,10 +51,12 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     override fun onResume() {
         super.onResume()
         bind.web.onResume()
+        ads.resumeBanner(this.javaClass.simpleName)
     }
 
     override fun onPause() {
         bind.web.onPause()
+        ads.pauseBanner(this.javaClass.simpleName)
         super.onPause()
     }
 
@@ -102,7 +107,8 @@ class WebActivity : InjectActivity(), AdvancedWebView.Listener {
     }
 
     private fun initUi() {
-        bind = binding()
+        if (::bind.isInitialized) return
+        bind = getBinding()
         bind.web.setListener(this, this)
 
         bind.bottomBar.imageBack.setOnSafeClickListener {

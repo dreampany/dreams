@@ -46,10 +46,10 @@ class FavoriteVideosActivity : InjectActivity() {
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.recycler_activity
     override val toolbarId: Int = R.id.toolbar
-    override val menuRes: Int = R.menu.search_menu
+    override val menuRes: Int = R.menu.favorites_menu
     override val searchMenuItemId: Int = R.id.item_search
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 

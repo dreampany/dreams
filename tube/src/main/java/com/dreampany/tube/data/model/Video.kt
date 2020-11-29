@@ -26,12 +26,12 @@ import kotlinx.android.parcel.Parcelize
 data class Video(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
+    var categoryId: String = Constant.Default.STRING,
     var title: String? = Constant.Default.NULL,
     var description: String? = Constant.Default.NULL,
     var thumbnail: String? = Constant.Default.NULL,
     var channelId: String? = Constant.Default.NULL,
     var channelTitle: String? = Constant.Default.NULL,
-    var categoryId: String? = Constant.Default.NULL,
     var tags: List<String>? = Constant.Default.NULL,
     var liveBroadcastContent: String? = Constant.Default.NULL,
     var duration: String? = Constant.Default.NULL,

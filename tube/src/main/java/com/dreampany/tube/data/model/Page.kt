@@ -53,7 +53,12 @@ data class Page(
 
     @Parcelize
     enum class Type(val value: String) : Parcelable {
-        DEFAULT("default"), LOCAL("local"), EVENT("event"), CATEGORY("category"),  CUSTOM("custom");
+        DEFAULT("default"),
+        LOCAL("local"),
+        EVENT("event"),
+        CATEGORY("category"),
+        CUSTOM("custom"),
+        LIBRARY("library");
 
         val isLocal : Boolean
             get() = this == LOCAL
@@ -66,5 +71,8 @@ data class Page(
 
         val isCustom : Boolean
             get() = this == CUSTOM
+
+        val isLibrary : Boolean
+            get() = this == LIBRARY
     }
 }

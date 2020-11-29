@@ -7,11 +7,11 @@ package com.dreampany.tube.api.model
  * Last modified $file.lastModified
  */
 class VideoSnippet(
+    val categoryId: String,
     val title: String,
     val description: String,
     val channelId: String,
     val channelTitle: String,
-    val categoryId: String,
     val thumbnails : Map<String, Thumbnail>,
     val tags : List<String>,
     val liveBroadcastContent: String,

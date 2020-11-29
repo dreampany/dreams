@@ -17,13 +17,19 @@ interface VideoDataSource {
     suspend fun toggleFavorite(input: Video): Boolean
 
     @Throws
-    suspend fun getFavorites(): List<Video>?
+    suspend fun favorites(): List<Video>?
 
     @Throws
-    suspend fun put(input: Video): Long
+    suspend fun writeRecent(input: Video): Boolean
 
     @Throws
-    suspend fun put(inputs: List<Video>): List<Long>?
+    suspend fun recents(): List<Video>?
+
+    @Throws
+    suspend fun write(input: Video): Long
+
+    @Throws
+    suspend fun write(inputs: List<Video>): List<Long>?
 
     @Throws
     suspend fun putOfRegionCode(regionCode: String, inputs: List<Video>)

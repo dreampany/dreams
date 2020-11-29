@@ -19,33 +19,50 @@ class VideoRoomDataSource(
 ) : VideoDataSource {
 
     @Throws
+    @Synchronized
     override suspend fun isFavorite(input: Video): Boolean = mapper.isFavorite(input)
 
     @Throws
+    @Synchronized
     override suspend fun toggleFavorite(input: Video): Boolean {
         val favorite = isFavorite(input)
         if (favorite) {
             mapper.deleteFavorite(input)
         } else {
-            mapper.insertFavorite(input)
+            mapper.writeFavorite(input)
         }
-        put(input)
+        write(input)
         return favorite.not()
     }
 
     @Throws
-    override suspend fun getFavorites(): List<Video>? = mapper.favorites(this)
+    @Synchronized
+    override suspend fun favorites(): List<Video>? = mapper.favorites(this)
 
     @Throws
-    override suspend fun put(input: Video): Long {
+    @Synchronized
+    override suspend fun writeRecent(input: Video): Boolean {
+        val result = mapper.writeRecent(input)
+        write(input)
+        return result
+    }
+
+    @Throws
+    @Synchronized
+    override suspend fun recents(): List<Video>? = mapper.recents(this)
+
+    @Throws
+    @Synchronized
+    override suspend fun write(input: Video): Long {
         mapper.write(input)
         return dao.insertOrReplace(input)
     }
 
     @Throws
-    override suspend fun put(inputs: List<Video>): List<Long>? {
+    @Synchronized
+    override suspend fun write(inputs: List<Video>): List<Long>? {
         val result = arrayListOf<Long>()
-        inputs.forEach { result.add(put(it)) }
+        inputs.forEach { result.add(write(it)) }
         return result
     }
 
@@ -63,7 +80,7 @@ class VideoRoomDataSource(
         val result = arrayListOf<Long>()
         inputs.forEach {
             if (!isExists(it.id))
-                result.add(put(it))
+                result.add(write(it))
         }
         return result
     }
@@ -76,7 +93,7 @@ class VideoRoomDataSource(
 
     @Throws
     override suspend fun gets(): List<Video>? {
-        val result = dao.items
+        val result = dao.all
         return result
     }
 

@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class State : BaseState {
-    DEFAULT, FAVORITE, RELATED;
+    DEFAULT, RECENT, FAVORITE, RELATED;
 
     override val value: String get() = name.title
 }

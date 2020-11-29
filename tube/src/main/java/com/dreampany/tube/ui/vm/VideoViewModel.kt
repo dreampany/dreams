@@ -10,6 +10,7 @@ import com.dreampany.tube.data.enums.Action
 import com.dreampany.tube.data.enums.State
 import com.dreampany.tube.data.enums.Subtype
 import com.dreampany.tube.data.enums.Type
+import com.dreampany.tube.data.model.Library
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.data.source.repo.CategoryRepo
@@ -157,13 +158,20 @@ class VideoViewModel
         }
     }
 
-    fun loadFavoriteVideos() {
+    fun readLibraries(libraryType: String) {
         uiScope.launch {
             postProgressMultiple(true)
             var result: List<Video>? = null
             var errors: SmartError? = null
             try {
-                result = repo.getFavorites()
+                when (libraryType) {
+                    Library.Type.RECENT.name -> {
+                        result = repo.recents()
+                    }
+                    Library.Type.FAVORITE.name -> {
+                        result = repo.favorites()
+                    }
+                }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -199,7 +207,6 @@ class VideoViewModel
 
     fun toggleFavorite(input: Video) {
         uiScope.launch {
-            //postProgressSingle(true)
             var result: Video? = null
             var errors: SmartError? = null
             var favorite: Boolean = false
@@ -214,6 +221,27 @@ class VideoViewModel
                 postError(errors)
             } else {
                 postResult(result?.toItem(favorite), state = State.FAVORITE)
+            }
+        }
+    }
+
+    fun writeRecent(input: Video) {
+        uiScope.launch {
+            var result: Video? = null
+            var errors: SmartError? = null
+            var favorite: Boolean = false
+            try {
+                favorite = repo.isFavorite(input)
+                repo.writeRecent(input)
+                result = input
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItem(favorite), state = State.RECENT)
             }
         }
     }

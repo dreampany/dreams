@@ -59,15 +59,23 @@ class VideoRemoteDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getFavorites(): List<Video>? {
+    override suspend fun favorites(): List<Video>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun put(input: Video): Long {
+    override suspend fun writeRecent(input: Video): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun put(inputs: List<Video>): List<Long>? {
+    override suspend fun recents(): List<Video>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(input: Video): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(inputs: List<Video>): List<Long>? {
         TODO("Not yet implemented")
     }
 

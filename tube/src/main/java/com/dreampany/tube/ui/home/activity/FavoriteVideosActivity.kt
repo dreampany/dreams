@@ -119,7 +119,7 @@ class FavoriteVideosActivity : InjectActivity() {
 
     private fun loadVideos() {
         if (adapter.isEmpty)
-            vm.loadFavoriteVideos()
+           // vm.readLibraries()
         else
             bind.swipe.refresh(false)
     }

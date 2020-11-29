@@ -24,7 +24,7 @@ import com.dreampany.tube.misc.Constants
         Video::class,
         Related::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

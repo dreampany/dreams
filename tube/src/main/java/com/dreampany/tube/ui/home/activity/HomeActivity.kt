@@ -6,6 +6,7 @@ import com.dreampany.tube.R
 import com.dreampany.tube.databinding.HomeActivityBinding
 import com.dreampany.tube.manager.AdsManager
 import com.dreampany.tube.ui.home.fragment.HomeFragment
+import com.dreampany.tube.ui.home.fragment.LibraryFragment
 import com.dreampany.tube.ui.home.fragment.SearchFragment
 import com.dreampany.tube.ui.settings.fragment.SettingsFragment
 import dagger.Lazy
@@ -27,6 +28,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     @Inject
     internal lateinit var search: Lazy<SearchFragment>
+
+    @Inject
+    internal lateinit var library: Lazy<LibraryFragment>
 
     @Inject
     internal lateinit var settings: Lazy<SettingsFragment>
@@ -68,6 +72,10 @@ class HomeActivity : InjectBottomNavigationActivity() {
             R.id.navigation_search -> {
                 setTitle(R.string.search)
                 commitFragment(SearchFragment::class, search, R.id.layout)
+            }
+            R.id.navigation_library -> {
+                setTitle(R.string.library)
+                commitFragment(LibraryFragment::class, library, R.id.layout)
             }
             R.id.navigation_settings -> {
                 setTitle(R.string.settings)

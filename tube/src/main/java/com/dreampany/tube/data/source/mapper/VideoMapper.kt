@@ -13,6 +13,7 @@ import com.dreampany.tube.data.enums.Type
 import com.dreampany.tube.data.model.Video
 import com.dreampany.tube.data.source.api.VideoDataSource
 import com.dreampany.tube.data.source.pref.Prefs
+import com.dreampany.tube.data.source.room.dao.VideoDao
 import com.dreampany.tube.misc.Constants
 import com.google.common.collect.Maps
 import com.google.gson.Gson
@@ -37,12 +38,16 @@ class VideoMapper
     private val gson: Gson
 ) {
 
+    @Transient
+    private var cached: Boolean = false
     private val type = object : TypeToken<List<Video>>() {}.type
     private val videos: MutableMap<String, MutableMap<String, Video>>
+    private val recents: MutableMap<String, Boolean>
     private val favorites: MutableMap<String, Boolean>
 
     init {
         videos = Maps.newConcurrentMap()
+        recents = Maps.newConcurrentMap()
         favorites = Maps.newConcurrentMap()
     }
 
@@ -118,6 +123,9 @@ class VideoMapper
         videos[categoryId]?.put(input.id, input)
     }
 
+    @Synchronized
+    fun read(categoryId: String, id: String): Video? = videos.get(categoryId)?.get(id)
+
     @Throws
     suspend fun isFavorite(input: Video): Boolean {
         if (!favorites.containsKey(input.id)) {
@@ -133,13 +141,28 @@ class VideoMapper
     }
 
     @Throws
-    suspend fun insertFavorite(input: Video): Boolean {
+    suspend fun writeRecent(input: Video): Boolean {
+        recents.put(input.id, true)
+        val store = storeMapper.readStore(
+            input.id,
+            Type.VIDEO.value,
+            Subtype.DEFAULT.value,
+            State.RECENT.value,
+            input.categoryId
+        )
+        store?.let { storeRepo.write(it) }
+        return true
+    }
+
+    @Throws
+    suspend fun writeFavorite(input: Video): Boolean {
         favorites.put(input.id, true)
         val store = storeMapper.readStore(
             input.id,
             Type.VIDEO.value,
             Subtype.DEFAULT.value,
-            State.FAVORITE.value
+            State.FAVORITE.value,
+            input.categoryId
         )
         store?.let { storeRepo.write(it) }
         return true
@@ -152,7 +175,8 @@ class VideoMapper
             input.id,
             Type.VIDEO.value,
             Subtype.DEFAULT.value,
-            State.FAVORITE.value
+            State.FAVORITE.value,
+            input.categoryId
         )
         store?.let { storeRepo.delete(it) }
         return false
@@ -166,7 +190,7 @@ class VideoMapper
         limit: Long,
         source: VideoDataSource
     ): List<Video>? {
-        updateCache(categoryId, source)
+        cache(categoryId, source)
         val values = videos[categoryId]?.values?.toList() ?: return null
         val cache = sort(values)
         val result = sub(cache, offset, limit)
@@ -190,13 +214,40 @@ class VideoMapper
     suspend fun favorites(
         source: VideoDataSource
     ): List<Video>? {
-        //updateCache(source)
         val stores = storeRepo.reads(
             Type.VIDEO.value,
             Subtype.DEFAULT.value,
             State.FAVORITE.value
         )
-        val outputs = stores?.mapNotNull { input -> source.get(input.id) }
+        val outputs = stores?.mapNotNull { input ->
+            var output = read(input.extra.value, input.id)
+            if (output == null)
+                output = source.get(input.id)
+            output
+        }
+        var result: List<Video>? = null
+        outputs?.let {
+            result = this.sort(it)
+        }
+        return result
+    }
+
+    @Throws
+    @Synchronized
+    suspend fun recents(
+        source: VideoDataSource
+    ): List<Video>? {
+        val stores = storeRepo.reads(
+            Type.VIDEO.value,
+            Subtype.DEFAULT.value,
+            State.RECENT.value
+        )
+        val outputs = stores?.mapNotNull { input ->
+            var output = read(input.extra.value, input.id)
+            if (output == null)
+                output = source.get(input.id)
+            output
+        }
         var result: List<Video>? = null
         outputs?.let {
             result = this.sort(it)
@@ -286,11 +337,11 @@ class VideoMapper
     }
 
     private fun bindSnippet(input: VideoSnippet, output: Video) {
+        output.categoryId = input.categoryId
         output.title = input.title
         output.description = input.description
         output.channelId = input.channelId
         output.channelTitle = input.channelTitle
-        output.categoryId = input.categoryId
         output.thumbnail = input.thumbnails.values.lastOrNull()?.url
         output.tags = input.tags
         output.liveBroadcastContent = input.liveBroadcastContent
@@ -312,9 +363,20 @@ class VideoMapper
         output.commentCount = input.commentCount
     }
 
+/*    @Throws
+    @Synchronized
+    private suspend fun cache(dao: VideoDao) {
+        if (cached) return
+        cached = true
+        dao.all?.let {
+            if (it.isNotEmpty())
+                it.forEach { write(it) }
+        }
+    }*/
+
     @Throws
     @Synchronized
-    private suspend fun updateCache(categoryId: String, source: VideoDataSource) {
+    private suspend fun cache(categoryId: String, source: VideoDataSource) {
         if (videos.get(categoryId).isNullOrEmpty()) {
             source.getsOfCategoryId(categoryId)?.let {
                 if (it.isNotEmpty())

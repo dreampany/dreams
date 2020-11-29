@@ -13,6 +13,7 @@ import com.dreampany.tube.app.App
 import com.dreampany.tube.data.enums.*
 import com.dreampany.tube.data.model.Category
 import com.dreampany.tube.data.model.Event
+import com.dreampany.tube.data.model.Library
 import com.dreampany.tube.data.model.Page
 import com.dreampany.tube.data.source.pref.Prefs
 import com.dreampany.tube.data.source.repo.CategoryRepo
@@ -71,6 +72,25 @@ class PageViewModel
                     total.addAll(customPages)
                 }
                 result = total
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun readLibraries() {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Page>? = null
+            var errors: SmartError? = null
+            try {
+                result = libraries
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -159,6 +179,14 @@ class PageViewModel
         get() = Event.Type.values().map {
             val page = Page(it.name)
             page.type = Page.Type.EVENT
+            page.title = it.value.title
+            page
+        }
+
+    private val libraries: List<Page>
+        get() = Library.Type.values().map {
+            val page = Page(it.name)
+            page.type = Page.Type.LIBRARY
             page.title = it.value.title
             page
         }

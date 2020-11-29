@@ -32,25 +32,40 @@ class VideoRepo
 ) : VideoDataSource {
 
     @Throws
+    @Synchronized
     override suspend fun isFavorite(input: Video) = withContext(Dispatchers.IO) {
         room.isFavorite(input)
     }
 
     @Throws
-    override suspend fun toggleFavorite(input: Video) = withContext(Dispatchers.IO) {
+    @Synchronized
+    override suspend fun toggleFavorite(input: Video): Boolean = withContext(Dispatchers.IO) {
         room.toggleFavorite(input)
     }
 
-    @kotlin.jvm.Throws
-    override suspend fun getFavorites() = withContext(Dispatchers.IO) {
-        room.getFavorites()
+    @Throws
+    @Synchronized
+    override suspend fun favorites() = withContext(Dispatchers.IO) {
+        room.favorites()
     }
 
-    override suspend fun put(input: Video): Long {
+    @Throws
+    @Synchronized
+    override suspend fun writeRecent(input: Video): Boolean = withContext(Dispatchers.IO) {
+        room.writeRecent(input)
+    }
+
+    @Throws
+    @Synchronized
+    override suspend fun recents(): List<Video>? = withContext(Dispatchers.IO) {
+        room.favorites()
+    }
+
+    override suspend fun write(input: Video): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun put(inputs: List<Video>): List<Long>? {
+    override suspend fun write(inputs: List<Video>): List<Long>? {
         TODO("Not yet implemented")
     }
 
@@ -116,7 +131,7 @@ class VideoRepo
                     if (it.isNotEmpty()) {
                         result = remote.gets(it)
                         result?.let {
-                            val puts = room.put(it)
+                            val puts = room.write(it)
                             Timber.v("")
                         }
                         result?.forEach {
@@ -145,7 +160,7 @@ class VideoRepo
                     if (it.isNotEmpty()) {
                         result = remote.gets(it)
                         result?.let {
-                            val puts = room.put(it)
+                            val puts = room.write(it)
                         }
                         result?.forEach {
                             mapper.writeExpire(it.id)
@@ -180,7 +195,7 @@ class VideoRepo
                         if (it.isNotEmpty()) {
                             result = remote.gets(it)
                             result?.let {
-                                val puts = room.put(it)
+                                val puts = room.write(it)
                                 Timber.v("")
                             }
                             result?.forEach {
@@ -206,7 +221,7 @@ class VideoRepo
                         if (it.isNotEmpty()) {
                             result = remote.gets(it)
                             result?.let {
-                                val puts = room.put(it)
+                                val puts = room.write(it)
                                 Timber.v("")
                             }
                             result?.forEach {

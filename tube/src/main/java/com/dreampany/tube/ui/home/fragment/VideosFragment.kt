@@ -110,16 +110,18 @@ class VideosFragment
                 vm.loadVideos(input.id, adapter.itemCount.toLong())
             } else if (input.type.isCustom) {
                 vm.loadSearch(input.id, pref.order)
+            }  else if (input.type.isLibrary) {
+                vm.readLibraries(input.id)
             }
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+/*        when (item.itemId) {
             R.id.item_favorites -> {
                 openFavoritesUi()
             }
-        }
+        }*/
         return super.onOptionsItemSelected(item)
     }
 

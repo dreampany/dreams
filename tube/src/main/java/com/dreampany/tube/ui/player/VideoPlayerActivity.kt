@@ -83,6 +83,7 @@ class VideoPlayerActivity : InjectActivity() {
         updateUi()
         vm.loadVideo(input)
         vm.loadRelated(input.id, pref.order)
+        vm.writeRecent(input)
     }
 
     override fun onStopUi() {

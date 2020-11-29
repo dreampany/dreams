@@ -10,5 +10,6 @@ import com.dreampany.framework.data.model.Task
  */
 interface Callback {
     fun onTask(task: Task<*, *, *, *, *>)
-    fun <T> onItem(item: T)
+
+    fun <T> onInput(input: T)
 }

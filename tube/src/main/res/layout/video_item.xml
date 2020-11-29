@@ -95,7 +95,7 @@
                 android:singleLine="true"
                 tools:text="Channel Title"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/textSizePrimary" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
@@ -109,7 +109,7 @@
                 android:maxLines="2"
                 tools:text="Youtube Title"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/textSizePrimary" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

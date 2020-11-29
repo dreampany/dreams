@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.dreampany.framework.R
 import com.dreampany.framework.app.InjectApp
+import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.func.Executors
 import com.dreampany.framework.ui.activity.BaseActivity
 import com.dreampany.framework.ui.callback.Callback
@@ -19,7 +20,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseDialogFragment : AppCompatDialogFragment() {
+abstract class BaseDialogFragment : AppCompatDialogFragment(), Callback {
 
     @Inject
     protected lateinit var ex: Executors
@@ -98,6 +99,10 @@ abstract class BaseDialogFragment : AppCompatDialogFragment() {
         super.onViewStateRestored(inState)
         savedInstanceState = false
     }
+
+    override fun onTask(task: Task<*, *, *, *, *>) {}
+
+    override fun <T> onInput(item: T) {}
 
     val parentRef: BaseActivity?
         get() {

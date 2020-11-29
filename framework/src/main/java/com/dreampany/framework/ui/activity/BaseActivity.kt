@@ -180,7 +180,7 @@ abstract class BaseActivity : AppCompatActivity(),
 
     override fun onTask(task: Task<*, *, *, *, *>) {}
 
-    override fun <T> onItem(item: T) {
+    override fun <T> onInput(item: T) {
 
     }
 

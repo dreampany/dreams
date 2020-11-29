@@ -167,7 +167,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     override fun onTask(task: Task<*, *, *, *, *>) {}
 
-    override fun <T> onItem(item: T) {}
+    override fun <T> onInput(input: T) {}
 
     val parentRef: BaseActivity?
         get() {

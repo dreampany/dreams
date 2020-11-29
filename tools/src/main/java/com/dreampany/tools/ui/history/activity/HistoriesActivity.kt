@@ -66,7 +66,7 @@ class HistoriesActivity : InjectActivity() {
         super.onPause()
     }
 
-    override fun <T> onItem(item: T) {
+    override fun <T> onInput(item: T) {
          if (item is HistoryItem) {
              //bind.icon.setUrl(item.item.favicon)
          }

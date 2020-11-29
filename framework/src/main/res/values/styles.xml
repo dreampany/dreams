@@ -71,18 +71,18 @@
 
     </style>
 
-<!--    <style name="SearchView.Light" parent="Widget.MaterialComponents.">
-        <item name="android:textColor">#000</item>
-        <item name="android:textColorHint">#5000</item>
-    </style>-->
+    <!--    <style name="SearchView.Light" parent="Widget.MaterialComponents.">
+            <item name="android:textColor">#000</item>
+            <item name="android:textColorHint">#5000</item>
+        </style>-->
 
     <!-- dialog -->
     <style name="Style.Dialog" parent="Theme.MaterialComponents.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowMinWidthMajor">60%</item>
         <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:windowMinWidthMajor">90%</item>
     </style>
 
     <style name="TabTextLight">
@@ -106,10 +106,10 @@
         <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
         <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
         <!--<item name="colorAccent">@android:color/holo_green_dark</item>-->
-      <!--  <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
-        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
-        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
- -->
+        <!--  <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+          <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+          <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+   -->
     </style>
 
     <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton.Dialog">

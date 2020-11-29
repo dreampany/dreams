@@ -33,6 +33,12 @@ class Prefs
             context.getString(R.string.key_settings_order_value_relevance)
         )
 
+
+    @Synchronized
+    fun commitOrder(order : String) {
+        setPublicly(context.getString(R.string.key_settings_order), order)
+    }
+
     @Synchronized
     fun commitCategoriesSelection() {
         setPrivately(Constants.Keys.Pref.CATEGORY, true)

@@ -28,6 +28,7 @@
 
     <string name="search">Search</string>
     <string name="filter">Filter</string>
+    <string name="apply">Apply</string>
     <string name="done">Done</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>

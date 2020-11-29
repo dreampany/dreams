@@ -8,6 +8,13 @@
         android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/search"
         auto:actionViewClass="androidx.appcompat.widget.SearchView"
-        auto:showAsAction="collapseActionView|always" />
+        auto:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_filter"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/filter"
+        auto:showAsAction="always" />
 
 </menu>

@@ -1,6 +1,7 @@
 package com.dreampany.tube.ui.splash
 
 import android.os.Bundle
+import com.dreampany.framework.misc.exts.encodeBase64
 import com.dreampany.framework.misc.exts.open
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tube.R
@@ -10,6 +11,7 @@ import com.dreampany.tube.ui.home.activity.HomeActivity
 import com.dreampany.tube.ui.settings.activity.PagesActivity
 import com.dreampany.tube.ui.vm.PageViewModel
 import kotlinx.coroutines.Runnable
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -30,6 +32,8 @@ class SplashActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        val key = "AIzaSyC-AIzaSyAHn6agHHkDcofvMyZWrOpBgWMd3i5UhPI".encodeBase64
+        Timber.v("Key %s", key)
         ex.postToUi(Runnable { openNextUi() })
     }
 

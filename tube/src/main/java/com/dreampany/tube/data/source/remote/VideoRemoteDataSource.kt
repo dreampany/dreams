@@ -3,6 +3,7 @@ package com.dreampany.tube.data.source.remote
 import android.content.Context
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.decodeBase64
+import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
@@ -34,22 +35,20 @@ class VideoRemoteDataSource(
 ) : VideoDataSource {
 
     init {
-        /*if (context.isDebug) {
+        if (context.isDebug) {
             keys.setKeys(
-                ApiConstants.Youtube.API_KEY_ROMAN_BJIT
+                ApiConstants.Youtube.API_KEY_ROMAN_BJIT.decodeBase64
             )
         } else {
             keys.setKeys(
-                ApiConstants.Youtube.API_KEY_ROMAN_BJIT,
-                ApiConstants.Youtube.API_KEY_DREAMPANY_PLAY_TV,
-                ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL
+                ApiConstants.Youtube.API_KEY_ROMAN_BJIT.decodeBase64,
+                ApiConstants.Youtube.API_KEY_IFTE_NET.decodeBase64,
+                ApiConstants.Youtube.API_KEY_DREAM_DEBUG_1.decodeBase64,
+                ApiConstants.Youtube.API_KEY_DREAM_DEBUG_2.decodeBase64,
+                ApiConstants.Youtube.API_KEY_DREAMPANY_PLAY_TV.decodeBase64,
+                ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL.decodeBase64
             )
-        }*/
-        keys.setKeys(
-            ApiConstants.Youtube.API_KEY_ROMAN_BJIT.decodeBase64,
-            ApiConstants.Youtube.API_KEY_DREAMPANY_PLAY_TV.decodeBase64,
-            ApiConstants.Youtube.API_KEY_DREAMPANY_MAIL.decodeBase64
-        )
+        }
     }
 
     override suspend fun isFavorite(input: Video): Boolean {
@@ -143,7 +142,12 @@ class VideoRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getsOfQuery(query: String,order : String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfQuery(
+        query: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue
@@ -172,10 +176,8 @@ class VideoRemoteDataSource(
                     if (!error.isForbidden)
                         throw error
                 }
-                if (error is UnknownHostException) throw SmartError(
-                    message = error.message,
-                    error = error
-                )
+                if (error is UnknownHostException)
+                    throw SmartError(message = error.message, error = error)
                 keys.randomForwardKey()
             }
         }
@@ -233,7 +235,7 @@ class VideoRemoteDataSource(
 
     @Throws
     override suspend fun getsOfRegionCode(
-        regionCode: String,order : String,
+        regionCode: String, order: String,
         offset: Long,
         limit: Long
     ): List<Video>? {
@@ -278,7 +280,7 @@ class VideoRemoteDataSource(
     @Throws
     override suspend fun getsOfLocation(
         location: String,
-        radius: String,order : String,
+        radius: String, order: String,
         offset: Long,
         limit: Long
     ): List<Video>? {
@@ -322,7 +324,12 @@ class VideoRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getsOfEvent(eventType: String,order : String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfEvent(
+        eventType: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue
@@ -363,7 +370,12 @@ class VideoRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getsOfRelated(id: String,order : String, offset: Long, limit: Long): List<Video>? {
+    override suspend fun getsOfRelated(
+        id: String,
+        order: String,
+        offset: Long,
+        limit: Long
+    ): List<Video>? {
         for (index in 0..keys.indexLength) {
             try {
                 val key = keys.nextKey ?: continue

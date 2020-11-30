@@ -5,7 +5,7 @@ import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.util.Util
-import com.dreampany.tools.misc.constants.NewsConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -59,7 +59,7 @@ data class Article(
 
     @Parcelize
     data class Source(
-        @ColumnInfo(name = NewsConstants.Keys.News.SOURCE_ID)
+        @ColumnInfo(name = Constants.Keys.News.SOURCE_ID)
         val id: String?,
         val name: String?
     ) : BaseParcel()

@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.exts.format
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.databinding.NoteItemBinding
-import com.dreampany.tools.misc.constants.NoteConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 
@@ -49,7 +49,7 @@ private constructor(
     override fun bindView(bind: NoteItemBinding, payloads: List<Any>) {
         bind.textTitle.text = input.title
         bind.textDescription.text = input.description
-        bind.textDate.text = input.time.format(NoteConstants.Date.FORMAT_MONTH_DAY)
+        bind.textDate.text = input.time.format(Constants.Dates.Note.FORMAT_MONTH_DAY)
         bind.buttonFavorite.isLiked = favorite
     }
 

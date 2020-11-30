@@ -2,7 +2,7 @@ package com.dreampany.tools.data.enums.wifi
 
 import androidx.annotation.DrawableRes
 import com.dreampany.tools.R
-import com.dreampany.tools.misc.constants.WifiConstants
+import com.dreampany.tools.misc.constants.Constants
 import java.util.*
 
 /**
@@ -17,7 +17,7 @@ enum class Security(@DrawableRes val res: Int, val extra: String? = null) {
     WEP(R.drawable.ic_lock_outline),
     WPA(R.drawable.ic_baseline_lock_24),
     WPA2(R.drawable.ic_baseline_lock_24),
-    WPA3(R.drawable.ic_baseline_lock_24, WifiConstants.Keys.RSN);
+    WPA3(R.drawable.ic_baseline_lock_24, Constants.Keys.Wifi.RSN);
 
     companion object {
 

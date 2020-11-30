@@ -9,7 +9,7 @@ import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.api.HistoryDataSource
 import com.dreampany.tools.data.source.history.mapper.HistoryMapper
-import com.dreampany.tools.data.source.history.pref.HistoryPref
+import com.dreampany.tools.data.source.history.pref.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class HistoryRepo
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    private val pref: HistoryPref,
+    private val pref: Prefs,
     private val mapper: HistoryMapper,
     @Room private val room: HistoryDataSource,
     @Remote private val remote: HistoryDataSource

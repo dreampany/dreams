@@ -12,7 +12,7 @@ import com.dreampany.tools.api.news.remote.service.NewsApiService
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.data.source.news.api.ArticleDataSource
 import com.dreampany.tools.data.source.news.mapper.NewsMapper
-import com.dreampany.tools.misc.constants.NewsConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import retrofit2.Response
 import java.net.UnknownHostException
@@ -35,21 +35,22 @@ constructor(
 
     init {
         if (context.isDebug) {
-            keys.setKeys(NewsConstants.NewsApi.API_KEY_ROMAN_BJIT)
+            keys.setKeys(Constants.Apis.NewsApi.API_KEY_ROMAN_BJIT)
         } else {
-            keys.setKeys(NewsConstants.NewsApi.API_KEY_ROMAN_BJIT)
+            keys.setKeys(Constants.Apis.NewsApi.API_KEY_ROMAN_BJIT)
         }
     }
 
-    private fun getHeader(key: String): Map<String, String> {
-        val header = Maps.newHashMap<String, String>()
-        /*header.put(
-            ApiConstants.CoinMarketCap.ACCEPT,
-            ApiConstants.CoinMarketCap.ACCEPT_JSON
-        )*/
-        header.put(NewsConstants.NewsApi.API_KEY, key)
-        return header
-    }
+    private val String.header: Map<String, String>
+        get() {
+            val header = Maps.newHashMap<String, String>()
+            header.put(
+                Constants.Apis.CoinMarketCap.ACCEPT,
+                Constants.Apis.CoinMarketCap.ACCEPT_JSON
+            )
+            header.put(Constants.Apis.NewsApi.API_KEY, this)
+            return header
+        }
 
     override suspend fun isFavorite(input: Article): Boolean {
         TODO("Not yet implemented")
@@ -90,7 +91,7 @@ constructor(
             try {
                 val key = keys.nextKey ?: continue
                 val response: Response<ArticlesResponse> = service.getEverything(
-                    getHeader(key),
+                    key.header,
                     query,
                     language,
                     offset, //Coin Market Cap start from 1 - IntRange
@@ -128,7 +129,7 @@ constructor(
             try {
                 val key = keys.nextKey ?: continue
                 val response: Response<ArticlesResponse> = service.getHeadlinesByCountry(
-                    getHeader(key),
+                    key.header,
                     country,
                     offset,
                     limit
@@ -169,7 +170,7 @@ constructor(
             try {
                 val key = keys.nextKey ?: continue
                 val response: Response<ArticlesResponse> = service.getHeadlinesByCategory(
-                    getHeader(key),
+                    key.header,
                     category,
                     offset, //Coin Market Cap start from 1 - IntRange
                     limit

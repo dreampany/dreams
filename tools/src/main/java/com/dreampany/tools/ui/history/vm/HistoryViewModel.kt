@@ -7,7 +7,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.tools.data.enums.history.*
 import com.dreampany.tools.data.model.history.History
-import com.dreampany.tools.data.source.history.pref.HistoryPref
+import com.dreampany.tools.data.source.history.pref.Prefs
 import com.dreampany.tools.data.source.history.repo.HistoryRepo
 import com.dreampany.tools.ui.history.model.HistoryItem
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ class HistoryViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val pref: HistoryPref,
+    private val pref: Prefs,
     private val repo: HistoryRepo
 ) : BaseViewModel<HistoryType, HistorySubtype, HistoryState, HistoryAction, History, HistoryItem, UiTask<HistoryType, HistorySubtype, HistoryState, HistoryAction, History>>(
     application,

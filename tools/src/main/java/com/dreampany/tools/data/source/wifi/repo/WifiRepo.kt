@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
 import com.dreampany.tools.data.source.wifi.mapper.WifiMapper
-import com.dreampany.tools.data.source.wifi.pref.WifiPref
+import com.dreampany.tools.data.source.wifi.pref.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class WifiRepo
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    private val pref: WifiPref,
+    private val pref: Prefs,
     private val mapper: WifiMapper,
     @Memory private val memory: WifiDataSource,
     @Room private val room: WifiDataSource

@@ -2,7 +2,10 @@ package com.dreampany.tools.data.source.news.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
-import com.dreampany.framework.misc.exts.*
+import com.dreampany.framework.misc.exts.isExpired
+import com.dreampany.framework.misc.exts.simpleUtc
+import com.dreampany.framework.misc.exts.sub
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.tools.api.news.model.NewsArticle
 import com.dreampany.tools.data.enums.news.NewsState
 import com.dreampany.tools.data.enums.news.NewsSubtype
@@ -10,7 +13,7 @@ import com.dreampany.tools.data.enums.news.NewsType
 import com.dreampany.tools.data.model.news.Article
 import com.dreampany.tools.data.source.news.api.ArticleDataSource
 import com.dreampany.tools.data.source.news.pref.NewsPref
-import com.dreampany.tools.misc.constants.NewsConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject
@@ -40,7 +43,7 @@ class NewsMapper
     @Synchronized
     fun isExpired(query: String, language: String, offset: Long): Boolean {
         val time = pref.getExpireTime(query, language, offset)
-        return time.isExpired(NewsConstants.Times.NEWS)
+        return time.isExpired(Constants.Times.News.NEWS)
     }
 
     @Synchronized

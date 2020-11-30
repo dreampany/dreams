@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.exts.join
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.history.HistorySource
 import com.dreampany.tools.data.enums.history.HistoryState
-import com.dreampany.tools.misc.constants.HistoryConstants
+import com.dreampany.tools.misc.constants.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,14 +18,12 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class HistoryPref
+class Prefs
 @Inject constructor(
     context: Context
 ) : Pref(context) {
 
-    override fun getPrivateName(context: Context): String {
-        return HistoryConstants.Keys.PrefKeys.HISTORY
-    }
+    override fun getPrivateName(context: Context): String = Constants.Keys.Pref.History.PREF
 
     @Synchronized
     fun getExpireTime(
@@ -35,7 +33,7 @@ class HistoryPref
         day: Int
     ): Long {
         val key = join(
-            HistoryConstants.Keys.PrefKeys.History.EXPIRE,
+            Constants.Keys.Pref.EXPIRE,
             source.value,
             state.value,
             month.toString(),
@@ -52,7 +50,7 @@ class HistoryPref
         day: Int
     ) {
         val key = join(
-            HistoryConstants.Keys.PrefKeys.History.EXPIRE,
+            Constants.Keys.Pref.EXPIRE,
             source.value,
             state.value,
             month.toString(),

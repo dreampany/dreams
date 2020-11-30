@@ -11,7 +11,7 @@ import com.dreampany.tools.data.model.news.Page
 import com.dreampany.tools.data.source.news.room.converters.Converters
 import com.dreampany.tools.data.source.news.room.dao.ArticleDao
 import com.dreampany.tools.data.source.news.room.dao.PageDao
-import com.dreampany.tools.misc.constants.NewsConstants
+import com.dreampany.tools.misc.constants.Constants
 
 /**
  * Created by roman on 14/3/20
@@ -33,7 +33,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, NewsConstants.Keys.Room.NEWS)
+                val DATABASE = Constant.database(context, Constants.Keys.Room.NEWS)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 

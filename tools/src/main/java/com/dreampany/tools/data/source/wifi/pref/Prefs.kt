@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.wifi.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.Pref
-import com.dreampany.tools.misc.constants.WifiConstants
+import com.dreampany.tools.misc.constants.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,14 +13,10 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class WifiPref
+class Prefs
 @Inject constructor(
     context: Context
 ) : Pref(context) {
 
-    override fun getPrivateName(context: Context): String {
-        return WifiConstants.Keys.PrefKeys.WIFI
-    }
-
-
+    override fun getPrivateName(context: Context): String = Constants.Keys.Pref.Wifi.PREF
 }

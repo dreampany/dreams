@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.room.converters.Converters
 import com.dreampany.tools.data.source.wifi.room.dao.WifiDao
-import com.dreampany.tools.misc.constants.WifiConstants
+import com.dreampany.tools.misc.constants.Constants
 
 /**
  * Created by roman on 24/5/20
@@ -31,8 +31,8 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, WifiConstants.Keys.Room.TYPE_WIFI)
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                val database = Constant.database(context, Constants.Keys.Room.WIFI)
+                builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
             return builder

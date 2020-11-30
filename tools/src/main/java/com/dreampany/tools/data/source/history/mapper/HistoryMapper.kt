@@ -14,8 +14,8 @@ import com.dreampany.tools.data.enums.history.HistorySubtype
 import com.dreampany.tools.data.enums.history.HistoryType
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.api.HistoryDataSource
-import com.dreampany.tools.data.source.history.pref.HistoryPref
-import com.dreampany.tools.misc.constants.HistoryConstants
+import com.dreampany.tools.data.source.history.pref.Prefs
+import com.dreampany.tools.misc.constants.Constants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class HistoryMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
-    private val pref: HistoryPref
+    private val pref: Prefs
 ) {
     private val histories: MutableMap<String, History>
     private val favorites: MutableMap<String, Boolean>
@@ -50,7 +50,7 @@ class HistoryMapper
         day: Int
     ): Boolean {
         val time = pref.getExpireTime(source, state, month, day)
-        return time.isExpired(HistoryConstants.Times.HISTORIES)
+        return time.isExpired(Constants.Times.History.HISTORIES)
     }
 
     @Synchronized
@@ -181,8 +181,8 @@ class HistoryMapper
         url: String
     ): History {
         Timber.v("Resolved History: %s", input.text.substring(0, 10))
-        val day = date.getDay(HistoryConstants.Date.FORMAT_MONTH_DAY)
-        val month = date.getMonth(HistoryConstants.Date.FORMAT_MONTH_DAY)
+        val day = date.getDay(Constants.Dates.History.FORMAT_MONTH_DAY)
+        val month = date.getMonth(Constants.Dates.History.FORMAT_MONTH_DAY)
         val year = input.year.firstPart(Constant.Sep.SPACE)?.toIntOrNull() ?: Constant.Default.INT
         val id = state.value.append(year.toString(), month.toString(), day.toString())
         var out: History? = histories.get(id)

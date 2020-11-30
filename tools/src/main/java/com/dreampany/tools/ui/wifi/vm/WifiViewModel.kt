@@ -11,9 +11,9 @@ import com.dreampany.tools.data.enums.wifi.WifiState
 import com.dreampany.tools.data.enums.wifi.WifiSubtype
 import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.model.wifi.Wifi
-import com.dreampany.tools.data.source.wifi.pref.WifiPref
+import com.dreampany.tools.data.source.wifi.pref.Prefs
 import com.dreampany.tools.data.source.wifi.repo.WifiRepo
-import com.dreampany.tools.misc.constants.WifiConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
@@ -33,7 +33,7 @@ class WifiViewModel
     application: Application,
     rm: ResponseMapper,
     private val ex: Executors,
-    private val pref: WifiPref,
+    private val pref: Prefs,
     private val repo: WifiRepo
 ) : BaseViewModel<WifiType, WifiSubtype, WifiState, WifiAction, Wifi, WifiItem, UiTask<WifiType, WifiSubtype, WifiState, WifiAction, Wifi>>(
     application,
@@ -48,7 +48,7 @@ class WifiViewModel
             var result: List<Wifi>? = null
             var errors: SmartError? = null
             try {
-                result = repo.gets(offset, WifiConstants.Limits.WIFIS, callback)
+                result = repo.gets(offset, Constants.Limits.WIFIS, callback)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -62,7 +62,7 @@ class WifiViewModel
     }
 
     fun startPeriodicWifis() {
-        nextRun(WifiConstants.Times.PERIODIC_SCAN)
+        nextRun(Constants.Times.Wifi.PERIODIC_SCAN)
     }
 
     fun stopPeriodicWifis() {
@@ -97,7 +97,7 @@ class WifiViewModel
     private val periodicRunner = object : Runnable {
         override fun run() {
             periodicWifisInternal()
-            nextRun(WifiConstants.Times.PERIODIC_SCAN)
+            nextRun(Constants.Times.Wifi.PERIODIC_SCAN)
         }
     }
 

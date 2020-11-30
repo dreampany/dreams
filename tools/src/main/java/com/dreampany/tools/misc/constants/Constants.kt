@@ -66,6 +66,12 @@ class Constants {
             const val ID  = "id"
             const val INCLUDE_IMAGE  = "include_exchange_logo"
         }
+
+        object NewsApi {
+            const val API_KEY_ROMAN_BJIT = "27e17471f26047a893bc0824c323799d"
+
+            const val API_KEY = "X-Api-Key"
+        }
     }
 
     object Keys {
@@ -81,17 +87,23 @@ class Constants {
 
             object Radio {
                 const val PREF = "radio.pref"
-
                 const val PAGE = "radio.page"
                 const val PAGES = "radio.pages"
             }
 
             object News {
+                const val PREF = "news.pref"
                 const val CATEGORY = "news.category"
-
-                /*const val CATEGORIES = "news.categories"*/
                 const val PAGE = "news.page"
                 const val PAGES = "news.pages"
+            }
+
+            object Wifi {
+                const val PREF = "wifi.pref"
+            }
+
+            object History {
+                const val PREF = "history.pref"
             }
         }
 
@@ -99,6 +111,10 @@ class Constants {
             const val MISC = "misc"
             const val CRYPTO = "crypto"
             const val RADIO = "radio"
+            const val NEWS = "news"
+            const val NOTE = "note"
+            const val WIFI = "wifi"
+            const val HISTORY = "history"
         }
 
         object Platform {
@@ -170,6 +186,14 @@ class Constants {
             const val CHANGE_24H = "change_24h"
             const val CHANGE_PCT_24H = "change_pct_24h"
         }
+
+        object News {
+            const val SOURCE_ID = "source_id"
+        }
+
+        object Wifi {
+            const val RSN = "RSN"
+        }
     }
 
     object Values {
@@ -224,10 +248,29 @@ class Constants {
 
         object News {
             val CATEGORIES = TimeUnit.DAYS.toMillis(7)
+            val NEWS = TimeUnit.HOURS.toMillis(1)
+        }
+
+        object Wifi {
+            val PERIODIC_SCAN = TimeUnit.SECONDS.toMillis(10)
+        }
+
+        object History {
+            val HISTORIES = TimeUnit.DAYS.toMillis(1)
         }
 
         fun minuteToMillis(minutes: Long): Long {
             return TimeUnit.MINUTES.toMillis(minutes)
+        }
+    }
+
+    object Dates {
+        object Note {
+            const val FORMAT_MONTH_DAY = "dd MMMM"
+        }
+
+        object History {
+            const val FORMAT_MONTH_DAY = "MMM dd"
         }
     }
 
@@ -246,6 +289,7 @@ class Constants {
         const val TRADES = 10L
         const val EXCHANGES = 10L
         const val MAX_COINS = 5000L
+        const val WIFIS = 10L
     }
 
     object Service {

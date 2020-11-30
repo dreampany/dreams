@@ -19,7 +19,7 @@ import com.dreampany.tools.data.enums.wifi.WifiAction
 import com.dreampany.tools.data.enums.wifi.WifiState
 import com.dreampany.tools.data.enums.wifi.WifiSubtype
 import com.dreampany.tools.data.enums.wifi.WifiType
-import com.dreampany.tools.data.source.wifi.pref.WifiPref
+import com.dreampany.tools.data.source.wifi.pref.Prefs
 import com.dreampany.tools.databinding.RecyclerActivityAdBinding
 import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.wifi.adapter.FastWifiAdapter
@@ -40,7 +40,7 @@ class WifisActivity : InjectActivity() {
     internal lateinit var ads: AdsManager
 
     @Inject
-    internal lateinit var wifiPref: WifiPref
+    internal lateinit var prefs: Prefs
 
     private lateinit var bind: RecyclerActivityAdBinding
     private lateinit var adapter: FastWifiAdapter

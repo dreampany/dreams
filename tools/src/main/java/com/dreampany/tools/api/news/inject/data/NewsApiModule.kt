@@ -1,8 +1,8 @@
 package com.dreampany.tools.api.news.inject.data
 
 import com.dreampany.tools.api.news.inject.NewsApiAnnote
+import com.dreampany.tools.api.news.misc.Constants
 import com.dreampany.tools.api.news.remote.service.NewsApiService
-import com.dreampany.tools.misc.constants.NewsConstants
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -22,15 +22,15 @@ class NewsApiModule {
     @Singleton
     @Provides
     @NewsApiAnnote
-    fun provideNewsApiRetrofit(gson: Gson, httpClient: OkHttpClient) =
+    fun provide(gson: Gson, httpClient: OkHttpClient) : Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(NewsConstants.NewsApi.BASE_URL)
+            .baseUrl(Constants.Apis.NewsApi.BASE_URL)
             .client(httpClient)
             .build()
 
     @Singleton
     @Provides
-    fun provideNewsApiService(@NewsApiAnnote retrofit: Retrofit) =
+    fun provideService(@NewsApiAnnote retrofit: Retrofit) : NewsApiService =
         retrofit.create(NewsApiService::class.java)
 }

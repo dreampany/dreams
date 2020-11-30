@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.room.converters.Converters
 import com.dreampany.tools.data.source.note.room.dao.NoteDao
-import com.dreampany.tools.misc.constants.NoteConstants
+import com.dreampany.tools.misc.constants.Constants
 
 /**
  * Created by roman on 14/3/20
@@ -31,8 +31,8 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constant.database(context, NoteConstants.Keys.Room.TYPE_NOTE)
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                val database = Constant.database(context, Constants.Keys.Room.NOTE)
+                builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
             return builder

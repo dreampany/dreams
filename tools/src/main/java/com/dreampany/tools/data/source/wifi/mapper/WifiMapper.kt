@@ -5,14 +5,13 @@ import android.net.wifi.WifiInfo
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.sub
-import com.dreampany.framework.misc.exts.value
 import com.dreampany.network.misc.centerFreq0
 import com.dreampany.tools.data.enums.wifi.Band
 import com.dreampany.tools.data.enums.wifi.Width
 import com.dreampany.tools.data.model.wifi.Signal
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
-import com.dreampany.tools.data.source.wifi.pref.WifiPref
+import com.dreampany.tools.data.source.wifi.pref.Prefs
 import com.dreampany.tools.misc.utils.WifiUtils
 import com.google.common.collect.Maps
 import timber.log.Timber
@@ -33,7 +32,7 @@ class WifiMapper
 @Inject constructor(
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepo,
-    private val pref: WifiPref
+    private val pref: Prefs
 ) {
     private val wifis: MutableMap<String, Wifi>
 

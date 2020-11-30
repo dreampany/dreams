@@ -1,7 +1,7 @@
-package com.dreampany.crypto.api.remote.response
+package com.dreampany.crypto.api.remote.response.cc
 
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.model.ExchangesData
+import com.dreampany.crypto.api.misc.Constants
+import com.dreampany.crypto.api.model.cc.ExchangesData
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -11,6 +11,6 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class ExchangesResponse(
-    @SerializedName(ApiConstants.Exchange.DATA)
+    @SerializedName(Constants.Keys.Exchange.DATA)
     val data: ExchangesData
 )

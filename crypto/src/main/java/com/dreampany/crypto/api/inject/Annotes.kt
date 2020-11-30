@@ -1,4 +1,4 @@
-package com.dreampany.crypto.api.inject.annote
+package com.dreampany.crypto.api.inject
 
 import javax.inject.Qualifier
 
@@ -16,14 +16,14 @@ annotation class CoinMarketCapAnnote
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
+annotation class CoinMarketCapGraphAnnote
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
 annotation class CryptoCompareAnnote
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class GeckoAnnote
-
-@Qualifier
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class NewsApiAnnote

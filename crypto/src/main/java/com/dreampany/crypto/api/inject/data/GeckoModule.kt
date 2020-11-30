@@ -1,7 +1,7 @@
 package com.dreampany.crypto.api.inject.data
 
-import com.dreampany.crypto.api.inject.annote.GeckoAnnote
-import com.dreampany.crypto.api.misc.ApiConstants
+import com.dreampany.crypto.api.inject.GeckoAnnote
+import com.dreampany.crypto.api.misc.Constants
 import com.dreampany.crypto.api.remote.service.GeckoService
 import com.google.gson.Gson
 import dagger.Module
@@ -22,15 +22,15 @@ class GeckoModule {
     @Singleton
     @Provides
     @GeckoAnnote
-    fun provideGeckoRetrofit(gson: Gson, httpClient: OkHttpClient) =
+    fun provide(gson: Gson, httpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(ApiConstants.Gecko.BASE_URL)
+            .baseUrl(Constants.Apis.Gecko.BASE_URL)
             .client(httpClient)
             .build()
 
     @Singleton
     @Provides
-    fun provideGeckoService(@GeckoAnnote retrofit: Retrofit) =
+    fun provideService(@GeckoAnnote retrofit: Retrofit): GeckoService =
         retrofit.create(GeckoService::class.java)
 }

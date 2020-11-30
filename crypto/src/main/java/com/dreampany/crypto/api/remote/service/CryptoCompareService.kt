@@ -1,8 +1,8 @@
 package com.dreampany.crypto.api.remote.service
 
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.remote.response.ExchangesResponse
-import com.dreampany.crypto.api.remote.response.TradesResponse
+import com.dreampany.crypto.api.misc.Constants
+import com.dreampany.crypto.api.remote.response.cc.ExchangesResponse
+import com.dreampany.crypto.api.remote.response.cc.TradesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -15,20 +15,20 @@ import retrofit2.http.Query
  * Last modified $file.lastModified
  */
 interface CryptoCompareService {
-    @GET(ApiConstants.CryptoCompare.TRADES)
+    @GET(Constants.Apis.CryptoCompare.TRADES)
     fun getTrades(
         @HeaderMap headers: Map<String, String>,
-        @Query(ApiConstants.CryptoCompare.FROM_SYMBOL) fromSymbol: String,
-        @Query(ApiConstants.CryptoCompare.EXTRA_PARAMS) extraParams: String,
-        @Query(ApiConstants.Common.LIMIT) limit: Long
+        @Query(Constants.Apis.CryptoCompare.FROM_SYMBOL) fromSymbol: String,
+        @Query(Constants.Apis.CryptoCompare.EXTRA_PARAMS) extraParams: String,
+        @Query(Constants.Keys.Common.LIMIT) limit: Long
     ): Call<TradesResponse>
 
-    @GET(ApiConstants.CryptoCompare.EXCHANGES)
+    @GET(Constants.Apis.CryptoCompare.EXCHANGES)
     fun getExchanges(
         @HeaderMap headers: Map<String, String>,
-        @Query(ApiConstants.CryptoCompare.FROM_SYMBOL) fromSymbol: String,
-        @Query(ApiConstants.CryptoCompare.TO_SYMBOL) toSymbol: String,
-        @Query(ApiConstants.CryptoCompare.EXTRA_PARAMS) extraParams: String,
-        @Query(ApiConstants.Common.LIMIT) limit: Long
+        @Query(Constants.Apis.CryptoCompare.FROM_SYMBOL) fromSymbol: String,
+        @Query(Constants.Apis.CryptoCompare.TO_SYMBOL) toSymbol: String,
+        @Query(Constants.Apis.CryptoCompare.EXTRA_PARAMS) extraParams: String,
+        @Query(Constants.Keys.Common.LIMIT) limit: Long
     ): Call<ExchangesResponse>
 }

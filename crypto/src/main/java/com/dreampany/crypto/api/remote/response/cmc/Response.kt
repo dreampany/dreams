@@ -1,4 +1,4 @@
-package com.dreampany.crypto.api.remote.response
+package com.dreampany.crypto.api.remote.response.cmc
 
 import com.dreampany.framework.data.enums.Code
 
@@ -13,7 +13,7 @@ abstract class Response<T> {
     var data: T? = null
 
     val hasError: Boolean
-        get() = status?.errorCode != Code.SUCCESS.code
+        get() = status?.code != Code.SUCCESS.code
 
     val isEmpty: Boolean
         get() {

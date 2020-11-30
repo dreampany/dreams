@@ -7,7 +7,7 @@ package com.dreampany.crypto.api.model.gecko
  * Last modified $file.lastModified
  */
 class GeckoConvertedVolume(
-    val btc : Double,
-    val eth : Double,
-    val usd : Double
+    val btc: Double,
+    val eth: Double,
+    val usd: Double
 )

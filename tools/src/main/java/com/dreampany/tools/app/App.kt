@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.exts.isDebug
 import com.dreampany.tools.R
 import com.dreampany.tools.inject.app.DaggerAppComponent
 import com.dreampany.tools.manager.AdsManager
-import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.misc.constants.Constants
 import com.dreampany.tools.worker.CryptoWorker
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
@@ -130,7 +130,7 @@ class App : InjectApp() {
     private fun configWork() {
         worker.createPeriodic(
             CryptoWorker::class,
-            CryptoConstants.Times.Crypto.WORKER,
+            Constants.Times.Crypto.WORKER,
             TimeUnit.HOURS
         )
     }

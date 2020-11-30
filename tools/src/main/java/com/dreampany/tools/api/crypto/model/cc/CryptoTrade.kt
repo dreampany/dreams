@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.model.cc
 
-import com.dreampany.tools.misc.constants.CryptoConstants
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -10,9 +10,9 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class CryptoTrade(
-    @SerializedName(value = CryptoConstants.Trade.EXCHANGE) val exchange: String,
-    @SerializedName(value = CryptoConstants.Trade.FROM_SYMBOL) val fromSymbol: String,
-    @SerializedName(value = CryptoConstants.Trade.TO_SYMBOL) val toSymbol: String,
-    @SerializedName(value = CryptoConstants.Trade.VOLUME_24H) val volume24h: Double,
-    @SerializedName(value = CryptoConstants.Trade.VOLUME_24H_TO) val volume24hTo: Double
+    @SerializedName(value = Constants.Keys.Trade.EXCHANGE) val exchange: String,
+    @SerializedName(value = Constants.Keys.Trade.FROM_SYMBOL) val fromSymbol: String,
+    @SerializedName(value = Constants.Keys.Trade.TO_SYMBOL) val toSymbol: String,
+    @SerializedName(value = Constants.Keys.Trade.VOLUME_24H) val volume24h: Double,
+    @SerializedName(value = Constants.Keys.Trade.VOLUME_24H_TO) val volume24hTo: Double
 )

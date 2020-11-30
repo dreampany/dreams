@@ -16,11 +16,9 @@ import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Currency
-import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.Prefs
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.misc.constants.Constants
-import com.dreampany.tools.misc.constants.CryptoConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import javax.inject.Inject
@@ -98,7 +96,7 @@ class CoinMapper
                 Subtype.DEFAULT.value,
                 State.DEFAULT.value
             )
-        return time.isExpired(CryptoConstants.Times.Crypto.COIN)
+        return time.isExpired(Constants.Times.Crypto.COIN)
     }
 
     @Throws

@@ -1,9 +1,9 @@
 package com.dreampany.crypto.data.source.mapper
 
-import com.dreampany.crypto.api.model.gecko.GeckoConvertedLast
-import com.dreampany.crypto.api.model.gecko.GeckoConvertedVolume
-import com.dreampany.crypto.api.model.gecko.GeckoMarket
-import com.dreampany.crypto.api.model.gecko.GeckoTicker
+import com.dreampany.crypto.api.crypto.model.gecko.GeckoConvertedLast
+import com.dreampany.crypto.api.crypto.model.gecko.GeckoConvertedVolume
+import com.dreampany.crypto.api.crypto.model.gecko.GeckoMarket
+import com.dreampany.crypto.api.crypto.model.gecko.GeckoTicker
 import com.dreampany.crypto.data.model.ConvertedLast
 import com.dreampany.crypto.data.model.ConvertedVolume
 import com.dreampany.crypto.data.model.Market

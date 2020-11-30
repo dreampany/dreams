@@ -9,7 +9,7 @@ import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.google.android.material.tabs.TabLayoutMediator
 import com.dreampany.crypto.R
-import com.dreampany.crypto.api.misc.ApiConstants
+import com.dreampany.crypto.api.crypto.misc.ApiConstants
 import com.dreampany.crypto.data.enums.Action
 import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype

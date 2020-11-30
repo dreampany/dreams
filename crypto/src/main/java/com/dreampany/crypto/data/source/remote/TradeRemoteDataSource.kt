@@ -1,8 +1,8 @@
 package com.dreampany.crypto.data.source.remote
 
 import android.content.Context
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.remote.service.CryptoCompareService
+import com.dreampany.crypto.api.crypto.misc.ApiConstants
+import com.dreampany.crypto.api.crypto.remote.service.CryptoCompareService
 import com.dreampany.crypto.data.model.Trade
 import com.dreampany.crypto.data.source.api.TradeDataSource
 import com.dreampany.crypto.data.source.mapper.TradeMapper

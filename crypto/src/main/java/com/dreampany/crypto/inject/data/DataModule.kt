@@ -2,14 +2,14 @@ package com.dreampany.crypto.inject.data
 
 import android.app.Application
 import android.content.Context
-import com.dreampany.crypto.api.inject.data.CoinMarketCapModule
-import com.dreampany.crypto.api.inject.data.CryptoCompareModule
-import com.dreampany.crypto.api.inject.data.GeckoModule
-import com.dreampany.crypto.api.inject.data.NewsApiModule
-import com.dreampany.crypto.api.remote.service.CoinMarketCapService
-import com.dreampany.crypto.api.remote.service.CryptoCompareService
-import com.dreampany.crypto.api.remote.service.GeckoService
-import com.dreampany.crypto.api.remote.service.NewsApiService
+import com.dreampany.crypto.api.crypto.inject.data.CoinMarketCapModule
+import com.dreampany.crypto.api.crypto.inject.data.CryptoCompareModule
+import com.dreampany.crypto.api.crypto.inject.data.GeckoModule
+import com.dreampany.crypto.api.crypto.inject.data.NewsApiModule
+import com.dreampany.crypto.api.crypto.remote.service.CoinMarketCapService
+import com.dreampany.crypto.api.crypto.remote.service.CryptoCompareService
+import com.dreampany.crypto.api.crypto.remote.service.GeckoService
+import com.dreampany.crypto.api.crypto.remote.service.NewsApiService
 import com.dreampany.crypto.data.source.api.*
 import com.dreampany.crypto.data.source.mapper.*
 import com.dreampany.crypto.data.source.remote.*

@@ -2,10 +2,10 @@ package com.dreampany.crypto.data.source.remote
 
 import android.content.Context
 import androidx.annotation.IntRange
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.remote.response.CoinsResponse
-import com.dreampany.crypto.api.remote.response.QuotesResponse
-import com.dreampany.crypto.api.remote.service.CoinMarketCapService
+import com.dreampany.crypto.api.crypto.misc.ApiConstants
+import com.dreampany.crypto.api.crypto.remote.response.CoinsResponse
+import com.dreampany.crypto.api.crypto.remote.response.QuotesResponse
+import com.dreampany.crypto.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.data.model.Coin
@@ -13,7 +13,6 @@ import com.dreampany.crypto.data.source.api.CoinDataSource
 import com.dreampany.crypto.data.source.mapper.CoinMapper
 import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.misc.exts.isDebug
-import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError

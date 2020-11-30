@@ -1,8 +1,8 @@
 package com.dreampany.crypto.data.source.remote
 
 import android.content.Context
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.remote.service.GeckoService
+import com.dreampany.crypto.api.crypto.misc.ApiConstants
+import com.dreampany.crypto.api.crypto.remote.service.GeckoService
 import com.dreampany.crypto.data.model.Ticker
 import com.dreampany.crypto.data.source.api.TickerDataSource
 import com.dreampany.crypto.data.source.mapper.TickerMapper

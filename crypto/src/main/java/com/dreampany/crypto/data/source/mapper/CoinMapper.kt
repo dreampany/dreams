@@ -1,8 +1,8 @@
 package com.dreampany.crypto.data.source.mapper
 
-import com.dreampany.crypto.api.model.CryptoCoin
-import com.dreampany.crypto.api.model.CryptoCurrency
-import com.dreampany.crypto.api.model.CryptoQuote
+import com.dreampany.crypto.api.crypto.model.CryptoCoin
+import com.dreampany.crypto.api.crypto.model.CryptoCurrency
+import com.dreampany.crypto.api.crypto.model.CryptoQuote
 import com.dreampany.crypto.data.enums.*
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.data.model.Quote
@@ -15,7 +15,6 @@ import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.exts.isExpired
 import com.dreampany.framework.misc.exts.sub
-import com.dreampany.framework.misc.exts.utc
 import com.dreampany.framework.misc.exts.value
 import com.google.common.collect.Maps
 import timber.log.Timber

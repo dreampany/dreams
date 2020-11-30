@@ -1,14 +1,13 @@
 package com.dreampany.crypto.data.source.remote
 
 import android.content.Context
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.api.remote.response.ArticlesResponse
-import com.dreampany.crypto.api.remote.service.NewsApiService
+import com.dreampany.crypto.api.crypto.misc.ApiConstants
+import com.dreampany.crypto.api.crypto.remote.response.ArticlesResponse
+import com.dreampany.crypto.api.crypto.remote.service.NewsApiService
 import com.dreampany.crypto.data.model.Article
 import com.dreampany.crypto.data.source.api.ArticleDataSource
 import com.dreampany.crypto.data.source.mapper.NewsMapper
 import com.dreampany.framework.misc.exts.isDebug
-import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.func.Keys
 import com.dreampany.framework.misc.func.Parser
 import com.dreampany.framework.misc.func.SmartError

@@ -4,8 +4,6 @@ import android.text.format.DateUtils
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.dreampany.crypto.R
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.data.enums.Currency
 import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.data.model.Coin
 import com.dreampany.crypto.databinding.CoinItemBinding

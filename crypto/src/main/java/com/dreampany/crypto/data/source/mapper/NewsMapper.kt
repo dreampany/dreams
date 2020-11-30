@@ -1,6 +1,6 @@
 package com.dreampany.crypto.data.source.mapper
 
-import com.dreampany.crypto.api.model.NewsArticle
+import com.dreampany.crypto.api.crypto.model.NewsArticle
 import com.dreampany.crypto.data.enums.State
 import com.dreampany.crypto.data.enums.Subtype
 import com.dreampany.crypto.data.enums.Type

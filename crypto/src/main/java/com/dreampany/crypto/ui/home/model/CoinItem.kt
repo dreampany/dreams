@@ -7,12 +7,9 @@ import androidx.annotation.StringRes
 import com.dreampany.framework.misc.exts.*
 import androidx.viewbinding.ViewBinding
 import com.dreampany.crypto.R
-import com.dreampany.crypto.api.misc.ApiConstants
-import com.dreampany.crypto.data.enums.Currency
+import com.dreampany.crypto.api.crypto.misc.ApiConstants
 import com.dreampany.crypto.data.enums.Sort
 import com.dreampany.crypto.data.model.Coin
-import com.dreampany.crypto.data.model.Quote
-import com.dreampany.crypto.misc.exts.setUrl
 import com.dreampany.crypto.databinding.CoinInfoItemBinding
 import com.dreampany.crypto.databinding.CoinItemBinding
 import com.dreampany.crypto.databinding.CoinQuoteItemBinding

@@ -26,6 +26,7 @@ import com.dreampany.tools.ui.wifi.adapter.FastWifiAdapter
 import com.dreampany.tools.ui.wifi.model.WifiItem
 import com.dreampany.tools.ui.wifi.vm.WifiViewModel
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -52,7 +53,7 @@ class WifisActivity : InjectActivity() {
     override val toolbarId: Int = R.id.toolbar
     override val searchMenuItemId: Int = R.id.item_search
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -60,9 +61,9 @@ class WifisActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "WifisActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

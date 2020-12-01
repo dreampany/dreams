@@ -32,6 +32,8 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+val Activity?.context: Context? get() = this
+
 fun Activity?.alive(): Boolean {
     if (this == null) return false
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)

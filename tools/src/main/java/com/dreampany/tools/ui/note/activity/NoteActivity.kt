@@ -23,6 +23,7 @@ import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.note.model.NoteItem
 import com.dreampany.tools.ui.note.vm.NoteViewModel
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -60,9 +61,9 @@ class NoteActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "NoteActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

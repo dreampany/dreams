@@ -26,6 +26,7 @@ import com.dreampany.tools.ui.note.activity.NotesActivity
 import com.dreampany.tools.ui.radio.activity.RadioActivity
 import com.dreampany.tools.ui.wifi.activity.WifisActivity
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -49,12 +50,12 @@ class HomeFragment
             val params = HashMap<String, HashMap<String, Any>?>()
 
             val param = HashMap<String, Any>()
-            param.put(Constant.Param.PACKAGE_NAME, parentRef.packageName)
-            param.put(Constant.Param.VERSION_CODE, parentRef.versionCode)
-            param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
-            param.put(Constant.Param.SCREEN, "HomeFragment")
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.fragment(context), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

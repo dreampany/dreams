@@ -33,8 +33,7 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-val Context?.appContext: Context?
-    get() = this?.applicationContext
+val Context?.contextRef: Context? get() = this?.applicationContext
 
 val Context?.deviceId: String
     get() = if (this == null) Constant.Default.STRING
@@ -46,7 +45,7 @@ val Context?.deviceId: String
 val Context?.screenWidth: Int
     get() {
         val dm = DisplayMetrics()
-        val wm = appContext?.getSystemService(Context.WINDOW_SERVICE) as WindowManager? ?: return 0
+        val wm = contextRef?.getSystemService(Context.WINDOW_SERVICE) as WindowManager? ?: return 0
         wm.defaultDisplay.getMetrics(dm)
         return dm.widthPixels
     }
@@ -54,7 +53,7 @@ val Context?.screenWidth: Int
 val Context?.screenHeight: Int
     get() {
         val dm = DisplayMetrics()
-        val wm = appContext?.getSystemService(Context.WINDOW_SERVICE) as WindowManager? ?: return 0
+        val wm = contextRef?.getSystemService(Context.WINDOW_SERVICE) as WindowManager? ?: return 0
         wm.defaultDisplay.getMetrics(dm)
         return dm.heightPixels
     }
@@ -82,7 +81,7 @@ val Context?.isNotNull: Boolean
 val Context?.mediaDir: File?
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     get() {
-        val context: Context = appContext ?: return null
+        val context: Context = contextRef ?: return null
         var mediaDir: File? = null
         if (isMinL) {
             mediaDir = context.externalMediaDirs?.firstOrNull()
@@ -154,7 +153,7 @@ val Context?.activityManager: ActivityManager?
     get() = this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
 
 
-val Context?.packageName: String get() = appContext?.packageName ?: Constant.Default.STRING
+val Context?.packageName: String get() = contextRef?.packageName ?: Constant.Default.STRING
 
 fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
     try {

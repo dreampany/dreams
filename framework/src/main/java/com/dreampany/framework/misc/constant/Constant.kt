@@ -1,6 +1,10 @@
 package com.dreampany.framework.misc.constant
 
+import android.app.Activity
+import android.app.Application
+import android.app.Service
 import android.content.Context
+import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.exts.applicationId
 import com.dreampany.framework.misc.exts.lastApplicationId
 import com.dreampany.framework.misc.exts.lastPart
@@ -49,14 +53,25 @@ class Constant {
     }
 
     object Event {
+        const val EMPTY = "empty"
         const val ERROR = "error"
         const val APPLICATION = "application"
         const val ACTIVITY = "activity"
         const val FRAGMENT = "fragment"
+        const val SERVICE = "service"
         const val NOTIFICATION = "notification"
 
-        fun activity(context: Context?): String = lastAppId(context).plus(Sep.DOT).plus(ACTIVITY)
-        fun fragment(context: Context?): String = lastAppId(context).plus(Sep.DOT).plus(FRAGMENT)
+        fun key(instance: Any?) : String {
+            if (instance is Application) return APPLICATION
+            if (instance is Activity) return ACTIVITY
+            if (instance is Fragment) return FRAGMENT
+            if (instance is Service) return SERVICE
+            return EMPTY
+        }
+        /*fun application(instance: Application?): String = APPLICATION
+        fun activity(instance: Activity?): String = ACTIVITY
+        fun fragment(instance: Fragment?): String = FRAGMENT
+        fun service(instance: Service?): String = SERVICE*/
     }
 
     object Param {
@@ -66,6 +81,11 @@ class Constant {
         const val SCREEN = "screen"
         const val ERROR_MESSAGE = "error_message"
         const val ERROR_DETAILS = "error_details"
+
+        fun screen(instance: Application?) : String = lastAppId(instance).plus(Sep.DOT).plus(instance?.javaClass?.simpleName)
+        fun screen(instance: Activity?) : String = lastAppId(instance).plus(Sep.DOT).plus(instance?.javaClass?.simpleName)
+        fun screen(instance: Fragment?) : String = lastAppId(instance?.context).plus(Sep.DOT).plus(instance?.javaClass?.simpleName)
+        fun screen(instance: Service?) : String = lastAppId(instance?.baseContext).plus(Sep.DOT).plus(instance?.javaClass?.simpleName)
     }
 
     object Tag {
@@ -109,6 +129,7 @@ class Constant {
         const val COMMA_SPACE = ", "
         const val SPACE = ' '
         const val HYPHEN = '-'
+        const val UNDERSCORE = '_'
         const val SEMI_COLON = ';'
         const val EQUAL = '='
         const val SPACE_HYPHEN_SPACE = " - "

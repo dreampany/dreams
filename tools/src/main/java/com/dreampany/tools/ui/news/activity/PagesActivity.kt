@@ -25,6 +25,7 @@ import com.dreampany.tools.ui.news.model.PageItem
 import com.dreampany.tools.ui.news.vm.PageViewModel
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -46,7 +47,7 @@ class PagesActivity : InjectActivity() {
     override val menuRes: Int = R.menu.pages_menu
     override val toolbarId: Int = R.id.toolbar
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -54,9 +55,9 @@ class PagesActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "PagesActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

@@ -1,5 +1,6 @@
 package com.dreampany.framework.misc.exts
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -85,3 +86,19 @@ fun <T : View> Fragment?.findViewById(@IdRes id: Int): T? = this?.view?.findView
 @ColorInt
 fun Fragment?.color(@ColorRes resId: Int): Int =
     this?.requireContext().color(resId)
+
+val Fragment?.contextRef: Context?
+    get() {
+        if (this == null) return null
+        if (this.context != null) return context
+        if (this.view?.context != null) return this.view?.context
+        if (this.parentFragment?.context != null) return this.parentFragment?.context
+        if (this.activity.context != null) return this.activity.context
+        return null
+    }
+
+val Fragment?.packageName: String get() = contextRef.packageName
+
+val Fragment?.versionCode: Long get() = contextRef.versionCode
+
+val Fragment?.versionName: String get() = contextRef.versionName

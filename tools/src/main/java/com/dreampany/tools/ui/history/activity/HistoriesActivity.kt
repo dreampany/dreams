@@ -11,6 +11,7 @@ import com.dreampany.tools.manager.AdsManager
 import com.dreampany.tools.ui.history.adapter.HistoryPagerAdapter
 import com.dreampany.tools.ui.history.model.HistoryItem
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -39,9 +40,9 @@ class HistoriesActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "HistoriesActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

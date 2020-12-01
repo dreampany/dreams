@@ -3,7 +3,10 @@ package com.dreampany.tools.app
 import android.annotation.SuppressLint
 import android.os.Bundle
 import com.dreampany.framework.app.InjectApp
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.isDebug
+import com.dreampany.framework.misc.exts.versionCode
+import com.dreampany.framework.misc.exts.versionName
 import com.dreampany.tools.R
 import com.dreampany.tools.inject.app.DaggerAppComponent
 import com.dreampany.tools.manager.AdsManager
@@ -23,6 +26,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import java.util.HashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -37,9 +41,9 @@ class App : InjectApp() {
     @Inject
     internal lateinit var ads: AdsManager
 
-    private lateinit var analytics: FirebaseAnalytics
-    private lateinit var action: Action
-    private lateinit var indexable: Indexable
+    private var analytics: FirebaseAnalytics? = null
+    private var action: Action? = null
+    private var indexable: Indexable? = null
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
         DaggerAppComponent.builder().application(this).build()
@@ -59,13 +63,12 @@ class App : InjectApp() {
     }
 
     override fun logEvent(params: Map<String, Map<String, Any>?>?) {
-        if (isDebug) return
         params?.let {
             val key = it.keys.first()
             val param = it.values.first()
             val bundle = Bundle()
             param?.entries?.forEach { bundle.putString(it.key, it.value.toString()) }
-            analytics.logEvent(key, bundle)
+            analytics?.logEvent(key, bundle)
         }
     }
 
@@ -73,6 +76,7 @@ class App : InjectApp() {
         if (isDebug) return
         FirebaseApp.initializeApp(this)
         analytics = Firebase.analytics
+        logEvent(params)
     }
 
     private fun initCrashlytics() {
@@ -84,7 +88,7 @@ class App : InjectApp() {
         val name = getString(R.string.app_name)
         val description = getString(R.string.app_description)
         val url = getString(R.string.app_url)
-        action = getAction(description, url);
+        action = action(description, url);
         indexable = Indexables.newSimple(name, url)
     }
 
@@ -112,7 +116,7 @@ class App : InjectApp() {
         )
     }
 
-    private fun getAction(description: String, uri: String): Action {
+    private fun action(description: String, uri: String): Action {
         return Action.Builder(Action.Builder.VIEW_ACTION).setObject(description, uri).build()
     }
 
@@ -134,4 +138,18 @@ class App : InjectApp() {
             TimeUnit.HOURS
         )
     }
+
+    private val params: Map<String, Map<String, Any>?>
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
+
+            params.put(Constant.Event.key(this), param)
+            return params
+        }
 }

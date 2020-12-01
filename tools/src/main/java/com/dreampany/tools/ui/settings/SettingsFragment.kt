@@ -8,6 +8,7 @@ import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.mikepenz.aboutlibraries.LibsBuilder
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -22,17 +23,17 @@ class SettingsFragment
 
     override val prefLayoutRes: Int = R.xml.settings
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
             val param = HashMap<String, Any>()
-            param.put(Constant.Param.PACKAGE_NAME, parentRef.packageName)
-            param.put(Constant.Param.VERSION_CODE, parentRef.versionCode)
-            param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
-            param.put(Constant.Param.SCREEN, "SettingsFragment")
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.fragment(context), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

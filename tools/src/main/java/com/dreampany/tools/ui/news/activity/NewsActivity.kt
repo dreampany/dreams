@@ -22,6 +22,7 @@ import com.dreampany.tools.ui.news.model.PageItem
 import com.dreampany.tools.ui.news.vm.PageViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -46,7 +47,7 @@ class NewsActivity : InjectActivity() {
     override val layoutRes: Int = R.layout.news_activity
     override val toolbarId: Int = R.id.toolbar
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -54,9 +55,9 @@ class NewsActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "NewsActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

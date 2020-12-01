@@ -10,7 +10,6 @@ import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
-import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.repo.AuthRepo
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -52,7 +51,7 @@ class AuthViewModel
         }
     }
 
-    fun write(input: User) {
+    /*fun write(input: User) {
         uiScope.launch {
             progressSingle(true)
             var result: User? = null
@@ -70,7 +69,7 @@ class AuthViewModel
                 postResult(result)
             }
         }
-    }
+    }*/
 
     fun read(id: String) {
         uiScope.launch {

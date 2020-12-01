@@ -326,7 +326,7 @@
                     android:enabled="false"
                     android:text="@string/register"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/material_white"
                     android:textSize="@dimen/textSizePrimary"
                     auto:backgroundTint="@color/textColorSecondary"
                     auto:cornerRadius="@dimen/cornerRadius"

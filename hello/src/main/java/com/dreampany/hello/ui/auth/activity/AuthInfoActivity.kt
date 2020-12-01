@@ -163,15 +163,15 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         when (gender) {
             Gender.MALE -> {
                 bind.male.setBackgroundColor(color(R.color.colorAccent))
-                bind.male.setTextColor(color(R.color.white))
+                bind.male.setTextColor(color(R.color.material_white))
             }
             Gender.FEMALE -> {
                 bind.female.setBackgroundColor(color(R.color.colorAccent))
-                bind.female.setTextColor(color(R.color.white))
+                bind.female.setTextColor(color(R.color.material_white))
             }
             Gender.OTHER -> {
                 bind.other.setBackgroundColor(color(R.color.colorAccent))
-                bind.other.setTextColor(color(R.color.white))
+                bind.other.setTextColor(color(R.color.material_white))
             }
         }
     }

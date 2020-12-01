@@ -3,7 +3,7 @@ package com.dreampany.hello.ui.web
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import com.dreampany.framework.misc.exts.task
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.hello.R
 import com.dreampany.hello.databinding.WebActivityBinding

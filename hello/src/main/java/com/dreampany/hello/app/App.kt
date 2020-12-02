@@ -2,7 +2,7 @@ package com.dreampany.hello.app
 
 import com.dreampany.hello.R
 import com.dreampany.hello.inject.app.DaggerAppComponent
-import com.dreampany.hello.manager.AdManager
+import com.dreampany.hello.manager.AdsManager
 import com.dreampany.framework.app.InjectApp
 import com.dreampany.framework.misc.exts.isDebug
 import com.facebook.FacebookSdk
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class App : InjectApp() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ad: AdsManager
 
     private var action: Action? = null
     private var indexable: Indexable? = null

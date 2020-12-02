@@ -7,7 +7,7 @@ import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.hello.R
 import com.dreampany.hello.databinding.WebActivityBinding
-import com.dreampany.hello.manager.AdManager
+import com.dreampany.hello.manager.AdsManager
 import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class WebActivity : InjectActivity(), AdvancedWebView.Listener {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ad: AdsManager
 
     private lateinit var bind: WebActivityBinding
     private lateinit var url: String

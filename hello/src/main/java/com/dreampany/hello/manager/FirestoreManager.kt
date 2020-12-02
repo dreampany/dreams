@@ -39,6 +39,16 @@ class FirestoreManager
     }
 
     @Synchronized
+    fun increment(collection: String, document: String, field: String) {
+        val colRef = firestore.collection(collection)
+        val docRef = colRef.document(document)
+        val task = firestore.runTransaction { transition ->
+            transition.update(docRef, field, FieldValue.increment(1))
+        }
+        Tasks.await(task)
+    }
+
+    @Synchronized
     fun <T : Any> read(collection: String, document: String, clazz: KClass<T>): T? {
         val ref = firestore.collection(collection).document(document)
         return read(ref, clazz)

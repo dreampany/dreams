@@ -3,7 +3,7 @@ package com.dreampany.hello.ui.home.activity
 import android.os.Bundle
 import com.dreampany.hello.R
 import com.dreampany.hello.databinding.HomeActivityBinding
-import com.dreampany.hello.manager.AdManager
+import com.dreampany.hello.manager.AdsManager
 import com.dreampany.hello.ui.home.fragment.HomeFragment
 import com.dreampany.hello.ui.settings.SettingsFragment
 import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class HomeActivity : InjectBottomNavigationActivity() {
 
     @Inject
-    internal lateinit var ad: AdManager
+    internal lateinit var ad: AdsManager
 
     @Inject
     internal lateinit var home: Lazy<HomeFragment>

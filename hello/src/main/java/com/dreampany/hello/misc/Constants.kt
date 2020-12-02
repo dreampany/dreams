@@ -1,5 +1,7 @@
 package com.dreampany.hello.misc
 
+import java.util.concurrent.TimeUnit
+
 /**
  * Created by roman on 29/5/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -24,6 +26,10 @@ class Constants {
         object Room {
             const val TYPE_USER = "user"
         }
+    }
+
+    object Times {
+        val HOUSE_ADS = TimeUnit.DAYS.toMillis(1)
     }
 
     object Pattern {

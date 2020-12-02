@@ -64,7 +64,7 @@ class LoginActivity : InjectActivity() {
     private lateinit var bind: LoginActivityBinding
     private lateinit var vm: AuthViewModel
 
-    private lateinit var auth: FirebaseAuth
+    //private lateinit var auth: FirebaseAuth
     private lateinit var client: GoogleSignInClient
     private lateinit var manager: CallbackManager
 
@@ -124,13 +124,12 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun initAuth() {
-        if (::auth.isInitialized) return
-        auth = Firebase.auth
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(Constants.Api.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
             .requestEmail()
             .build()
         client = GoogleSignIn.getClient(this, gso)
+
 
         manager = CallbackManager.Factory.create()
         LoginManager.getInstance()
@@ -194,7 +193,7 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun loginCredential(credential: AuthCredential) {
-        auth.signInWithCredential(credential)
+       /* auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser?.user ?: return@addOnCompleteListener
@@ -202,7 +201,7 @@ class LoginActivity : InjectActivity() {
                 } else {
                     Timber.e("Failed in login")
                 }
-            }
+            }*/
     }
 
     private fun loginCredential(token: String?) {

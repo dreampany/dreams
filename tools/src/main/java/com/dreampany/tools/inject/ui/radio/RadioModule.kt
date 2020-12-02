@@ -1,7 +1,6 @@
 package com.dreampany.tools.inject.ui.radio
 
 import com.dreampany.framework.inject.annote.ActivityScope
-import com.dreampany.tools.inject.ui.news.SettingsModule
 import com.dreampany.tools.ui.radio.activity.PagesActivity
 import com.dreampany.tools.ui.radio.activity.RadioActivity
 import com.dreampany.tools.ui.radio.activity.SettingsActivity

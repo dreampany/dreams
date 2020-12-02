@@ -1,6 +1,6 @@
 package com.dreampany.tools.inject.ui.radio
 
-import com.dreampany.tools.ui.news.fragment.SettingsFragment
+import com.dreampany.tools.ui.radio.fragment.SettingsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

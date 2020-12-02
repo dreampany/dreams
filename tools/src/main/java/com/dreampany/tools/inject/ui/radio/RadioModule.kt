@@ -15,7 +15,6 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 abstract class RadioModule {
-
     @ContributesAndroidInjector
     abstract fun pages(): PagesActivity
 

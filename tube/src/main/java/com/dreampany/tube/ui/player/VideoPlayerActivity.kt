@@ -36,6 +36,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import kotlinx.android.synthetic.main.content_recycler.view.*
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -69,9 +70,9 @@ class VideoPlayerActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "VideoPlayerActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

@@ -24,6 +24,7 @@ import com.dreampany.tube.ui.model.VideoItem
 import com.dreampany.tube.ui.player.VideoPlayerActivity
 import com.dreampany.tube.ui.vm.SearchViewModel
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -57,9 +58,9 @@ class FavoriteVideosActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "FavoriteVideosActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

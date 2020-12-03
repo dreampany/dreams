@@ -6,10 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.framework.misc.exts.open
-import com.dreampany.framework.misc.exts.task
-import com.dreampany.framework.misc.exts.versionCode
-import com.dreampany.framework.misc.exts.versionName
+import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.ui.activity.InjectActivity
@@ -26,6 +23,7 @@ import com.dreampany.tube.ui.model.PageItem
 import com.dreampany.tube.ui.settings.adapter.FastPageAdapter
 import com.dreampany.tube.ui.vm.PageViewModel
 import timber.log.Timber
+import java.util.HashMap
 import javax.inject.Inject
 
 /**
@@ -47,7 +45,7 @@ class PagesActivity : InjectActivity() {
     override val menuRes: Int = R.menu.pages_menu
     override val toolbarId: Int = R.id.toolbar
 
-    override val params: Map<String, Map<String, Any>?>?
+    override val params: Map<String, Map<String, Any>?>
         get() {
             val params = HashMap<String, HashMap<String, Any>?>()
 
@@ -55,9 +53,9 @@ class PagesActivity : InjectActivity() {
             param.put(Constant.Param.PACKAGE_NAME, packageName)
             param.put(Constant.Param.VERSION_CODE, versionCode)
             param.put(Constant.Param.VERSION_NAME, versionName)
-            param.put(Constant.Param.SCREEN, "PagesActivity")
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
 
-            params.put(Constant.Event.activity(this), param)
+            params.put(Constant.Event.key(this), param)
             return params
         }
 

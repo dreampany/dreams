@@ -1,22 +1,32 @@
 package com.dreampany.hello.app
 
+import android.annotation.SuppressLint
+import android.os.Bundle
 import com.dreampany.hello.R
 import com.dreampany.hello.inject.app.DaggerAppComponent
 import com.dreampany.hello.manager.AdsManager
 import com.dreampany.framework.app.InjectApp
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.isDebug
+import com.dreampany.framework.misc.exts.versionCode
+import com.dreampany.framework.misc.exts.versionName
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.appindexing.Action
 import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
 import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import java.util.HashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,8 +39,9 @@ import javax.inject.Inject
 class App : InjectApp() {
 
     @Inject
-    internal lateinit var ad: AdsManager
+    internal lateinit var ads: AdsManager
 
+    private var analytics: FirebaseAnalytics? = null
     private var action: Action? = null
     private var indexable: Indexable? = null
 
@@ -38,12 +49,12 @@ class App : InjectApp() {
         DaggerAppComponent.builder().application(this).build()
 
     override fun onOpen() {
-        initIndexing()
         initFirebase()
+        initCrashlytics()
+        initIndexing()
+        initAd()
         initFresco()
         initFacebook()
-        initAd()
-
         startAppIndex()
     }
 
@@ -51,29 +62,47 @@ class App : InjectApp() {
         stopAppIndex()
     }
 
+    override fun logEvent(params: Map<String, Map<String, Any>?>?) {
+        params?.let {
+            val key = it.keys.first()
+            val param = it.values.first()
+            val bundle = Bundle()
+            param?.entries?.forEach { bundle.putString(it.key, it.value.toString()) }
+            analytics?.logEvent(key, bundle)
+        }
+    }
+
+    private fun initFirebase() {
+        if (isDebug) return
+        FirebaseApp.initializeApp(this)
+        analytics = Firebase.analytics
+        logEvent(params)
+    }
+
+    private fun initCrashlytics() {
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(isDebug.not())
+    }
+
     private fun initIndexing() {
         if (isDebug) return
         val name = getString(R.string.app_name)
         val description = getString(R.string.app_description)
         val url = getString(R.string.app_url)
-        action = getAction(description, url);
+        action = action(description, url);
         indexable = Indexables.newSimple(name, url)
     }
 
-    private fun initFirebase() {
-        FirebaseApp.initializeApp(this)
-    }
-
+    @SuppressLint("MissingPermission")
     private fun initAd() {
         //if (isDebug) return
-        MobileAds.initialize(this, getString(R.string.admob_app_id))
+        MobileAds.initialize(this)
         //ad.initPoints(Util.AD_POINTS)
-        val config = AdManager.Config.Builder()
+        val config = AdsManager.Config.Builder()
             .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
             .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(5))
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(10))
             .enabled(!isDebug)
-        ad.setConfig(config.build())
+        ads.setConfig(config.build())
     }
 
     private fun initFresco() {
@@ -87,7 +116,12 @@ class App : InjectApp() {
         )
     }
 
-    private fun getAction(description: String, uri: String): Action {
+    private fun initFacebook() {
+        FacebookSdk.sdkInitialize(this)
+        AppEventsLogger.activateApp(this)
+    }
+
+    private fun action(description: String, uri: String): Action {
         return Action.Builder(Action.Builder.VIEW_ACTION).setObject(description, uri).build()
     }
 
@@ -102,8 +136,17 @@ class App : InjectApp() {
         FirebaseUserActions.getInstance().end(action)
     }
 
-    private fun initFacebook() {
-        FacebookSdk.sdkInitialize(this)
-        AppEventsLogger.activateApp(this)
-    }
+    private val params: Map<String, Map<String, Any>?>
+        get() {
+            val params = HashMap<String, HashMap<String, Any>?>()
+
+            val param = HashMap<String, Any>()
+            param.put(Constant.Param.PACKAGE_NAME, packageName)
+            param.put(Constant.Param.VERSION_CODE, versionCode)
+            param.put(Constant.Param.VERSION_NAME, versionName)
+            param.put(Constant.Param.SCREEN, Constant.Param.screen(this))
+
+            params.put(Constant.Event.key(this), param)
+            return params
+        }
 }

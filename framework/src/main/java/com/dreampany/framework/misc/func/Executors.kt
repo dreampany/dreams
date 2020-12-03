@@ -31,6 +31,10 @@ private constructor(
     ) {
     }
 
+    val uiExecutor : Executor get() = ui
+    val diskExecutor : Executor get() = disk
+    val networkExecutor : Executor get() = network
+
     fun getUiHandler(): Handler {
         return ui.handler
     }

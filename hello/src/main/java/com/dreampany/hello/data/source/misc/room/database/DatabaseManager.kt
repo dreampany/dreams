@@ -1,4 +1,4 @@
-package com.dreampany.hello.data.source.room.database
+package com.dreampany.hello.data.source.misc.room.database
 
 import android.content.Context
 import androidx.room.Database
@@ -6,18 +6,24 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.hello.data.model.User
-import com.dreampany.hello.data.source.room.convert.Converters
-import com.dreampany.hello.data.source.room.dao.UserDao
+import com.dreampany.hello.data.model.misc.Search
+import com.dreampany.hello.data.source.misc.room.converters.Converters
+import com.dreampany.hello.data.source.misc.room.dao.SearchDao
 import com.dreampany.hello.misc.Constants
 
 /**
- * Created by roman on 26/9/20
+ * Created by roman on 14/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        Search::class
+    ],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -31,7 +37,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val database = Constant.database(context, Constants.Keys.Room.ROOM)
+                val database = Constant.database(context, Constants.Keys.Room.MISC)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, database)
             }
 
@@ -53,5 +59,5 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
-    abstract fun userDao(): UserDao
+    abstract fun searchDao(): SearchDao
 }

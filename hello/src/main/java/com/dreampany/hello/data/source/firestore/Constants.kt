@@ -13,7 +13,7 @@ class Constants {
 
     object Keys {
         // firestore collection
-        const val AUTHS = "hello.auths"
+        const val AUTHS = "auths"
         const val USERS = "users"
 
         // auth keys

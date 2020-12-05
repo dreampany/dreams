@@ -17,10 +17,6 @@ import java.util.concurrent.TimeUnit
 private val UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 private val SIMPLE_UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 
-val Calendar.dayOfMonth: Int get() = this.get(Calendar.DAY_OF_MONTH)
-val Calendar.month: Int get() = this.get(Calendar.MONTH).inc()
-val Calendar.year: Int get() = this.get(Calendar.YEAR)
-
 val currentMillis: Long get() = System.currentTimeMillis()
 fun currentDay(): Int = Calendar.getInstance().dayOfMonth
 fun currentMonth(): Int = Calendar.getInstance().month

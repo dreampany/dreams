@@ -203,8 +203,8 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             valid = false
             //todo birthday error
         }
-        val birth = Date().compareTo(birthdayCalendar.time)
-        if (birth < 0) {
+        val age = birthdayCalendar.age
+        if (age < 0) {
             valid = false
             //todo birthday error
         }

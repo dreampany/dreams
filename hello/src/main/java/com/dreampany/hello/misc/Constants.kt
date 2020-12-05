@@ -16,7 +16,9 @@ class Constants {
         const val RATIO_16_9_VALUE = 16.0 / 9.0
 
         object Pref {
+            const val MISC = "misc"
             const val PREF = "pref"
+            const val EXPIRE = "expire"
             const val STARTED = "started"
             const val LOGGED = "logged"
             const val SIGN_IN = "sign_in"
@@ -24,12 +26,18 @@ class Constants {
         }
 
         object Room {
-            const val TYPE_USER = "user"
+            const val MISC = "misc"
+            const val ROOM = "room"
         }
     }
 
     object Times {
         val HOUSE_ADS = TimeUnit.DAYS.toMillis(1)
+        val MIN_BIRTH = TimeUnit.DAYS.toMillis(16 * 365)
+    }
+
+    object Date {
+        const val MIN_AGE = 16
     }
 
     object Pattern {

@@ -36,11 +36,9 @@ class Constant {
                 .plus(Room.POST_FIX_DB)
         }
 
-        fun appId(context: Context?): String =
-            context.applicationId ?: Default.STRING
+        fun appId(context: Context?): String = context.applicationId
 
-        fun lastAppId(context: Context?): String =
-            context.lastApplicationId ?: Default.STRING
+        fun lastAppId(context: Context?): String = context.lastApplicationId
 
         fun more(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
         fun about(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT

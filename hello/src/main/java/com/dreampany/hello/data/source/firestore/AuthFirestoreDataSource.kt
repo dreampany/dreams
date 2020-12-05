@@ -1,5 +1,7 @@
 package com.dreampany.hello.data.source.firestore
 
+import android.content.Context
+import com.dreampany.framework.misc.exts.refId
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.source.api.AuthDataSource
 import com.dreampany.hello.data.source.mapper.AuthMapper
@@ -14,6 +16,7 @@ import java.util.*
  * Last modified $file.lastModified
  */
 class AuthFirestoreDataSource(
+    private val context: Context,
     private val mapper: AuthMapper,
     private val firestore: FirestoreManager
 ) : AuthDataSource {
@@ -31,10 +34,12 @@ class AuthFirestoreDataSource(
     }
 
     @Throws
+    @Synchronized
     override suspend fun read(id: String): Auth? {
         try {
             val col = Constants.Keys.AUTHS
-            return firestore.read(col, id, Auth::class)
+            val refId = context.refId(id)
+            return firestore.read(col, refId, Auth::class)
         } catch (error: Throwable) {
             Timber.e(error)
             return null

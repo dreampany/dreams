@@ -29,6 +29,7 @@ import kotlinx.android.parcel.Parcelize
 data class User(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
+    var ref: String = Constant.Default.STRING,
     var name: String? = Constant.Default.NULL,
     var photo : String? = Constant.Default.NULL,
     var email : String? = Constant.Default.NULL,

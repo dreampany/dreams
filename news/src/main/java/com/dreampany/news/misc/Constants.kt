@@ -25,8 +25,8 @@ class Constants {
         }
 
         object Room {
-            const val ROOM = "room"
             const val MISC = "misc"
+            const val ROOM = "room"
         }
 
         object Related {

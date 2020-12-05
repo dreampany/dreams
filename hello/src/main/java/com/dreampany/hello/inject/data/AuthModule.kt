@@ -1,5 +1,6 @@
 package com.dreampany.hello.inject.data
 
+import android.content.Context
 import com.dreampany.framework.inject.annote.Firestore
 import com.dreampany.hello.manager.FirestoreManager
 import com.dreampany.hello.data.source.api.AuthDataSource
@@ -21,8 +22,9 @@ class AuthModule {
     @Singleton
     @Provides
     @Firestore
-    fun provideAuthFirestoreDataSource(
+    fun provideFirestore(
+        context: Context,
         mapper: AuthMapper,
         firestore: FirestoreManager
-    ): AuthDataSource = AuthFirestoreDataSource(mapper, firestore)
+    ): AuthDataSource = AuthFirestoreDataSource(context, mapper, firestore)
 }

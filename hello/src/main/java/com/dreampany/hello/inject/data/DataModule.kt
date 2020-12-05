@@ -17,6 +17,7 @@ import javax.inject.Singleton
 @Module(
     includes = [
         DatabaseModule::class,
+        MiscModule::class,
         AuthModule::class,
         UserModule::class
     ]

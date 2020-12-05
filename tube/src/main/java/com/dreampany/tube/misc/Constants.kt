@@ -12,8 +12,8 @@ class Constants {
 
     object Keys {
         object Pref {
-            const val PREF = "pref"
             const val MISC = "misc"
+            const val PREF = "pref"
             const val EXPIRE = "expire"
             const val CATEGORY = "category"
             const val PAGE = "page"
@@ -25,8 +25,8 @@ class Constants {
         }
 
         object Room {
-            const val ROOM = "room"
             const val MISC = "misc"
+            const val ROOM = "room"
         }
 
         object Related {

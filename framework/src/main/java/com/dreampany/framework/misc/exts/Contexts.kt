@@ -345,3 +345,5 @@ fun Context?.spanHeight(spans: Int, offset: Int): Int =
 
 fun Context?.arraysOf(@ArrayRes resId: Int): Array<String> =
     this?.resources?.getStringArray(resId) ?: arrayOf()
+
+fun Context?.refId(id: String): String = lastApplicationId.plus(Constant.Sep.DOT).plus(id)

@@ -19,6 +19,49 @@ val Calendar.dateOfYear: Int get() = get(Calendar.DAY_OF_YEAR)
 
 val Calendar.week: Int get() = get(Calendar.WEEK_OF_MONTH)
 
+val Calendar.dayOfMonth: Int get() = this.get(Calendar.DAY_OF_MONTH)
+val Calendar.month: Int get() = get(Calendar.MONTH).inc()
+val Calendar.year: Int get() = get(Calendar.YEAR)
+
+val Calendar.age: Int
+    get() {
+        val current = Calendar.getInstance()
+        var currentDay = current.dayOfMonth
+        var currentMonth = current.month
+        var currentYear = current.year
+
+        val birth = this
+        var birthDay = birth.dayOfMonth
+        var birthMonth = birth.month
+        var birthYear = birth.year
+
+        val currentDate = current.time
+        val birthDate = time
+
+
+        if (birthDate.after(currentDate)) {
+            return -1
+        }
+        val months = arrayOf(
+            31, 28, 31, 30, 31, 30,
+            31, 31, 30, 31, 30, 31
+        )
+
+        if (birthDay > currentDay) {
+            currentDay = currentDay + months.get(birthMonth.dec())
+            currentMonth = currentMonth.dec()
+        }
+
+        if (birthMonth > currentMonth) {
+            currentYear = currentYear.dec()
+            currentMonth = currentMonth + 12
+        }
+
+        val day = currentDay - birthDay
+        val month = currentMonth - birthMonth
+        val year = currentYear - birthYear
+        return year
+    }
 
 fun Calendar.isLastWeek(week: Int): Boolean {
     val clone = Calendar.getInstance()

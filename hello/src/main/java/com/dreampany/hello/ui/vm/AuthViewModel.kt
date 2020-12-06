@@ -51,6 +51,26 @@ class AuthViewModel
         }
     }
 
+    fun write(id: String, ) {
+        uiScope.launch {
+            progressSingle(true)
+            var result: Auth? = null
+            var errors: SmartError? = null
+            try {
+                val opt = repo.write(input)
+                result = input
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result)
+            }
+        }
+    }
+
     /*fun write(input: User) {
         uiScope.launch {
             progressSingle(true)

@@ -5,6 +5,7 @@ import com.dreampany.hello.data.source.misc.api.SearchDataSource
 import com.dreampany.hello.data.source.misc.mapper.SearchMapper
 import com.dreampany.hello.manager.AuthManager
 import com.dreampany.hello.manager.FirestoreManager
+import com.dreampany.hello.misc.Constants
 import timber.log.Timber
 
 /**
@@ -23,7 +24,7 @@ class SearchFirestoreDataSource(
     override suspend fun write(input: Search): Long {
         try {
             if (auth.signInAnonymously().not()) return -1L
-            val col = Constants.Keys.SEARCHES
+            val col = Constants.Keys.Firestore.SEARCHES
             firestore.write(col, input.id, input)
             return 1
         } catch (error: Throwable) {
@@ -36,8 +37,8 @@ class SearchFirestoreDataSource(
     override suspend fun hit(id: String, ref: String): Long {
         try {
             if (auth.signInAnonymously().not()) return -1L
-            val col = Constants.Keys.SEARCHES
-            val field = Constants.Keys.hit(ref)
+            val col = Constants.Keys.Firestore.SEARCHES
+            val field = Constants.Keys.Firestore.hit(ref)
             firestore.increment(col, id, field)
             return 1
         } catch (error: Throwable) {

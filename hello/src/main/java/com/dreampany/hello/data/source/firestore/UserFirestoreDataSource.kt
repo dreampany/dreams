@@ -4,6 +4,7 @@ import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.api.UserDataSource
 import com.dreampany.hello.data.source.mapper.UserMapper
 import com.dreampany.hello.manager.FirestoreManager
+import com.dreampany.hello.misc.Constants
 import timber.log.Timber
 
 /**
@@ -20,7 +21,7 @@ class UserFirestoreDataSource(
     @Throws
     override suspend fun write(input: User): Long {
         try {
-            val col = Constants.Keys.USERS
+            val col = Constants.Keys.Firestore.USERS
             firestore.write(col, input.id, input)
             return 1
         } catch (error: Throwable) {

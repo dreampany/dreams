@@ -1,5 +1,6 @@
 package com.dreampany.hello.misc
 
+import com.dreampany.framework.misc.constant.Constant
 import java.util.concurrent.TimeUnit
 
 /**
@@ -9,6 +10,11 @@ import java.util.concurrent.TimeUnit
  * Last modified $file.lastModified
  */
 class Constants {
+    object Apis {
+        const val GOOGLE_CLIENT_ID_DREAMPANY_MAIL =
+            "Mzg3MTgwMDk4NzI4LXVrMjIyOXA5dDJlMHI5ZmwzODRkNHY3ZzlkNDdhMDJvLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29t"
+    }
+
     object Keys {
         const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
         const val PHOTO_EXTENSION = ".jpg"
@@ -28,6 +34,28 @@ class Constants {
         object Room {
             const val MISC = "misc"
             const val ROOM = "room"
+        }
+
+        object Firestore {
+            // firestore collection
+            const val AUTHS = "auths"
+            const val USERS = "users"
+            const val SEARCHES = "searches"
+
+            // auth keys
+            const val TIME = Constant.Keys. TIME
+            const val ID = Constant.Keys.ID
+            const val REF = "ref"
+            const val USERNAME = "username"
+            const val EMAIL = "email"
+            const val PASSWORD = "password"
+            const val REGISTERED = "registered"
+            const val VERIFIED = "verified"
+            const val LOGGED = "logged"
+
+            //search keys
+            const val HITS = "hits"
+            fun hit(ref: String): String = HITS.plus(Constant.Sep.DOT).plus(ref)
         }
     }
 

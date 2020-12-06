@@ -39,6 +39,13 @@ class FirestoreManager
     }
 
     @Synchronized
+    fun <T : Any> write(collection: String, document: String, input: Map<String, T>) {
+        val colRef = firestore.collection(collection)
+        val docRef = colRef.document(document)
+        Tasks.await(docRef.set(input, SetOptions.merge()))
+    }
+
+    @Synchronized
     fun increment(collection: String, document: String, field: String) {
         val colRef = firestore.collection(collection)
         val docRef = colRef.document(document)

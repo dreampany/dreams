@@ -5,8 +5,7 @@ import android.content.Intent
 import com.dreampany.framework.misc.exts.decodeBase64
 import com.dreampany.framework.misc.func.Executors
 import com.dreampany.framework.misc.func.SmartError
-import com.dreampany.hello.data.source.firestore.Constants
-import com.dreampany.hello.misc.user
+import com.dreampany.hello.misc.Constants
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -92,7 +91,7 @@ class AuthManager
     fun signInGoogle(instance: Activity, requestCode: Int) {
         if (google == null) {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(Constants.Api.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
+                .requestIdToken(Constants.Apis.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
                 .requestEmail()
                 .build()
             google = GoogleSignIn.getClient(instance, gso)

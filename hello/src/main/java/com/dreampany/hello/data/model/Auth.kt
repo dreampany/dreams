@@ -31,11 +31,15 @@ data class Auth(
     var ref: String = Constant.Default.STRING,
     var username: String? = Constant.Default.NULL,
     var email: String? = Constant.Default.NULL,
-    var password: String? = Constant.Default.NULL
+    var password: String? = Constant.Default.NULL,
+    var registered: Boolean = Constant.Default.BOOLEAN,
+    var verified: Boolean = Constant.Default.BOOLEAN,
+    var logged: Boolean = Constant.Default.BOOLEAN
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = currentMillis) {}
+    constructor() : this(time = currentMillis) {
+    }
 
     constructor(id: String) : this(time = currentMillis, id = id) {}
 

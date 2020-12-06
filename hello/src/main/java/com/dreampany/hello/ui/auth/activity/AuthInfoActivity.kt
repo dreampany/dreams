@@ -16,6 +16,7 @@ import com.dreampany.hello.databinding.AuthInfoActivityBinding
 import com.dreampany.hello.misc.Constants
 import com.dreampany.hello.misc.active
 import com.dreampany.hello.misc.inactive
+import com.dreampany.hello.misc.isValidAge
 import com.dreampany.hello.ui.auth.fragment.BirthdayFragment
 import com.dreampany.hello.ui.vm.AuthViewModel
 import com.dreampany.hello.ui.vm.UserViewModel
@@ -195,7 +196,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     private fun register() {
         val email = bind.inputEmail.trimValue
         var valid = true
-        if (!email.isEmail) {
+        if (email.isEmail.not()) {
             valid = false
             bind.layoutEmail.error = getString(R.string.error_email)
         }
@@ -203,8 +204,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             valid = false
             //todo birthday error
         }
-        val age = birthdayCalendar.age
-        if (age < 0) {
+        if (birthdayCalendar.isValidAge.not()) {
             valid = false
             //todo birthday error
         }
@@ -220,6 +220,5 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         if (valid.not()) return
         input.email = email
 
-        //vm.read(email, password)
     }
 }

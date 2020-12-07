@@ -39,7 +39,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var bind: AuthInfoActivityBinding
     private lateinit var authVm: AuthViewModel
     private lateinit var userVm: UserViewModel
-    private lateinit var input: User
+    private lateinit var input: Auth
     private lateinit var birthdayCalendar: Calendar
     private lateinit var gender: Gender
 
@@ -48,7 +48,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     override val toolbarId: Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
-        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, User>
+        val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Auth>
         input = task.input ?: return
         initUi()
     }

@@ -200,6 +200,7 @@ class LoginActivity : InjectActivity() {
     private fun processResult(result: Auth?, state: State) {
         if (result != null) {
             auth = result
+            auth.type = type
             if (type == Auth.Type.GOOGLE) {
                 if (auth.registered) {
                     openHomeUi()
@@ -211,6 +212,8 @@ class LoginActivity : InjectActivity() {
         }
         if (type == Auth.Type.GOOGLE) {
             auth = user.auth
+            auth.type = type
+            pref.write(auth)
             openAuthInfoUi()
         }
         /*if (result == null) {

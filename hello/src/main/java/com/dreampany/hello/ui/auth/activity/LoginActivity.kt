@@ -10,38 +10,20 @@ import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.hello.R
-import com.dreampany.hello.data.source.firestore.Constants
 import com.dreampany.hello.data.enums.Action
 import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
-import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.manager.AuthManager
 import com.dreampany.hello.misc.active
 import com.dreampany.hello.misc.inactive
-import com.dreampany.hello.misc.user
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.vm.AuthViewModel
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -61,13 +43,14 @@ class LoginActivity : InjectActivity() {
     internal lateinit var pref: Pref
 
     @Inject
-    internal lateinit var auth: AuthManager
+    internal lateinit var authM: AuthManager
 
     private lateinit var bind: LoginActivityBinding
     private lateinit var vm: AuthViewModel
 
 
-    private lateinit var user: User
+    private lateinit var user: FirebaseUser
+    private lateinit var auth: Auth
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.login_activity
@@ -78,13 +61,13 @@ class LoginActivity : InjectActivity() {
     }
 
     override fun onStopUi() {
-        auth.unregisterCallback(RC_GOOGLE_SIGN_IN)
-        auth.unregisterCallback(RC_FACEBOOK_SIGN_IN)
+        authM.unregisterCallback(RC_GOOGLE_SIGN_IN)
+        authM.unregisterCallback(RC_FACEBOOK_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val result = auth.handleResult(requestCode, resultCode, data)
+        val result = authM.handleResult(requestCode, resultCode, data)
         if (result) return
     }
 
@@ -94,18 +77,18 @@ class LoginActivity : InjectActivity() {
         vm = createVm(AuthViewModel::class)
         vm.subscribe(this, { this.processAuthResponse(it) })
 
-        auth.registerCallback(RC_GOOGLE_SIGN_IN, object : AuthManager.Callback {
+        authM.registerCallback(RC_GOOGLE_SIGN_IN, object : AuthManager.Callback {
             override fun onResult(result: FirebaseUser) {
-                loginGoogle(result.user)
+                loginGoogle(result)
             }
 
             override fun onError(error: Throwable) {
             }
         })
 
-        auth.registerCallback(RC_FACEBOOK_SIGN_IN, object : AuthManager.Callback {
+        authM.registerCallback(RC_FACEBOOK_SIGN_IN, object : AuthManager.Callback {
             override fun onResult(result: FirebaseUser) {
-                loginFacebook(result.user)
+                loginFacebook(result)
             }
 
             override fun onError(error: Throwable) {
@@ -163,22 +146,22 @@ class LoginActivity : InjectActivity() {
         vm.read(email, password)
     }
 
-    private fun loginGoogle(user: User) {
+    private fun loginGoogle(user: FirebaseUser) {
         this.user = user
-        vm.read(user.id)
+        vm.read(user.uid)
     }
 
-    private fun loginFacebook(user: User) {
+    private fun loginFacebook(user: FirebaseUser) {
         this.user = user
-        vm.read(user.id)
+        vm.read(user.uid)
     }
 
     private fun loginGoogle() {
-        auth.signInGoogle(this, RC_GOOGLE_SIGN_IN)
+        authM.signInGoogle(this, RC_GOOGLE_SIGN_IN)
     }
 
     private fun loginFacebook() {
-        auth.signInFacebook(this, RC_FACEBOOK_SIGN_IN)
+        authM.signInFacebook(this, RC_FACEBOOK_SIGN_IN)
     }
 
     private fun processAuthResponse(response: Response<Type, Subtype, State, Action, Auth>) {
@@ -211,26 +194,31 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun processResult(result: Auth?, state: State) {
-        if (result == null) {
+        if (result != null) {
+            auth = result
+            if (auth.logged) {
+
+            }
+        }
+        /*if (result == null) {
             if (state == State.ID) {
                 openAuthInfoUi()
             } else {
                 bind.error.show()
             }
             return
-        }
+        }*/
         //successful login
-        pref.login()
-        open(HomeActivity::class, true)
+
     }
 
     private fun openAuthInfoUi() {
         val task = UiTask(
-            Type.USER,
+            Type.AUTH,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,
-            user
+            auth
         )
         open(AuthInfoActivity::class, task)
     }

@@ -8,6 +8,7 @@ import com.dreampany.hello.data.source.api.AuthDataSource
 import com.dreampany.hello.data.source.mapper.AuthMapper
 import com.dreampany.hello.manager.FirestoreManager
 import com.dreampany.hello.misc.Constants
+import com.dreampany.hello.misc.auth
 import com.dreampany.hello.misc.map
 import timber.log.Timber
 import java.util.*
@@ -45,7 +46,9 @@ class AuthFirestoreDataSource(
         try {
             val col = Constants.Keys.Firestore.AUTHS
             val refId = context.refId(id)
-            return firestore.read(col, refId, Auth::class)
+            val deviceId = context.deviceId
+            val output = firestore.read(col, refId)
+            return output?.auth(deviceId)
         } catch (error: Throwable) {
             Timber.e(error)
             return null

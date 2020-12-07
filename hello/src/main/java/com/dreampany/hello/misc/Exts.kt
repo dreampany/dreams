@@ -63,3 +63,30 @@ fun Auth.map(deviceId: String): Map<String, Any> {
     output.put(Constants.Keys.Firestore.LOGGED, mapOf(deviceId to logged))
     return output
 }
+
+fun Map<String, Any>.auth(deviceId: String): Auth {
+    val time = get(Constants.Keys.Firestore.TIME) as Long
+    val id = get(Constants.Keys.Firestore.ID) as String
+    val ref = get(Constants.Keys.Firestore.REF) as String
+    val username = get(Constants.Keys.Firestore.USERNAME) as String?
+    val email = get(Constants.Keys.Firestore.EMAIL) as String?
+    val password = get(Constants.Keys.Firestore.PASSWORD) as String?
+    val registered =
+        (get(Constants.Keys.Firestore.REGISTERED) as? Map<String, Boolean>)?.get(deviceId) ?: false
+    val verified =
+        (get(Constants.Keys.Firestore.VERIFIED) as? Map<String, Boolean>)?.get(deviceId) ?: false
+    val logged =
+        (get(Constants.Keys.Firestore.LOGGED) as? Map<String, Boolean>)?.get(deviceId) ?: false
+
+    val output = Auth(id)
+    output.time = time
+    output.ref = ref
+    output.username = username
+    output.email = email
+    output.password = password
+    output.registered = registered
+    output.verified = verified
+    output.verified = verified
+    output.logged = logged
+    return output
+}

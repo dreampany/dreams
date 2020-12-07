@@ -10,6 +10,7 @@ import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
+import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.data.source.repo.AuthRepo
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,6 +26,7 @@ class AuthViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
+    private val pref : Pref,
     private val repo: AuthRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Auth, Auth, UiTask<Type, Subtype, State, Action, Auth>>(
     application,
@@ -33,7 +35,7 @@ class AuthViewModel
 
     fun write(input: Auth) {
         uiScope.launch {
-            progressSingle(true)
+            postProgress(true)
             var result: Auth? = null
             var errors: SmartError? = null
             try {
@@ -51,7 +53,7 @@ class AuthViewModel
         }
     }
 
-    fun write(id: String, ) {
+   /* fun write(id: String, ) {
         uiScope.launch {
             progressSingle(true)
             var result: Auth? = null
@@ -69,7 +71,7 @@ class AuthViewModel
                 postResult(result)
             }
         }
-    }
+    }*/
 
     /*fun write(input: User) {
         uiScope.launch {
@@ -93,7 +95,7 @@ class AuthViewModel
 
     fun read(id: String) {
         uiScope.launch {
-            progressSingle(true)
+            postProgress(true)
             var result: Auth? = null
             var errors: SmartError? = null
             try {
@@ -105,14 +107,14 @@ class AuthViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result, State.ID)
+                postResult(result)
             }
         }
     }
 
     fun read(email: String, password: String) {
         uiScope.launch {
-            progressSingle(true)
+            postProgress(true)
             var result: Auth? = null
             var errors: SmartError? = null
             try {
@@ -131,7 +133,7 @@ class AuthViewModel
 
     fun readByEmail(email: String) {
         uiScope.launch {
-            progressSingle(true)
+            postProgress(true)
             var result: Auth? = null
             var errors: SmartError? = null
             try {
@@ -143,13 +145,14 @@ class AuthViewModel
             if (errors != null) {
                 postError(errors)
             } else {
+
                 postResult(result)
             }
         }
     }
 
 
-    private fun progressSingle(progress: Boolean) {
+    private fun postProgress(progress: Boolean) {
         postProgressSingle(
             Type.AUTH,
             Subtype.DEFAULT,

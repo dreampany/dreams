@@ -28,6 +28,7 @@ class Constants {
             const val STARTED = "started"
             const val LOGGED = "logged"
             const val SIGN_IN = "sign_in"
+            const val AUTH = "auth"
             const val USER = "user"
         }
 

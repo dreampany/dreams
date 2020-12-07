@@ -2,6 +2,7 @@ package com.dreampany.hello.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.Pref
+import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.misc.Constants
 import javax.inject.Inject
@@ -54,7 +55,14 @@ class Pref
     val isSignIn: Boolean
         get() = getPrivately(Constants.Keys.Pref.SIGN_IN, false)
 
-    fun write(input : User) {
+    fun write(input: Auth) {
+        setPrivately(Constants.Keys.Pref.AUTH, input)
+    }
+
+    val auth: Auth?
+        get() = getPrivately(Constants.Keys.Pref.AUTH, Auth::class.java, null)
+
+    fun write(input: User) {
         setPrivately(Constants.Keys.Pref.USER, input)
     }
 

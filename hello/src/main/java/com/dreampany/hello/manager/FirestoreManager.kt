@@ -32,6 +32,16 @@ class FirestoreManager
     }
 
     @Synchronized
+    fun increment(collection: String, document: String, field: String) {
+        val colRef = firestore.collection(collection)
+        val docRef = colRef.document(document)
+        val task = firestore.runTransaction { transition ->
+            transition.update(docRef, field, FieldValue.increment(1))
+        }
+        Tasks.await(task)
+    }
+
+    @Synchronized
     fun <T : Any> write(collection: String, document: String, input: T) {
         val colRef = firestore.collection(collection)
         val docRef = colRef.document(document)
@@ -46,19 +56,15 @@ class FirestoreManager
     }
 
     @Synchronized
-    fun increment(collection: String, document: String, field: String) {
-        val colRef = firestore.collection(collection)
-        val docRef = colRef.document(document)
-        val task = firestore.runTransaction { transition ->
-            transition.update(docRef, field, FieldValue.increment(1))
-        }
-        Tasks.await(task)
-    }
-
-    @Synchronized
     fun <T : Any> read(collection: String, document: String, clazz: KClass<T>): T? {
         val ref = firestore.collection(collection).document(document)
         return read(ref, clazz)
+    }
+
+    @Synchronized
+    fun read(collection: String, document: String): Map<String, Any>? {
+        val ref = firestore.collection(collection).document(document)
+        return read(ref)
     }
 
     @Synchronized
@@ -74,6 +80,13 @@ class FirestoreManager
         val snapshot: DocumentSnapshot = Tasks.await(ref.get())
         if (!snapshot.exists()) return null
         return snapshot.toObject(clazz.java)
+    }
+
+    @Synchronized
+    fun read(ref: DocumentReference): Map<String, Any>? {
+        val snapshot: DocumentSnapshot = Tasks.await(ref.get())
+        if (!snapshot.exists()) return null
+        return snapshot.data
     }
 
     @Synchronized

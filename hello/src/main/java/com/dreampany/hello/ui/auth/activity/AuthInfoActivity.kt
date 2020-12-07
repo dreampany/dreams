@@ -12,6 +12,7 @@ import com.dreampany.hello.R
 import com.dreampany.hello.data.enums.*
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
+import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.AuthInfoActivityBinding
 import com.dreampany.hello.misc.Constants
 import com.dreampany.hello.misc.active
@@ -22,6 +23,7 @@ import com.dreampany.hello.ui.vm.AuthViewModel
 import com.dreampany.hello.ui.vm.UserViewModel
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by roman on 27/9/20
@@ -30,6 +32,9 @@ import java.util.*
  * Last modified $file.lastModified
  */
 class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
+
+    @Inject
+    internal lateinit var pref: Pref
 
     private lateinit var bind: AuthInfoActivityBinding
     private lateinit var authVm: AuthViewModel

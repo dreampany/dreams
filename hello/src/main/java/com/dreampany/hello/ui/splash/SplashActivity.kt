@@ -34,11 +34,15 @@ class SplashActivity : InjectActivity() {
 
     private fun nextUi() {
         if (pref.isStarted || pref.isLogged) {
-            open(HomeActivity::class, true)
+            openHomeUi()
         } else if (pref.isSignIn) {
             open(AuthInfoActivity::class, true)
         } else {
             open(AuthActivity::class, true)
         }
+    }
+
+    private fun openHomeUi() {
+        open(HomeActivity::class, true)
     }
 }

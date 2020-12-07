@@ -58,6 +58,10 @@ fun Auth.map(deviceId: String): Map<String, Any> {
     username?.let { output.put(Constants.Keys.Firestore.USERNAME, it) }
     email?.let { output.put(Constants.Keys.Firestore.EMAIL, it) }
     password?.let { output.put(Constants.Keys.Firestore.PASSWORD, it) }
+    name?.let { output.put(Constants.Keys.Firestore.NAME, it) }
+    photo?.let { output.put(Constants.Keys.Firestore.PHOTO, it) }
+    phone?.let { output.put(Constants.Keys.Firestore.PHONE, it) }
+    type?.let { output.put(Constants.Keys.Firestore.TYPE, mapOf(deviceId to it.name)) }
     output.put(Constants.Keys.Firestore.REGISTERED, mapOf(deviceId to registered))
     output.put(Constants.Keys.Firestore.VERIFIED, mapOf(deviceId to verified))
     output.put(Constants.Keys.Firestore.LOGGED, mapOf(deviceId to logged))
@@ -71,6 +75,11 @@ fun Map<String, Any>.auth(deviceId: String): Auth {
     val username = get(Constants.Keys.Firestore.USERNAME) as String?
     val email = get(Constants.Keys.Firestore.EMAIL) as String?
     val password = get(Constants.Keys.Firestore.PASSWORD) as String?
+    val name = get(Constants.Keys.Firestore.NAME) as String?
+    val photo = get(Constants.Keys.Firestore.PHOTO) as String?
+    val phone = get(Constants.Keys.Firestore.PHONE) as String?
+    val type =
+        (get(Constants.Keys.Firestore.TYPE) as? Map<String, String>)?.get(deviceId)
     val registered =
         (get(Constants.Keys.Firestore.REGISTERED) as? Map<String, Boolean>)?.get(deviceId) ?: false
     val verified =
@@ -84,6 +93,10 @@ fun Map<String, Any>.auth(deviceId: String): Auth {
     output.username = username
     output.email = email
     output.password = password
+    output.name = name
+    output.photo = photo
+    output.phone = phone
+    type?.let { output.type = Auth.Type.valueOf(it) }
     output.registered = registered
     output.verified = verified
     output.verified = verified

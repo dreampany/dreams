@@ -3,6 +3,7 @@ package com.dreampany.hello.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
+import com.dreampany.framework.data.enums.BaseType
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
@@ -32,6 +33,10 @@ data class Auth(
     var username: String? = Constant.Default.NULL,
     var email: String? = Constant.Default.NULL,
     var password: String? = Constant.Default.NULL,
+    var name: String? = Constant.Default.NULL,
+    var photo: String? = Constant.Default.NULL,
+    var phone: String? = Constant.Default.NULL,
+    var type : Type? = Constant.Default.NULL,
     var registered: Boolean = Constant.Default.BOOLEAN,
     var verified: Boolean = Constant.Default.BOOLEAN,
     var logged: Boolean = Constant.Default.BOOLEAN
@@ -53,4 +58,11 @@ data class Auth(
     }
 
     override fun toString(): String = "Auth.id:ref: $id:$ref"
+
+    @Parcelize
+    enum class Type : BaseType {
+        EMAIL, GOOGLE, FACEBOOK;
+
+        override val value: String get() = name
+    }
 }

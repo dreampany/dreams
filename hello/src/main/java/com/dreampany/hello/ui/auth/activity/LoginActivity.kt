@@ -19,6 +19,7 @@ import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.manager.AuthManager
 import com.dreampany.hello.misc.active
+import com.dreampany.hello.misc.auth
 import com.dreampany.hello.misc.inactive
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.vm.AuthViewModel
@@ -48,7 +49,7 @@ class LoginActivity : InjectActivity() {
     private lateinit var bind: LoginActivityBinding
     private lateinit var vm: AuthViewModel
 
-
+    private lateinit var type: Auth.Type
     private lateinit var user: FirebaseUser
     private lateinit var auth: Auth
 
@@ -143,15 +144,18 @@ class LoginActivity : InjectActivity() {
             bind.layoutPassword.error = getString(R.string.error_password)
         }
         if (valid.not()) return
+        // Get Firebase User
         vm.read(email, password)
     }
 
     private fun loginGoogle(user: FirebaseUser) {
+        this.type = Auth.Type.GOOGLE
         this.user = user
         vm.read(user.uid)
     }
 
     private fun loginFacebook(user: FirebaseUser) {
+        this.type = Auth.Type.FACEBOOK
         this.user = user
         vm.read(user.uid)
     }
@@ -196,9 +200,18 @@ class LoginActivity : InjectActivity() {
     private fun processResult(result: Auth?, state: State) {
         if (result != null) {
             auth = result
-            if (auth.logged) {
-
+            if (type == Auth.Type.GOOGLE) {
+                if (auth.registered) {
+                    openHomeUi()
+                } else {
+                    openAuthInfoUi()
+                }
             }
+            return
+        }
+        if (type == Auth.Type.GOOGLE) {
+            auth = user.auth
+            openAuthInfoUi()
         }
         /*if (result == null) {
             if (state == State.ID) {
@@ -213,6 +226,7 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun openAuthInfoUi() {
+        pref.signIn()
         val task = UiTask(
             Type.AUTH,
             Subtype.DEFAULT,
@@ -221,5 +235,9 @@ class LoginActivity : InjectActivity() {
             auth
         )
         open(AuthInfoActivity::class, task)
+    }
+
+    private fun openHomeUi() {
+        open(HomeActivity::class, true)
     }
 }

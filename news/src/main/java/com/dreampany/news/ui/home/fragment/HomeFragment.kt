@@ -50,7 +50,7 @@ class HomeFragment
             param.put(Constant.Param.VERSION_NAME, parentRef.versionName)
             param.put(Constant.Param.SCREEN, "HomeFragment")
 
-            params.put(Constant.Event.fragment(context), param)
+            params.put(Constant.Event.key(context), param)
             return params
         }
 

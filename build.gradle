@@ -13,7 +13,7 @@ buildscript {
     ext.coroutines = '1.4.1'
     ext.okhttp = '4.9.0'
     ext.retrofit = '2.9.0'
-    ext.about = '8.6.2'
+    ext.about = '8.6.3'
     repositories {
         google()
         jcenter()

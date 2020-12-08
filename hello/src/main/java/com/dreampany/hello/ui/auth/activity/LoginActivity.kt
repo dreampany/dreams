@@ -211,21 +211,11 @@ class LoginActivity : InjectActivity() {
             return
         }
         if (type == Auth.Type.GOOGLE) {
-            auth = user.auth
+            auth = user.auth(ref)
             auth.type = type
             pref.write(auth)
             openAuthInfoUi()
         }
-        /*if (result == null) {
-            if (state == State.ID) {
-                openAuthInfoUi()
-            } else {
-                bind.error.show()
-            }
-            return
-        }*/
-        //successful login
-
     }
 
     private fun openAuthInfoUi() {

@@ -2,6 +2,7 @@ package com.dreampany.hello.misc
 
 import com.dreampany.framework.misc.exts.age
 import com.dreampany.framework.misc.exts.color
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.hello.R
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
@@ -30,8 +31,8 @@ fun MaterialButton.active(active: Boolean) {
     else inactive()
 }
 
-val Calendar.isValidAge: Boolean
-    get() = this.age >= Constants.Date.MIN_AGE
+val Calendar?.isValidAge: Boolean
+    get() = this?.age.value >= Constants.Date.MIN_AGE
 
 val FirebaseUser.user: User
     get() {
@@ -43,12 +44,15 @@ val FirebaseUser.user: User
         return user
     }
 
-val FirebaseUser.auth: Auth
-    get() {
-        val output = Auth(uid)
-        output.email = email
-        return output
-    }
+fun FirebaseUser.auth(ref: String): Auth {
+    val output = Auth(uid)
+    output.ref = ref
+    output.email = email
+    output.name = displayName
+    output.photo = photoUrl.toString()
+    output.phone = phoneNumber
+    return output
+}
 
 fun Auth.map(deviceId: String): Map<String, Any> {
     val output = HashMap<String, Any>()

@@ -77,9 +77,15 @@ class Constants {
         const val YY_MM_DD: String = "yy/MM/dd"
     }
 
+/*    object AuthType {
+        const val EMAIL = "email"
+        const val GOOGLE = "google"
+        const val FACEBOOK = "facebook"
+    }
+
     object Gender {
         const val MALE = "male"
         const val FEMALE = "female"
         const val OTHER = "other"
-    }
+    }*/
 }

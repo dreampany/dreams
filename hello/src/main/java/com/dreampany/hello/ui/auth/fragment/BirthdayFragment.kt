@@ -1,6 +1,5 @@
 package com.dreampany.hello.ui.auth.fragment
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
@@ -19,7 +18,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class BirthdayFragment : DialogFragment() {
+class BirthdayFragment(val calendar: Calendar) : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +26,7 @@ class BirthdayFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val calendar = Calendar.getInstance()
-        val year = calendar.year
+         val year = calendar.year
         val month = calendar.month
         val dayOfMonth = calendar.dayOfMonth
         val activity = requireActivity()

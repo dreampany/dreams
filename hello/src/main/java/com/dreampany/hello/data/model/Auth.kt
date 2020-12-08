@@ -7,6 +7,7 @@ import com.dreampany.framework.data.enums.BaseType
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
+import com.dreampany.hello.data.enums.Gender
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
@@ -33,10 +34,12 @@ data class Auth(
     var username: String? = Constant.Default.NULL,
     var email: String? = Constant.Default.NULL,
     var password: String? = Constant.Default.NULL,
+    var birthday: Long = Constant.Default.LONG,
+    var gender: Gender? = Constant.Default.NULL,
     var name: String? = Constant.Default.NULL,
     var photo: String? = Constant.Default.NULL,
     var phone: String? = Constant.Default.NULL,
-    var type : Type? = Constant.Default.NULL,
+    var type: Type? = Constant.Default.NULL,
     var registered: Boolean = Constant.Default.BOOLEAN,
     var verified: Boolean = Constant.Default.BOOLEAN,
     var logged: Boolean = Constant.Default.BOOLEAN
@@ -61,8 +64,11 @@ data class Auth(
 
     @Parcelize
     enum class Type : BaseType {
-        EMAIL, GOOGLE, FACEBOOK;
+        EMAIL,
+        GOOGLE,
+        FACEBOOK;
 
-        override val value: String get() = name
+        override val value: String
+            get() = name
     }
 }

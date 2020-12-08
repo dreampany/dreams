@@ -29,7 +29,7 @@ data class Country(
     var capital: String? = Constants.Default.NULL,
     var latitude: Double = Constants.Default.DOUBLE,
     var longiitude: Double = Constants.Default.DOUBLE
-) : Base() {
+) : BaseParcel() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

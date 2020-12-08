@@ -15,34 +15,13 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-@Entity(
-    indices = [Index(
-        value = [Constants.Country.ID],
-        unique = true
-    )],
-    primaryKeys = [Constants.Country.ID]
-)
 data class Country(
-    override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING, // country code
-    var name: String? = Constants.Default.NULL,
-    var capital: String? = Constants.Default.NULL,
-    var latitude: Double = Constants.Default.DOUBLE,
-    var longiitude: Double = Constants.Default.DOUBLE
+    var code: String = Constants.Default.STRING, // country code
+    var name: String = Constants.Default.STRING,
+    var flag: String? = Constants.Default.STRING
 ) : BaseParcel() {
 
-    @Ignore
-    constructor() : this(time = TimeUtilKt.currentMillis()) {
-
-    }
-
-    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
-
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
-    }
+    override fun hashCode(): Int = Objects.hashCode(id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -50,4 +29,6 @@ data class Country(
         val item = other as Country
         return Objects.equal(this.id, item.id)
     }
+
+    override fun toString(): String = "Country.code:name: $code:$name"
 }

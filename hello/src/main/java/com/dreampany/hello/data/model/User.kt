@@ -5,7 +5,7 @@ import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.constant.Constant
-import com.dreampany.framework.misc.util.Util
+import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.hello.data.enums.Gender
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -40,11 +40,11 @@ data class User(
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = Util.currentMillis()) {
+    constructor() : this(time = currentMillis) {
 
     }
 
-    constructor(id: String) : this(time = Util.currentMillis(), id = id) {
+    constructor(id: String) : this(time = currentMillis, id = id) {
 
     }
 

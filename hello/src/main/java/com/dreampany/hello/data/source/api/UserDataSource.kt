@@ -12,4 +12,7 @@ interface UserDataSource {
 
     @Throws
     suspend fun write(input: User): Long
+
+    @Throws
+    suspend fun read(id: String): User?
 }

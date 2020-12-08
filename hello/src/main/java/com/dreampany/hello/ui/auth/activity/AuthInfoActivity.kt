@@ -11,7 +11,6 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.hello.R
 import com.dreampany.hello.data.enums.*
 import com.dreampany.hello.data.model.Auth
-import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.AuthInfoActivityBinding
 import com.dreampany.hello.misc.Constants
@@ -20,7 +19,6 @@ import com.dreampany.hello.misc.inactive
 import com.dreampany.hello.misc.isValidAge
 import com.dreampany.hello.ui.auth.fragment.BirthdayFragment
 import com.dreampany.hello.ui.vm.AuthViewModel
-import com.dreampany.hello.ui.vm.UserViewModel
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -37,8 +35,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     internal lateinit var pref: Pref
 
     private lateinit var bind: AuthInfoActivityBinding
-    private lateinit var authVm: AuthViewModel
-    private lateinit var userVm: UserViewModel
+    private lateinit var vm: AuthViewModel
     private lateinit var input: Auth
 
     private lateinit var birthday: Calendar
@@ -64,10 +61,8 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = binding()
-        authVm = createVm(AuthViewModel::class)
-        userVm = createVm(UserViewModel::class)
-        authVm.subscribe(this, { this.processAuthResponse(it) })
-        userVm.subscribe(this, { this.processUserResponse(it) })
+        vm = createVm(AuthViewModel::class)
+        vm.subscribe(this, { this.process(it) })
 
         bind.inputUsername.setText(input.username)
         bind.inputEmail.setText(input.email)
@@ -180,33 +175,22 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         }
         if (valid.not()) return
         input.email = email
-
-
+        input.country = country
+        vm.write(input)
     }
 
-    private fun processAuthResponse(response: Response<Type, Subtype, State, Action, Auth>) {
+    private fun process(response: Response<Type, Subtype, State, Action, Auth>) {
         if (response is Response.Progress) {
-            //bind.swipe.refresh(response.progress)
+            progress(response.progress)
         } else if (response is Response.Error) {
-            processError(response.error)
+            process(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, Auth>) {
             Timber.v("Result [%s]", response.result)
-            processResult(response.result, response.state)
+            process(response.result, response.state)
         }
     }
 
-    private fun processUserResponse(response: Response<Type, Subtype, State, Action, User>) {
-        if (response is Response.Progress) {
-            //bind.swipe.refresh(response.progress)
-        } else if (response is Response.Error) {
-            processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, User>) {
-            Timber.v("Result [%s]", response.result)
-            processResult(response.result)
-        }
-    }
-
-    private fun processError(error: SmartError) {
+    private fun process(error: SmartError) {
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
         val message =
             if (error.hostError) getString(R.string.message_no_internet) else error.message
@@ -223,11 +207,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         )
     }
 
-    private fun processResult(result: Auth?, state: State) {
-
-    }
-
-    private fun processResult(result: User?) {
+    private fun process(result: Auth?, state: State) {
 
     }
 }

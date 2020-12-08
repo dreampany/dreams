@@ -12,6 +12,7 @@ import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.data.source.repo.AuthRepo
+import com.dreampany.hello.data.source.repo.UserRepo
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,8 +27,9 @@ class AuthViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val pref : Pref,
-    private val repo: AuthRepo
+    private val pref: Pref,
+    private val repo: AuthRepo,
+    private val userRepo: UserRepo
 ) : BaseViewModel<Type, Subtype, State, Action, Auth, Auth, UiTask<Type, Subtype, State, Action, Auth>>(
     application,
     rm
@@ -39,8 +41,11 @@ class AuthViewModel
             var result: Auth? = null
             var errors: SmartError? = null
             try {
-                val opt = repo.write(input)
-                result = input
+                var opt = repo.write(input)
+                if (opt > -1) {
+
+                }
+                if (opt > -1) result = input
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -53,25 +58,25 @@ class AuthViewModel
         }
     }
 
-   /* fun write(id: String, ) {
-        uiScope.launch {
-            progressSingle(true)
-            var result: Auth? = null
-            var errors: SmartError? = null
-            try {
-                val opt = repo.write(input)
-                result = input
-            } catch (error: SmartError) {
-                Timber.e(error)
-                errors = error
-            }
-            if (errors != null) {
-                postError(errors)
-            } else {
-                postResult(result)
-            }
-        }
-    }*/
+    /* fun write(id: String, ) {
+         uiScope.launch {
+             progressSingle(true)
+             var result: Auth? = null
+             var errors: SmartError? = null
+             try {
+                 val opt = repo.write(input)
+                 result = input
+             } catch (error: SmartError) {
+                 Timber.e(error)
+                 errors = error
+             }
+             if (errors != null) {
+                 postError(errors)
+             } else {
+                 postResult(result)
+             }
+         }
+     }*/
 
     /*fun write(input: User) {
         uiScope.launch {

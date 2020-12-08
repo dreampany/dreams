@@ -11,7 +11,6 @@ import com.dreampany.hello.data.enums.Gender
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
-
 /**
  * Created by roman on 25/9/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -36,6 +35,7 @@ data class Auth(
     var password: String? = Constant.Default.NULL,
     var birthday: Long = Constant.Default.LONG,
     var gender: Gender? = Constant.Default.NULL,
+    var country: String? = Constant.Default.NULL,
     var name: String? = Constant.Default.NULL,
     var photo: String? = Constant.Default.NULL,
     var phone: String? = Constant.Default.NULL,

@@ -11,12 +11,10 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.hello.R
 import com.dreampany.hello.data.enums.*
 import com.dreampany.hello.data.model.Auth
+import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.AuthInfoActivityBinding
-import com.dreampany.hello.misc.Constants
-import com.dreampany.hello.misc.active
-import com.dreampany.hello.misc.inactive
-import com.dreampany.hello.misc.isValidAge
+import com.dreampany.hello.misc.*
 import com.dreampany.hello.ui.auth.fragment.BirthdayFragment
 import com.dreampany.hello.ui.vm.AuthViewModel
 import timber.log.Timber
@@ -37,8 +35,9 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var bind: AuthInfoActivityBinding
     private lateinit var vm: AuthViewModel
     private lateinit var input: Auth
+    private lateinit var user: User
 
-    private lateinit var birthday: Calendar
+    private var birthday: Calendar? = null
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.auth_info_activity
@@ -47,6 +46,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     override fun onStartUi(state: Bundle?) {
         val task = (task ?: return) as UiTask<Type, Subtype, State, Action, Auth>
         input = task.input ?: return
+        user = pref.user ?: return
         initUi()
     }
 
@@ -68,10 +68,10 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         bind.inputEmail.setText(input.email)
 
         birthday = Calendar.getInstance()
-        if (input.birthday.isEmpty.not()) {
-            birthday.timeInMillis = input.birthday
+        if (user.birthday.isEmpty.not()) {
+            birthday?.timeInMillis = user.birthday
         }
-        input.gender?.let {
+        user.gender?.let {
             updateUi(it)
         }
 
@@ -105,14 +105,14 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun updateUi(year: Int, month: Int, dayOfMonth: Int) {
-        birthday.update(year, month, dayOfMonth)
-        val date = birthday.format(Constants.Pattern.YY_MM_DD)
+        birthday?.update(year, month, dayOfMonth)
+        val date = birthday?.format(Constants.Pattern.YY_MM_DD)
         bind.birthday.text = date
     }
 
     private fun updateUi(gender: Gender) {
-        if (input.gender == gender) return
-        input.gender = gender
+        if (user.gender == gender) return
+        user.gender = gender
 
         bind.male.setBackgroundColor(color(R.color.colorTransparent))
         bind.male.setTextColor(color(R.color.textColorPrimary))
@@ -146,7 +146,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             bind.register.inactive()
             return
         }
-        if (input.gender == null) {
+        if (user.gender == null) {
             bind.register.inactive()
             return
         }
@@ -164,19 +164,19 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             valid = false
             //todo birthday error
         }
-        if (input.gender == null) {
+        if (user.gender == null) {
             valid = false
             //todo gender error
         }
-        val country = bind.countryPicker.selectedCountryCode
-        if (country.isNullOrEmpty()) {
+        val country = bind.countryPicker.selectedCountry
+        if (country == null) {
             valid = false
             //todo country error
         }
         if (valid.not()) return
         input.email = email
-        input.country = country
-        vm.write(input)
+        user.country = country?.country
+        vm.write(input, user)
     }
 
     private fun process(response: Response<Type, Subtype, State, Action, Auth>) {

@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.core.text.HtmlCompat
 import com.dreampany.framework.misc.constant.Constant
 import com.google.common.io.BaseEncoding
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -100,3 +101,16 @@ val String?.isPassword: Boolean
 
 val String?.isName: Boolean
     get() = this?.let { Pattern.compile(Constant.Regex.NAME).matcher(this).matches() } ?: false
+
+val String.countryCodeToFlag: String
+    get() {
+        return this
+            .toUpperCase(Locale.US)
+            .map { char ->
+                Character.codePointAt("$char", 0) - 0x41 + 0x1F1E6
+            }.map { codePoint ->
+                Character.toChars(codePoint)
+            }.joinToString(separator = "") { charArray ->
+                String(charArray)
+            }
+    }

@@ -33,7 +33,7 @@ class AuthFirestoreDataSource(
             val deviceId = context.deviceId
             val input = input.map(deviceId)
             firestore.write(col, refId, input)
-            return 1
+            return 0
         } catch (error: Throwable) {
             Timber.e(error)
             return -1

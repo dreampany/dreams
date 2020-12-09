@@ -20,4 +20,8 @@ class UserRoomDataSource(
     override suspend fun write(input: User): Long {
         return dao.insertOrReplace(input)
     }
+
+    override suspend fun read(id: String): User? {
+        TODO("Not yet implemented")
+    }
 }

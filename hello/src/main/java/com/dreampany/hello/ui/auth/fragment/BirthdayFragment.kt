@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.exts.dayOfMonth
 import com.dreampany.framework.misc.exts.month
+import com.dreampany.framework.misc.exts.value
 import com.dreampany.framework.misc.exts.year
 import com.dreampany.hello.R
 import java.util.*
@@ -18,7 +19,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class BirthdayFragment(val calendar: Calendar) : DialogFragment() {
+class BirthdayFragment(var calendar: Calendar?) : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +27,15 @@ class BirthdayFragment(val calendar: Calendar) : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-         val year = calendar.year
-        val month = calendar.month
-        val dayOfMonth = calendar.dayOfMonth
+        if (calendar == null)
+            calendar = Calendar.getInstance()
+        val year = calendar?.year.value
+        val month = calendar?.month.value
+        val dayOfMonth = calendar?.dayOfMonth.value
         val activity = requireActivity()
         return DatePickerDialog(
             activity,
-           R.style.Theme_DatePicker,
+            R.style.Theme_DatePicker,
             activity as DatePickerDialog.OnDateSetListener,
             year,
             month,

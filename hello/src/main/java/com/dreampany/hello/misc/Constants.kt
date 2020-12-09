@@ -44,7 +44,7 @@ class Constants {
             const val SEARCHES = "searches"
 
             // auth keys
-            const val TIME = Constant.Keys. TIME
+            const val TIME = Constant.Keys.TIME
             const val ID = Constant.Keys.ID
             const val REF = "ref"
             const val USERNAME = "username"
@@ -52,6 +52,11 @@ class Constants {
             const val PASSWORD = "password"
             const val NAME = "name"
             const val PHOTO = "photo"
+            const val BIRTHDAY = "birthday"
+            const val GENDER = "gender"
+            const val COUNTRY = "gender"
+            const val CODE = "code"
+            const val FLAG = "flag"
             const val PHONE = "phone"
             const val TYPE = "type"
             const val REGISTERED = "registered"
@@ -61,6 +66,13 @@ class Constants {
             //search keys
             const val HITS = "hits"
             fun hit(ref: String): String = HITS.plus(Constant.Sep.DOT).plus(ref)
+        }
+
+        object Country {
+            const val TIME = "country_time"
+            const val ID = "country_id"
+            const val NAME = "country_name"
+            const val FLAG = "country_flag"
         }
     }
 

@@ -21,7 +21,12 @@ class UserRepo
 ) : UserDataSource {
 
     @Throws
-    override suspend fun write(input: User) = withContext(Dispatchers.IO) {
+    override suspend fun write(input: User): Long = withContext(Dispatchers.IO) {
         firestore.write(input)
+    }
+
+    @Throws
+    override suspend fun read(id: String): User? = withContext(Dispatchers.IO) {
+        firestore.read(id)
     }
 }

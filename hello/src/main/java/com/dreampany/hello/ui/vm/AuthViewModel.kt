@@ -10,6 +10,7 @@ import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
+import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.data.source.repo.AuthRepo
 import com.dreampany.hello.data.source.repo.UserRepo
@@ -35,7 +36,7 @@ class AuthViewModel
     rm
 ) {
 
-    fun write(input: Auth) {
+    fun write(input: Auth, user : User) {
         uiScope.launch {
             postProgress(true)
             var result: Auth? = null
@@ -43,9 +44,13 @@ class AuthViewModel
             try {
                 var opt = repo.write(input)
                 if (opt > -1) {
-
+                    opt = userRepo.write(user)
                 }
-                if (opt > -1) result = input
+                if (opt > -1) {
+                    pref.write(input)
+                    pref.write(user)
+                    result = input
+                }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -105,6 +110,9 @@ class AuthViewModel
             var errors: SmartError? = null
             try {
                 result = repo.read(id)
+                if (result != null) {
+                    val user = userRepo.read(id)
+                }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

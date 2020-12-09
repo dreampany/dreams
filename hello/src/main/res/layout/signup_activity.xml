@@ -59,6 +59,7 @@
                     android:layout_marginTop="@dimen/align_margin"
                     android:layout_marginBottom="@dimen/align_margin"
                     android:src="@drawable/ic_facebook"
+                    android:visibility="gone"
                     auto:backgroundTint="@color/material_white"
                     auto:elevation="@dimen/align_margin"
                     auto:fabSize="normal"

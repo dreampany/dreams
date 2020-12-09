@@ -205,7 +205,7 @@ class LoginActivity : InjectActivity() {
             auth = result
             auth.type = type
             pref.write(auth)
-            if (type == Auth.Type.GOOGLE) {
+            if (type.isSocial) {
                 if (auth.registered) {
                     openHomeUi()
                 } else {
@@ -214,7 +214,7 @@ class LoginActivity : InjectActivity() {
             }
             return
         }
-        if (type == Auth.Type.GOOGLE) {
+        if (type.isSocial) {
             auth = input.auth(ref)
             user = input.user(ref)
             auth.type = type

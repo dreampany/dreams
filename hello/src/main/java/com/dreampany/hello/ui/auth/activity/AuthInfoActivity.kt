@@ -184,6 +184,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
                 Auth.Type.FACEBOOK -> {
                     input.registered = true
                     input.verified = true
+                    input.logged = true
                 }
             }
         }

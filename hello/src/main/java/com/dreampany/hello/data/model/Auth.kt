@@ -64,5 +64,8 @@ data class Auth(
 
         override val value: String
             get() = name
+
+        val isSocial : Boolean
+            get() = this == GOOGLE || this == FACEBOOK
     }
 }

@@ -15,12 +15,14 @@ import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.Auth
+import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.manager.AuthManager
 import com.dreampany.hello.misc.active
 import com.dreampany.hello.misc.auth
 import com.dreampany.hello.misc.inactive
+import com.dreampany.hello.misc.user
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.vm.AuthViewModel
 import com.google.firebase.auth.*
@@ -50,8 +52,9 @@ class LoginActivity : InjectActivity() {
     private lateinit var vm: AuthViewModel
 
     private lateinit var type: Auth.Type
-    private lateinit var user: FirebaseUser
+    private lateinit var input: FirebaseUser
     private lateinit var auth: Auth
+    private lateinit var user: User
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.login_activity
@@ -150,13 +153,13 @@ class LoginActivity : InjectActivity() {
 
     private fun loginGoogle(user: FirebaseUser) {
         this.type = Auth.Type.GOOGLE
-        this.user = user
+        this.input = user
         vm.read(user.uid)
     }
 
     private fun loginFacebook(user: FirebaseUser) {
         this.type = Auth.Type.FACEBOOK
-        this.user = user
+        this.input = user
         vm.read(user.uid)
     }
 
@@ -201,6 +204,7 @@ class LoginActivity : InjectActivity() {
         if (result != null) {
             auth = result
             auth.type = type
+            pref.write(auth)
             if (type == Auth.Type.GOOGLE) {
                 if (auth.registered) {
                     openHomeUi()
@@ -211,9 +215,11 @@ class LoginActivity : InjectActivity() {
             return
         }
         if (type == Auth.Type.GOOGLE) {
-            auth = user.auth(ref)
+            auth = input.auth(ref)
+            user = input.user(ref)
             auth.type = type
             pref.write(auth)
+            pref.write(user)
             openAuthInfoUi()
         }
     }

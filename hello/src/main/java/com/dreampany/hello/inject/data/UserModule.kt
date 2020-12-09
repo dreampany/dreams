@@ -1,5 +1,6 @@
 package com.dreampany.hello.inject.data
 
+import android.content.Context
 import com.dreampany.framework.inject.annote.Firestore
 import com.dreampany.hello.data.source.api.UserDataSource
 import com.dreampany.hello.manager.FirestoreManager
@@ -21,8 +22,9 @@ class UserModule {
     @Singleton
     @Provides
     @Firestore
-    fun provideUserFirestoreDataSource(
+    fun provideFirestore(
+        context: Context,
         mapper: UserMapper,
         firestore: FirestoreManager
-    ): UserDataSource = UserFirestoreDataSource(mapper, firestore)
+    ): UserDataSource = UserFirestoreDataSource(context, mapper, firestore)
 }

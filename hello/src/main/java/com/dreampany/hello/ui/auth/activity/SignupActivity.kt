@@ -184,8 +184,8 @@ class SignupActivity : InjectActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser?.user ?: return@addOnCompleteListener
-                    processResult(user)
+                    /*val user = auth.currentUser?.user ?: return@addOnCompleteListener
+                    processResult(user)*/
                 } else {
 
                 }

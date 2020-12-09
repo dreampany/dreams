@@ -39,20 +39,19 @@ fun MaterialButton.active(active: Boolean) {
 val Calendar?.isValidAge: Boolean
     get() = this?.age.value >= Constants.Date.MIN_AGE
 
-/*val FirebaseUser.user: User
-    get() {
-        val user = User(uid)
-        user.name = displayName
-        user.photo = photoUrl.toString()
-        user.email = email
-        user.phone = phoneNumber
-        return user
-    }*/
-
 fun FirebaseUser.auth(ref: String): Auth {
     val output = Auth(uid)
     output.ref = ref
     output.email = email
+    return output
+}
+
+fun FirebaseUser.user(ref: String): User {
+    val output = User(uid)
+    output.ref = ref
+    output.name = displayName
+    output.photo = photoUrl.toString()
+    output.phone = phoneNumber
     return output
 }
 

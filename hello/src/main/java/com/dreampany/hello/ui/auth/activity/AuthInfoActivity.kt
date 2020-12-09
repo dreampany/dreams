@@ -16,6 +16,7 @@ import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.AuthInfoActivityBinding
 import com.dreampany.hello.misc.*
 import com.dreampany.hello.ui.auth.fragment.BirthdayFragment
+import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.vm.AuthViewModel
 import timber.log.Timber
 import java.util.*
@@ -106,6 +107,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
 
     private fun updateUi(year: Int, month: Int, dayOfMonth: Int) {
         birthday?.update(year, month, dayOfMonth)
+        user.birthday = birthday?.timeInMillis.value
         val date = birthday?.format(Constants.Pattern.YY_MM_DD)
         bind.birthday.text = date
     }
@@ -176,6 +178,15 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
         if (valid.not()) return
         input.email = email
         user.country = country?.country
+        input.type?.let {
+            when (it) {
+                Auth.Type.GOOGLE,
+                Auth.Type.FACEBOOK -> {
+                    input.registered = true
+                    input.verified = true
+                }
+            }
+        }
         vm.write(input, user)
     }
 
@@ -208,6 +219,14 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun process(result: Auth?, state: State) {
+        if (result == null) {
+            //todo failed
+            return
+        }
+        openHomeUi()
+    }
 
+    private fun openHomeUi() {
+        open(HomeActivity::class, true)
     }
 }

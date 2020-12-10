@@ -3,7 +3,7 @@ package com.dreampany.hello.ui.auth.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import androidx.lifecycle.Observer
+import android.view.View
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SimpleTextWatcher
@@ -15,33 +15,17 @@ import com.dreampany.hello.data.enums.Action
 import com.dreampany.hello.data.enums.State
 import com.dreampany.hello.data.enums.Subtype
 import com.dreampany.hello.data.enums.Type
+import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.User
+import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.SignupActivityBinding
-import com.dreampany.hello.misc.Constants
-import com.dreampany.hello.misc.active
-import com.dreampany.hello.misc.inactive
-import com.dreampany.hello.misc.user
-import com.dreampany.hello.ui.vm.UserViewModel
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.dreampany.hello.manager.AuthManager
+import com.dreampany.hello.misc.*
+import com.dreampany.hello.ui.home.activity.HomeActivity
+import com.dreampany.hello.ui.vm.AuthViewModel
+import com.google.firebase.auth.*
 import timber.log.Timber
-import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by roman on 24/9/20
@@ -52,15 +36,24 @@ import java.util.*
 class SignupActivity : InjectActivity() {
 
     companion object {
-        const val RC_GOOGLE_SIGN_IN = 101
+        const val RC_EMAIL = 501
+        const val RC_GOOGLE = 502
+        const val RC_FACEBOOK = 503
     }
 
-    private lateinit var bind: SignupActivityBinding
-    private lateinit var vm: UserViewModel
+    @Inject
+    internal lateinit var pref: Pref
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var client: GoogleSignInClient
-    private lateinit var manager: CallbackManager
+    @Inject
+    internal lateinit var authM: AuthManager
+
+    private lateinit var bind: SignupActivityBinding
+    private lateinit var vm: AuthViewModel
+
+    private lateinit var type: Auth.Type
+    private lateinit var input: FirebaseUser
+    private lateinit var auth: Auth
+    private lateinit var user: User
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.signup_activity
@@ -68,27 +61,68 @@ class SignupActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        initAuth()
     }
 
     override fun onStopUi() {
+        authM.unregisterCallback(RC_EMAIL)
+        authM.unregisterCallback(RC_GOOGLE)
+        authM.unregisterCallback(RC_FACEBOOK)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val result = manager.onActivityResult(requestCode, resultCode, data)
+        val result = authM.handleResult(requestCode, resultCode, data)
         if (result) return
-        if (requestCode == RC_GOOGLE_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleResult(task)
-        }
     }
 
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = binding()
-        vm = createVm(UserViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
+        vm = createVm(AuthViewModel::class)
+        vm.subscribe(this, { this.processAuthResponse(it) })
+
+        bind.inputEmail.setOnLongClickListener(View.OnLongClickListener {
+            it.requestFocus()
+            false
+        })
+
+        bind.inputPassword.setOnLongClickListener(View.OnLongClickListener {
+            it.requestFocus()
+            false
+        })
+
+        bind.inputConfirmPassword.setOnLongClickListener(View.OnLongClickListener {
+            it.requestFocus()
+            false
+        })
+
+
+        authM.registerCallback(RC_EMAIL, object : AuthManager.Callback {
+            override fun onResult(result: FirebaseUser) {
+                loginEmail(result)
+            }
+
+            override fun onError(error: Throwable) {
+            }
+        })
+
+        authM.registerCallback(RC_GOOGLE, object : AuthManager.Callback {
+            override fun onResult(result: FirebaseUser) {
+                loginGoogle(result)
+            }
+
+            override fun onError(error: Throwable) {
+            }
+        })
+
+        authM.registerCallback(RC_FACEBOOK, object : AuthManager.Callback {
+            override fun onResult(result: FirebaseUser) {
+                loginFacebook(result)
+            }
+
+            override fun onError(error: Throwable) {
+            }
+        })
 
         bind.inputEmail.addTextChangedListener(object : SimpleTextWatcher() {
             override fun afterTextChanged(text: Editable?) {
@@ -115,46 +149,19 @@ class SignupActivity : InjectActivity() {
         }
     }
 
-    private fun initAuth() {
-        if (::auth.isInitialized) return
-        auth = Firebase.auth
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(Constants.Apis.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
-            .requestEmail()
-            .requestProfile()
-            .build()
-        client = GoogleSignIn.getClient(this, gso)
-
-        manager = CallbackManager.Factory.create()
-        LoginManager.getInstance()
-            .registerCallback(manager, object : FacebookCallback<LoginResult> {
-                override fun onSuccess(result: LoginResult) {
-                    loginCredential(result.accessToken)
-                }
-
-                override fun onCancel() {
-                    Timber.w("facebook login cancelled")
-                }
-
-                override fun onError(error: FacebookException) {
-                    Timber.e(error)
-                }
-
-            })
-    }
-
     private fun updateUi() {
         if (bind.inputEmail.isEmpty.not() || bind.inputPassword.isEmpty.not()) {
             bind.register.active()
         } else {
             bind.register.inactive()
         }
+        bind.layoutEmail.error = null
+        bind.layoutPassword.error = null
     }
 
     private fun register() {
         val email = bind.inputEmail.trimValue
         val password = bind.inputPassword.trimValue
-        val confirmPassword = bind.inputConfirmPassword.trimValue
         var valid = true
         if (!email.isEmail) {
             valid = false
@@ -165,62 +172,47 @@ class SignupActivity : InjectActivity() {
             bind.layoutPassword.error = getString(R.string.error_password)
         }
         if (valid.not()) return
-        //todo call to firestore
+        // Get Firebase User
+        //vm.read(email, password)
+
+        authM.registerEmail(email, password, RC_EMAIL)
+    }
+
+    private fun loginEmail(user: FirebaseUser) {
+        this.type = Auth.Type.EMAIL
+        this.input = user
+        vm.read(user.uid)
+    }
+
+    private fun loginGoogle(user: FirebaseUser) {
+        this.type = Auth.Type.GOOGLE
+        this.input = user
+        vm.read(user.uid)
+    }
+
+    private fun loginFacebook(user: FirebaseUser) {
+        this.type = Auth.Type.FACEBOOK
+        this.input = user
+        vm.read(user.uid)
     }
 
     private fun loginGoogle() {
-        startActivityForResult(client.signInIntent, RC_GOOGLE_SIGN_IN)
+        authM.signInGoogle(this, RC_GOOGLE)
     }
 
     private fun loginFacebook() {
-        LoginManager.getInstance()
-            .logInWithReadPermissions(
-                this,
-                Arrays.asList("public_profile", "email")
-            )
+        authM.signInFacebook(this, RC_FACEBOOK)
     }
 
-    private fun loginCredential(credential: AuthCredential) {
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    /*val user = auth.currentUser?.user ?: return@addOnCompleteListener
-                    processResult(user)*/
-                } else {
-
-                }
-            }
-    }
-
-    private fun loginCredential(token: String?) {
-        Timber.v("google token: %s", token)
-        val credential = GoogleAuthProvider.getCredential(token, null)
-        loginCredential(credential)
-    }
-
-    private fun loginCredential(token: AccessToken) {
-        Timber.v("facebook token: %s", token.token)
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        loginCredential(credential)
-    }
-
-    private fun handleResult(task: Task<GoogleSignInAccount>) {
-        try {
-            val account = task.getResult(ApiException::class.java) ?: return
-            loginCredential(account.idToken)
-        } catch (error: Throwable) {
-            Timber.e(error)
-        }
-    }
-
-    private fun processResponse(response: Response<Type, Subtype, State, Action, User>) {
+    private fun processAuthResponse(response: Response<Type, Subtype, State, Action, Auth>) {
         if (response is Response.Progress) {
             //bind.swipe.refresh(response.progress)
+            progress(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, User>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, Auth>) {
             Timber.v("Result [%s]", response.result)
-            processResult(response.result)
+            processResult(response.result, response.state)
         }
     }
 
@@ -241,16 +233,43 @@ class SignupActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: User?) {
+    private fun processResult(result: Auth?, state: State) {
         if (result != null) {
-            val task = UiTask(
-                Type.USER,
-                Subtype.DEFAULT,
-                State.DEFAULT,
-                Action.DEFAULT,
-                result
-            )
-            open(AuthInfoActivity::class, task)
+            auth = result
+            auth.type = type
+            pref.write(auth)
+            if (type.isSocial) {
+                if (auth.registered) {
+                    openHomeUi()
+                } else {
+                    openAuthInfoUi()
+                }
+            }
+            return
         }
+        if (type.isSocial) {
+            auth = input.auth(ref)
+            user = input.user(ref)
+            auth.type = type
+            pref.write(auth)
+            pref.write(user)
+            openAuthInfoUi()
+        }
+    }
+
+    private fun openAuthInfoUi() {
+        pref.signIn()
+        val task = UiTask(
+            Type.AUTH,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            auth
+        )
+        open(AuthInfoActivity::class, task)
+    }
+
+    private fun openHomeUi() {
+        open(HomeActivity::class, true)
     }
 }

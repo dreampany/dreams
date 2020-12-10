@@ -37,12 +37,12 @@ class AuthActivity : InjectActivity() {
         if (::bind.isInitialized) return
         bind = binding()
 
-        bind.signup.setOnSafeClickListener {
-            open(SignupActivity::class)
-        }
-
         bind.login.setOnSafeClickListener {
             open(LoginActivity::class)
+        }
+
+        bind.signup.setOnSafeClickListener {
+            open(SignupActivity::class)
         }
 
         bind.start.setOnClickListener {

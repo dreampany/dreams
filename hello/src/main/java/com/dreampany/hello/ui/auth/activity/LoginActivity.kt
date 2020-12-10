@@ -3,6 +3,7 @@ package com.dreampany.hello.ui.auth.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.view.View
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.exts.*
 import com.dreampany.framework.misc.func.SimpleTextWatcher
@@ -38,8 +39,9 @@ import javax.inject.Inject
 class LoginActivity : InjectActivity() {
 
     companion object {
-        const val RC_GOOGLE_SIGN_IN = 501
-        const val RC_FACEBOOK_SIGN_IN = 502
+        const val RC_EMAIL = 501
+        const val RC_GOOGLE = 502
+        const val RC_FACEBOOK = 503
     }
 
     @Inject
@@ -65,8 +67,8 @@ class LoginActivity : InjectActivity() {
     }
 
     override fun onStopUi() {
-        authM.unregisterCallback(RC_GOOGLE_SIGN_IN)
-        authM.unregisterCallback(RC_FACEBOOK_SIGN_IN)
+        authM.unregisterCallback(RC_GOOGLE)
+        authM.unregisterCallback(RC_FACEBOOK)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -81,7 +83,17 @@ class LoginActivity : InjectActivity() {
         vm = createVm(AuthViewModel::class)
         vm.subscribe(this, { this.processAuthResponse(it) })
 
-        authM.registerCallback(RC_GOOGLE_SIGN_IN, object : AuthManager.Callback {
+        bind.inputEmail.setOnLongClickListener(View.OnLongClickListener {
+            it.requestFocus()
+            false
+        })
+
+        bind.inputPassword.setOnLongClickListener(View.OnLongClickListener {
+            it.requestFocus()
+            false
+        })
+
+        authM.registerCallback(RC_GOOGLE, object : AuthManager.Callback {
             override fun onResult(result: FirebaseUser) {
                 loginGoogle(result)
             }
@@ -90,7 +102,7 @@ class LoginActivity : InjectActivity() {
             }
         })
 
-        authM.registerCallback(RC_FACEBOOK_SIGN_IN, object : AuthManager.Callback {
+        authM.registerCallback(RC_FACEBOOK, object : AuthManager.Callback {
             override fun onResult(result: FirebaseUser) {
                 loginFacebook(result)
             }
@@ -164,11 +176,11 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun loginGoogle() {
-        authM.signInGoogle(this, RC_GOOGLE_SIGN_IN)
+        authM.signInGoogle(this, RC_GOOGLE)
     }
 
     private fun loginFacebook() {
-        authM.signInFacebook(this, RC_FACEBOOK_SIGN_IN)
+        authM.signInFacebook(this, RC_FACEBOOK)
     }
 
     private fun processAuthResponse(response: Response<Type, Subtype, State, Action, Auth>) {

@@ -46,7 +46,7 @@ class AuthManager
     }
 
     enum class Type {
-        GOOGLE, FACEBOOK;
+        EMAIL, GOOGLE, FACEBOOK;
 
         val isGoogle: Boolean get() = this == GOOGLE
         val isFacebook: Boolean get() = this == FACEBOOK
@@ -66,11 +66,9 @@ class AuthManager
 
     }
 
-    val isSignIn: Boolean
-        get() = user != null
+    val user: FirebaseUser? get() = auth.currentUser
 
-    val user: FirebaseUser?
-        get() = auth.currentUser
+    val logged: Boolean get() = user != null
 
     fun registerCallback(requestCode: Int, callback: Callback) {
         callbacks.put(requestCode, callback)
@@ -82,10 +80,30 @@ class AuthManager
 
     @Synchronized
     fun signInAnonymously(): Boolean {
-        if (isSignIn) return true
+        if (logged) return true
         val task: Task<AuthResult> = auth.signInAnonymously()
         val result = Tasks.await(task)
-        return isSignIn
+        return logged
+    }
+
+/*    fun registerEmail(email: String, password: String, requestCode: Int) {
+        val task: Task<AuthResult> = auth.createUserWithEmailAndPassword(email, password)
+        val result = Tasks.await(task)
+        val callback: Callback = callbacks.get(requestCode) ?: return
+        val user = result.user ?: return
+        callback.onResult(user)
+    }*/
+
+    fun registerEmail(email: String, password: String, requestCode: Int) {
+        val task: Task<AuthResult> = auth.createUserWithEmailAndPassword(email, password)
+        task.addOnSuccessListener { result ->
+            val callback: Callback = callbacks.get(requestCode) ?: return@addOnSuccessListener
+            val user = result.user ?: return@addOnSuccessListener
+            callback.onResult(user)
+        }.addOnFailureListener { error ->
+            Timber.e(error)
+        }
+
     }
 
     fun signInGoogle(instance: Activity, requestCode: Int) {

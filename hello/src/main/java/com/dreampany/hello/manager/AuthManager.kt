@@ -94,7 +94,7 @@ class AuthManager
         callback.onResult(user)
     }*/
 
-    fun registerEmail(email: String, password: String, requestCode: Int) {
+    @Synchronized fun signUpEmail(email: String, password: String, requestCode: Int) {
         val task: Task<AuthResult> = auth.createUserWithEmailAndPassword(email, password)
         task.addOnSuccessListener { result ->
             val callback: Callback = callbacks.get(requestCode) ?: return@addOnSuccessListener
@@ -103,9 +103,22 @@ class AuthManager
         }.addOnFailureListener { error ->
             Timber.e(error)
         }
-
     }
 
+    @Synchronized
+    fun signInEmail(email: String, password: String, requestCode: Int) {
+        val task: Task<AuthResult> = auth.signInWithEmailAndPassword(email, password)
+        task.addOnSuccessListener { result ->
+            val callback: Callback = callbacks.get(requestCode) ?: return@addOnSuccessListener
+            val user = result.user ?: return@addOnSuccessListener
+            callback.onResult(user)
+        }.addOnFailureListener { error ->
+            Timber.e(error)
+        }
+    }
+
+
+    @Synchronized
     fun signInGoogle(instance: Activity, requestCode: Int) {
         if (google == null) {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -118,6 +131,7 @@ class AuthManager
         instance.startActivityForResult(google?.signInIntent, requestCode)
     }
 
+    @Synchronized
     fun signInFacebook(instance: Activity, requestCode: Int) {
         if (facebook == null) {
             facebook = CallbackManager.Factory.create()
@@ -149,6 +163,7 @@ class AuthManager
         )
     }
 
+    @Synchronized
     fun handleResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val type: Type = types.get(requestCode) ?: return false
         val callback: Callback = callbacks.get(requestCode) ?: return false

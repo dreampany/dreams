@@ -224,6 +224,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             //todo failed
             return
         }
+        pref.login()
         openHomeUi()
     }
 

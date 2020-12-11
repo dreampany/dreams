@@ -61,6 +61,7 @@ class SignupActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        updateUi()
     }
 
     override fun onStopUi() {
@@ -99,7 +100,7 @@ class SignupActivity : InjectActivity() {
 
         authM.registerCallback(RC_EMAIL, object : AuthManager.Callback {
             override fun onResult(result: FirebaseUser) {
-                loginEmail(result)
+                signUpEmail(result)
             }
 
             override fun onError(error: Throwable) {
@@ -137,7 +138,7 @@ class SignupActivity : InjectActivity() {
         })
 
         bind.register.setOnSafeClickListener {
-            register()
+            signUpEmail()
         }
 
         bind.google.setOnSafeClickListener {
@@ -150,16 +151,16 @@ class SignupActivity : InjectActivity() {
     }
 
     private fun updateUi() {
-        if (bind.inputEmail.isEmpty.not() || bind.inputPassword.isEmpty.not()) {
-            bind.register.active()
-        } else {
+        if (bind.inputEmail.trimValue.isEmail.not() || bind.inputEmail.isEmpty || bind.inputPassword.isEmpty || bind.inputConfirmPassword.isEmpty) {
             bind.register.inactive()
+        } else {
+            bind.register.active()
         }
         bind.layoutEmail.error = null
         bind.layoutPassword.error = null
     }
 
-    private fun register() {
+    private fun signUpEmail() {
         val email = bind.inputEmail.trimValue
         val password = bind.inputPassword.trimValue
         var valid = true
@@ -175,10 +176,10 @@ class SignupActivity : InjectActivity() {
         // Get Firebase User
         //vm.read(email, password)
 
-        authM.registerEmail(email, password, RC_EMAIL)
+        authM.signUpEmail(email, password, RC_EMAIL)
     }
 
-    private fun loginEmail(user: FirebaseUser) {
+    private fun signUpEmail(user: FirebaseUser) {
         this.type = Auth.Type.EMAIL
         this.input = user
         vm.read(user.uid)
@@ -247,7 +248,7 @@ class SignupActivity : InjectActivity() {
             }
             return
         }
-        if (type.isSocial) {
+        if (::input.isInitialized) {
             auth = input.auth(ref)
             user = input.user(ref)
             auth.type = type

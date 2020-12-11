@@ -64,9 +64,11 @@ class LoginActivity : InjectActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        updateUi()
     }
 
     override fun onStopUi() {
+        authM.unregisterCallback(RC_EMAIL)
         authM.unregisterCallback(RC_GOOGLE)
         authM.unregisterCallback(RC_FACEBOOK)
     }
@@ -91,6 +93,15 @@ class LoginActivity : InjectActivity() {
         bind.inputPassword.setOnLongClickListener(View.OnLongClickListener {
             it.requestFocus()
             false
+        })
+
+        authM.registerCallback(RC_EMAIL, object : AuthManager.Callback {
+            override fun onResult(result: FirebaseUser) {
+                loginEmail(result)
+            }
+
+            override fun onError(error: Throwable) {
+            }
         })
 
         authM.registerCallback(RC_GOOGLE, object : AuthManager.Callback {
@@ -124,7 +135,7 @@ class LoginActivity : InjectActivity() {
         })
 
         bind.login.setOnSafeClickListener {
-            login()
+            loginEmail()
         }
 
         bind.google.setOnSafeClickListener {
@@ -137,16 +148,16 @@ class LoginActivity : InjectActivity() {
     }
 
     private fun updateUi() {
-        if (bind.inputEmail.isEmpty.not() || bind.inputPassword.isEmpty.not()) {
-            bind.login.active()
-        } else {
+        if (bind.inputEmail.trimValue.isEmail.not() || bind.inputEmail.isEmpty || bind.inputPassword.isEmpty) {
             bind.login.inactive()
+        } else {
+            bind.login.active()
         }
         bind.layoutEmail.error = null
         bind.layoutPassword.error = null
     }
 
-    private fun login() {
+    private fun loginEmail() {
         val email = bind.inputEmail.trimValue
         val password = bind.inputPassword.trimValue
         var valid = true
@@ -160,7 +171,13 @@ class LoginActivity : InjectActivity() {
         }
         if (valid.not()) return
         // Get Firebase User
-        vm.read(email, password)
+        authM.signInEmail(email, password, RC_EMAIL)
+    }
+
+    private fun loginEmail(user: FirebaseUser) {
+        this.type = Auth.Type.EMAIL
+        this.input = user
+        vm.read(user.uid)
     }
 
     private fun loginGoogle(user: FirebaseUser) {
@@ -217,16 +234,14 @@ class LoginActivity : InjectActivity() {
             auth = result
             auth.type = type
             pref.write(auth)
-            if (type.isSocial) {
-                if (auth.registered) {
-                    openHomeUi()
-                } else {
-                    openAuthInfoUi()
-                }
+            if (auth.registered) {
+                openHomeUi()
+            } else {
+                openAuthInfoUi()
             }
             return
         }
-        if (type.isSocial) {
+        if (::input.isInitialized) {
             auth = input.auth(ref)
             user = input.user(ref)
             auth.type = type

@@ -53,12 +53,13 @@
                     android:layout_height="0dp" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/facebook" android:visibility="gone"
+                    android:id="@+id/facebook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/align_margin"
                     android:layout_marginBottom="@dimen/align_margin"
                     android:src="@drawable/ic_facebook"
+                    android:visibility="gone"
                     auto:backgroundTint="@color/material_white"
                     auto:elevation="@dimen/align_margin"
                     auto:fabSize="normal"
@@ -95,6 +96,7 @@
                     android:gravity="top|start"
                     android:hint="mailaddres@example.com"
                     android:inputType="textEmailAddress"
+                    android:text="roman.bjit@gmail.com"
                     android:textSize="@dimen/textSizePrimary" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -119,6 +121,7 @@
                     android:gravity="top|start"
                     android:hint="Enter password"
                     android:inputType="textPassword"
+                    android:text="ROOTnet080208"
                     android:textSize="@dimen/textSizePrimary" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -127,10 +130,10 @@
                 android:id="@+id/error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginEnd="@dimen/align_margin"
                 android:layout_below="@id/layout_password"
+                android:layout_marginStart="@dimen/align_margin"
                 android:layout_marginTop="@dimen/align_margin"
+                android:layout_marginEnd="@dimen/align_margin"
                 android:text="@string/error_auth"
                 android:textColor="@color/error"
                 android:textSize="@dimen/textSizePrimary"

@@ -23,10 +23,118 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <RelativeLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|start"
+                    android:hint="mailaddres@example.com"
+                    android:inputType="textEmailAddress"
+                    android:text="roman.bjit@gmail.com" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/para_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent"
+                auto:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|start"
+                    android:hint="Enter password"
+                    android:inputType="textPassword"
+                    android:text="ROOTnet080208" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/align_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="@color/colorAccent"
+                auto:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|start"
+                    android:hint="Enter password (for confirmation)"
+                    android:inputType="textPassword"
+                    android:text="ROOTnet080208" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/align_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:textColor="@color/error"  />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/register"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonSizePrimary"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/para_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:text="Register"
+                android:textAllCaps="false"
+                android:textSize="@dimen/textSizePrimary"
+                auto:backgroundTint="@color/textColorSecondary"
+                auto:cornerRadius="@dimen/buttonRadius"
+                auto:elevation="@dimen/buttonRadius" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/buttons"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:layout_marginBottom="@dimen/para_margin"
+                android:text="Log in with the following account"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/textSizeSecondary" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/buttons"
@@ -66,104 +174,7 @@
                     auto:tint="#4178EB" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/buttons"
-                android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginEnd="@dimen/align_margin"
-                android:layout_marginBottom="@dimen/para_margin"
-                android:text="Log in with the following account"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/textSizeSecondary" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/align_margin"
-                android:textColorHint="@color/textColorSecondary"
-                auto:hintTextColor="@color/colorAccent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:gravity="top|start"
-                    android:hint="mailaddres@example.com"
-                    android:inputType="textEmailAddress"
-                    android:text="roman.bjit@gmail.com" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_email"
-                android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/align_margin"
-                android:textColorHint="@color/textColorSecondary"
-                auto:hintTextColor="@color/colorAccent"
-                auto:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:gravity="top|start"
-                    android:hint="Enter password"
-                    android:inputType="textPassword"
-                    android:text="ROOTnet080208" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_password"
-                android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/align_margin"
-                android:textColorHint="@color/textColorSecondary"
-                auto:hintTextColor="@color/colorAccent"
-                auto:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_confirm_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:gravity="top|start"
-                    android:hint="Enter password (for confirmation)"
-                    android:inputType="textPassword"
-                    android:text="ROOTnet080208" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/register"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/buttonSizePrimary"
-                android:layout_below="@id/layout_confirm_password"
-                android:layout_marginStart="@dimen/align_margin"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/align_margin"
-                android:text="Register"
-                android:textAllCaps="false"
-                android:textSize="@dimen/textSizePrimary"
-                auto:backgroundTint="@color/textColorSecondary"
-                auto:cornerRadius="@dimen/buttonRadius"
-                auto:elevation="@dimen/buttonRadius" />
-
-        </RelativeLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

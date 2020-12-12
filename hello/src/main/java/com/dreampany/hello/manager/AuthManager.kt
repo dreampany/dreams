@@ -42,7 +42,7 @@ class AuthManager
 
     interface Callback {
         fun onResult(result: FirebaseUser)
-        fun onError(error: Throwable)
+        fun onError(error: SmartError)
     }
 
     enum class Type {
@@ -94,7 +94,8 @@ class AuthManager
         callback.onResult(user)
     }*/
 
-    @Synchronized fun signUpEmail(email: String, password: String, requestCode: Int) {
+    @Synchronized
+    fun signUpEmail(email: String, password: String, requestCode: Int) {
         val task: Task<AuthResult> = auth.createUserWithEmailAndPassword(email, password)
         task.addOnSuccessListener { result ->
             val callback: Callback = callbacks.get(requestCode) ?: return@addOnSuccessListener
@@ -102,6 +103,8 @@ class AuthManager
             callback.onResult(user)
         }.addOnFailureListener { error ->
             Timber.e(error)
+            val callback: Callback = callbacks.get(requestCode) ?: return@addOnFailureListener
+            callback.onError(SmartError(error = error))
         }
     }
 
@@ -114,6 +117,8 @@ class AuthManager
             callback.onResult(user)
         }.addOnFailureListener { error ->
             Timber.e(error)
+            val callback: Callback = callbacks.get(requestCode) ?: return@addOnFailureListener
+            callback.onError(SmartError(error = error))
         }
     }
 

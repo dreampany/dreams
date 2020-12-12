@@ -4,13 +4,14 @@ import com.dreampany.framework.misc.exts.age
 import com.dreampany.framework.misc.exts.color
 import com.dreampany.framework.misc.exts.countryCodeToFlag
 import com.dreampany.framework.misc.exts.value
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.hello.R
 import com.dreampany.hello.data.enums.Gender
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.Country
 import com.dreampany.hello.data.model.User
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
 import com.hbb20.CCPCountry
 import com.hbb20.CountryCodePicker
 import java.util.*
@@ -175,3 +176,10 @@ val Map<String, Any>.user: User
 val CountryCodePicker.selectedCountry: CCPCountry?
     get() = CCPCountry.getLibraryMasterCountriesEnglish()
         .find { this.selectedCountryNameCode == it.nameCode }
+
+val SmartError?.isAuthException: Boolean get() = this?.error is FirebaseAuthException
+val SmartError?.isUserCollision: Boolean get() = this?.error is FirebaseAuthUserCollisionException
+val SmartError?.isInvalidCredentials: Boolean get() = this?.error is FirebaseAuthInvalidCredentialsException
+val SmartError?.isWeakPassword: Boolean get() = this?.error is FirebaseAuthWeakPasswordException
+val SmartError?.isInvalidUser: Boolean get() = this?.error is FirebaseAuthInvalidUserException
+val SmartError?.isFirebaseError: Boolean get() = isAuthException or isUserCollision or isInvalidCredentials or isWeakPassword or isInvalidUser

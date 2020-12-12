@@ -20,10 +20,7 @@ import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.pref.Pref
 import com.dreampany.hello.databinding.LoginActivityBinding
 import com.dreampany.hello.manager.AuthManager
-import com.dreampany.hello.misc.active
-import com.dreampany.hello.misc.auth
-import com.dreampany.hello.misc.inactive
-import com.dreampany.hello.misc.user
+import com.dreampany.hello.misc.*
 import com.dreampany.hello.ui.home.activity.HomeActivity
 import com.dreampany.hello.ui.vm.AuthViewModel
 import com.google.firebase.auth.*
@@ -97,10 +94,17 @@ class LoginActivity : InjectActivity() {
 
         authM.registerCallback(RC_EMAIL, object : AuthManager.Callback {
             override fun onResult(result: FirebaseUser) {
+                progress(false)
                 loginEmail(result)
             }
 
-            override fun onError(error: Throwable) {
+            override fun onError(error: SmartError) {
+                progress(false)
+                if (error.isFirebaseError) {
+                    bind.error.text = error.error?.message
+                    bind.login.inactive()
+                    return
+                }
             }
         })
 
@@ -109,7 +113,7 @@ class LoginActivity : InjectActivity() {
                 loginGoogle(result)
             }
 
-            override fun onError(error: Throwable) {
+            override fun onError(error: SmartError) {
             }
         })
 
@@ -118,7 +122,7 @@ class LoginActivity : InjectActivity() {
                 loginFacebook(result)
             }
 
-            override fun onError(error: Throwable) {
+            override fun onError(error: SmartError) {
             }
         })
 
@@ -155,6 +159,7 @@ class LoginActivity : InjectActivity() {
         }
         bind.layoutEmail.error = null
         bind.layoutPassword.error = null
+        bind.error.text = null
     }
 
     private fun loginEmail() {
@@ -170,7 +175,9 @@ class LoginActivity : InjectActivity() {
             bind.layoutPassword.error = getString(R.string.error_password)
         }
         if (valid.not()) return
-        // Get Firebase User
+        bind.error.text = null
+        bind.login.disable()
+        progress(true)
         authM.signInEmail(email, password, RC_EMAIL)
     }
 
@@ -234,7 +241,8 @@ class LoginActivity : InjectActivity() {
             auth = result
             auth.type = type
             pref.write(auth)
-            if (auth.registered) {
+            if (auth.logged) {
+                pref.login()
                 openHomeUi()
             } else {
                 openAuthInfoUi()

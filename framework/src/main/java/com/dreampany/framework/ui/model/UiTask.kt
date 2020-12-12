@@ -16,12 +16,7 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-data class UiTask<
-        T : BaseType,
-        S : BaseSubtype,
-        ST : BaseState,
-        A : BaseAction,
-        I : BaseParcel>(
+data class UiTask<T : BaseType, S : BaseSubtype, ST : BaseState, A : BaseAction, I : BaseParcel>(
     override var type: T,
     override var subtype: S,
     override var state: ST,

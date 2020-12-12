@@ -39,6 +39,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var user: User
 
     private var birthday: Calendar? = null
+    private var gender: Gender? = null
 
     override val homeUp: Boolean = true
     override val layoutRes: Int = R.layout.auth_info_activity
@@ -107,14 +108,13 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
 
     private fun updateUi(year: Int, month: Int, dayOfMonth: Int) {
         birthday?.update(year, month, dayOfMonth)
-        user.birthday = birthday?.timeInMillis.value
         val date = birthday?.format(Constants.Pattern.YY_MM_DD)
         bind.birthday.text = date
     }
 
     private fun updateUi(gender: Gender) {
-        if (user.gender == gender) return
-        user.gender = gender
+        if (this.gender == gender) return
+        this.gender = gender
 
         bind.male.setBackgroundColor(color(R.color.colorTransparent))
         bind.male.setTextColor(color(R.color.textColorPrimary))
@@ -148,7 +148,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             bind.register.inactive()
             return
         }
-        if (user.gender == null) {
+        if (gender == null) {
             bind.register.inactive()
             return
         }
@@ -156,6 +156,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun register() {
+        val username = bind.inputUsername.trimValue
         val email = bind.inputEmail.trimValue
         var valid = true
         if (email.isEmail.not()) {
@@ -166,7 +167,7 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             valid = false
             //todo birthday error
         }
-        if (user.gender == null) {
+        if (gender == null) {
             valid = false
             //todo gender error
         }
@@ -176,17 +177,15 @@ class AuthInfoActivity : InjectActivity(), DatePickerDialog.OnDateSetListener {
             //todo country error
         }
         if (valid.not()) return
+        input.username = username
         input.email = email
+        user.birthday = birthday?.timeInMillis.value
+        user.gender = gender
         user.country = country?.country
         input.type?.let {
-            when (it) {
-                Auth.Type.GOOGLE,
-                Auth.Type.FACEBOOK -> {
-                    input.registered = true
-                    input.verified = true
-                    input.logged = true
-                }
-            }
+            input.registered = true
+            input.verified = true
+            input.logged = true
         }
         vm.write(input, user)
     }

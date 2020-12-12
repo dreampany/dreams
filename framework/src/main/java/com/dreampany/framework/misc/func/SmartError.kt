@@ -19,4 +19,6 @@ data class SmartError(
 
     val isForbidden: Boolean
         get() = code == 403
+
+
 }

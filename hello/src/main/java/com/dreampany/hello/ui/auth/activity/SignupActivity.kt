@@ -80,7 +80,7 @@ class SignupActivity : InjectActivity() {
         if (::bind.isInitialized) return
         bind = binding()
         vm = createVm(AuthViewModel::class)
-        vm.subscribe(this, { this.processAuthResponse(it) })
+        vm.subscribe(this, { this.process(it) })
 
         bind.inputEmail.setOnLongClickListener(View.OnLongClickListener {
             it.requestFocus()
@@ -100,10 +100,17 @@ class SignupActivity : InjectActivity() {
 
         authM.registerCallback(RC_EMAIL, object : AuthManager.Callback {
             override fun onResult(result: FirebaseUser) {
+                progress(false)
                 signUpEmail(result)
             }
 
-            override fun onError(error: Throwable) {
+            override fun onError(error: SmartError) {
+                progress(false)
+                if (error.isFirebaseError) {
+                    bind.error.text = error.error?.message
+                    bind.register.inactive()
+                    return
+                }
             }
         })
 
@@ -112,7 +119,7 @@ class SignupActivity : InjectActivity() {
                 loginGoogle(result)
             }
 
-            override fun onError(error: Throwable) {
+            override fun onError(error: SmartError) {
             }
         })
 
@@ -121,7 +128,7 @@ class SignupActivity : InjectActivity() {
                 loginFacebook(result)
             }
 
-            override fun onError(error: Throwable) {
+            override fun onError(error: SmartError) {
             }
         })
 
@@ -158,6 +165,7 @@ class SignupActivity : InjectActivity() {
         }
         bind.layoutEmail.error = null
         bind.layoutPassword.error = null
+        bind.error.text = null
     }
 
     private fun signUpEmail() {
@@ -173,9 +181,9 @@ class SignupActivity : InjectActivity() {
             bind.layoutPassword.error = getString(R.string.error_password)
         }
         if (valid.not()) return
-        // Get Firebase User
-        //vm.read(email, password)
-
+        bind.error.text = null
+        bind.register.disable()
+        progress(true)
         authM.signUpEmail(email, password, RC_EMAIL)
     }
 
@@ -205,19 +213,19 @@ class SignupActivity : InjectActivity() {
         authM.signInFacebook(this, RC_FACEBOOK)
     }
 
-    private fun processAuthResponse(response: Response<Type, Subtype, State, Action, Auth>) {
+    private fun process(response: Response<Type, Subtype, State, Action, Auth>) {
         if (response is Response.Progress) {
             //bind.swipe.refresh(response.progress)
             progress(response.progress)
         } else if (response is Response.Error) {
-            processError(response.error)
+            process(response.error)
         } else if (response is Response.Result<Type, Subtype, State, Action, Auth>) {
             Timber.v("Result [%s]", response.result)
-            processResult(response.result, response.state)
+            process(response.result, response.state)
         }
     }
 
-    private fun processError(error: SmartError) {
+    private fun process(error: SmartError) {
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
         val message =
             if (error.hostError) getString(R.string.message_no_internet) else error.message
@@ -234,19 +242,20 @@ class SignupActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: Auth?, state: State) {
+    private fun process(result: Auth?, state: State) {
         if (result != null) {
             auth = result
             auth.type = type
             pref.write(auth)
-            if (type.isSocial) {
-                if (auth.registered) {
-                    openHomeUi()
-                } else {
-                    openAuthInfoUi()
-                }
+            if (auth.logged) {
+                pref.login()
+                openHomeUi()
+            } else {
+                openAuthInfoUi()
             }
             return
+
+            
         }
         if (::input.isInitialized) {
             auth = input.auth(ref)

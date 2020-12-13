@@ -7,6 +7,7 @@ import com.dreampany.hello.R
 import com.dreampany.hello.databinding.RecyclerFragmentBinding
 import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.visible
+import com.dreampany.hello.databinding.HomeFragmentBinding
 import javax.inject.Inject
 
 /**
@@ -20,32 +21,33 @@ class HomeFragment
 @Inject constructor() : InjectFragment() {
 
     companion object {
-      private val REQUEST_CAMERA = 101
+        private val REQUEST_CAMERA = 101
     }
 
-    private lateinit var bind: RecyclerFragmentBinding
+    private lateinit var bind: HomeFragmentBinding
     //private lateinit var vm: FeatureViewModel
 
     //private lateinit var adapter: FastFeatureAdapter
 
-    override val layoutRes: Int = R.layout.recycler_fragment
+    override val layoutRes: Int = R.layout.home_fragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-       /* if (adapter.isEmpty)
-            vm.loadFeatures()*/
+        /* if (adapter.isEmpty)
+             vm.loadFeatures()*/
     }
 
     override fun onStopUi() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = binding()
 
-        bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
+        /*bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
         bind.fab.visible()
-        bind.fab.setOnSafeClickListener { openScanUi() }
+        bind.fab.setOnSafeClickListener { openScanUi() }*/
         /*if (!::vm.isInitialized) {
             vm = createVm(FeatureViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
@@ -111,13 +113,13 @@ class HomeFragment
     }*/
 
     private fun openScanUi() {
-       /* val task = UiTask(
-            Type.CAMERA,
-            Subtype.DEFAULT,
-            State.DEFAULT,
-            Action.SCAN,
-            null
-        )
-        open(CameraActivity::class, task, REQUEST_CAMERA)*/
+        /* val task = UiTask(
+             Type.CAMERA,
+             Subtype.DEFAULT,
+             State.DEFAULT,
+             Action.SCAN,
+             null
+         )
+         open(CameraActivity::class, task, REQUEST_CAMERA)*/
     }
 }

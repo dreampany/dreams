@@ -343,6 +343,8 @@ abstract class BaseActivity : AppCompatActivity(),
         if (toolbarId != 0) {
             toolbar = findViewById<MaterialToolbar>(toolbarId)
             setSupportActionBar(toolbar)
+            if (fullScreen)
+                supportActionBar?.hide()
             if (homeUp) {
                 val actionBar = supportActionBar
                 actionBar?.apply {

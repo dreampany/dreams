@@ -29,6 +29,8 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     private lateinit var bind: HomeActivityBinding
 
+    override val fullScreen: Boolean
+        get() = true
     override val doubleBackPressed: Boolean = true
     override val layoutRes: Int = R.layout.home_activity
     override val toolbarId: Int = R.id.toolbar
@@ -78,6 +80,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
     }
 
     private fun initUi() {
+        if (::bind.isInitialized) return
         bind = binding()
     }
 }

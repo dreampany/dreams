@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:cardCornerRadius="@dimen/cornerRadiusSmall"
+        auto:cardElevation="@dimen/cornerRadiusSmall"
+        auto:cardPreventCornerOverlap="false">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/_80sdp"
+            android:orientation="horizontal">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginStart="@dimen/align_margin"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                auto:actualImageScaleType="fitCenter"
+                auto:failureImage="@color/colorAccent"
+                auto:placeholderImage="@color/colorAccent"
+                auto:placeholderImageScaleType="fitCenter"
+                auto:roundAsCircle="true" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/textSizePrimary"
+                    auto:fontFamily="@font/roboto_slab_bold"
+                    tools:text="@string/title" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/align_margin"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/textSizeSecondary"
+                    auto:fontFamily="@font/roboto_slab_regular"
+                    tools:text="@string/title" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

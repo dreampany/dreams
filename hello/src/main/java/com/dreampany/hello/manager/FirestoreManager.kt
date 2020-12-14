@@ -26,7 +26,8 @@ class FirestoreManager
     init {
         firestore = Firebase.firestore
         val settings = FirebaseFirestoreSettings.Builder()
-            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+            .setPersistenceEnabled(true)
+            //.setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
             .build()
         firestore.firestoreSettings = settings
     }

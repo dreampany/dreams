@@ -9,6 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.dreampany.hello.data.enums.Gender
 import com.google.common.base.Objects
+import com.google.firebase.database.ServerValue
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
@@ -31,13 +32,16 @@ data class User(
     override var time: Long = Constant.Default.LONG,
     override var id: String = Constant.Default.STRING,
     var ref: String = Constant.Default.STRING,
+    var timestamp: Map<String, String> = ServerValue.TIMESTAMP,
     var name: String? = Constant.Default.NULL,
     var photo: String? = Constant.Default.NULL,
     var birthday: Long = Constant.Default.LONG,
     var gender: Gender? = Constant.Default.NULL,
     @Embedded
     var country: Country? = Constant.Default.NULL,
-    var phone: String? = Constant.Default.NULL
+    var phone: String? = Constant.Default.NULL,
+    var status : String? = Constant.Default.NULL,
+    var level : Int = Constant.Default.INT
 ) : Base() {
 
     @Ignore

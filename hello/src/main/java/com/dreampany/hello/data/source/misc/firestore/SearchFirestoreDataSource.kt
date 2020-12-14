@@ -24,7 +24,7 @@ class SearchFirestoreDataSource(
     override suspend fun write(input: Search): Long {
         try {
             if (auth.signInAnonymously().not()) return -1L
-            val col = Constants.Keys.Firestore.SEARCHES
+            val col = Constants.Keys.Firebase.SEARCHES
             firestore.write(col, input.id, input)
             return 1
         } catch (error: Throwable) {
@@ -37,8 +37,8 @@ class SearchFirestoreDataSource(
     override suspend fun hit(id: String, ref: String): Long {
         try {
             if (auth.signInAnonymously().not()) return -1L
-            val col = Constants.Keys.Firestore.SEARCHES
-            val field = Constants.Keys.Firestore.hit(ref)
+            val col = Constants.Keys.Firebase.SEARCHES
+            val field = Constants.Keys.Firebase.hit(ref)
             firestore.increment(col, id, field)
             return 1
         } catch (error: Throwable) {

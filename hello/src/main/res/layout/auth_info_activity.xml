@@ -117,8 +117,8 @@
                     android:layout_marginStart="@dimen/align_margin"
                     android:layout_marginTop="@dimen/align_margin"
                     android:layout_marginEnd="@dimen/align_margin"
-                    auto:cardCornerRadius="@dimen/cornerRadius"
-                    auto:cardElevation="@dimen/cornerRadius">
+                    auto:cardCornerRadius="@dimen/cornerRadiusSmall"
+                    auto:cardElevation="@dimen/cornerRadiusSmall">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/layout_birthday"
@@ -193,8 +193,8 @@
                     android:layout_marginStart="@dimen/align_margin"
                     android:layout_marginTop="@dimen/align_margin"
                     android:layout_marginEnd="@dimen/align_margin"
-                    auto:cardCornerRadius="@dimen/cornerRadius"
-                    auto:cardElevation="@dimen/cornerRadius">
+                    auto:cardCornerRadius="@dimen/cornerRadiusSmall"
+                    auto:cardElevation="@dimen/cornerRadiusSmall">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
@@ -280,7 +280,7 @@
                     android:layout_marginTop="@dimen/para_margin"
                     android:layout_marginEnd="@dimen/align_margin"
                     android:minHeight="@dimen/buttonSizePrimary"
-                    auto:cardCornerRadius="@dimen/cornerRadius">
+                    auto:cardCornerRadius="@dimen/cornerRadiusSmall">
 
                     <com.hbb20.CountryCodePicker
                         android:id="@+id/country_picker"
@@ -329,8 +329,8 @@
                     android:textColor="@color/material_white"
                     android:textSize="@dimen/textSizePrimary"
                     auto:backgroundTint="@color/textColorSecondary"
-                    auto:cornerRadius="@dimen/cornerRadius"
-                    auto:elevation="@dimen/cornerRadius" />
+                    auto:cornerRadius="@dimen/cornerRadiusSmall"
+                    auto:elevation="@dimen/cornerRadiusSmall" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

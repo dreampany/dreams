@@ -58,31 +58,31 @@ fun FirebaseUser.user(ref: String): User {
 
 fun Auth.map(deviceId: String): Map<String, Any> {
     val output = HashMap<String, Any>()
-    output.put(Constants.Keys.Firestore.TIME, time)
-    output.put(Constants.Keys.Firestore.ID, id)
-    output.put(Constants.Keys.Firestore.REF, ref)
-    username?.let { output.put(Constants.Keys.Firestore.USERNAME, it) }
-    email?.let { output.put(Constants.Keys.Firestore.EMAIL, it) }
-    password?.let { output.put(Constants.Keys.Firestore.PASSWORD, it) }
-    type?.let { output.put(Constants.Keys.Firestore.TYPE, mapOf(deviceId to it.name)) }
-    output.put(Constants.Keys.Firestore.REGISTERED, mapOf(deviceId to registered))
-    output.put(Constants.Keys.Firestore.VERIFIED, mapOf(deviceId to verified))
-    output.put(Constants.Keys.Firestore.LOGGED, mapOf(deviceId to logged))
+    output.put(Constants.Keys.Firebase.TIME, time)
+    output.put(Constants.Keys.Firebase.ID, id)
+    output.put(Constants.Keys.Firebase.REF, ref)
+    username?.let { output.put(Constants.Keys.Firebase.USERNAME, it) }
+    email?.let { output.put(Constants.Keys.Firebase.EMAIL, it) }
+    password?.let { output.put(Constants.Keys.Firebase.PASSWORD, it) }
+    type?.let { output.put(Constants.Keys.Firebase.TYPE, mapOf(deviceId to it.name)) }
+    output.put(Constants.Keys.Firebase.REGISTERED, mapOf(deviceId to registered))
+    output.put(Constants.Keys.Firebase.VERIFIED, mapOf(deviceId to verified))
+    output.put(Constants.Keys.Firebase.LOGGED, mapOf(deviceId to logged))
     return output
 }
 
 val User.map: Map<String, Any>
     get() {
         val output = HashMap<String, Any>()
-        output.put(Constants.Keys.Firestore.TIME, time)
-        output.put(Constants.Keys.Firestore.ID, id)
-        output.put(Constants.Keys.Firestore.REF, ref)
-        name?.let { output.put(Constants.Keys.Firestore.NAME, it) }
-        photo?.let { output.put(Constants.Keys.Firestore.PHOTO, it) }
-        output.put(Constants.Keys.Firestore.BIRTHDAY, birthday)
-        country?.let { output.put(Constants.Keys.Firestore.COUNTRY, it.map) }
-        gender?.let { output.put(Constants.Keys.Firestore.GENDER, it.name) }
-        phone?.let { output.put(Constants.Keys.Firestore.PHONE, it) }
+        output.put(Constants.Keys.Firebase.TIME, time)
+        output.put(Constants.Keys.Firebase.ID, id)
+        output.put(Constants.Keys.Firebase.REF, ref)
+        name?.let { output.put(Constants.Keys.Firebase.NAME, it) }
+        photo?.let { output.put(Constants.Keys.Firebase.PHOTO, it) }
+        output.put(Constants.Keys.Firebase.BIRTHDAY, birthday)
+        country?.let { output.put(Constants.Keys.Firebase.COUNTRY, it.map) }
+        gender?.let { output.put(Constants.Keys.Firebase.GENDER, it.name) }
+        phone?.let { output.put(Constants.Keys.Firebase.PHONE, it) }
         return output
     }
 
@@ -97,19 +97,19 @@ val CCPCountry.country: Country
 val Country.map: Map<String, Any>
     get() {
         val output = HashMap<String, Any>()
-        output.put(Constants.Keys.Firestore.TIME, time)
-        output.put(Constants.Keys.Firestore.ID, id)
-        output.put(Constants.Keys.Firestore.NAME, name)
-        output.put(Constants.Keys.Firestore.FLAG, flag)
+        output.put(Constants.Keys.Firebase.TIME, time)
+        output.put(Constants.Keys.Firebase.ID, id)
+        output.put(Constants.Keys.Firebase.NAME, name)
+        output.put(Constants.Keys.Firebase.FLAG, flag)
         return output
     }
 
 val Map<String, Any>.country: Country
     get() {
-        val time = get(Constants.Keys.Firestore.TIME) as Long
-        val id = get(Constants.Keys.Firestore.ID) as String
-        val name = get(Constants.Keys.Firestore.NAME) as String
-        val flag = get(Constants.Keys.Firestore.FLAG) as String
+        val time = get(Constants.Keys.Firebase.TIME) as Long
+        val id = get(Constants.Keys.Firebase.ID) as String
+        val name = get(Constants.Keys.Firebase.NAME) as String
+        val flag = get(Constants.Keys.Firebase.FLAG) as String
 
         val output = Country(id)
         output.time = time
@@ -119,20 +119,20 @@ val Map<String, Any>.country: Country
     }
 
 fun Map<String, Any>.auth(deviceId: String): Auth {
-    val time = get(Constants.Keys.Firestore.TIME) as Long
-    val id = get(Constants.Keys.Firestore.ID) as String
-    val ref = get(Constants.Keys.Firestore.REF) as String
-    val username = get(Constants.Keys.Firestore.USERNAME) as String?
-    val email = get(Constants.Keys.Firestore.EMAIL) as String?
-    val password = get(Constants.Keys.Firestore.PASSWORD) as String?
+    val time = get(Constants.Keys.Firebase.TIME) as Long
+    val id = get(Constants.Keys.Firebase.ID) as String
+    val ref = get(Constants.Keys.Firebase.REF) as String
+    val username = get(Constants.Keys.Firebase.USERNAME) as String?
+    val email = get(Constants.Keys.Firebase.EMAIL) as String?
+    val password = get(Constants.Keys.Firebase.PASSWORD) as String?
     val type =
-        (get(Constants.Keys.Firestore.TYPE) as? Map<String, String>)?.get(deviceId)
+        (get(Constants.Keys.Firebase.TYPE) as? Map<String, String>)?.get(deviceId)
     val registered =
-        (get(Constants.Keys.Firestore.REGISTERED) as? Map<String, Boolean>)?.get(deviceId) ?: false
+        (get(Constants.Keys.Firebase.REGISTERED) as? Map<String, Boolean>)?.get(deviceId) ?: false
     val verified =
-        (get(Constants.Keys.Firestore.VERIFIED) as? Map<String, Boolean>)?.get(deviceId) ?: false
+        (get(Constants.Keys.Firebase.VERIFIED) as? Map<String, Boolean>)?.get(deviceId) ?: false
     val logged =
-        (get(Constants.Keys.Firestore.LOGGED) as? Map<String, Boolean>)?.get(deviceId) ?: false
+        (get(Constants.Keys.Firebase.LOGGED) as? Map<String, Boolean>)?.get(deviceId) ?: false
 
     val output = Auth(id)
     output.time = time
@@ -150,15 +150,15 @@ fun Map<String, Any>.auth(deviceId: String): Auth {
 
 val Map<String, Any>.user: User
     get() {
-        val time = get(Constants.Keys.Firestore.TIME) as Long
-        val id = get(Constants.Keys.Firestore.ID) as String
-        val ref = get(Constants.Keys.Firestore.REF) as String
-        val name = get(Constants.Keys.Firestore.NAME) as String?
-        val photo = get(Constants.Keys.Firestore.PHOTO) as String?
-        val phone = get(Constants.Keys.Firestore.PHONE) as String?
-        val birthday = get(Constants.Keys.Firestore.BIRTHDAY) as Long
-        val gender = get(Constants.Keys.Firestore.GENDER) as String?
-        val country = (get(Constants.Keys.Firestore.COUNTRY) as? Map<String, Any>)
+        val time = get(Constants.Keys.Firebase.TIME) as Long
+        val id = get(Constants.Keys.Firebase.ID) as String
+        val ref = get(Constants.Keys.Firebase.REF) as String
+        val name = get(Constants.Keys.Firebase.NAME) as String?
+        val photo = get(Constants.Keys.Firebase.PHOTO) as String?
+        val phone = get(Constants.Keys.Firebase.PHONE) as String?
+        val birthday = get(Constants.Keys.Firebase.BIRTHDAY) as Long
+        val gender = get(Constants.Keys.Firebase.GENDER) as String?
+        val country = (get(Constants.Keys.Firebase.COUNTRY) as? Map<String, Any>)
 
         val output = User(id)
         output.time = time

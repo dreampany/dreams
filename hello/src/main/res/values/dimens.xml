@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="textSizePrimary">@dimen/_14ssp</dimen>
+   <!-- <dimen name="textSizePrimary">@dimen/_14ssp</dimen>
     <dimen name="textSizeSecondary">@dimen/_12ssp</dimen>
     <dimen name="textSizeSmall">@dimen/_10ssp</dimen>
     <dimen name="textSizeHeader">@dimen/_16ssp</dimen>
@@ -40,5 +40,5 @@
     <dimen name="rect_button_margin">12dp</dimen>
     <dimen name="rect_button_width">80dp</dimen>
     <dimen name="rect_button_height">24dp</dimen>
-    <dimen name="shutter_button_margin">80dp</dimen>
+    <dimen name="shutter_button_margin">80dp</dimen>-->
 </resources>

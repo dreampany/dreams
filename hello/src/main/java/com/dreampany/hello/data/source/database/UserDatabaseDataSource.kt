@@ -1,36 +1,34 @@
-package com.dreampany.hello.data.source.firestore
+package com.dreampany.hello.data.source
 
 import android.content.Context
-import com.dreampany.framework.misc.exts.deviceId
 import com.dreampany.framework.misc.exts.ref
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.api.UserDataSource
 import com.dreampany.hello.data.source.mapper.UserMapper
-import com.dreampany.hello.manager.FirestoreManager
+import com.dreampany.hello.manager.DatabaseManager
 import com.dreampany.hello.misc.Constants
 import com.dreampany.hello.misc.map
-import com.dreampany.hello.misc.user
 import timber.log.Timber
 
 /**
- * Created by roman on 26/9/20
+ * Created by roman on 12/14/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class UserFirestoreDataSource(
+class UserDatabaseDataSource(
     private val context: Context,
     private val mapper: UserMapper,
-    private val firestore: FirestoreManager
+    private val database: DatabaseManager
 ) : UserDataSource {
 
     @Throws
     override suspend fun write(input: User): Long {
         try {
-            val col = Constants.Keys.Firebase.USERS
+            val col = context.ref(Constants.Keys.Firebase.USERS)
             val refId = context.ref(input.id)
             val input = input.map
-            firestore.write(col, refId, input)
+            database.write(col, refId, input)
             return 0
         } catch (error: Throwable) {
             Timber.e(error)
@@ -42,18 +40,8 @@ class UserFirestoreDataSource(
         TODO("Not yet implemented")
     }
 
-    @Throws
     override suspend fun read(id: String): User? {
-        try {
-            val col = Constants.Keys.Firebase.USERS
-            val refId = context.ref(id)
-            val deviceId = context.deviceId
-            val output = firestore.read(col, refId)
-            return output?.user
-        } catch (error: Throwable) {
-            Timber.e(error)
-            return null
-        }
+        TODO("Not yet implemented")
     }
 
     override suspend fun onlineIds(limit: Int): List<String>? {
@@ -63,4 +51,5 @@ class UserFirestoreDataSource(
     override suspend fun lastUserId(): String? {
         TODO("Not yet implemented")
     }
+
 }

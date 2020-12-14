@@ -37,7 +37,7 @@ class Constants {
             const val ROOM = "room"
         }
 
-        object Firestore {
+        object Firebase {
             // firestore collection
             const val AUTHS = "auths"
             const val USERS = "users"

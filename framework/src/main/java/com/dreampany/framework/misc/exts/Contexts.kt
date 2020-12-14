@@ -348,4 +348,4 @@ fun Context?.arraysOf(@ArrayRes resId: Int): Array<String> =
 
 val Context?.ref: String get() = lastApplicationId
 
-fun Context?.refId(id: String): String = ref.plus(Constant.Sep.DOT).plus(id)
+fun Context?.ref(id: String): String = ref.plus(Constant.Sep.HYPHEN).plus(id)

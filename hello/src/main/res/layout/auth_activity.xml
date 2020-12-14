@@ -39,8 +39,8 @@
                 android:textSize="@dimen/textSizePrimary"
                 android:textColor="@color/material_white"
                 auto:backgroundTint="@color/textColorPrimary"
-                auto:cornerRadius="@dimen/cornerRadius"
-                auto:elevation="@dimen/cornerRadius" />
+                auto:cornerRadius="@dimen/cornerRadiusSmall"
+                auto:elevation="@dimen/cornerRadiusSmall" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -60,8 +60,8 @@
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/textSizePrimary"
                     auto:backgroundTint="@color/material_white"
-                    auto:cornerRadius="@dimen/cornerRadius"
-                    auto:elevation="@dimen/cornerRadius" />
+                    auto:cornerRadius="@dimen/cornerRadiusSmall"
+                    auto:elevation="@dimen/cornerRadiusSmall" />
 
                 <View
                     android:layout_width="@dimen/align_margin"
@@ -78,15 +78,15 @@
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/textSizePrimary"
                     auto:backgroundTint="@color/material_white"
-                    auto:cornerRadius="@dimen/cornerRadius"
-                    auto:elevation="@dimen/cornerRadius" />
+                    auto:cornerRadius="@dimen/cornerRadiusSmall"
+                    auto:elevation="@dimen/cornerRadiusSmall" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_220sdp"
                 auto:placeholderImage="@color/colorAccent"
-                auto:roundedCornerRadius="@dimen/cornerRadius" />
+                auto:roundedCornerRadius="@dimen/cornerRadiusSmall" />
 
         </RelativeLayout>
 

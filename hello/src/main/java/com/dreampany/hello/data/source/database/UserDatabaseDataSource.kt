@@ -26,7 +26,7 @@ class UserDatabaseDataSource(
     override suspend fun write(input: User): Long {
         try {
             val col = context.ref(Constants.Keys.Firebase.USERS)
-            val refId = context.ref(input.id)
+            val refId = input.id
             val input = input.map
             database.write(col, refId, input)
             return 0

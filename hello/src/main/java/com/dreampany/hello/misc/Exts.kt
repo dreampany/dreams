@@ -12,9 +12,19 @@ import com.dreampany.hello.data.model.Country
 import com.dreampany.hello.data.model.User
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.hbb20.CCPCountry
 import com.hbb20.CountryCodePicker
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Created by roman on 26/9/20
@@ -183,3 +193,17 @@ val SmartError?.isInvalidCredentials: Boolean get() = this?.error is FirebaseAut
 val SmartError?.isWeakPassword: Boolean get() = this?.error is FirebaseAuthWeakPasswordException
 val SmartError?.isInvalidUser: Boolean get() = this?.error is FirebaseAuthInvalidUserException
 val SmartError?.isFirebaseError: Boolean get() = isAuthException or isUserCollision or isInvalidCredentials or isWeakPassword or isInvalidUser
+suspend fun DatabaseReference.value(): DataSnapshot {
+    return withContext(Dispatchers.IO) {
+        suspendCoroutine<DataSnapshot> { continuation ->
+            addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    continuation.resume(snapshot)
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    continuation.resumeWithException(error.toException())
+                }
+            })
+        }
+    }
+}

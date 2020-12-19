@@ -8,6 +8,7 @@ import com.dreampany.hello.databinding.RecyclerFragmentBinding
 import com.dreampany.framework.misc.exts.setOnSafeClickListener
 import com.dreampany.framework.misc.exts.visible
 import com.dreampany.hello.databinding.HomeFragmentBinding
+import com.dreampany.hello.ui.vm.UserViewModel
 import javax.inject.Inject
 
 /**
@@ -25,7 +26,7 @@ class HomeFragment
     }
 
     private lateinit var bind: HomeFragmentBinding
-    //private lateinit var vm: FeatureViewModel
+    private lateinit var vm: UserViewModel
 
     //private lateinit var adapter: FastFeatureAdapter
 
@@ -44,6 +45,11 @@ class HomeFragment
     private fun initUi() {
         if (::bind.isInitialized) return
         bind = binding()
+        vm = createVm(UserViewModel::class)
+
+        bind.profile.icon.setOnSafeClickListener {
+            vm.writeDummyUser()
+        }
 
         /*bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
         bind.fab.visible()

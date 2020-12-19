@@ -47,6 +47,7 @@ class Constants {
             const val TIME = Constant.Keys.TIME
             const val ID = Constant.Keys.ID
             const val REF = "ref"
+            const val TIMESTAMP = "timestamp"
             const val USERNAME = "username"
             const val EMAIL = "email"
             const val PASSWORD = "password"
@@ -62,6 +63,8 @@ class Constants {
             const val REGISTERED = "registered"
             const val VERIFIED = "verified"
             const val LOGGED = "logged"
+            const val ONLINE = "online"
+            const val INDEX = "index"
 
             //search keys
             const val HITS = "hits"

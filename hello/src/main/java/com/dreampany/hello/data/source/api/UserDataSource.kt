@@ -14,7 +14,7 @@ interface UserDataSource {
     suspend fun write(input: User): Long
 
     @Throws
-    suspend fun track(id: String): Long
+    suspend fun track(id: String, index : Long): Long
 
     @Throws
     suspend fun read(id: String): User?
@@ -23,5 +23,5 @@ interface UserDataSource {
     suspend fun onlineIds(limit: Int): List<String>?
 
     @Throws
-    suspend fun lastUserId(): String?
+    suspend fun lastId(): String?
 }

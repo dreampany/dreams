@@ -116,7 +116,7 @@ class AuthViewModel
                 if (result != null) {
                     val user = userRepo.read(id)
                     user?.let {
-                       0// pref.write(result)
+                       // pref.write(result)
                         pref.write(user)
                     }
                 }

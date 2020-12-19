@@ -1,5 +1,6 @@
 package com.dreampany.hello.misc
 
+import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.age
 import com.dreampany.framework.misc.exts.color
 import com.dreampany.framework.misc.exts.countryCodeToFlag
@@ -12,14 +13,12 @@ import com.dreampany.hello.data.model.Country
 import com.dreampany.hello.data.model.User
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.*
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.hbb20.CCPCountry
 import com.hbb20.CountryCodePicker
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.coroutines.resume
@@ -95,6 +94,15 @@ val User.map: Map<String, Any>
         phone?.let { output.put(Constants.Keys.Firebase.PHONE, it) }
         return output
     }
+
+fun String.map(index: Long): Map<String, Any> {
+    val output = HashMap<String, Any>()
+    output.put(Constants.Keys.Firebase.ID, this)
+    output.put(Constants.Keys.Firebase.INDEX, index)
+    output.put(Constants.Keys.Firebase.TIMESTAMP, ServerValue.TIMESTAMP)
+    output.put(Constants.Keys.Firebase.ONLINE, true)
+    return output
+}
 
 val CCPCountry.country: Country
     get() {
@@ -182,6 +190,17 @@ val Map<String, Any>.user: User
         return output
     }
 
+val Map<String, Any>.id: String
+    get() = (get(Constants.Keys.Firebase.ID) as String?) ?: Constant.Default.STRING
+
+val Map<String, Any>.index: Long
+    get() = (get(Constants.Keys.Firebase.INDEX) as Long?) ?: Constant.Default.LONG
+
+val Map<String, Any>.timestamp: Long
+    get() = (get(Constants.Keys.Firebase.TIMESTAMP) as Long?) ?: Constant.Default.LONG
+
+val Map<String, Any>.online: Boolean
+    get() = (get(Constants.Keys.Firebase.ONLINE) as Boolean?) ?: Constant.Default.BOOLEAN
 
 val CountryCodePicker.selectedCountry: CCPCountry?
     get() = CCPCountry.getLibraryMasterCountriesEnglish()
@@ -193,17 +212,33 @@ val SmartError?.isInvalidCredentials: Boolean get() = this?.error is FirebaseAut
 val SmartError?.isWeakPassword: Boolean get() = this?.error is FirebaseAuthWeakPasswordException
 val SmartError?.isInvalidUser: Boolean get() = this?.error is FirebaseAuthInvalidUserException
 val SmartError?.isFirebaseError: Boolean get() = isAuthException or isUserCollision or isInvalidCredentials or isWeakPassword or isInvalidUser
+
 suspend fun DatabaseReference.value(): DataSnapshot {
-    return withContext(Dispatchers.IO) {
+    return withContext(Dispatchers.Unconfined) {
         suspendCoroutine<DataSnapshot> { continuation ->
             addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     continuation.resume(snapshot)
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                     continuation.resumeWithException(error.toException())
                 }
             })
         }
+    }
+}
+
+suspend fun Query.value(): DataSnapshot {
+    return suspendCoroutine<DataSnapshot> { continuation ->
+        addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                continuation.resume(snapshot)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resumeWithException(error.toException())
+            }
+        })
     }
 }

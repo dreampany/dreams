@@ -29,7 +29,7 @@ class FirestoreManager
             .setPersistenceEnabled(true)
             //.setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
             .build()
-        firestore.firestoreSettings = settings
+        //firestore.firestoreSettings = settings
     }
 
     @Synchronized

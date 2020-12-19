@@ -6,8 +6,7 @@ import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.api.UserDataSource
 import com.dreampany.hello.data.source.mapper.UserMapper
 import com.dreampany.hello.manager.DatabaseManager
-import com.dreampany.hello.misc.Constants
-import com.dreampany.hello.misc.map
+import com.dreampany.hello.misc.*
 import timber.log.Timber
 
 /**
@@ -36,8 +35,17 @@ class UserDatabaseDataSource(
         }
     }
 
-    override suspend fun track(id: String): Long {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun track(id: String, index : Long): Long {
+        try {
+            val col = context.ref(Constants.Keys.Firebase.USERS)
+            val input = id.map(index)
+            database.write(col, id, input)
+            return 0
+        } catch (error: Throwable) {
+            Timber.e(error)
+            return -1
+        }
     }
 
     override suspend fun read(id: String): User? {
@@ -48,8 +56,23 @@ class UserDatabaseDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun lastUserId(): String? {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun lastId(): String? {
+        try {
+            val col = context.ref(Constants.Keys.Firebase.USERS)
+            val order = Constants.Keys.Firebase.INDEX
+            val asc = false
+            val output = database.read(col, order, asc)
+            if (output == null) return null
+            val id = output.id
+            mapper.writeIndex(id, output.index)
+            mapper.writeTimestamp(id, output.timestamp)
+            mapper.writeOnline(id, output.online)
+            return id
+        } catch (error: Throwable) {
+            Timber.e(error)
+            return null
+        }
     }
 
 }

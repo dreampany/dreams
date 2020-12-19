@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/home_profile_content" />
+            <include android:id="@+id/profile" layout="@layout/home_profile_content" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/online_recycler"

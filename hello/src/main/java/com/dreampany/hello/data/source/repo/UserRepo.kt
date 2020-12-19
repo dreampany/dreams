@@ -18,18 +18,18 @@ import javax.inject.Singleton
 @Singleton
 class UserRepo
 @Inject constructor(
-    @Firestore private val firestore: UserDataSource,
-    @Database private val database: UserDataSource
+    @Database private val database: UserDataSource,
+    @Firestore private val firestore: UserDataSource
 ) : UserDataSource {
 
     @Throws
     override suspend fun write(input: User): Long = withContext(Dispatchers.IO) {
         firestore.write(input)
-        database.write(input)
     }
 
-    override suspend fun track(id: String): Long {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun track(id: String, index : Long): Long = withContext(Dispatchers.IO) {
+        database.track(id, index)
     }
 
     @Throws
@@ -42,7 +42,8 @@ class UserRepo
         TODO("Not yet implemented")
     }
 
-    override suspend fun lastUserId(): String? {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun lastId(): String? = withContext(Dispatchers.IO) {
+        database.lastId()
     }
 }

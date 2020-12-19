@@ -117,6 +117,14 @@ fun <T> List<T>.second(): T {
     return this[1]
 }
 
+fun <T> List<T>.secondOrNull(): T? {
+    if (isEmpty())
+        return null
+    if (size < 1)
+        return null
+    return this[1]
+}
+
 val Float.isEmpty : Boolean get() = this == float()
 
 

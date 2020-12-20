@@ -14,10 +14,19 @@ interface UserDataSource {
     suspend fun write(input: User): Long
 
     @Throws
+    suspend fun write(id: String): Long
+
+    @Throws
     suspend fun track(id: String, index : Long): Long
 
     @Throws
     suspend fun read(id: String): User?
+
+    @Throws
+    suspend fun read(ids: List<String>): List<User>?
+
+    @Throws
+    suspend fun newIds(limit: Int): List<String>?
 
     @Throws
     suspend fun onlineIds(limit: Int): List<String>?

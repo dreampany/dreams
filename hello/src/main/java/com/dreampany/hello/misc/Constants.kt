@@ -47,7 +47,7 @@ class Constants {
             const val TIME = Constant.Keys.TIME
             const val ID = Constant.Keys.ID
             const val REF = "ref"
-            const val TIMESTAMP = "timestamp"
+            const val CREATED_AT = "created_at"
             const val USERNAME = "username"
             const val EMAIL = "email"
             const val PASSWORD = "password"
@@ -90,6 +90,10 @@ class Constants {
 
     object Pattern {
         const val YY_MM_DD: String = "yy/MM/dd"
+    }
+
+    object Limit {
+        const val NEW_USERS = 10
     }
 
 /*    object AuthType {

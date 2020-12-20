@@ -21,11 +21,23 @@ class UserRoomDataSource(
         return dao.insertOrReplace(input)
     }
 
+    override suspend fun write(id: String): Long {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun track(id: String, index : Long): Long {
         TODO("Not yet implemented")
     }
 
     override suspend fun read(id: String): User? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun read(ids: List<String>): List<User>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun newIds(limit: Int): List<String>? {
         TODO("Not yet implemented")
     }
 

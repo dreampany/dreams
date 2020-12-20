@@ -49,6 +49,7 @@ class HomeFragment
 
         bind.profile.icon.setOnSafeClickListener {
             vm.writeDummyUser()
+            //vm.newUsers()
         }
 
         /*bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)

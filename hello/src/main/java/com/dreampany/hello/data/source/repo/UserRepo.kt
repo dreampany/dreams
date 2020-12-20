@@ -28,13 +28,28 @@ class UserRepo
     }
 
     @Throws
-    override suspend fun track(id: String, index : Long): Long = withContext(Dispatchers.IO) {
+    override suspend fun write(id: String): Long = withContext(Dispatchers.IO) {
+        database.write(id)
+    }
+
+    @Throws
+    override suspend fun track(id: String, index: Long): Long = withContext(Dispatchers.IO) {
         database.track(id, index)
     }
+
 
     @Throws
     override suspend fun read(id: String): User? = withContext(Dispatchers.IO) {
         firestore.read(id)
+    }
+
+    override suspend fun read(ids: List<String>): List<User>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun newIds(limit: Int): List<String>? = withContext(Dispatchers.IO) {
+        database.newIds(limit)
     }
 
     @Throws

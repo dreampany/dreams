@@ -14,6 +14,7 @@ import com.dreampany.hello.data.enums.Type
 import com.dreampany.hello.data.model.User
 import com.dreampany.hello.data.source.mapper.UserMapper
 import com.dreampany.hello.data.source.repo.UserRepo
+import com.dreampany.hello.misc.Constants
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -88,6 +89,28 @@ class UserViewModel
                 postError(errors)
             } else {
                 postResult(result)
+            }
+        }
+    }
+
+    fun newUsers() {
+        uiScope.launch {
+            progressSingle(true)
+            var result: List<User>? = null
+            var errors: SmartError? = null
+            try {
+                val ids = repo.newIds(Constants.Limit.NEW_USERS)
+                if (ids != null && ids.isNotEmpty()) {
+                    result = repo.read(ids)
+                }
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                //postResult(result)
             }
         }
     }

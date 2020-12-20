@@ -3,8 +3,8 @@ package com.dreampany.hello.inject.data
 import android.content.Context
 import com.dreampany.framework.inject.annote.Database
 import com.dreampany.framework.inject.annote.Firestore
-import com.dreampany.hello.data.source.UserDatabaseDataSource
 import com.dreampany.hello.data.source.api.UserDataSource
+import com.dreampany.hello.data.source.database.UserDatabaseDataSource
 import com.dreampany.hello.manager.FirestoreManager
 import com.dreampany.hello.data.source.firestore.UserFirestoreDataSource
 import com.dreampany.hello.data.source.mapper.UserMapper

@@ -1,4 +1,4 @@
-package com.dreampany.hello.data.source
+package com.dreampany.hello.data.source.database
 
 import android.content.Context
 import com.dreampany.framework.misc.exts.ref
@@ -36,10 +36,23 @@ class UserDatabaseDataSource(
     }
 
     @Throws
+    override suspend fun write(id: String): Long {
+        try {
+            val col = context.ref(Constants.Keys.Firebase.USERS)
+            val input = id.writeMap()
+            database.write(col, id, input)
+            return 0
+        } catch (error: Throwable) {
+            Timber.e(error)
+            return -1
+        }
+    }
+
+    @Throws
     override suspend fun track(id: String, index : Long): Long {
         try {
             val col = context.ref(Constants.Keys.Firebase.USERS)
-            val input = id.map(index)
+            val input = id.trackMap(index)
             database.write(col, id, input)
             return 0
         } catch (error: Throwable) {
@@ -52,6 +65,29 @@ class UserDatabaseDataSource(
         TODO("Not yet implemented")
     }
 
+    override suspend fun read(ids: List<String>): List<User>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun newIds(limit: Int): List<String>? {
+        try {
+            val col = context.ref(Constants.Keys.Firebase.USERS)
+            val order = Constants.Keys.Firebase.CREATED_AT
+            val asc = false
+            val output = database.reads(col, order, asc, limit)
+            if (output == null) return null
+           /* val id = output.id
+            mapper.writeIndex(id, output.index)
+            mapper.writeTimestamp(id, output.time)
+            mapper.writeOnline(id, output.online)*/
+            return null
+        } catch (error: Throwable) {
+            Timber.e(error)
+            return null
+        }
+    }
+
     override suspend fun onlineIds(limit: Int): List<String>? {
         TODO("Not yet implemented")
     }
@@ -60,13 +96,13 @@ class UserDatabaseDataSource(
     override suspend fun lastId(): String? {
         try {
             val col = context.ref(Constants.Keys.Firebase.USERS)
-            val order = Constants.Keys.Firebase.INDEX
+            val order = Constants.Keys.Firebase.ID
             val asc = false
             val output = database.read(col, order, asc)
             if (output == null) return null
             val id = output.id
             mapper.writeIndex(id, output.index)
-            mapper.writeTimestamp(id, output.timestamp)
+            mapper.writeTimestamp(id, output.time)
             mapper.writeOnline(id, output.online)
             return id
         } catch (error: Throwable) {

@@ -11,9 +11,12 @@ import com.dreampany.hello.data.enums.Gender
 import com.dreampany.hello.data.model.Auth
 import com.dreampany.hello.data.model.Country
 import com.dreampany.hello.data.model.User
+import com.google.android.gms.tasks.TaskCompletionSource
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.*
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FieldValue
 import com.hbb20.CCPCountry
 import com.hbb20.CountryCodePicker
 import kotlinx.coroutines.Dispatchers
@@ -67,7 +70,7 @@ fun FirebaseUser.user(ref: String): User {
 
 fun Auth.map(deviceId: String): Map<String, Any> {
     val output = HashMap<String, Any>()
-    output.put(Constants.Keys.Firebase.TIME, time)
+    output.put(Constants.Keys.Firebase.TIME, FieldValue.serverTimestamp())
     output.put(Constants.Keys.Firebase.ID, id)
     output.put(Constants.Keys.Firebase.REF, ref)
     username?.let { output.put(Constants.Keys.Firebase.USERNAME, it) }
@@ -83,7 +86,7 @@ fun Auth.map(deviceId: String): Map<String, Any> {
 val User.map: Map<String, Any>
     get() {
         val output = HashMap<String, Any>()
-        output.put(Constants.Keys.Firebase.TIME, time)
+        output.put(Constants.Keys.Firebase.TIME, FieldValue.serverTimestamp())
         output.put(Constants.Keys.Firebase.ID, id)
         output.put(Constants.Keys.Firebase.REF, ref)
         name?.let { output.put(Constants.Keys.Firebase.NAME, it) }
@@ -95,12 +98,22 @@ val User.map: Map<String, Any>
         return output
     }
 
-fun String.map(index: Long): Map<String, Any> {
+fun String.writeMap(): Map<String, Any> {
+    val output = HashMap<String, Any>()
+    output.put(Constants.Keys.Firebase.ID, this)
+    output.put(Constants.Keys.Firebase.ONLINE, true)
+    output.put(Constants.Keys.Firebase.CREATED_AT, ServerValue.TIMESTAMP)
+    output.put(Constants.Keys.Firebase.TIME, ServerValue.TIMESTAMP)
+    return output
+}
+
+fun String.trackMap(index: Long): Map<String, Any> {
     val output = HashMap<String, Any>()
     output.put(Constants.Keys.Firebase.ID, this)
     output.put(Constants.Keys.Firebase.INDEX, index)
-    output.put(Constants.Keys.Firebase.TIMESTAMP, ServerValue.TIMESTAMP)
     output.put(Constants.Keys.Firebase.ONLINE, true)
+    output.put(Constants.Keys.Firebase.CREATED_AT, ServerValue.TIMESTAMP)
+    output.put(Constants.Keys.Firebase.TIME, ServerValue.TIMESTAMP)
     return output
 }
 
@@ -196,11 +209,14 @@ val Map<String, Any>.id: String
 val Map<String, Any>.index: Long
     get() = (get(Constants.Keys.Firebase.INDEX) as Long?) ?: Constant.Default.LONG
 
-val Map<String, Any>.timestamp: Long
-    get() = (get(Constants.Keys.Firebase.TIMESTAMP) as Long?) ?: Constant.Default.LONG
-
 val Map<String, Any>.online: Boolean
     get() = (get(Constants.Keys.Firebase.ONLINE) as Boolean?) ?: Constant.Default.BOOLEAN
+
+val Map<String, Any>.createdAt: Long
+    get() = (get(Constants.Keys.Firebase.CREATED_AT) as Long?) ?: Constant.Default.LONG
+
+val Map<String, Any>.time: Long
+    get() = (get(Constants.Keys.Firebase.TIME) as Long?) ?: Constant.Default.LONG
 
 val CountryCodePicker.selectedCountry: CCPCountry?
     get() = CCPCountry.getLibraryMasterCountriesEnglish()
@@ -213,7 +229,23 @@ val SmartError?.isWeakPassword: Boolean get() = this?.error is FirebaseAuthWeakP
 val SmartError?.isInvalidUser: Boolean get() = this?.error is FirebaseAuthInvalidUserException
 val SmartError?.isFirebaseError: Boolean get() = isAuthException or isUserCollision or isInvalidCredentials or isWeakPassword or isInvalidUser
 
-suspend fun DatabaseReference.value(): DataSnapshot {
+@Throws
+fun Query.snapshot(): DataSnapshot {
+    val source = TaskCompletionSource<DataSnapshot>()
+    val task = source.task
+    ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            source.setResult(snapshot)
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            source.setException(error.toException())
+        }
+    })
+    return Tasks.await(task)
+}
+
+/*suspend fun DatabaseReference.value(): DataSnapshot {
     return withContext(Dispatchers.Unconfined) {
         suspendCoroutine<DataSnapshot> { continuation ->
             addListenerForSingleValueEvent(object : ValueEventListener {
@@ -241,4 +273,5 @@ suspend fun Query.value(): DataSnapshot {
             }
         })
     }
-}
+}*/
+

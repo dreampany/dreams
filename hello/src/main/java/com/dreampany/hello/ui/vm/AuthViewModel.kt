@@ -47,7 +47,7 @@ class AuthViewModel
                     opt = userRepo.write(user)
                 }
                 if (opt > -1) {
-
+                    opt = userRepo.write(user.id)
                 }
                 if (opt > -1) {
                     pref.write(input)

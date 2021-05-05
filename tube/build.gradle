@@ -115,7 +115,6 @@ android {
         }
     }
 
-    //dataBinding { enabled true }
     buildFeatures {dataBinding true}
 
     compileOptions {
@@ -149,7 +148,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     /* test */
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
@@ -179,7 +178,7 @@ dependencies {
 
     /* google */
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.3.0'

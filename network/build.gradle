@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.1'
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         minSdkVersion 21
@@ -38,7 +38,8 @@ android {
         }
     }
 
-    dataBinding { enabled true }
+    //dataBinding { enabled true }
+    buildFeatures {dataBinding true}
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

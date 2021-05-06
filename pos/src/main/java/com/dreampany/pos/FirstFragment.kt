@@ -1,16 +1,18 @@
 package com.dreampany.pos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.dreampany.pos.databinding.FragmentFirstBinding
 import com.starmicronics.stario.PortInfo
 import com.starmicronics.stario.StarIOPort
 import com.starmicronics.stario.StarIOPortException
+import com.starmicronics.starioextension.ConnectionCallback
 import com.starmicronics.starioextension.ICommandBuilder
 import com.starmicronics.starioextension.StarIoExt
+import com.starmicronics.starioextension.StarIoExtManager
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.nio.charset.Charset
@@ -33,8 +35,13 @@ class FirstFragment : Fragment(), CoroutineScope {
 
     private lateinit var job: Job
 
+    private var starManager: StarIoExtManager? = null
+
     @Transient
     private var searchingPorts: Boolean = false
+
+    @Transient
+    private val ports: ArrayList<PortInfo> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +51,6 @@ class FirstFragment : Fragment(), CoroutineScope {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,9 +61,16 @@ class FirstFragment : Fragment(), CoroutineScope {
         }*/
         job = Job()
 
+        binding.buttonSearch.setOnClickListener {
+            searchPrinters()
+        }
 
-        binding.buttonFirst.setOnClickListener {
+        binding.buttonConnect.setOnClickListener {
+            connectPrinter()
+        }
 
+        binding.buttonPrint.setOnClickListener {
+            print()
         }
     }
 
@@ -67,17 +80,48 @@ class FirstFragment : Fragment(), CoroutineScope {
         _binding = null
     }
 
-    private fun doReady() {
+    private fun searchPrinters() {
         job.cancel()
+        this@FirstFragment.ports.clear()
         launch {
             val ports = searchPorts()
             ports?.forEach {
-                Timber.d("Port %s", it.portName)
+                Timber.d("Port %s", it)
+            }
+            ports?.let {
+                this@FirstFragment.ports.addAll(it)
             }
         }
     }
 
+    private fun connectPrinter() {
+        if (ports.isEmpty()) return
+        val port = ports.first()
+        if (starManager != null) {
+            starManager?.disconnect(object : ConnectionCallback() {
+                override fun onDisconnected() {
+                    connectPrinter(port)
+                }
+            })
+            return
+        }
+        connectPrinter(port)
+    }
+
+    private fun connectPrinter(port: PortInfo) {
+        starManager = StarIoExtManager(
+            StarIoExtManager.Type.Standard,
+            port.portName,
+            ModelCapability.getPortSettings(ModelCapability.SP700),
+            10000,
+            activity
+        )
+    }
+
     private fun print() {
+        if (ports.isEmpty()) return
+        val port = ports.first()
+
         val receipt = createReceiptData()
         //Communication.sendCommands(mStarIoExtManager, data, mStarIoExtManager.getPort(), 30000, mCallback);     // 10000mS!!!
     }
@@ -113,18 +157,21 @@ class FirstFragment : Fragment(), CoroutineScope {
 
         builder.append(
             ("Butler\n" +
-                    "\n").toByteArray(encoding))
+                    "\n").toByteArray(encoding)
+        )
 
 
         builder.appendAlignment(ICommandBuilder.AlignmentPosition.Left)
 
-        builder.append((
-                "Description    Total\n" +
-                        "Polao          10.99\n" +
-                        "\n" +
-                        "Subtotal       10.99\n" +
-                        "Tax             0.00\n" +
-                        "--------------------------------\n").toByteArray(encoding))
+        builder.append(
+            (
+                    "Description    Total\n" +
+                            "Polao          10.99\n" +
+                            "\n" +
+                            "Subtotal       10.99\n" +
+                            "Tax             0.00\n" +
+                            "--------------------------------\n").toByteArray(encoding)
+        )
 
 
         builder.appendCutPaper(ICommandBuilder.CutPaperAction.PartialCutWithFeed)

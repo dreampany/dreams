@@ -5,7 +5,7 @@ import timber.log.Timber
 
 /**
  * Created by roman on 5/5/21
- * Copyright (c) 2021 bjit. All rights reserved.
+ * Copyright (c) 2021 butler. All rights reserved.
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */

@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
 
-    <TextView
-        android:id="@+id/textview_first"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_first_fragment"
         auto:layout_constraintBottom_toTopOf="@id/layout_button"
         auto:layout_constraintEnd_toEndOf="parent"
         auto:layout_constraintStart_toStartOf="parent"
@@ -37,12 +36,14 @@
             android:id="@+id/button_connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="@string/connect" />
 
         <Button
             android:id="@+id/button_print"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="@string/print" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

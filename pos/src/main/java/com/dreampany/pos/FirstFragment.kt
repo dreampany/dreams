@@ -9,10 +9,7 @@ import com.dreampany.pos.databinding.FragmentFirstBinding
 import com.starmicronics.stario.PortInfo
 import com.starmicronics.stario.StarIOPort
 import com.starmicronics.stario.StarIOPortException
-import com.starmicronics.starioextension.ConnectionCallback
-import com.starmicronics.starioextension.ICommandBuilder
-import com.starmicronics.starioextension.StarIoExt
-import com.starmicronics.starioextension.StarIoExtManager
+import com.starmicronics.starioextension.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.nio.charset.Charset
@@ -46,21 +43,15 @@ class FirstFragment : Fragment(), CoroutineScope {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-/*        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }*/
         job = Job()
-
         binding.buttonSearch.setOnClickListener {
             searchPrinters()
         }
@@ -91,11 +82,18 @@ class FirstFragment : Fragment(), CoroutineScope {
             ports?.let {
                 this@FirstFragment.ports.addAll(it)
             }
+
+            if (ports.isNullOrEmpty()) {
+                binding.buttonConnect.isEnabled = false
+                binding.textStatus.text = "Printer NotFound"
+            } else {
+                binding.buttonConnect.isEnabled = true
+                binding.textStatus.text = ports.firstOrNull()?.portName
+            }
         }
     }
 
     private fun connectPrinter() {
-        if (ports.isEmpty()) return
         val port = ports.first()
         if (starManager != null) {
             starManager?.disconnect(object : ConnectionCallback() {
@@ -116,14 +114,42 @@ class FirstFragment : Fragment(), CoroutineScope {
             10000,
             activity
         )
+        starManager?.setListener(object : StarIoExtManagerListener() {
+            override fun onPrinterOnline() {
+                binding.textStatus.text = "Printer Online"
+            }
+
+            override fun onPrinterOffline() {
+                binding.textStatus.text = "Printer Offline"
+            }
+
+            override fun onPrinterImpossible() {
+                binding.textStatus.text = "Printer Impossible"
+            }
+        })
+        starManager?.connect(object : ConnectionCallback() {
+            override fun onConnected(result: Boolean, resultCode: Int) {
+                binding.textStatus.text = "Printer Connected"
+                binding.buttonPrint.isEnabled = result
+            }
+        })
     }
 
     private fun print() {
-        if (ports.isEmpty()) return
-        val port = ports.first()
-
         val receipt = createReceiptData()
-        //Communication.sendCommands(mStarIoExtManager, data, mStarIoExtManager.getPort(), 30000, mCallback);     // 10000mS!!!
+        starManager?.let {
+            Communication.sendCommands(
+                it,
+                receipt,
+                it.getPort(),
+                30000,
+                object : Communication.SendCallback {
+                    override fun onStatus(communicationResult: Communication.CommunicationResult) {
+                        binding.textStatus.text =
+                            Communication.getCommunicationResultMessage(communicationResult)
+                    }
+                })
+        }
     }
 
 

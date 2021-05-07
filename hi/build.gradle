@@ -38,9 +38,21 @@ android {
         viewBinding true
         dataBinding true
     }
+
+    applicationVariants.all { variant ->
+        def parts = variant.applicationId.split('\\.')
+        variant.outputs.all {
+            outputFileName = parts[2] + "-${variant.versionName}-${variant.buildType.name}.apk"
+        }
+    }
 }
 
 dependencies {
+    /* libs */
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.annotation:annotation:1.1.0'
+
+    /* test */
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

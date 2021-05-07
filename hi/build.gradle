@@ -81,7 +81,7 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    implementation("com.google.guava:guava:30.1.1-android")
+    implementation "com.google.guava:guava:$guava"
 
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.4.0'

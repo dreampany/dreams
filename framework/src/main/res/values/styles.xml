@@ -60,7 +60,7 @@
         <item name="itemBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="Theme.BottomSheetDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.Light.BottomSheetDialog">
+    <style name="Theme.BottomSheetDialog.Light" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <!--<item name="colorPrimary">@color/textColorPrimary</item>
         <item name="colorPrimaryDark">@color/textColorSecondary</item>
         <item name="colorAccent">@color/colorAccent</item>-->

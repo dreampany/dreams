@@ -1,5 +1,6 @@
 package com.dreampany.hi.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.hi.R
 import com.dreampany.hi.databinding.FragmentHomeBinding
+import com.dreampany.hi.ui.auth.LoginActivity
 
 class HomeFragment : Fragment() {
 
@@ -36,6 +38,11 @@ class HomeFragment : Fragment() {
             textView.text = it
         })
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        startActivity(Intent(view.context, LoginActivity::class.java))
     }
 
     override fun onDestroyView() {

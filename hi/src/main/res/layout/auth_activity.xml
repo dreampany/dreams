@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="${relativePackage}.${activityClass}">
+    tools:context=".ui.auth.AuthActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
+<!--        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppBarOverlay">
@@ -21,7 +21,7 @@
                 android:theme="@style/Theme.Toolbar.Light"
                 auto:popupTheme="@style/PopupOverlay" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_220sdp"
-                auto:placeholderImage="@color/colorAccent"
+                auto:placeholderImage="?attr/colorPrimaryVariant"
                 auto:roundedCornerRadius="@dimen/cornerRadiusSmall" />
 
         </RelativeLayout>

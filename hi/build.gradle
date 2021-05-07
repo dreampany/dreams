@@ -57,7 +57,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     /* library */
-    implementation project(':common')
+    //implementation project(':common')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
@@ -86,4 +86,8 @@ dependencies {
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.4.0'
     implementation 'com.facebook.android:facebook-login:8.1.0'
+
+    /* misc */
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
 }

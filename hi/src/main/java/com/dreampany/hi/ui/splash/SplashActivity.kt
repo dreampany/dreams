@@ -1,10 +1,9 @@
-package com.dreampany.hi.ui.auth
+package com.dreampany.hi.ui.splash
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import com.dreampany.hi.R
-import com.dreampany.hi.databinding.AuthActivityBinding
+import com.dreampany.hi.open
+import com.dreampany.hi.ui.auth.AuthActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -14,12 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
  * Last modified $file.lastModified
  */
 @AndroidEntryPoint
-class AuthActivity : AppCompatActivity() {
-
-    private lateinit var binding: AuthActivityBinding
+class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<AuthActivityBinding>(this, R.layout.auth_activity)
+        open(AuthActivity::class, true)
     }
 }

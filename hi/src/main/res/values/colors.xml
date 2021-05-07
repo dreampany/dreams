@@ -13,4 +13,11 @@
 
     <color name="textColorPrimary">@color/material_black</color>
     <color name="textColorSecondary">@color/material_grey600</color>
+
+    <color name="colorTransparent">@android:color/transparent</color>
+
+
+    <color name="error">@color/material_red500</color>
+    <color name="warning">@color/material_amber500</color>
+    <color name="success">@color/material_green500</color>
 </resources>

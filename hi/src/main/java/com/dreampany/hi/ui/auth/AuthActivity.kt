@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.dreampany.hi.R
 import com.dreampany.hi.databinding.AuthActivityBinding
+import com.dreampany.hi.open
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -21,5 +22,10 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<AuthActivityBinding>(this, R.layout.auth_activity)
+
+        binding.login.setOnClickListener {
+            open(LoginActivity::class)
+        }
+
     }
 }

@@ -7,7 +7,7 @@ import com.dreampany.framework.data.enums.BaseType
 import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.constant.Constant
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by roman on 21/3/20

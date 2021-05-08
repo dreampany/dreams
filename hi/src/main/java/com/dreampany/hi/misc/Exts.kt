@@ -2,6 +2,8 @@ package com.dreampany.hi
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Looper
+import com.google.common.io.BaseEncoding
 import kotlin.reflect.KClass
 
 /**
@@ -10,6 +12,8 @@ import kotlin.reflect.KClass
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
+fun Runnable.isOnUiThread(): Boolean =
+    Thread.currentThread() === Looper.getMainLooper().getThread()
 
 fun <T : Any> Activity?.open(target: KClass<T>, finish: Boolean = false) {
     this?.run {
@@ -19,3 +23,9 @@ fun <T : Any> Activity?.open(target: KClass<T>, finish: Boolean = false) {
         }
     }
 }
+
+val String.encodeBase64: String
+    get() = BaseEncoding.base64().encode(this.toByteArray(Charsets.UTF_8))
+
+val String.decodeBase64: String
+    get() = BaseEncoding.base64().decode(this).toString(Charsets.UTF_8)

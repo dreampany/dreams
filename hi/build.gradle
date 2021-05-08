@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -20,11 +21,44 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
+    signingConfigs {
+        debug {
+            storeFile file('../keystore/debug.keystore.jks')
+            keyAlias 'debug.keystore'
+            storePassword 'debug.keystore'
+            keyPassword 'debug.keystore'
+        }
+
+        release {
+            storeFile file('../keystore/dreampany.keystore.jks')
+            keyAlias 'dreampany'
+            storePassword 'ROOT.net080208ROOT.net080208'
+            keyPassword 'ROOT.net080208ROOT.net080208'
+        }
+    }
+
     buildTypes {
+        debug {
+            crunchPngs false
+            minifyEnabled false
+            shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            jniDebuggable = true
+            renderscriptDebuggable = true
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
 
     compileOptions {
@@ -33,11 +67,6 @@ android {
     }
 
     kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
-
-    buildFeatures {
-        viewBinding true
-        dataBinding true
-    }
 
     applicationVariants.all { variant ->
         def parts = variant.applicationId.split('\\.')
@@ -83,9 +112,25 @@ dependencies {
 
     implementation "com.google.guava:guava:$guava"
 
+    /* firebase */
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    //implementation 'com.google.firebase:firebase-ads'
+    implementation 'com.google.firebase:firebase-appindexing'
+    //implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-common-ktx'
+
+    /* google */
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
     /* facebook */
     implementation 'com.facebook.fresco:fresco:2.4.0'
-    implementation 'com.facebook.android:facebook-login:8.1.0'
+    implementation 'com.facebook.android:facebook-login:9.1.1'
 
     /* misc */
     implementation 'com.intuit.sdp:sdp-android:1.0.6'

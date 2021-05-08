@@ -18,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment(), CoroutineScope {
+class FirstFragment : Fragment() {
 
     companion object {
         val TAG = FirstFragment::class.java.simpleName
@@ -27,10 +27,7 @@ class FirstFragment : Fragment(), CoroutineScope {
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
-    private lateinit var job: Job
+    private val scope = MainScope()
 
     private var starManager: StarIoExtManager? = null
 
@@ -51,7 +48,6 @@ class FirstFragment : Fragment(), CoroutineScope {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        job = Job()
         binding.buttonSearch.setOnClickListener {
             searchPrinters()
         }
@@ -67,14 +63,14 @@ class FirstFragment : Fragment(), CoroutineScope {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        job.cancel()
+        scope.cancel()
         _binding = null
     }
 
     private fun searchPrinters() {
-        job.cancel()
         this@FirstFragment.ports.clear()
-        launch {
+        scope.launch {
+            Timber.d("Searching Printers")
             val ports = searchPorts()
             ports?.forEach {
                 Timber.d("Port %s", it)
@@ -156,10 +152,10 @@ class FirstFragment : Fragment(), CoroutineScope {
     private suspend fun searchPorts(): List<PortInfo>? {
         return withContext(Dispatchers.IO) {
             try {
-                StarIOPort.searchPrinter(
-                    Constants.IF_TYPE_ETHERNET,
-                    activity
+                val ports = StarIOPort.searchPrinter(
+                    Constants.IF_TYPE_ETHERNET
                 )
+                ports
             } catch (error: StarIOPortException) {
                 Timber.e(error)
                 null

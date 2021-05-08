@@ -20,11 +20,44 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        debug {
+            storeFile file('../keystore/debug.keystore.jks')
+            keyAlias 'debug.keystore'
+            storePassword 'debug.keystore'
+            keyPassword 'debug.keystore'
+        }
+
+        release {
+            storeFile file('../keystore/dreampany.keystore.jks')
+            keyAlias 'dreampany'
+            storePassword 'ROOT.net080208ROOT.net080208'
+            keyPassword 'ROOT.net080208ROOT.net080208'
+        }
+    }
+
     buildTypes {
+        debug {
+            crunchPngs false
+            minifyEnabled false
+            shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            jniDebuggable = true
+            renderscriptDebuggable = true
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
 
     compileOptions {
@@ -34,9 +67,11 @@ android {
 
     kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
 
-    buildFeatures {
-        viewBinding true
-        dataBinding true
+    applicationVariants.all { variant ->
+        def parts = variant.applicationId.split('\\.')
+        variant.outputs.all {
+            outputFileName = parts[2] + "-${variant.versionName}-${variant.buildType.name}.apk"
+        }
     }
 
 }

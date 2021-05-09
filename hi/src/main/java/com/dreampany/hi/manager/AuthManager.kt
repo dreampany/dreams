@@ -20,7 +20,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.common.collect.Maps
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -128,7 +127,8 @@ class AuthManager
     fun signInGoogle(instance: Activity, requestCode: Int) {
         if (google == null) {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(Constant.Apis.GOOGLE_CLIENT_ID_DREAMPANY_MAIL.decodeBase64)
+                .requestIdToken(Constant.Apis.GOOGLE_CLIENT_ID_DREAMPANY_MAIL)
+                .requestServerAuthCode(Constant.Apis.GOOGLE_CLIENT_ID_DREAMPANY_MAIL)
                 .requestEmail()
                 .build()
             google = GoogleSignIn.getClient(instance, gso)
@@ -187,6 +187,7 @@ class AuthManager
     private fun handleResult(task: Task<GoogleSignInAccount>, callback: Callback) {
         try {
             val account = task.getResult(ApiException::class.java) ?: return
+            val code = account.serverAuthCode
             loginCredential(account.idToken, callback)
         } catch (error: Throwable) {
             Timber.e(error)

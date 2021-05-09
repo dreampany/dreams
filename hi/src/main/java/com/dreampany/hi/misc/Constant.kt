@@ -9,7 +9,7 @@ package com.dreampany.hi.misc
 class Constant {
     object Apis {
         const val GOOGLE_CLIENT_ID_DREAMPANY_MAIL =
-            "Mzg3MTgwMDk4NzI4LXVrMjIyOXA5dDJlMHI5ZmwzODRkNHY3ZzlkNDdhMDJvLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29t"
+            "387180098728-3ugp904a274k90p0a0vrb823t1v3ufqi.apps.googleusercontent.com"
     }
 
     object Count {

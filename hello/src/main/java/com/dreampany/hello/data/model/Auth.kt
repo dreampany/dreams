@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.constant.Constant
 import com.dreampany.framework.misc.exts.currentMillis
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by roman on 25/9/20

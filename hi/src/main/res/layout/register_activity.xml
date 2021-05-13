@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.auth.LoginActivity">
+    tools:context=".ui.auth.RegisterActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -76,6 +76,29 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/align_margin"
+                android:layout_marginTop="@dimen/align_margin"
+                android:layout_marginEnd="@dimen/align_margin"
+                android:textColorHint="@color/textColorSecondary"
+                auto:hintTextColor="?attr/colorPrimaryVariant"
+                auto:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="top|start"
+                    android:hint="Enter password (for confirmation)"
+                    android:inputType="textPassword"
+                    android:text="ROOTnet080208" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/error"
                 android:layout_width="match_parent"
@@ -86,13 +109,13 @@
                 android:textColor="@color/error" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/login"
+                android:id="@+id/register"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/buttonSizePrimary"
                 android:layout_marginStart="@dimen/align_margin"
                 android:layout_marginTop="@dimen/para_margin"
                 android:layout_marginEnd="@dimen/align_margin"
-                android:text="@string/login"
+                android:text="Register"
                 android:textAllCaps="false"
                 android:textSize="@dimen/textSizePrimary"
                 auto:cornerRadius="@dimen/buttonRadius"
@@ -104,7 +127,7 @@
                 android:layout_above="@id/buttons"
                 android:layout_marginTop="@dimen/section_margin"
                 android:layout_marginBottom="@dimen/para_margin"
-                android:text="Login with"
+                android:text="Register with"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/textSizeSecondary" />
 

@@ -22,8 +22,10 @@
 
     <dimen name="margin">@dimen/_4sdp</dimen>
     <dimen name="align_margin">@dimen/_8sdp</dimen>
+    <dimen name="border_margin">@dimen/_16sdp</dimen>
     <dimen name="para_margin">@dimen/_16sdp</dimen>
     <dimen name="fab_margin">@dimen/_16sdp</dimen>
+    <dimen name="section_margin">@dimen/_24sdp</dimen>
 
     <dimen name="margin_xxsmall">8dp</dimen>
     <dimen name="margin_xsmall">16dp</dimen>

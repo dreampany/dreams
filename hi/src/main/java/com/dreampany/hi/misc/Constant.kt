@@ -25,7 +25,7 @@ class Constant {
             const val EXPIRE = "expire"
             const val STARTED = "started"
             const val LOGGED = "logged"
-            const val SIGN_IN = "sign_in"
+            const val REGISTERED = "registered"
             const val AUTH = "auth"
             const val USER = "user"
         }

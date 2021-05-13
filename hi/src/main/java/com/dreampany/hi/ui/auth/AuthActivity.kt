@@ -27,5 +27,9 @@ class AuthActivity : AppCompatActivity() {
             open(LoginActivity::class)
         }
 
+        binding.register.setOnClickListener {
+            open(RegisterActivity::class)
+        }
+
     }
 }

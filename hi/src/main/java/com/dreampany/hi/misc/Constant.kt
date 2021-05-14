@@ -1,5 +1,7 @@
 package com.dreampany.hi.misc
 
+import java.util.*
+
 /**
  * Created by roman on 5/8/21
  * Copyright (c) 2021 butler. All rights reserved.
@@ -7,10 +9,24 @@ package com.dreampany.hi.misc
  * Last modified $file.lastModified
  */
 class Constant {
+
+    object Default {
+        val NULL = null
+        const val BOOLEAN = false
+        const val CHARACTER = 0.toChar()
+        const val INT = 0
+        const val LONG = 0L
+        const val FLOAT = 0f
+        const val DOUBLE = 0.0
+        const val STRING = ""
+        val LIST = Collections.emptyList<Any>()
+    }
+
     object Apis {
         const val GOOGLE_CLIENT_ID_DREAMPANY_MAIL =
             "387180098728-3ugp904a274k90p0a0vrb823t1v3ufqi.apps.googleusercontent.com"
     }
+
 
     object Keys {
         const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"

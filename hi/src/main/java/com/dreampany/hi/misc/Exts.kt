@@ -29,3 +29,5 @@ val String.encodeBase64: String
 
 val String.decodeBase64: String
     get() = BaseEncoding.base64().decode(this).toString(Charsets.UTF_8)
+
+val currentMillis: Long get() = System.currentTimeMillis()

@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId 'com.dreampany.pos'
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName '0.0.1'

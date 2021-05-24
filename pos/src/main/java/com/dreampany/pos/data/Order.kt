@@ -11,6 +11,7 @@ import java.time.ZonedDateTime
  */
 data class Order(
     var orderNumber: Int = 0,
+    var hotel: Hotel? = null,
     var roomNo: String? = null,
     var clientName: String? = null,
     var paymentType: String? = null,

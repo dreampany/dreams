@@ -170,13 +170,10 @@ class FirstFragment : Fragment() {
 
         val encoding = Charset.forName("US-ASCII")
         builder.appendCodePage(ICommandBuilder.CodePageType.CP998)
-
         builder.appendInternational(ICommandBuilder.InternationalType.USA)
-
         builder.appendCharacterSpace(0)
 
         builder.appendAlignment(ICommandBuilder.AlignmentPosition.Center)
-
         builder.append(
             ("Butler\n" +
                     "\n").toByteArray(encoding)

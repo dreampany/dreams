@@ -189,7 +189,7 @@ class FirstFragment : Fragment() {
                             "\n" +
                             "Subtotal       10.99\n" +
                             "Tax             0.00\n" +
-                            "--------------------------------\n").toByteArray(encoding)
+                            "c\n").toByteArray(encoding)
         )
 
 

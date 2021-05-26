@@ -10,7 +10,8 @@ import com.google.common.base.Objects
  */
 data class Hotel(
     var name: String? = null,
-    var location: Location? = null
+    var location: Location? = null,
+    var address: Address? = null
 ) {
 
     override fun hashCode(): Int = Objects.hashCode(name, location)

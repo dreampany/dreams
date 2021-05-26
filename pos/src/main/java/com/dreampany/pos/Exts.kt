@@ -2,11 +2,13 @@ package com.dreampany.pos
 
 import com.dreampany.pos.data.Order
 import com.starmicronics.starioextension.ICommandBuilder
+import com.starmicronics.starioextension.ICommandBuilder.AlignmentPosition.*
 import com.starmicronics.starioextension.StarIoExt
 import java.nio.charset.Charset
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+
 
 /**
  * Created by roman on 5/24/21
@@ -33,6 +35,10 @@ val Order.receipt: ByteArray
         builder.addHotelLocationAndOrderNumber(this)
         builder.addCurrentDateTime(this)
         builder.addDeliveryLabel()
+        builder.addClientInfo(this)
+        builder.addOrderDetailsLabel()
+        builder.addComment(this)
+        builder.addSignatureAndTipLabel()
 
         builder.appendCutPaper(ICommandBuilder.CutPaperAction.PartialCutWithFeed)
         builder.endDocument()
@@ -49,10 +55,13 @@ private fun ICommandBuilder.addButlerTitle() {
 
 private fun ICommandBuilder.addHotelLocationAndOrderNumber(order: Order) {
     val encoding = Charset.forName("US-ASCII")
-    appendAlignment(ICommandBuilder.AlignmentPosition.Center)
     appendFontStyle(ICommandBuilder.FontStyleType.B)
     appendEmphasis(false)
-    append("${order.hotel?.location?.name} - Order #${order.orderNumber}".toByteArray(encoding))
+    appendAlignment(
+        "${order.hotel?.location?.name} - Order #${order.orderNumber}".toByteArray(
+            encoding
+        ), Center
+    )
     appendLineFeed(3)
 }
 
@@ -66,21 +75,93 @@ private fun ICommandBuilder.addCurrentDateTime(order: Order) {
     }
 
     val encoding = Charset.forName("US-ASCII")
-    appendAlignment(ICommandBuilder.AlignmentPosition.Left)
-    appendFontStyle(ICommandBuilder.FontStyleType.B)
-    append(dateTime.formatDateTime.toByteArray(encoding))
+    appendAlignment(dateTime.formatDateTime.toByteArray(encoding), Left)
     appendLineFeed()
 }
 
 private fun ICommandBuilder.addDeliveryLabel() {
     val encoding = Charset.forName("US-ASCII")
+    appendAlignment("----------------------------------------".toByteArray(encoding), Center)
+    appendLineFeed()
+    appendAlignment("DELIVERY INFORMATION".toByteArray(encoding), Center)
+    appendLineFeed()
+    appendAlignment("----------------------------------------".toByteArray(encoding), Center)
+    appendLineFeed()
+}
+
+private fun ICommandBuilder.addClientInfo(order: Order) {
+    val encoding = Charset.forName("US-ASCII")
+    appendAlignment(order.clientName?.toByteArray(encoding), Left)
+    appendAlignment("Payment type:".toByteArray(encoding), Right)
+    appendLineFeed()
+
+    var payment = order.paymentType
+    payment = payment?.replace("_", " ") ?: ""
+
+    appendAlignment(order.clientPhone?.toByteArray(encoding), Left)
+    appendAlignment(payment.toByteArray(encoding), Right)
+    appendLineFeed()
+
+    order.scheduledDeliveryTime?.let {
+        var scheduledDeliveryTime = it
+        try {
+            val timeZone = order.hotel?.location?.city?.timeZone
+            scheduledDeliveryTime = scheduledDeliveryTime.withZoneSameInstant(ZoneId.of(timeZone))
+        } catch (error: Throwable) {
+
+        }
+
+        val startWindowTime = scheduledDeliveryTime.formatTime
+        val endWindowTime = scheduledDeliveryTime.plusMinutes(15).formatTime
+
+        appendEmphasis(true)
+        appendAlignment(("Window: $startWindowTime - $endWindowTime").toByteArray(encoding), Center)
+        appendEmphasis(false)
+        appendLineFeed()
+    }
+
+    val hotelRoom = order.hotel?.name + ", Room: " + order.roomNo
+    val address = order.hotel?.address
+    val hotelAddress = address?.number + " " + address?.street + " " + address?.town
+    appendAlignment(hotelRoom.toByteArray(encoding), Left)
+    appendLineFeed()
+    appendAlignment(hotelAddress.toByteArray(encoding), Left)
+    appendLineFeed()
+}
+
+private fun ICommandBuilder.addOrderDetailsLabel() {
+    val encoding = Charset.forName("US-ASCII")
     appendAlignment(ICommandBuilder.AlignmentPosition.Center)
-    appendFontStyle(ICommandBuilder.FontStyleType.B)
     append("----------------------------------------".toByteArray(encoding))
     appendLineFeed()
-    append("DELIVERY INFORMATION".toByteArray(encoding))
+    append("ORDER DETAILS".toByteArray(encoding))
     appendLineFeed()
     append("----------------------------------------".toByteArray(encoding))
+    appendLineFeed()
+}
+
+private fun ICommandBuilder.addComment(order: Order) {
+    order.comment?.let {
+        val encoding = Charset.forName("US-ASCII")
+        appendAlignment(ICommandBuilder.AlignmentPosition.Left)
+        appendEmphasis("Comment: $it".toByteArray(encoding))
+        appendLineFeed()
+    }
+}
+
+private fun ICommandBuilder.addSignatureAndTipLabel() {
+    val encoding = Charset.forName("US-ASCII")
+
+    appendAlignment(ICommandBuilder.AlignmentPosition.Left)
+    append("Sign".toByteArray(encoding))
+    appendAlignment(ICommandBuilder.AlignmentPosition.Right)
+    append("Tip".toByteArray(encoding))
+    appendLineFeed()
+
+    appendAlignment(ICommandBuilder.AlignmentPosition.Left)
+    append("______________________________".toByteArray(encoding))
+    appendAlignment(ICommandBuilder.AlignmentPosition.Right)
+    append("\$_______".toByteArray(encoding))
     appendLineFeed()
 }
 

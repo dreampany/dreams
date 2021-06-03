@@ -10,6 +10,8 @@
         android:id="@+id/text_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
         auto:layout_constraintBottom_toTopOf="@id/layout_button"
         auto:layout_constraintEnd_toEndOf="parent"
         auto:layout_constraintStart_toStartOf="parent"

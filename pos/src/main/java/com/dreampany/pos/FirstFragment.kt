@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.dreampany.pos.data.*
 import com.dreampany.pos.databinding.FragmentFirstBinding
 import com.starmicronics.stario.PortInfo
 import com.starmicronics.stario.StarIOPort
@@ -12,7 +13,9 @@ import com.starmicronics.stario.StarIOPortException
 import com.starmicronics.starioextension.*
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.math.BigDecimal
 import java.nio.charset.Charset
+import java.time.ZonedDateTime
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -71,6 +74,7 @@ class FirstFragment : Fragment() {
         this@FirstFragment.ports.clear()
         scope.launch {
             Timber.d("Searching Printers")
+            binding.textStatus.text = "Searching Printers..."
             val ports = searchPorts()
             ports?.forEach {
                 Timber.d("Port %s", it)
@@ -164,7 +168,9 @@ class FirstFragment : Fragment() {
     }
 
     private fun createReceiptData(): ByteArray {
-        val builder = StarIoExt.createCommandBuilder(StarIoExt.Emulation.StarDotImpact)
+        val order = createOrder()
+        return order.receipt
+       /* val builder = StarIoExt.createCommandBuilder(StarIoExt.Emulation.StarDotImpact)
 
         builder.beginDocument()
 
@@ -197,6 +203,105 @@ class FirstFragment : Fragment() {
 
         builder.endDocument()
 
-        return builder.commands
+        return builder.commands*/
     }
+
+    private fun createOrder(): Order {
+
+        val address = createAddress()
+        val city = createCity()
+        val location = createLocation(city)
+        val hotel = createHotel(
+            location = location,
+            address = address
+        )
+        val order = Order(
+            orderNumber = 5,
+            hotel = hotel,
+            roomNo = "933",
+            clientName = "David  Benshahar",
+            paymentType = "CHARGE_TO_ROOM",
+            clientPhone = "+972542466658",
+            scheduledDeliveryTime = ZonedDateTime.now(),
+            comment = "-- Please deliver to the restaurant, not the room. Thanks",
+            cutlery = 1,
+            receiptAmount = BigDecimal(15.00),
+            totalNet = BigDecimal(15.00),
+            taxAmount = BigDecimal(1.33),
+            totalGross = BigDecimal(16.33)
+        )
+        order.items = createOrderItems(order)
+        order.customItems = createCustomOrderItems(order)
+        return order
+    }
+
+    private fun createAddress(): Address {
+        val address = Address(
+            number = "138-10",
+            street = "135th Avenue",
+            town = "Jamaica"
+        )
+        return address
+    }
+
+    private fun createCity(): City {
+        val city = City(
+            id = 2,
+            timeZone = "America/New_York"
+        )
+        return city
+    }
+
+
+    private fun createLocation(city: City): Location {
+        val location = Location(
+            name = "Times Square",
+            city = city
+        )
+        return location
+    }
+
+    private fun createHotel(location: Location, address: Address): Hotel {
+        val hotel = Hotel(
+            name = "Hotel Henri",
+            location = location,
+            address = address
+        )
+        return hotel
+    }
+
+    private fun createOrderItems(order: Order): List<OrderItem> {
+        val items = ArrayList<OrderItem>()
+
+        val first = OrderItem(
+            order = order,
+            menuItemId = 11586950,
+            name = "Continental Plate",
+            quantity = 1,
+            price = BigDecimal(10.00)
+        )
+
+        val second = OrderItem(
+            order = order,
+            menuItemId = 43832600,
+            name = "Cold Cereal",
+            quantity = 1,
+            price = BigDecimal(5.00)
+
+            )
+
+        items.add(first)
+        items.add(second)
+        return items
+    }
+
+    private fun createCustomOrderItems(order: Order): List<OrderItemCustom> {
+        val items = ArrayList<OrderItemCustom>()
+
+
+
+        return items
+    }
+
+
 }

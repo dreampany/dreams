@@ -1,6 +1,7 @@
 package com.dreampany.pos.data
 
 import com.google.common.base.Objects
+import java.math.BigDecimal
 
 /**
  * Created by roman on 5/20/21
@@ -12,7 +13,7 @@ data class OrderItemModifier(
     var orderItem: OrderItem? = null,
     var modifierItemId: Long = 0L,
     var name: String? = null,
-    var price: Double = 0.0
+    var price: BigDecimal = 0.0.toBigDecimal()
 ) {
 
     override fun hashCode(): Int = Objects.hashCode(orderItem, modifierItemId)

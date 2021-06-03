@@ -1,6 +1,7 @@
 package com.dreampany.pos.data
 
 import com.google.common.base.Objects
+import java.math.BigDecimal
 
 /**
  * Created by roman on 5/20/21
@@ -11,7 +12,7 @@ import com.google.common.base.Objects
 data class OrderItemCustom(
     var order: Order? = null,
     var name: String? = null,
-    var price: Double = 0.0,
+    var price: BigDecimal = 0.0.toBigDecimal(),
     var quantity: Int = 0
 ) {
 

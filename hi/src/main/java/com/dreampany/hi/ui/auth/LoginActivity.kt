@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.dreampany.hi.R
-import com.dreampany.hi.databinding.AuthActivityBinding
 import com.dreampany.hi.databinding.LoginActivityBinding
 import com.dreampany.hi.manager.AuthManager
 import com.dreampany.hi.misc.SmartError
@@ -47,6 +46,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         authM.registerCallback(RC_GOOGLE, object : AuthManager.Callback {
+
+            override fun onResult(serverAuthCode: String) {
+                Timber.v("Server Auth Code: %s", serverAuthCode)
+            }
+
             override fun onResult(result: FirebaseUser) {
                 loginGoogle(result)
             }
@@ -60,12 +64,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val result = authM.handleResult(requestCode, resultCode, data)
+        val result = authM.handleResult(requestCode, resultCode, data, true)
         if (result) return
     }
 
     private fun loginGoogle(user: FirebaseUser) {
-
+        Timber.v(user.displayName + "  " + user.email)
     }
 
     private fun loginGoogle() {

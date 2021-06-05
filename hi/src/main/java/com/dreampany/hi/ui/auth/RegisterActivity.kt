@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.dreampany.hi.R
-import com.dreampany.hi.databinding.AuthActivityBinding
-import com.dreampany.hi.databinding.LoginActivityBinding
 import com.dreampany.hi.databinding.RegisterActivityBinding
 import com.dreampany.hi.manager.AuthManager
 import com.dreampany.hi.misc.SmartError
@@ -48,6 +46,11 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         authM.registerCallback(RC_GOOGLE, object : AuthManager.Callback {
+            override fun onResult(serverAuthCode: String) {
+
+
+            }
+
             override fun onResult(result: FirebaseUser) {
                 loginGoogle(result)
             }

@@ -24,7 +24,7 @@ class Constant {
 
     object Apis {
         const val GOOGLE_CLIENT_ID_DREAMPANY_MAIL =
-            "387180098728-3ugp904a274k90p0a0vrb823t1v3ufqi.apps.googleusercontent.com"
+            "387180098728-3ugp904a274k90p0a0vrb823t1v3ufqi.apps.googleusercontent.com" //django
     }
 
 

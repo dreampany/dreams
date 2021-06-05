@@ -2,7 +2,6 @@ package com.dreampany.hi.manager
 
 import android.app.Activity
 import android.content.Intent
-import com.dreampany.hi.decodeBase64
 import com.dreampany.hi.misc.Constant
 import com.dreampany.hi.misc.Executors
 import com.dreampany.hi.misc.SmartError
@@ -41,6 +40,7 @@ class AuthManager
 ) {
 
     interface Callback {
+        fun onResult(serverAuthCode: String)
         fun onResult(result: FirebaseUser)
         fun onError(error: SmartError)
     }
@@ -170,12 +170,17 @@ class AuthManager
     }
 
     @Synchronized
-    fun handleResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+    fun handleResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        forServerAuthCode: Boolean = false
+    ): Boolean {
         val type: Type = types.get(requestCode) ?: return false
         val callback: Callback = callbacks.get(requestCode) ?: return false
         if (type.isGoogle) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleResult(task, callback)
+            handleResult(task, callback, forServerAuthCode)
             return true
         }
         if (type.isFacebook) {
@@ -184,13 +189,23 @@ class AuthManager
         return false
     }
 
-    private fun handleResult(task: Task<GoogleSignInAccount>, callback: Callback) {
+    private fun handleResult(
+        task: Task<GoogleSignInAccount>,
+        callback: Callback,
+        forServerAuthCode: Boolean
+    ) {
         try {
             val account = task.getResult(ApiException::class.java) ?: return
-            val code = account.serverAuthCode
-            loginCredential(account.idToken, callback)
+            if (forServerAuthCode) {
+                val code = account.serverAuthCode
+                callback.onResult(code)
+            } else {
+                loginCredential(account.idToken, callback)
+            }
         } catch (error: Throwable) {
             Timber.e(error)
+            val error = SmartError(error = error)
+            callback.onError(error)
         }
     }
 

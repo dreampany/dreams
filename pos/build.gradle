@@ -27,13 +27,6 @@ android {
             storePassword 'debug.keystore'
             keyPassword 'debug.keystore'
         }
-
-        release {
-            storeFile file('../keystore/dreampany.keystore.jks')
-            keyAlias 'dreampany'
-            storePassword 'ROOT.net080208ROOT.net080208'
-            keyPassword 'ROOT.net080208ROOT.net080208'
-        }
     }
 
     buildTypes {
@@ -50,7 +43,7 @@ android {
 
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

@@ -116,9 +116,10 @@ dependencies {
     /* google */
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-nearby:18.0.0'
 
     /* facebook */
-    implementation 'com.facebook.fresco:fresco:2.4.0'
+    implementation 'com.facebook.fresco:fresco:2.5.0'
     implementation 'com.facebook.android:facebook-login:9.1.1'
 
     /* misc */

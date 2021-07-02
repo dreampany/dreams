@@ -11,7 +11,7 @@ buildscript {
     ext.crashlytics = '2.5.2'
     ext.dagger = '2.35.1'
     ext.guava = '30.1.1-android'
-    ext.coroutines = '1.4.3'
+    ext.coroutines = '1.5.0'
     ext.okhttp = '5.0.0-alpha.2'
     ext.retrofit = '2.9.0'
     ext.about = '8.9.0'

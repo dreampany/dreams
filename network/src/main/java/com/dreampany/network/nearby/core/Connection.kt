@@ -76,7 +76,8 @@ class Connection(
 
     override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
         val peerId = info.endpointName
-        Timber.v("Connection Initiated [EndpointId-PeerId]:[%s-%s]",
+        Timber.v(
+            "Connection Initiated [EndpointId-PeerId]:[%s-%s]",
             endpointId,
             peerId
         )
@@ -91,7 +92,8 @@ class Connection(
         //TODO STATUS_CONNECTION_REJECTED
 
         val peerId = endpointId.peerId
-        Timber.v("Connection Result [EndpointId-PeerId-Accepted]:[%s-%s-%s]",
+        Timber.v(
+            "Connection Result [EndpointId-PeerId-Accepted]:[%s-%s-%s]",
             endpointId,
             peerId,
             accepted
@@ -143,6 +145,35 @@ class Connection(
         startDiscovery()
     }
 
+    fun stop() {
+        synchronized(guard) {
+            if (started.not()) return
+            Timber.v("Stop Connection")
+            started = false
+            stopRequestThread()
+            stopAdvertising()
+            stopDiscovery()
+        }
+    }
+
+    fun requireRestart(
+        strategy: Strategy,
+        serviceId: String,
+        peerId: String
+    ): Boolean = started
+            && (this.strategy != strategy
+            || this.serviceId != serviceId
+            || this.peerId != peerId)
+
+    fun send(peerId: String, payload: Payload): Boolean {
+        val endpointId = peerId.endpointId
+        if (endpointId == null) {
+            Timber.v("Send Failed - PeerId (%s) EndpointId not found", peerId)
+            return false
+        }
+        client.sendPayload(endpointId, payload)
+        return true
+    }
 
     /* private */
     private val String.peerId: String? get() = endpoints.inverseOf(this)

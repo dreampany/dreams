@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit
  * Last modified $file.lastModified
  */
 abstract class Runner : Runnable {
+    protected val delayMilli = TimeUnit.MILLISECONDS.toMillis(10)
     protected val delayS = TimeUnit.SECONDS.toMillis(1)
     protected var wait = delayS
     protected val times: MutableMap<String, Long>

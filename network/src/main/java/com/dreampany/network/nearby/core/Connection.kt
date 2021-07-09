@@ -2,6 +2,7 @@ package com.dreampany.network.nearby.core
 
 import android.content.Context
 import com.dreampany.network.misc.*
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import com.google.common.collect.BiMap
@@ -74,18 +75,55 @@ class Connection(
     }
 
     override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
-        Timber.v("Connection Initiated endpoint: %s", endpointId)
         val peerId = info.endpointName
+        Timber.v("Connection Initiated [EndpointId-PeerId]:[%s-%s]",
+            endpointId,
+            peerId
+        )
         endpoints[peerId] = endpointId
+        states[endpointId] = State.INITIATED
+        directs[endpointId] = info.isIncomingConnection
+        client.acceptConnection(endpointId, payloadCallback)
     }
 
     override fun onConnectionResult(endpointId: String, resolution: ConnectionResolution) {
+        val accepted = resolution.status.statusCode == ConnectionsStatusCodes.STATUS_OK
+        //TODO STATUS_CONNECTION_REJECTED
 
+        val peerId = endpointId.peerId
+        Timber.v("Connection Result [EndpointId-PeerId-Accepted]:[%s-%s-%s]",
+            endpointId,
+            peerId,
+            accepted
+        )
+        states[endpointId] = if (accepted) State.ACCEPTED else State.REJECTED
+
+        if (accepted) {
+            pendingEndpoints.remove(endpointId)
+            if (peerId == null) {
+                // TODO
+            } else {
+                executor.execute { callback.onConnection(peerId, true) }
+            }
+        } else {
+            pendingEndpoints.insertLastUniquely(endpointId)
+            executor.execute { startRequestThread() }
+        }
     }
 
     override fun onDisconnected(endpointId: String) {
-
-
+        Timber.v("Disconnected [Endpoint]:[%s]", endpointId)
+        states[endpointId] = State.DISCONNECTED
+        pendingEndpoints.insertLastUniquely(endpointId)
+        val peerId = endpointId.peerId
+        if (peerId == null) {
+            //TODO
+        } else {
+            executor.execute {
+                callback.onConnection(peerId, false)
+                startRequestThread()
+            }
+        }
     }
 
     fun start(strategy: Strategy, serviceId: String, peerId: String) {
@@ -107,13 +145,12 @@ class Connection(
 
 
     /* private */
-    private val String.peerId: String? get() = endpoints.inverse().get(this)
+    private val String.peerId: String? get() = endpoints.inverseOf(this)
 
     private val String.endpointId: String?
         get() {
-            val endpointId = endpoints.get(this)
-            if (endpointId == null) return null
-            if (states.get(endpointId) != State.ACCEPTED) return null
+            val endpointId = endpoints.get(this) ?: return null
+            //if (states.get(endpointId) != State.ACCEPTED) return null
             return endpointId
         }
 
@@ -170,6 +207,23 @@ class Connection(
                 callback.onConnection(peerId, false)
             }
         }
+    }
+
+    /* payload callback */
+    private val payloadCallback = object : PayloadCallback() {
+
+        override fun onPayloadReceived(endpointId: String, payload: Payload) {
+            val peerId = endpointId.peerId ?: return
+            Timber.v("Payload Received from PeerId (%s)", peerId)
+            executor.execute { callback.onPayload(peerId, payload) }
+        }
+
+        override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {
+            val peerId = endpointId.peerId ?: return
+            Timber.v("Payload Transfer Update from PeerId (%s)", peerId)
+            executor.execute { callback.onPayloadStatus(peerId, update) }
+        }
+
     }
 
 
@@ -246,7 +300,7 @@ class Connection(
 
     private fun startRequestThread() {
         synchronized(guard) {
-            if (!::requestThread.isInitialized || !requestThread.running) {
+            if (::requestThread.isInitialized.not() || requestThread.running.not()) {
                 requestThread = RequestThread(this)
                 requestThread.start()
             }
@@ -260,6 +314,52 @@ class Connection(
                 requestThread.stop()
             }
         }
+    }
+
+    private fun requestConnection(endpointId: String) {
+        Timber.v("Requesting Connection [EndpoindId-State]:[%s-%s]", endpointId, states[endpointId])
+        val peerId = peerId ?: return
+
+        client.requestConnection(peerId, endpointId, this)
+            .addOnFailureListener {
+                Timber.e(
+                    it,
+                    "Request Connection error [%s]-%s",
+                    endpointId, it.message
+                )
+
+                if (it is ApiException) {
+                    when (it.statusCode) {
+                        ConnectionsStatusCodes.STATUS_ALREADY_CONNECTED_TO_ENDPOINT -> {
+                            states[endpointId] = State.ALREADY_CONNECTED
+                            pendingEndpoints.insertLastUniquely(endpointId)
+                            startRequestThread()
+                            return@addOnFailureListener
+                        }
+                        ConnectionsStatusCodes.STATUS_ENDPOINT_IO_ERROR,
+                        ConnectionsStatusCodes.STATUS_RADIO_ERROR,
+                        ConnectionsStatusCodes.STATUS_OUT_OF_ORDER_API_CALL -> {
+                            states[endpointId] = State.ERROR
+                            pendingEndpoints.insertLastUniquely(endpointId)
+                            startRequestThread()
+                            return@addOnFailureListener
+                        }
+                    }
+                }
+
+                states[endpointId] = State.REQUEST_FAILED
+                pendingEndpoints.insertLastUniquely(endpointId)
+                startRequestThread()
+            }.addOnSuccessListener {
+                Timber.v(
+                    "Request Connection Success [EndpointId-PeerId]:[%s-%s]",
+                    endpointId,
+                    peerId
+                )
+                states[endpointId] = State.REQUEST_SUCCESS
+                pendingEndpoints.remove(endpointId)
+                requestTries.remove(endpointId)
+            }
     }
 
     /* request thread */
@@ -287,16 +387,12 @@ class Connection(
             if (state != null) {
                 Timber.v("State [EndpointId-PeerId-State]:[%s-%s-%s]", endpointId, peerId, state)
 
-                when (state) {
-                    State.REQUESTING,
-                    State.ERROR-> return true
-
-                    State.ALREADY_CONNECTED-> {
-                        connection.executor.execute {
-                            connection.callback.onConnection(peerId, true)
-                        }
-                        return true
+                if (state == State.REQUESTING || state == State.ERROR) return true
+                else if (state == State.ALREADY_CONNECTED) {
+                    connection.executor.execute {
+                        connection.callback.onConnection(peerId, true)
                     }
+                    return true
                 }
             }
 
@@ -318,11 +414,18 @@ class Connection(
             }
 
             val readyToRequest = times.timeOf(endpointId).isExpired(delays.valueOf(endpointId))
-            Timber.v("Request Attempt %s-%s", endpointId, readyToRequest)
+
+            Timber.v("Request of EndpointId[%s] is %s", endpointId, readyToRequest)
 
             if (readyToRequest) {
-
-            }else {
+                connection.requestConnection(endpointId)
+                connection.states[endpointId] = State.REQUESTING
+                times.remove(endpointId)
+                delays.remove(endpointId)
+                connection.requestTries.let {
+                    it.put(endpointId, it.valueOf(endpointId).inc())
+                }
+            } else {
                 connection.pendingEndpoints.insertLastUniquely(endpointId)
             }
 

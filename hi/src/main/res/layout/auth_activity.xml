@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/start"
                 android:layout_marginBottom="@dimen/para_margin"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/login"

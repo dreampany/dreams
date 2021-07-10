@@ -126,18 +126,5 @@ sealed class Response<
             result: R
         ): Response<T, S, ST, A, R> =
             Result(type, subtype, state, action, result)
-
-        /*fun <T : BaseType,
-                S : BaseSubtype,
-                ST : BaseState,
-                A : BaseAction,
-                I> responseEmpty(
-            type: T,
-            subtype: S,
-            state: ST,
-            action: A,
-            result: I?
-        ): Response<T, S, ST, A, I> =
-            Empty(type, subtype, state, action, result)*/
     }
 }

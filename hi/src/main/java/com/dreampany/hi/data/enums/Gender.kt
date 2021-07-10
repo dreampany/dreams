@@ -1,6 +1,6 @@
 package com.dreampany.hi.data.enums
 
-import com.dreampany.common.data.enums.BaseType
+import com.dreampany.common.data.enums.BaseEnum
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class Gender : BaseType {
+enum class Gender : BaseEnum {
     MALE,
     FEMALE,
     OTHER;

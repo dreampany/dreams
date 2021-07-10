@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.dreampany.hi.R
 import com.dreampany.hi.databinding.LoginActivityBinding
 import com.dreampany.hi.manager.AuthManager
-import com.dreampany.hi.misc.SmartError
+import com.dreampany.common.misc.func.SmartError
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

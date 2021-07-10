@@ -2,6 +2,7 @@ package com.dreampany.hi.ui.vm
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.dreampany.common.ui.vm.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,5 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     application: Application
-) : AndroidViewModel(application) {
+) : BaseViewModel(application) {
+
+    fun createAnonymousUser() {
+
+    }
 }

@@ -8,6 +8,6 @@ import android.os.Parcelable
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
-interface BaseType : Parcelable {
+interface BaseEnum : Parcelable {
     val value: String
 }

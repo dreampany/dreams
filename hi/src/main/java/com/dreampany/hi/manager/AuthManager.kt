@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.dreampany.hi.misc.Constant
 import com.dreampany.hi.misc.Executors
-import com.dreampany.hi.misc.SmartError
+import com.dreampany.common.misc.func.SmartError
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback

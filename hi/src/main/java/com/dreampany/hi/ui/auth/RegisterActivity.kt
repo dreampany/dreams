@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.hi.R
 import com.dreampany.hi.databinding.RegisterActivityBinding
 import com.dreampany.hi.manager.AuthManager
-import com.dreampany.hi.misc.SmartError
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

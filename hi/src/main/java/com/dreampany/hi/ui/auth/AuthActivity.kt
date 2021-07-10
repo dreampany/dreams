@@ -24,7 +24,7 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<AuthActivityBinding>(this, R.layout.auth_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.auth_activity)
 
         binding.login.setOnClickListener {
             open(LoginActivity::class)

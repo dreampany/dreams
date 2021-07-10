@@ -1,7 +1,7 @@
 package com.dreampany.hello.data.enums
 
 import com.dreampany.framework.data.enums.BaseType
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by roman on 14/3/20

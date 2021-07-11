@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.dreampany.common.misc.exts.open
 import com.dreampany.hi.R
 import com.dreampany.hi.databinding.AuthActivityBinding
-import com.dreampany.hi.open
+
 import com.dreampany.hi.ui.vm.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

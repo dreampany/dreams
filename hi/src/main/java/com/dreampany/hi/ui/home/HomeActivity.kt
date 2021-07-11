@@ -1,4 +1,4 @@
-package com.dreampany.hi.ui
+package com.dreampany.hi.ui.home
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -10,7 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.dreampany.hi.R
 import com.dreampany.hi.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 

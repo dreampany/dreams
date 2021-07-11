@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startActivity(Intent(view.context, LoginActivity::class.java))
+        //startActivity(Intent(view.context, LoginActivity::class.java))
     }
 
     override fun onDestroyView() {

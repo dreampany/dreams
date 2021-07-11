@@ -7,6 +7,7 @@ import com.dreampany.hi.R
 import com.dreampany.hi.databinding.SplashActivityBinding
 import com.dreampany.hi.misc.Prefs
 import com.dreampany.hi.ui.auth.AuthActivity
+import com.dreampany.hi.ui.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ class SplashActivity : BaseActivity<SplashActivityBinding>() {
     }
 
     private fun openHomeUi() {
-        //open(HomeActivity::class, true)
+        open(HomeActivity::class, true)
     }
 
     private fun openAuthInfoUi() {

@@ -5,8 +5,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.dreampany.common.misc.exts.open
+import com.dreampany.common.ui.activity.BaseActivity
 import com.dreampany.hi.R
 import com.dreampany.hi.databinding.AuthActivityBinding
+import com.dreampany.hi.databinding.SplashActivityBinding
+import com.dreampany.hi.ui.home.HomeActivity
 
 import com.dreampany.hi.ui.vm.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,22 +21,32 @@ import dagger.hilt.android.AndroidEntryPoint
  * Last modified $file.lastModified
  */
 @AndroidEntryPoint
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : BaseActivity<AuthActivityBinding>() {
+
+    override val layoutRes: Int
+        get() = R.layout.auth_activity
 
     private val vm: UserViewModel by viewModels()
-    private lateinit var binding: AuthActivityBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.auth_activity)
+    override fun onStartUi(state: Bundle?) {
+         initUi()
+    }
 
+    override fun onStopUi() {
+
+    }
+
+    private fun initUi() {
         binding.login.setOnClickListener {
-            open(LoginActivity::class)
+            //open(LoginActivity::class)
         }
 
         binding.register.setOnClickListener {
-            open(RegisterActivity::class)
+            //open(RegisterActivity::class)
         }
 
+        binding.start.setOnClickListener {
+            open(HomeActivity::class)
+        }
     }
 }

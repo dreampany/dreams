@@ -1,6 +1,7 @@
 package com.dreampany.hi.misc
 
 import android.content.Context
+import com.dreampany.common.data.source.pref.Pref
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,40 +18,40 @@ class Prefs
     @ApplicationContext context: Context
 ) : Pref(context) {
 
-    override fun getPrivateName(context: Context): String = Constant.Keys.Pref.PREF
+    override fun getPrivateName(context: Context): String = Constants.Keys.Pref.PREF
 
     fun start() {
-        setPrivately(Constant.Keys.Pref.STARTED, true)
+        setPrivately(Constants.Keys.Pref.STARTED, true)
     }
 
     fun stop() {
-        setPrivately(Constant.Keys.Pref.STARTED, false)
+        setPrivately(Constants.Keys.Pref.STARTED, false)
     }
 
     val isStarted: Boolean
-        get() = getPrivately(Constant.Keys.Pref.STARTED, false)
+        get() = getPrivately(Constants.Keys.Pref.STARTED, false)
 
     fun logIn() {
-        setPrivately(Constant.Keys.Pref.LOGGED, true)
+        setPrivately(Constants.Keys.Pref.LOGGED, true)
     }
 
     fun logOut() {
-        setPrivately(Constant.Keys.Pref.LOGGED, false)
+        setPrivately(Constants.Keys.Pref.LOGGED, false)
     }
 
     val isLogged: Boolean
-        get() = getPrivately(Constant.Keys.Pref.LOGGED, false)
+        get() = getPrivately(Constants.Keys.Pref.LOGGED, false)
 
     fun registerIn() {
-        setPrivately(Constant.Keys.Pref.REGISTERED, true)
+        setPrivately(Constants.Keys.Pref.REGISTERED, true)
     }
 
     fun registerOut() {
-        setPrivately(Constant.Keys.Pref.REGISTERED, false)
+        setPrivately(Constants.Keys.Pref.REGISTERED, false)
     }
 
     val isSigned: Boolean
-        get() = getPrivately(Constant.Keys.Pref.REGISTERED, false)
+        get() = getPrivately(Constants.Keys.Pref.REGISTERED, false)
 
 /*    fun write(input: Auth) {
         setPrivately(Constant.Keys.Pref.AUTH, input)

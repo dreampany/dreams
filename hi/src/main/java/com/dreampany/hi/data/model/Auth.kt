@@ -3,8 +3,9 @@ package com.dreampany.hi.data.model
 import android.os.Parcelable
 import androidx.room.Ignore
 import com.dreampany.common.data.model.Base
-import com.dreampany.hi.currentMillis
-import com.dreampany.hi.misc.Constant
+import com.dreampany.common.misc.constant.Constant
+import com.dreampany.common.misc.exts.currentMillis
+import com.dreampany.hi.misc.Constants
 import com.google.common.base.Objects
 import kotlinx.parcelize.Parcelize
 

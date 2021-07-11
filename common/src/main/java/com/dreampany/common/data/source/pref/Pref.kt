@@ -1,8 +1,15 @@
-package com.dreampany.hi.misc
+package com.dreampany.common.data.source.pref
 
 import android.content.Context
+import com.dreampany.common.misc.constant.Constant
 import com.github.pwittchen.prefser.library.rx2.Prefser
 
+/**
+ * Created by roman on 7/11/21
+ * Copyright (c) 2021 butler. All rights reserved.
+ * ifte.net@gmail.com
+ * Last modified $file.lastModified
+ */
 abstract class Pref(val context: Context) {
 
     private val public: Prefser

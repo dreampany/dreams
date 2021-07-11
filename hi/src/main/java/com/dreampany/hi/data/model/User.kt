@@ -2,11 +2,11 @@ package com.dreampany.hi.data.model
 
 import androidx.room.Ignore
 import com.dreampany.common.data.model.Base
-import com.dreampany.hi.currentMillis
+import com.dreampany.common.misc.constant.Constant
+import com.dreampany.common.misc.exts.currentMillis
 import com.dreampany.hi.data.enums.Gender
-import com.dreampany.hi.misc.Constant
 import com.google.common.base.Objects
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by roman on 7/10/21

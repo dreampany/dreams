@@ -1,15 +1,16 @@
-package com.dreampany.hi.misc
+package com.dreampany.common.misc.func
 
 import android.os.Handler
 import android.os.Looper
-import com.dreampany.hi.isOnUiThread
+import com.dreampany.common.misc.constant.Constant
+import com.dreampany.common.misc.exts.isOnUiThread
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by roman on 5/8/21
+ * Created by roman on 7/11/21
  * Copyright (c) 2021 butler. All rights reserved.
  * ifte.net@gmail.com
  * Last modified $file.lastModified

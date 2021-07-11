@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
             R.layout.splash_activity
         )
 
-        ex.postToUi(Runnable { nextUi() })
+        ex.postToUi { nextUi() }
     }
 
     private fun nextUi() {

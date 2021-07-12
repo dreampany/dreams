@@ -2,35 +2,41 @@ package com.dreampany.hi.ui.home
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.dreampany.common.ui.activity.BaseActivity
 import com.dreampany.hi.R
-import com.dreampany.hi.databinding.ActivityMainBinding
+import com.dreampany.hi.databinding.HomeActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class HomeActivity : BaseActivity<HomeActivityBinding>() {
 
-    private lateinit var binding: ActivityMainBinding
+    override val layoutRes: Int
+        get() = R.layout.home_activity
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onStartUi(state: Bundle?) {
+         initUi()
+    }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onStopUi() {
 
+    }
+
+    private fun initUi() {
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        val appBarConfiguration = AppBarConfiguration(
+        val controller = findNavController(R.id.nav_host)
+        val configuration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
                 R.id.navigation_notifications
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        setupActionBarWithNavController(controller, configuration)
+        navView.setupWithNavController(controller)
     }
 }

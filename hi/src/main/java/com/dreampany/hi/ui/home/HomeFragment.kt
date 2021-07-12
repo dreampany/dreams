@@ -1,52 +1,27 @@
 package com.dreampany.hi.ui.home
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import com.dreampany.common.ui.fragment.BaseFragment
 import com.dreampany.hi.R
-import com.dreampany.hi.databinding.FragmentHomeBinding
-import com.dreampany.hi.ui.auth.LoginActivity
+import com.dreampany.hi.databinding.HomeFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeFragment : Fragment() {
+/**
+ * Created by roman on 7/12/21
+ * Copyright (c) 2021 butler. All rights reserved.
+ * ifte.net@gmail.com
+ * Last modified $file.lastModified
+ */
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<HomeFragmentBinding>() {
 
-    private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
+    override val layoutRes: Int
+        get() = R.layout.home_fragment
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    override fun onStartUi(state: Bundle?) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //startActivity(Intent(view.context, LoginActivity::class.java))
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onStopUi() {
     }
 }

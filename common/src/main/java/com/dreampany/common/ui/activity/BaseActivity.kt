@@ -15,11 +15,10 @@ import javax.inject.Inject
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
-abstract class BaseActivity<T> : AppCompatActivity() where T: ViewDataBinding{
+abstract class BaseActivity<T> : AppCompatActivity() where T : ViewDataBinding {
 
     @Inject
     protected lateinit var ex: Executors
-
     protected lateinit var binding: T
 
     @get:LayoutRes

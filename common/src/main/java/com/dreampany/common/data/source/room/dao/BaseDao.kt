@@ -1,4 +1,4 @@
-package com.dreampany.framework.data.source.room.dao
+package com.dreampany.common.data.source.room.dao
 
 import androidx.room.Delete
 import androidx.room.Insert
@@ -6,9 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Update
 
 /**
- * Created by roman on 14/3/20
- * Copyright (c) 2020 bjit. All rights reserved.
- * hawladar.roman@bjitgroup.com
+ * Created by roman on 7/13/21
+ * Copyright (c) 2021 butler. All rights reserved.
+ * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
 interface BaseDao<T> {

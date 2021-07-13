@@ -23,7 +23,12 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments += [
+                        'room.schemaLocation'  : "$projectDir/schemas".toString(),
+                        'room.incremental'     : 'true',
+                        'room.expandProjection': 'true'
+                ]
+
             }
         }
     }
@@ -115,6 +120,7 @@ dependencies {
     api "androidx.room:room-ktx:$room_version"
     //api "androidx.room:room-rxjava2:$room_version"
     api 'androidx.paging:paging-runtime-ktx:3.0.0'
+    kapt 'org.xerial:sqlite-jdbc:3.34.0'
 
     /* google */
     api 'com.google.android.material:material:1.4.0'
@@ -156,7 +162,7 @@ dependencies {
     api 'com.afollestad.assent:core:3.0.0-RC4'
     api 'com.karumi:dexter:6.2.3'
     api 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
-    api 'org.jsoup:jsoup:1.13.1'
+    api 'org.jsoup:jsoup:1.14.1'
     api 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
     implementation 'org.apache.commons:commons-collections4:4.4'

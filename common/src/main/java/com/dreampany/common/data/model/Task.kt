@@ -14,7 +14,7 @@ abstract class Task<T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I :
     open var subtype: S,
     open var state: ST,
     open var action: A,
-    open var input: I? = Constant.Default.NULL/*,
+    open var input: I? = Constant.Default.NULL,
     open var inputs: List<I>? = Constant.Default.NULL,
     open var id: String? = Constant.Default.NULL,
     open var ids: List<String>? = Constant.Default.NULL,
@@ -23,5 +23,5 @@ abstract class Task<T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I :
     open var url: String? = Constant.Default.NULL,
     open var notify: Boolean = Constant.Default.BOOLEAN,
     open var fullscreen: Boolean = Constant.Default.BOOLEAN,
-    open var collapseToolbar: Boolean = Constant.Default.BOOLEAN*/
+    open var collapseToolbar: Boolean = Constant.Default.BOOLEAN
 ) : BaseParcel()

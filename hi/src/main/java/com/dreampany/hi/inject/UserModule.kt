@@ -1,13 +1,12 @@
 package com.dreampany.hi.inject
 
-import android.content.Context
+import com.dreampany.common.inject.qualifier.Nearby
 import com.dreampany.common.inject.qualifier.Remote
 import com.dreampany.hi.data.source.api.UserDataSource
 import com.dreampany.hi.data.source.remote.UserRemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 
@@ -24,5 +23,5 @@ object UserModule {
     @Remote
     @Provides
     fun remote(
-    ) : UserDataSource = UserRemoteDataSource()
+    ): UserDataSource = UserRemoteDataSource()
 }

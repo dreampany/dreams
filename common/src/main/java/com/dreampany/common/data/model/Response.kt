@@ -10,74 +10,71 @@ import com.dreampany.common.misc.func.SmartError
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
-sealed class Response<T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum, I> {
+sealed class Response<T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I> {
 
-    data class UiResponse<T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum>(
+    data class UiResponse<T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum>(
         val type: T,
-        val subtype: S,
-        val state: ST,
+        val subtype: ST,
+        val state: S,
         val action: A,
         var uiState: UiState = UiState.DEFAULT
     )
 
-    data class Progress<T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum, I>(
+    data class Progress<T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I>(
         val type: T,
-        val subtype: S,
-        val state: ST,
+        val subtype: ST,
+        val state: S,
         val action: A,
         val progress: Boolean
-    ) : Response<T, S, ST, A, I>()
+    ) : Response<T, ST, S, A, I>()
 
-    data class Error<T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum, I>(
+    data class Error<T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I>(
         val type: T,
-        val subtype: S,
-        val state: ST,
+        val subtype: ST,
+        val state: S,
         val action: A,
         val error: SmartError
-    ) : Response<T, S, ST, A, I>()
+    ) : Response<T, ST, S, A, I>()
 
-    data class Result<T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum,
-            R>(
+    data class Result<T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I>(
         val type: T,
-        val subtype: S,
-        val state: ST,
+        val subtype: ST,
+        val state: S,
         val action: A,
-        val result: R?
-    ) : Response<T, S, ST, A, R>()
+        val result: I?
+    ) : Response<T, ST, S, A, I>()
 
     companion object {
-        fun <T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum> response(
+        fun <T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum> response(
             type: T,
-            subtype: S,
-            state: ST,
+            subtype: ST,
+            state: S,
             action: A,
             uiState: UiState
-        ): UiResponse<T, S, ST, A> = UiResponse(type, subtype, state, action, uiState)
+        ): UiResponse<T, ST, S, A> = UiResponse(type, subtype, state, action, uiState)
 
-        fun <T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum, I> response(
+        fun <T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I> response(
             type: T,
-            subtype: S,
-            state: ST,
+            subtype: ST,
+            state: S,
             action: A,
             progress: Boolean
-        ): Response<T, S, ST, A, I> = Progress(type, subtype, state, action, progress)
+        ): Response<T, ST, S, A, I> = Progress(type, subtype, state, action, progress)
 
         fun <T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum, I> response(
             type: T,
-            subtype: S,
-            state: ST,
+            subtype: ST,
+            state: S,
             action: A,
             error: SmartError
-        ): Response<T, S, ST, A, I> =
-            Error(type, subtype, state, action, error)
+        ): Response<T, ST, S, A, I> = Error(type, subtype, state, action, error)
 
-        fun <T : BaseEnum, S : BaseEnum, ST : BaseEnum, A : BaseEnum, I> response(
+        fun <T : BaseEnum, ST : BaseEnum, S : BaseEnum, A : BaseEnum, I> response(
             type: T,
-            subtype: S,
-            state: ST,
+            subtype: ST,
+            state: S,
             action: A,
             result: I
-        ): Response<T, S, ST, A, I> =
-            Result(type, subtype, state, action, result)
+        ): Response<T, ST, S, A, I> = Result(type, subtype, state, action, result)
     }
 }

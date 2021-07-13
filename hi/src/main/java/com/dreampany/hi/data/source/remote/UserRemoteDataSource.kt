@@ -1,5 +1,6 @@
 package com.dreampany.hi.data.source.remote
 
+import com.dreampany.hi.data.model.User
 import com.dreampany.hi.data.source.api.UserDataSource
 
 /**
@@ -9,4 +10,40 @@ import com.dreampany.hi.data.source.api.UserDataSource
  * Last modified $file.lastModified
  */
 class UserRemoteDataSource() : UserDataSource {
+
+    override suspend fun isFavorite(input: User): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun toggleFavorite(input: User): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun readFavorites(): List<User>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(input: User): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun write(inputs: List<User>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun read(id: String): User? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reads(): List<User>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reads(ids: List<String>): List<User>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reads(offset: Long, limit: Long): List<User>? {
+        TODO("Not yet implemented")
+    }
 }

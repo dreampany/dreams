@@ -18,9 +18,9 @@ import java.util.*
  * Last modified $file.lastModified
  */
 class UserNearbyDataSource(
-   private val context : Context,
-   private  val mapper : UserMapper,
-   private val nearby : NearbyManager
+    private val context: Context,
+    private val mapper: UserMapper,
+    private val nearby: NearbyManager
 ) : UserDataSource, NearbyApi.Callback {
 
     private val callbacks: MutableSet<UserDataSource.Callback>

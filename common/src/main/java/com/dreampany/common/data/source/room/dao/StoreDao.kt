@@ -1,13 +1,13 @@
-package com.dreampany.framework.data.source.room.dao
+package com.dreampany.common.data.source.room.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.dreampany.framework.data.model.Store
+import com.dreampany.common.data.model.Store
 
 /**
- * Created by roman on 1/5/20
- * Copyright (c) 2020 bjit. All rights reserved.
- * hawladar.roman@bjitgroup.com
+ * Created by roman on 7/13/21
+ * Copyright (c) 2021 butler. All rights reserved.
+ * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
 @Dao

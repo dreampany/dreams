@@ -23,7 +23,7 @@ constructor(
         type: String,
         subtype: String,
         state: String
-    ): Boolean = dao.getCount(id, type, subtype, state) > 0
+    ): Boolean = dao.readCount(id, type, subtype, state) > 0
 
     @Throws
     override suspend fun write(item: Store): Long = dao.insertOrReplace(item)
@@ -34,12 +34,11 @@ constructor(
         type: String,
         subtype: String,
         state: String
-    ): Store? =
-        dao.getItem(id, type, subtype, state)
+    ): Store? = dao.read(id, type, subtype, state)
 
     @Throws
     override suspend fun reads(type: String, subtype: String, state: String): List<Store>? =
-        dao.getItems(type, subtype, state)
+        dao.reads(type, subtype, state)
 
     @Throws
     override suspend fun delete(store: Store): Int = dao.delete(store)

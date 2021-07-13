@@ -1,22 +1,37 @@
-package com.dreampany.hi.data.source.repo
+package com.dreampany.hi.data.source.nearby
 
-import com.dreampany.common.inject.qualifier.Remote
 import com.dreampany.hi.data.model.User
 import com.dreampany.hi.data.source.api.UserDataSource
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.dreampany.network.nearby.core.NearbyApi
 
 /**
- * Created by roman on 7/10/21
+ * Created by roman on 7/13/21
  * Copyright (c) 2021 butler. All rights reserved.
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
-@Singleton
-class UserRepo
-@Inject constructor(
-    @Remote private val remote: UserDataSource
-) : UserDataSource {
+class UserNearbyDataSource() : UserDataSource {
+
+    interface Callback {
+        fun onUser(user: User, live: Boolean)
+    }
+
+    fun register(callback: Callback) {
+
+    }
+
+    fun unregister(callback: Callback) {
+
+    }
+
+    fun startNearby(type: NearbyApi.Type, serviceId: String, user: User) {
+
+    }
+
+    fun stopNearby() {
+
+    }
+
     override suspend fun isFavorite(input: User): Boolean {
         TODO("Not yet implemented")
     }
@@ -52,6 +67,4 @@ class UserRepo
     override suspend fun reads(offset: Long, limit: Long): List<User>? {
         TODO("Not yet implemented")
     }
-
-
 }

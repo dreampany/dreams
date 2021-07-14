@@ -6,8 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.common.data.model.Store
+import com.dreampany.common.data.model.Time
 import com.dreampany.common.data.source.room.converter.Converter
 import com.dreampany.common.data.source.room.dao.StoreDao
+import com.dreampany.common.data.source.room.dao.TimeDao
 import com.dreampany.common.misc.constant.Constant
 
 /**
@@ -16,7 +18,7 @@ import com.dreampany.common.misc.constant.Constant
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Store::class], version = 2, exportSchema = false)
+@Database(entities = [Time::class, Store::class], version = 2, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class DatabaseManager : RoomDatabase() {
     companion object {
@@ -45,6 +47,8 @@ abstract class DatabaseManager : RoomDatabase() {
             return instance!!
         }
     }
+
+    abstract fun timeDao(): TimeDao
 
     abstract fun storeDao(): StoreDao
 }

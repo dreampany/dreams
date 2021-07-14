@@ -2,6 +2,7 @@ package com.dreampany.common.inject.data
 
 import android.content.Context
 import com.dreampany.common.data.source.room.dao.StoreDao
+import com.dreampany.common.data.source.room.dao.TimeDao
 import com.dreampany.common.data.source.room.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,10 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): DatabaseManager =
         DatabaseManager.instanceOf(context)
+
+    @Provides
+    @Singleton
+    fun provideTimeDao(database: DatabaseManager): TimeDao = database.timeDao()
 
     @Provides
     @Singleton

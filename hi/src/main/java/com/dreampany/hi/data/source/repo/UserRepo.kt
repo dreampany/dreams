@@ -1,8 +1,10 @@
 package com.dreampany.hi.data.source.repo
 
+import com.dreampany.common.inject.qualifier.Nearby
 import com.dreampany.common.inject.qualifier.Remote
 import com.dreampany.hi.data.model.User
 import com.dreampany.hi.data.source.api.UserDataSource
+import com.dreampany.network.nearby.core.NearbyApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,8 +17,23 @@ import javax.inject.Singleton
 @Singleton
 class UserRepo
 @Inject constructor(
+    @Nearby private val nearby: UserDataSource,
     @Remote private val remote: UserDataSource
 ) : UserDataSource {
+
+    @Throws
+    override fun register(callback: UserDataSource.Callback) = nearby.register(callback)
+
+    @Throws
+    override fun unregister(callback: UserDataSource.Callback) = nearby.unregister(callback)
+
+    @Throws
+    override fun startNearby(type: NearbyApi.Type, serviceId: String, user: User) =
+        nearby.startNearby(type, serviceId, user)
+
+    @Throws
+    override fun stopNearby() = nearby.stopNearby()
+
     override suspend fun isFavorite(input: User): Boolean {
         TODO("Not yet implemented")
     }

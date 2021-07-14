@@ -1,9 +1,12 @@
 package com.dreampany.hi.inject
 
+import android.content.Context
 import com.dreampany.common.inject.qualifier.Nearby
 import com.dreampany.common.inject.qualifier.Remote
 import com.dreampany.hi.data.source.api.UserDataSource
+import com.dreampany.hi.data.source.nearby.UserNearbyDataSource
 import com.dreampany.hi.data.source.remote.UserRemoteDataSource
+import com.dreampany.network.nearby.NearbyManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +22,13 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object UserModule {
+
+    @Nearby
+    @Provides
+    fun nearby(
+        context : Context,
+        nearby: NearbyManager
+    ): UserDataSource = UserNearbyDataSource(context, nearby)
 
     @Remote
     @Provides

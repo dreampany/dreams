@@ -1,6 +1,7 @@
 package com.dreampany.hi.data.source.api
 
 import com.dreampany.hi.data.model.User
+import com.dreampany.network.nearby.core.NearbyApi
 
 /**
  * Created by roman on 7/10/21
@@ -9,6 +10,22 @@ import com.dreampany.hi.data.model.User
  * Last modified $file.lastModified
  */
 interface UserDataSource {
+
+    interface Callback {
+        fun onUser(user: User, live: Boolean)
+    }
+
+    @Throws
+    fun register(callback: Callback)
+
+    @Throws
+    fun unregister(callback: Callback)
+
+    @Throws
+    fun startNearby(type: NearbyApi.Type, serviceId: String, user: User)
+
+    @Throws
+    fun stopNearby()
 
     @Throws
     suspend fun isFavorite(input: User): Boolean

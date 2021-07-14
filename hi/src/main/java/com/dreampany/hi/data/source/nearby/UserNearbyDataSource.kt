@@ -1,8 +1,13 @@
 package com.dreampany.hi.data.source.nearby
 
+import android.content.Context
 import com.dreampany.hi.data.model.User
 import com.dreampany.hi.data.source.api.UserDataSource
+import com.dreampany.hi.data.source.mapper.UserMapper
+import com.dreampany.network.nearby.NearbyManager
 import com.dreampany.network.nearby.core.NearbyApi
+import com.dreampany.network.nearby.model.Peer
+import java.util.*
 
 /**
  * Created by roman on 7/13/21
@@ -10,26 +15,41 @@ import com.dreampany.network.nearby.core.NearbyApi
  * ifte.net@gmail.com
  * Last modified $file.lastModified
  */
-class UserNearbyDataSource() : UserDataSource {
+class UserNearbyDataSource(
+    private val context: Context,
+    private val mapper: UserMapper,
+    private val nearby: NearbyManager
+) : UserDataSource, NearbyApi.Callback {
 
-    interface Callback {
-        fun onUser(user: User, live: Boolean)
+
+    private val callbacks: MutableSet<UserDataSource.Callback>
+
+    init {
+        callbacks = Collections.synchronizedSet(HashSet<UserDataSource.Callback>())
     }
 
-    fun register(callback: Callback) {
 
+    @Throws
+    override fun register(callback: UserDataSource.Callback) {
+        callbacks.add(callback)
     }
 
-    fun unregister(callback: Callback) {
-
+    @Throws
+    override fun unregister(callback: UserDataSource.Callback) {
+        callbacks.remove(callback)
     }
 
-    fun startNearby(type: NearbyApi.Type, serviceId: String, user: User) {
-
+    @Throws
+    override fun startNearby(type: NearbyApi.Type, serviceId: String, user: User) {
+        nearby.register(this)
+        nearby.init(type, serviceId, user.id, mapper.getUserData(user))
+        nearby.start()
     }
 
-    fun stopNearby() {
-
+    @Throws
+    override fun stopNearby() {
+        nearby.unregister(this)
+        nearby.stop()
     }
 
     override suspend fun isFavorite(input: User): Boolean {
@@ -65,6 +85,23 @@ class UserNearbyDataSource() : UserDataSource {
     }
 
     override suspend fun reads(offset: Long, limit: Long): List<User>? {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPeer(peer: Peer, state: Peer.State) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onData(peer: Peer, data: ByteArray) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onStatus(
+        payloadId: Long,
+        state: NearbyApi.PayloadState,
+        totalBytes: Long,
+        bytesTransferred: Long
+    ) {
         TODO("Not yet implemented")
     }
 }

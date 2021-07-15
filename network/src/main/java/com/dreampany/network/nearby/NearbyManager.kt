@@ -7,6 +7,7 @@ import com.dreampany.network.misc.hasPlayService
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.network.nearby.core.Packets.Companion.dataPacket
 import com.dreampany.network.nearby.model.Id
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,11 +20,11 @@ import javax.inject.Singleton
 @Singleton
 class NearbyManager
 @Inject constructor(
-    context: Context
+    @ApplicationContext override var context: Context
 ) : NearbyApi(context) {
 
     @Throws(Throwable::class)
-    fun init(type: Type, serviceId: String, peerId:String, peerData: ByteArray?) : Boolean {
+    fun init(type: Type, serviceId: String, peerId: String, peerData: ByteArray?): Boolean {
         synchronized(guard) {
             this.type = type
             this.serviceId = serviceId

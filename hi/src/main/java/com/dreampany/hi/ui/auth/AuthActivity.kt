@@ -23,10 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AuthActivity : BaseActivity<AuthActivityBinding>() {
 
+    private val vm: UserViewModel by viewModels()
+
     override val layoutRes: Int
         get() = R.layout.auth_activity
-
-    private val vm: UserViewModel by viewModels()
 
     override fun onStartUi(state: Bundle?) {
          initUi()
@@ -46,6 +46,7 @@ class AuthActivity : BaseActivity<AuthActivityBinding>() {
         }
 
         binding.start.setOnClickListener {
+            vm.createAnonymousUser()
             open(HomeActivity::class)
         }
     }

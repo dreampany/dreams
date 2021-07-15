@@ -30,7 +30,7 @@ import kotlin.collections.HashSet
  * Last modified $file.lastModified
  */
 open class NearbyApi(
-    val context: Context
+    open var context: Context
 ) : Connection.Callback {
 
     enum class Type { PTP, CLUSTER, STAR }

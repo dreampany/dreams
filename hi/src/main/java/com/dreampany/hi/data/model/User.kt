@@ -28,13 +28,8 @@ data class User(
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = currentMillis) {
-
-    }
-
-    constructor(id: String) : this(time = currentMillis, id = id) {
-
-    }
+    constructor() : this(time = currentMillis) {}
+    constructor(id: String) : this(time = currentMillis, id = id) {}
 
     override fun hashCode(): Int = Objects.hashCode(id)
 

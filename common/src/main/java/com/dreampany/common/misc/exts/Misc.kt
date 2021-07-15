@@ -23,17 +23,17 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     observe(owner, observer)
 }
 
-val hash256: Long
-    get() = UUID.randomUUID().toString().hash256
+val hash256: String
+    get() = UUID.randomUUID().toString()
 
-val ByteArray?.hash256: Long
+val ByteArray?.hash256ToLong: Long
     get() {
         if (this == null || isEmpty) return 0L
         return Hashing.sha256().newHasher().putBytes(this).hash().asLong()
     }
 
-val String?.hash256: Long
-    get() = this?.toByteArray().hash256
+val String?.hash256ToLong: Long
+    get() = this?.toByteArray().hash256ToLong
 
 val Cursor?.has: Boolean
     get() {

@@ -61,10 +61,11 @@ class Pref @Inject constructor(
     val auth: Auth?
         get() = getPrivately(Constants.Keys.Pref.AUTH, Auth::class.java, null)
 
-    fun write(input: User) {
+/*    fun write(input: User) {
         setPrivately(Constants.Keys.Pref.USER, input)
-    }
+    }*/
 
-    val user: User?
+    var user: User?
         get() = getPrivately(Constants.Keys.Pref.USER, User::class.java, null)
+        set(value) { setPrivately(Constants.Keys.Pref.USER, value) }
 }

@@ -77,9 +77,10 @@ class Connection(
     override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
         val peerId = info.endpointName
         Timber.v(
-            "Connection Initiated [EndpointId-PeerId]:[%s-%s]",
+            "Connection Initiated [EndpointId-PeerId-Incoming]:[%s-%s-%s]",
             endpointId,
-            peerId
+            peerId,
+            info.isIncomingConnection
         )
         endpoints[peerId] = endpointId
         states[endpointId] = State.INITIATED
@@ -201,7 +202,7 @@ class Connection(
             }
 
             val peerId = info.endpointName
-            if (!peerId.isValidPeerId) return
+            //if (!peerId.isValidPeerId) return
 
             Timber.v("EndpointFound [EndpointId-PeerId]:[%s-%s]", endpointId, peerId)
 

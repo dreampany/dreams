@@ -43,8 +43,8 @@ val Context.hasPlayService: Boolean
     get() = GoogleApiAvailability.getInstance()
         .isGooglePlayServicesAvailable(applicationContext) == ConnectionResult.SUCCESS
 
-val String.isLong : Boolean
+val String.isLong: Boolean
     get() = this.toLongOrNull() != null
 
-val String.isValidPeerId : Boolean
+val String.isValidPeerId: Boolean
     get() = this.find { !it.isLetterOrDigit() } == null

@@ -7,6 +7,7 @@ import com.dreampany.hi.data.source.mapper.UserMapper
 import com.dreampany.network.nearby.NearbyManager
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.network.nearby.model.Peer
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -21,13 +22,11 @@ class UserNearbyDataSource(
     private val nearby: NearbyManager
 ) : UserDataSource, NearbyApi.Callback {
 
-
     private val callbacks: MutableSet<UserDataSource.Callback>
 
     init {
         callbacks = Collections.synchronizedSet(HashSet<UserDataSource.Callback>())
     }
-
 
     @Throws
     override fun register(callback: UserDataSource.Callback) {
@@ -42,7 +41,7 @@ class UserNearbyDataSource(
     @Throws
     override fun startNearby(type: NearbyApi.Type, serviceId: String, user: User) {
         nearby.register(this)
-        nearby.init(type, serviceId, user.id, mapper.getUserData(user))
+        nearby.init(type, serviceId, user.id, mapper.readUserToByteArray(user))
         nearby.start()
     }
 
@@ -89,7 +88,12 @@ class UserNearbyDataSource(
     }
 
     override fun onPeer(peer: Peer, state: Peer.State) {
-        TODO("Not yet implemented")
+        Timber.v("Peer [%s]", peer.id)
+        val user = mapper.read(peer)
+        Timber.v("User [%s]", user.name)
+        callbacks.forEach {
+            it.onUser(user, state == Peer.State.LIVE)
+        }
     }
 
     override fun onData(peer: Peer, data: ByteArray) {

@@ -4,6 +4,9 @@ import com.dreampany.network.misc.STRING_EMPTY
 import com.dreampany.network.misc.isEmpty
 import com.dreampany.network.misc.length
 import com.dreampany.network.misc.secondOrNull
+import com.dreampany.network.nearby.core.Packets.Companion.isData
+import com.dreampany.network.nearby.core.Packets.Companion.isId
+import com.dreampany.network.nearby.core.Packets.Companion.isPeer
 import com.google.common.hash.Hashing
 import java.nio.ByteBuffer
 import java.util.*
@@ -29,19 +32,40 @@ class Packets {
         private const val SUBTYPE_META_REQUEST: Byte = 7
         private const val SUBTYPE_DATA_REQUEST: Byte = 8
 
-        val ByteArray?.isPeer: Boolean get() = this?.firstOrNull() == TYPE_PEER
+        val ByteArray?.isPeer: Boolean get() {
+            val type = this?.firstOrNull()
+            return type == TYPE_PEER
+        }
 
-        val ByteArray?.isData: Boolean get() = this?.firstOrNull() == TYPE_DATA
+        val ByteArray?.isData: Boolean get() {
+            val type = this?.firstOrNull()
+            return type == TYPE_DATA
+        }
 
-        val ByteArray?.isFile: Boolean get() = this?.firstOrNull() == TYPE_FILE
+        val ByteArray?.isFile: Boolean get() {
+            val type = this?.firstOrNull()
+            return type == TYPE_FILE
+        }
 
-        val ByteArray?.isId: Boolean get() = this?.secondOrNull() == SUBTYPE_ID
+        val ByteArray?.isId: Boolean get() {
+            val subtype = this?.secondOrNull()
+            return subtype == SUBTYPE_ID
+        }
 
-        val ByteArray?.isHash: Boolean get() = this?.secondOrNull() == SUBTYPE_HASH
+        val ByteArray?.isHash: Boolean get() {
+            val subtype = this?.secondOrNull()
+            return subtype == SUBTYPE_HASH
+        }
 
-        val ByteArray?.isMeta: Boolean get() = this?.secondOrNull() == SUBTYPE_META
+        val ByteArray?.isMeta: Boolean get() {
+            val subtype = this?.secondOrNull()
+            return subtype == SUBTYPE_META
+        }
 
-        val ByteArray?.isOkay: Boolean get() = this?.secondOrNull() == SUBTYPE_OKAY
+        val ByteArray?.isOkay: Boolean get() {
+            val subtype = this?.secondOrNull()
+            return subtype == SUBTYPE_OKAY
+        }
 
         val hash256: String
             get() = UUID.randomUUID().toString()
@@ -53,14 +77,14 @@ class Packets {
                 return Hashing.sha256().newHasher().putBytes(this).hash().toString()
             }
 
-        val ByteArray?.hash256AsLong: Long
+        val String?.hash256: String
+            get() = this?.toByteArray().hash256
+
+        val ByteArray?.hash256ToLong: Long
             get() {
                 if (this == null || isEmpty) return 0L
                 return Hashing.sha256().newHasher().putBytes(this).hash().asLong()
             }
-
-        val String?.hash256: String
-            get() = this?.toByteArray().hash256
 
         val Long.peerHashPacket: ByteArray
             get() {

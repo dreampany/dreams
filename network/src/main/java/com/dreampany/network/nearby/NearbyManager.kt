@@ -24,12 +24,12 @@ class NearbyManager
 ) : NearbyApi(context) {
 
     @Throws(Throwable::class)
-    fun init(type: Type, serviceId: String, peerId: String, peerData: ByteArray?): Boolean {
+    fun init(type: Type, serviceId: String, peerId: String, peerMeta: ByteArray?): Boolean {
         synchronized(guard) {
             this.type = type
             this.serviceId = serviceId
             this.peerId = peerId
-            this.peerData = peerData
+            this.peerMeta = peerMeta
 
             if (!context.hasPlayService) {
                 throw IllegalStateException("Google Play service is not available!")

@@ -246,13 +246,13 @@ class Connection(
 
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
             val peerId = endpointId.peerId ?: return
-            Timber.v("Payload Received from PeerId (%s)", peerId)
+            //Timber.v("Payload Received from PeerId (%s)", peerId)
             executor.execute { callback.onPayload(peerId, payload) }
         }
 
         override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {
             val peerId = endpointId.peerId ?: return
-            Timber.v("Payload Transfer Update from PeerId (%s)", peerId)
+            //Timber.v("Payload Transfer Update from PeerId (%s)", peerId)
             executor.execute { callback.onPayloadStatus(peerId, update) }
         }
 

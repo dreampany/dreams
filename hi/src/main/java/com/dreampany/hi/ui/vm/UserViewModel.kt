@@ -13,10 +13,12 @@ import com.dreampany.hi.data.enums.State
 import com.dreampany.hi.data.enums.Subtype
 import com.dreampany.hi.data.enums.Type
 import com.dreampany.hi.data.model.User
+import com.dreampany.hi.data.source.api.UserDataSource
 import com.dreampany.hi.data.source.pref.Pref
 import com.dreampany.hi.data.source.repo.UserRepo
 import com.dreampany.network.nearby.core.NearbyApi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -33,11 +35,25 @@ class UserViewModel @Inject constructor(
     private val repo: UserRepo
 ) : BaseViewModel<Type, Subtype, State, Action, User, User, UiTask<Type, Subtype, State, Action, User>>(
     application, rm
-) {
+), UserDataSource.Callback {
+
+    init {
+        repo.register(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        repo.unregister(this)
+    }
+
+    override fun onUser(user: User, live: Boolean) {
+        Timber.v("User[%s]-live[%s]", user.toString(), live)
+    }
 
     fun createAnonymousUser() {
-        val user = User(hash256)
-        user.name = getApplication<App>().deviceId
+        val deviceId = getApplication<App>().deviceId
+        val user = User(deviceId)
+        //user.name =
         pref.user = user
     }
 
@@ -46,5 +62,7 @@ class UserViewModel @Inject constructor(
         val user = pref.user ?: return
         repo.startNearby(NearbyApi.Type.PTP, serviceId, user)
     }
+
+
 
 }

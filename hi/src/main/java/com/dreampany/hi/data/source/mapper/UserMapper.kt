@@ -99,7 +99,7 @@ class UserMapper
 
     @Throws
     @Synchronized
-    suspend fun get(
+    suspend fun read(
         id: String,
         source: UserDataSource
     ): User? {
@@ -131,13 +131,13 @@ class UserMapper
     fun gets(inputs: List<Peer>): List<User> {
         val result = arrayListOf<User>()
         inputs.forEach { input ->
-            result.add(get(input))
+            result.add(read(input))
         }
         return result
     }
 
     @Synchronized
-    fun get(input: Peer): User {
+    fun read(input: Peer): User {
         Timber.v("Resolved User: %s", input.id);
         val id = input.id
         var out: User? = users.get(id)
@@ -145,15 +145,14 @@ class UserMapper
             out = User(id)
             users.put(id, out)
         }
-        parseUserData(out, input.meta)
+        parsePearMeta(out, input.meta)
         return out
     }
 
-    fun parseUserData(user: User, data: ByteArray?) {
-        val parser = JsonParser()
+    private fun parsePearMeta(user: User, meta: ByteArray?) {
         try {
-            if (data == null) throw NullPointerException()
-            val json = parser.parse(String(data)).asJsonObject
+            if (meta == null) throw NullPointerException()
+            val json = JsonParser.parseString(String(meta)).asJsonObject
             val name = json.get("name").asString
             user.name = name
         } catch (ignored: Throwable) {
@@ -161,7 +160,7 @@ class UserMapper
         }
     }
 
-    fun getUserData(user: User): ByteArray {
+    fun readUserToByteArray(user: User): ByteArray {
         val json = JsonObject()
         json.addProperty("name", user.name)
         val data = json.toString()

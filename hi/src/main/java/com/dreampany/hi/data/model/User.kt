@@ -40,5 +40,5 @@ data class User(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String = "User.id: $id"
+    override fun toString(): String = "User[id-name]:[$id-$name]"
 }

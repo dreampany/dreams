@@ -26,11 +26,13 @@ class HomeFragment : BaseFragment<HomeFragmentBinding>() {
         get() = R.layout.home_fragment
 
     override fun onStartUi(state: Bundle?) {
+        vm.registerNearby()
         runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
             vm.nearbyUsers()
         }
     }
 
     override fun onStopUi() {
+        vm.unregisterNearby()
     }
 }

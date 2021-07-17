@@ -3,6 +3,7 @@ package com.dreampany.network.nearby
 import android.Manifest
 import android.content.Context
 import com.dreampany.network.misc.hasPermission
+import com.dreampany.network.misc.hasPermissions
 import com.dreampany.network.misc.hasPlayService
 import com.dreampany.network.nearby.core.NearbyApi
 import com.dreampany.network.nearby.core.Packets.Companion.dataPacket

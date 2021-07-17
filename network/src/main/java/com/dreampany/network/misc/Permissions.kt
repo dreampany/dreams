@@ -43,6 +43,13 @@ fun Context?.hasPermission(permission: String): Boolean =
     if (isMinM) selfPermission(permission)
     else hasManifest(permission)
 
+fun Context?.hasPermissions(vararg permissions: String): Boolean {
+    for (permission in permissions)
+        if (!this.hasPermission(permission))
+            return false
+    return true
+}
+
 fun Context?.selfPermission(permission: String): Boolean =
     if (this == null) false
     else ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED

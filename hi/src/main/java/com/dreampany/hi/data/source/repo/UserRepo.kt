@@ -5,6 +5,7 @@ import com.dreampany.common.inject.qualifier.Remote
 import com.dreampany.hi.data.model.User
 import com.dreampany.hi.data.source.api.UserDataSource
 import com.dreampany.network.nearby.core.NearbyApi
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,20 +20,35 @@ class UserRepo
 @Inject constructor(
     @Nearby private val nearby: UserDataSource,
     @Remote private val remote: UserDataSource
-) : UserDataSource {
+) : UserDataSource, UserDataSource.Callback {
+
+    private val callbacks: MutableSet<UserDataSource.Callback>
+
+    init {
+        callbacks = Collections.synchronizedSet(HashSet<UserDataSource.Callback>())
+    }
 
     @Throws
-    override fun register(callback: UserDataSource.Callback) = nearby.register(callback)
+    override fun register(callback: UserDataSource.Callback) {
+        callbacks.add(callback)
+    }
 
     @Throws
-    override fun unregister(callback: UserDataSource.Callback) = nearby.unregister(callback)
+    override fun unregister(callback: UserDataSource.Callback) {
+        callbacks.remove(callback)
+    }
 
     @Throws
-    override fun startNearby(type: NearbyApi.Type, serviceId: String, user: User) =
+    override fun startNearby(type: NearbyApi.Type, serviceId: String, user: User) {
+        nearby.register(this)
         nearby.startNearby(type, serviceId, user)
+    }
 
     @Throws
-    override fun stopNearby() = nearby.stopNearby()
+    override fun stopNearby() {
+        nearby.unregister(this)
+        nearby.stopNearby()
+    }
 
     override suspend fun isFavorite(input: User): Boolean {
         TODO("Not yet implemented")
@@ -70,5 +86,10 @@ class UserRepo
         TODO("Not yet implemented")
     }
 
-
+    override fun onUser(user: User, live: Boolean) {
+        // TODO need to save on database
+        callbacks.forEach {
+            it.onUser(user, live)
+        }
+    }
 }

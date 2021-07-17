@@ -7,6 +7,7 @@ import com.dreampany.common.misc.exts.hash256
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.ui.model.UiTask
 import com.dreampany.common.ui.vm.BaseViewModel
+import com.dreampany.device.DeviceInfo
 import com.dreampany.hi.app.App
 import com.dreampany.hi.data.enums.Action
 import com.dreampany.hi.data.enums.State
@@ -28,32 +29,34 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @HiltViewModel
-class UserViewModel @Inject constructor(
+class UserViewModel
+@Inject constructor(
     application: Application,
     rm: ResponseMapper,
+    private val deviceInfo: DeviceInfo,
     private val pref: Pref,
     private val repo: UserRepo
 ) : BaseViewModel<Type, Subtype, State, Action, User, User, UiTask<Type, Subtype, State, Action, User>>(
     application, rm
 ), UserDataSource.Callback {
 
-    init {
-        repo.register(this)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        repo.unregister(this)
-    }
-
     override fun onUser(user: User, live: Boolean) {
         Timber.v("User[%s]-live[%s]", user.toString(), live)
     }
 
+    fun registerNearby() {
+        repo.register(this)
+    }
+
+    fun unregisterNearby() {
+        repo.unregister(this)
+    }
+
+
     fun createAnonymousUser() {
         val deviceId = getApplication<App>().deviceId
         val user = User(deviceId)
-        //user.name =
+        user.name = deviceInfo.model
         pref.user = user
     }
 

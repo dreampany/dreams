@@ -90,6 +90,7 @@ dependencies {
 
     /* library */
     implementation project(':common')
+    implementation project(':device')
     implementation project(':network')
 
     /* room */
